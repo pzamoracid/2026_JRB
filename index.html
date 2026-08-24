@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JRB 2026 — Portal de guías interactivas</title>
+<style>
+:root{
+  --azul:#183b66;--azul2:#24598f;--verde:#2f6f5e;--fondo:#eef3f7;--panel:#fff;
+  --texto:#1f2933;--muted:#647587;--borde:#d8e1e9;--amarillo:#fff4c7;--amarillo-b:#c38a12;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fondo);color:var(--texto);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+header{background:linear-gradient(135deg,#102d4d,#24598f);color:#fff;padding:28px 18px}
+.wrap{max-width:1180px;margin:auto}
+.brand{display:flex;gap:20px;align-items:center}
+.logo{width:110px;height:110px;object-fit:contain;flex:0 0 auto}
+h1{font-size:clamp(1.7rem,4vw,2.5rem);margin:0 0 6px}
+.lead{margin:0;opacity:.95;max-width:800px}
+.teacher{margin-top:9px;font-size:.94rem;opacity:.88}
+main{max-width:1180px;margin:auto;padding:20px 18px 40px}
+.backup-alert{background:var(--amarillo);border:2px solid #e1be55;border-left:7px solid var(--amarillo-b);border-radius:14px;padding:17px 18px;margin-bottom:18px}
+.backup-alert h2{margin:0 0 8px;color:#684b0c;font-size:1.25rem}
+.backup-alert ol{margin-bottom:4px}
+.note-accurate{font-size:.9rem;color:#655725;margin-top:10px}
+.tools{background:#fff;border:1px solid var(--borde);border-radius:14px;padding:16px;margin-bottom:18px}
+.tools-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:end}
+label{font-weight:700;display:block;margin-bottom:6px}
+input[type=text],textarea,select{width:100%;font:inherit;color:var(--texto);background:#fff;border:1px solid #b9c7d3;border-radius:9px;padding:11px 12px}
+textarea{min-height:220px;resize:vertical;line-height:1.45}
+button,.card-actions a{font:inherit;font-weight:700;border:0;border-radius:9px;padding:10px 13px;cursor:pointer;background:var(--azul);color:#fff;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:42px}
+button.secondary{background:#53687a}
+button:hover,.card-actions a:hover{filter:brightness(1.06)}
+button:focus,input:focus,textarea:focus,select:focus,a:focus{outline:3px solid rgba(36,89,143,.25);outline-offset:2px}
+.section-title{margin:26px 0 12px;color:var(--azul)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.guide-card{background:var(--panel);border:1px solid var(--borde);border-radius:15px;padding:17px;box-shadow:0 4px 14px rgba(24,59,102,.055);min-width:0}
+.card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.guide-card h3{margin:6px 0 0;color:var(--azul);font-size:1.1rem}
+.guide-card h4{font-size:1.16rem;margin:13px 0 7px}
+.course{color:var(--muted);font-weight:700}
+.pill{background:#e8f0f8;color:var(--azul);font-size:.78rem;font-weight:700;border-radius:999px;padding:4px 8px}
+.status-ready{font-size:.78rem;background:#e7f5ee;color:#276249;border-radius:999px;padding:5px 8px;font-weight:700;white-space:nowrap}
+.days{font-size:.92rem;color:#4c6073}
+.copy-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.copy-row input{min-width:0;font-family:Consolas,monospace;font-size:.85rem}
+details{margin-top:13px;border-top:1px solid var(--borde);padding-top:11px}
+summary{cursor:pointer;font-weight:700;color:var(--azul)}
+details textarea{margin-top:10px;background:#fafcfd}
+.detail-actions,.card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+.card-actions{border-top:1px solid var(--borde);padding-top:12px}
+.copy-status{position:fixed;right:18px;bottom:18px;background:#183b66;color:#fff;padding:11px 14px;border-radius:9px;box-shadow:0 5px 18px rgba(0,0,0,.22);opacity:0;pointer-events:none;transition:opacity .18s}
+.copy-status.show{opacity:1}
+.empty{background:#fff;border:1px dashed var(--borde);padding:24px;border-radius:12px;text-align:center;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:.88rem;padding:0 18px 30px}
+@media(max-width:820px){
+  .grid{grid-template-columns:1fr}
+  .tools-row{grid-template-columns:1fr 1fr}
+  .tools-row .searchbox{grid-column:1/-1}
+}
+@media(max-width:560px){
+  .brand{flex-direction:column;text-align:center}
+  .logo{width:90px;height:90px}
+  .tools-row{grid-template-columns:1fr}
+  .tools-row .searchbox{grid-column:auto}
+  .copy-row{grid-template-columns:1fr}
+  .copy-row button{width:100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="wrap brand">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAb8AAAG/CAMAAAD/zSlAAAAAZlBMVEUklNj///8ckte82vEXkNfC2/HO5fVNo93g8PoHjtaAvuf7/f4pl9nz+f0Ai9VerOHX6vc+oNydyevn8vqm0u6Mweh0tOOy1e86m9rG4fSVx+oAh9Sizex6uORqseJVp95uueWHxelABTykAAAdB0lEQVR4nO2di3ajOAyGQbhcAg4QQkLYXDrv/5ILubTYyGBIAqbRd87OnumkLfAjyZZl2bIIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIQg0LYO5LIMbD4hWQgIsFYt/ekIALBeCc2ba9iUjAJVLJ51fy2eGRBFwiECe2fROQXOjyYDfru3KkUejCAHaNfT8CRmzuKyIGACxuylfHQBJwQTSd5xW+tciFLgbRed4scE8xcCkg8lXsaRqxCOTY1xCQYqD5AOx8VD6ayC+C1tClOY0AskCzAXbCneeNbUEWaDL3lLWaPQloMMBUse8nBu4LcqHG0hX7fgSkGGgoPbHvx4XSNMJIKufJNeSrLDAlAc2jmvfpWJ9NMdBMGCqfu0VsMtxbJKBZAJww53nw1nmIfN2hGGgUACtUviKw1iX2LzQPNAmw0JHnIQ1qaXEBUxLQFCrnqZSv/lfMhYYOWaAhKOW7xzigGGgyHbHvwTrHBHbIhRqAhnwVCgHJAuemkg91np4gDUQ5Ng+kGDg3EKDW53iSZamslGLgrADD7MpGEmQQkAs1DoVVVW6x7RdBEQNlSyUmQxH7FDaFix3SKHQ28Nh3ULlEYN/Ix+0DBPjnibcCUA6dlv/3jSe5yQKnh1l47Ovc6xegmRqKgXOAD0e6Z3R4iUXokAVOjGro0reyXsVAmgfOD7ANFvt0tqisv9F1enKhE6JaEtKyIoYn3C7kQqeikg+tatErSwJrhVWJHjyaRkwDBLh8uhNxsHAXmpKAUwAMLYgYsDVFsUvCpVzoBCiHLgMefjUKRQWkGPh2wMKsLxxYFK8ouXAvZIHvhcFGc8Gom8qFYj+HXOh7YRYun9gcBB6w6x+MPf7e/FBwwX5SQqsRb6SSD4t9W3Z76GA9VIqiokg9z7tUVP/z0qKIovsHHloHaJsDioHvg0WY9YU366vsDKJKtPiUl0fn6+C6bvLAdQ+Hr/2xXJ0vXhFZV4NU7RZ0Y3Kh7wEUzrOopAus9HJeHR03yzjnmJFWQnOeZf5hW55iL7q6VXTLS0IT+bcAcMSsbxsFlrcr94csDHHdWt8S8sQ5ruIiwF0oCfgOKvkwMY7e7uj6Whs3JbLEyeMT5kKTmGLgq4EIHbpkB1/hLXXgmZtg300x8NVAhDnP2heOFu/+A9CvujG50FeCx7434l9IwNcBbD+pejbFwFfCInToQgIug0q+Z6PcOAFpEPMKmDVx7HvgUzL7BbBo8tj3ICMX+jRQbOeSr7LAMwn4HBBtx8a+MAz5ndHhMznTNOIZAIbLF2a+e/hy9seyzP+tVvm/siy3e+fgJiPSbD7lQp8AwBmgW8izw748nWOvsFgQBKzm/mf1t6i4xLv86CR8SNImOzPyoSNhhfbQhfvuNq+Eq9eSGP7EgdX/ZhXp5VQekkzXFv0d6TeOSj49Q/G/jqtLcVWo/1nXVRWViOd87+pJmOzIhY4BIi35su2p0q4ui9C3k1uZhXfOXR0BM0pmjwCs/tgXZvsLaFkd9gvqiot0pWGFGWViBsOiPvlC/2sH6ydHFyxYF8deCbMdnQA5DOgbuvBD6a1fcSQVsHV0Pva07qVBzDAg7Y593DlHrxvXVx7YK9GF+F8LPNPxZfpAt/P0t6lijjD+N4K163SjPKZ5oC6s6JCPJ2W6fsejDNhun6mNkFMM1KRLvtAtvVfb3gNg0dlRB0L/RBaoA3RM25ONZ73xKQIUJ0fpRbPTW+z+j8GiL6ULO16GzNLHUCl4Pih//44GMX2wSJUT4Y43xdFFlRfNfYUDyE6kXzfK2Be6q6lOkAbwVPPBSkBSsINKPvzV55spi1GYdU5UAlIMVKNMmvmXaU99A1Yoat54TDFQBRR47OObGc7sW1/wiwkpBiqAFB95JvMsgQfRHp1K8BXFQAxIUefJnXSmeTPDGzXZ/EQutI1i3sfL+Q5tB4b70JAWdFso5n1JPOt4jwF2fqBtkwuVgBTLeoSzN5UDKDEfyvN5L8s0mIfJxw04qRasEzYVzHJKZv/CCtT6NiYcbwMQYwLy03ruKzMGKPAnNFXCrAeWHpC5PM9n9w2GwFJs6FKN0ue+sAf4xLSKgWa8XzMDaOzLVgYFGIaOrnhuzhXOh+LZmLXYzSI0QJvjImYDcOdpWs06BLiAnx4DwUPlOxs3uAPrCx3EfHYMhAsa+0z0S/jS5GfHwAAfupi5QoOXBvDcwHdtIliKzvt2Rg1dfgE8y/CxLjRA5QtXxq7OKLJ8M66QzAm+OMM3c19XB4pU2kcKGKAjz3BvQs5TBVjowR+8NNTjvxHceRp/FiZboWVN+YetBwLz0NIE89s2rtGGJuGHuVBQFCaYlnZpo9ja9lkxEGJcviXEEfBQx8/Lz3GhDB261KeYLuERBOgJrB9UEwN47LN9w8cuD9Ylevn2h7hQhfOsl4zmvjRNmOIGPkJAfA5ccVyM/2EXfHvSJ8RAhod/285m2OMwFigVJ/SUxub+XoTq1bXDJfU4AuUe4e2fPkheUYt3vfG5r20QLMaHYPVxTH9YQFBti7SThYw974ClGIPafGv9WQEDpfWFS0sg4iWr11vZLCAJMQqGntZ2ZRkz9ybBSdnk5PgnF3TBUsWMyuks79BSsJQN9sKjyWtgY1HHPtveL8x71gC6FHgXcHHupBemjH0L7Y/a1R44XE4uQhOmflvru5378sYA6nhQx8AFvpJKoEu+pR4UBdBxrFYVAxd5UygA6EndP7e60GjBLl13tf87AgZd8i34kKGgq8fz/Vj6P0C3fPZ2sfcJXmfj8+1C/YoIdAy0a7LLcv1M0H022l9woQC7TuuznQUvuUDcaYB/IQb2OE87PC/4FtXrSA8BFxsb7gTdzrOaPCxYvrqct+foj2ULWMW+nvsb0c2Pwe38IkBPzgGR+jAy6HqG15OQ7v/d/uz5BvG7ld2CHzgLzoUCnLqdZ31G8ODb88rNg1I+oBaiUy5xOnvFVSD8EtN8I1Kuzl6kLeB603ODZm/o6Ib1ymdvhyYKxe708nYJtspCAc65n7jHc6GormkfTR7yLDmUF80296zoOyMtdJaaC13vemLfda/mwB8qbpj3xdQbBHj/3pAfThFWmq8agITZ1tMT8L/+I+j2i8yFAjv3H9/nDg7vo/S7/qoLYgcdA8is1HJ8wbn3Jm1neJCYnSr29VqfbW8G71cZrZ+dIAfgdE0Awr1O/gSi/tsMHW9xFojGvlA6AToc/mKO189O2onW7gmc1ioeSDkY7GDd0FnaRH69wl7LQynenD+8zcsT+tmHVjvKbv24zsIWO4nf5P7DpkzLysQAPq89pNLmx3/Dt/s9o5+9GaafVniWC8qzC3rvS4qBALj1pfL5ACPasz6lXyZbAVid+nGN5B5E0ipSHuSYC/2avxetNujQ5eAFUgFhMuKVfEo/W24t06OfrVPZAZJcewbYJvnwsJCJPDBcvqK6L/FOx9S9PKef08rXdOvnagxB5TqYQwrBCfthyyhyrSYOaOwDZjHJ0wyevFvD9OOcS4bAJRsQ9auzNdK1axSmyqXYPAYr2GFz3/b4yTxANrJf+SASb9Qfs3I7QL/wGJ9PW8E4+LnLf/Lcu6zEXskrnQAo5uCuKXnFAM74eSBYucJ5tvdNf40JCEP0W62DIBBWQMJSfICi/dWd1wJL6JG113ngO0GrcBOB8jVODW+wgY697oNntpMC/ZhwMEg/aLnUvbjaL+sH9cy1aU06M1R5T+N1yUgloNHbyyDA5z43QwvEPVd8NYV+VvCvqcehVz+WCgarYS9yC+FbHwalBZo7iAELu+SfgTOIw5dsVN3gYP3EwXy/fhYT7kErb3LEbkyRAT4YW69VxT4093dfo5PbZyaj3sTB+jFhKHhgvfr9J9yEztNmK+HG+OrxPJYlIEOHLl+PJVa5XNmJxvySJ/VzxZS0NP686SfchU55lbRSFm4eaTd8KuWamQtd40OXn0EmixV3OYjh+gkPV8poovYnRLNvjWcN0pv5s/CkygMbuFkc0KSR7fzWLcBJniYZqp/g5r91BjBSFVMjU4bnolzjXCge++zGuhdYYtMUeSqt+4sGj18Es3dFp43qJ0w4tOwvELNwjWYMEOxQF2rYRL4SB7tMYYYupSmycbfwrH4a9ifop7W3LRAHoH6jLE5RRpIYlcyGAG1IdGgW7oDUft8dNxGaQD/Bf2p5OiY6n2zX/CVrVECTBjGV80Su0HaEo09Bapg8srB1ePy7DPWfwmBE6zHLUU481APfvJoYEwPlyHZ/eo64XCJnP0furnqxftj8QbAlrYfMpE0epXjneBmzKYMYADT2yQUDIGUJR/bqe7H/bOsHVvNuuFaFjjyBOMpPCLdAzRLT9wJrVL5W2bjcvUdjZQb9de+ePzBhU2aip5+0BLiXUhPA0FJmd+7TmetLA3QHAFJzLMWIka3Kh+t3Gpb/XAvBYKt1lSAV9jit2CB72Bvzd25g0QbLeWKbNsRUxNh9f8P1E/T46tTvHATSuRR6JQJyU/p2pYRiG2sl4KwuFCxcPmxuII6xtWorsd84eP2o+fnw2Ll+W8bn0m3KzfUyXXIvH6RsRnF0SzKrC1XEPnxqIH40G9nybIh+p//W6/9yQQ9pu6FUv9QqmNEsOYJILGxNkFkHMHSzdTLjijwwtAvmHtvRXlmqcIv+yFqeIfo5//6J5S82T7vsr4X+AbeiG8rQm8P7L843D4ToiFxPuEddOlhi+ix5v37Yw4JO+5PR76snORfc7QZoxy1/phgI0Qabtit27YC173UxWr/1Kf3kMza69RvQFFjUTxU25QLm+01c5hCwmjhgeT3VZkU5xI9N4D6ln+w+u/Ub0hYx19KvEhCLgVk6fQ8V1bxPdSXyNgF3Dv02rWF9l37bYKx+odJw8cbnYwdzT6AoEVe+SPIUaQ792qtunfpdCzk1r0pXP4vhJRWTV6Xh/Vj9s2rAZoD9+bv2rKwz/g3ojKirHxRHbMKs/6a8DIUniBUCyvrNEP+Q7Qc940/9I5k09QOGNu0dVwr0JPhZHCoLbNvf5ONP3janvv1Hma5f+6c1fgG84+Rmng4jcMEEzPCUYStFMcP8j7fWPPr0s7eaO7y15g9M3up5JZxJvmoIiguIWqA8f58g/9ImkQ1Qyn9+HfdOIlZZaV6lzvwd73jOZ4h9jwuS1y3vVx8jo1A50z2yfOnJ+ft35/y93n9kpWIxgdaByvIWMvTlxGPfvCcfM4UFYgmFfPL8dV5cVuLCnLxju6Vf9U7+J9xSqeNAW8kJZJeRIvbNfORvgB5lm2G1ueL6n05rAIxB60eMBf8JKXYuJYux+qXgu/kd7n86FxU5gn7IsoVcfnf/jeV6VvlUZxFjAkoT18nWb5vm1Lt/s/6GtHmZvo59QCRuzWnrx1IHjX3ztwcN0NOI2y5UruEZedrtk+vvTnf9RP3TAAT9tJpo9dS/SF0Tf+UzoaMBfiJqS0CQcu/5VPqJ9WfQqd+1YA2ajkJrnCXXtkr1ZxbDD7sy5Lhclh6Qi+MnqdTLk2vsJqof9JrvjZT2wfSzoCkGV2YEm09AGodLefLK+rAHNHvse8A8TMBsJfgq8GQfM5F+afPZSptGcf2av0ErhSaXB4r115DiQxczrK8Gd6F81xRQ3n47sh3RFPo1fwjPdexPGlsLVTby4PR+ceX8Q5df2AUdhQoCSk5Ee/v0rbH4z98m1i/U0U/aviPs7If/MOdk5ybJp4yBq99BjFzAxOXe4zgAUeGl0Y+Ck+unM4GX0j7NkiRm4Q/GtFNL8BjITz/XKW/Q5e3VOASwTofQDpP8sVzxYv2s9vxBtr9+/UDSqLEaywosQc4NPK6Zyc0hH4/kcaXyLn89D/LwTI/tMFOPX3T8J5OmD7/bVhmedTHMed5QpdIeAsJFXOPU2UAGv5ofp9NPmD9ojD/lrVU/h64wwJxSKFfBGQIoYuD9auU2RW7R/yOD3594L+Z7v37i/F1n/sd24h0/pg+KnKeGR54Hhk50sruAcgWTr1Fduf59se/VfO/V75o/i4Sr18i/SGXoj+3T4GGxLxuZeJoCVuCDGLi911KbKY29PQ39+BT6XRNul+ZVauQ/5dKQ+4mG4GHzvszAocsvLO1YjQjENlPVDLaX9a8r+7G/ZnR6h35rYTN/0u8+5czgbfhZvctYytrQ2PdANQ+sr1rev6GRQRP0C1iNsIyRiKvAz/tPYAEIauz71//kUxy3kaWKJebN+2QUC12115BXWdz+ANjQj68ucRyfc2F/nvQjntVvVaSXk/gCrnrtD6xcvOP6XhUpYZ1kzswosrV1JkYaTWsswTf0C3lWIfWnlpKoT+oXZokvH5/SX2Ylj8vqxlK4G8qMnPfJqDMx8oH3/SOxNVZs3kDuUfKcftgj7/d38sJK4jF83sfHdXybHIWAq0Cu/e9voNyjX7gRP/56/Y4awxdp8ciJgkXLd80a4TFQGqiFvQOYHv0yKYf6ev10NsdKu1g3a9x5nkzo9qKHKu0nr4T1BsA1tt/xF3nbzsv1c/oDlryuyWPFHGrwU5wRwNPuK6ndgdOXSeq2v1CeC79aP53jQeVZURJ3ZhEXAp76yxxRD94XXbrtz21tp32xfjqnfzOpd1+Cyve9HOd5g6HF/rb4td7+Dp36tTdavFg/De9pAYjeMsTuOvs2NWWtBt9sI3Ho8U9d+xmqybD8eF+qH9/rnLXBiv679Icfcm8ArG9sZ/evQcBZFQBD99TuX/9C/fhhpVUgt0Zb4AiguwkWAJ6JEVXoTSihbbUrHcoUeyis2VQhvPauFnvLJXL/VtRJhL6zQn9+m6D3+OIQ3c2zBBQxsElfFSHA5ZhkAr67L88FnheBIt8+OJ5uBlT9hJ+vbVpFU97vN9y/rcx3ccE0n3nQe0i6f15e7HuAFx436a1CA2Z5ImkaWcqnC1b0w8OAGl9rD0hY4xtuH6l+JdNeYu3bcGj7Yw45NAa8drXJVqO8pE3Ph63rRxqli/evYd8HP/9q3T8wwNvJR48h8i0hZa0Gz8Q0yEzYgjMavIHfL/y8zKHLL3LfAhmt+lhTkfcdtV5Onc0vhsOsbgG1NtgZipx7kW/tD8hXB5jOUWi7qcdikA/0bcm3dOd5QzHJemDyiZTdBN9dL2b2R+Trc6HjzlE1APnYMdn6/oLzvMEirGvb0g0QbyX4B+WrLfCotsCFRkB8u8CPfH/Fed7onEYs0wDx86Xv8sV/Sz5L0fjyjsFbApTI23FE+RZ4Qz0AelLLDbNOM9RCcWrX7Xb+oHxWq8lbE4N6MWjC0LZFN/nGnQxrPB0x0DfkLDx9ADv74nYvehv7F0iHBeqUmpiEdBh6Uz4DDoV7F+qgod9p2gjkos+G81ycJxlCawvE72u7pCEMfmLsVb4/OXT5RS3g1pRuYBrgvfev8i1uIDYQuY3PL6qTBwwEFIvS2SwnGU2LMgb6i8nCrBXLfsnInt7LorVf9cHIE+Enh13wF9Cd/hSjWQALT6XxfBH3jzeaMuc89/cDBT5885cQAlUjMJ12Nn8FUJRVLyEPCrj3b59t9peBCH8KI5vyTsgaPUbadv9s0kwBoC6UG9WVFoEVaMnS58S+H/DjV3Waas2IohRrOVOf1wEMjYH+yHM9JkGxgjLnGe7zAQFagGDyJBhfgnb/8IpDFxCgFngYebLj21F4jA+MfXcUqTRD8zAQoEPPsQdR/gUU80DHRAsE+ZCOu/V9sHyWqghv5NkebwVOmHzImcifBSzEAgNcvg9JWXeBCRiaJuB6h488ST5ALTD8MsqFBrh8HzhtbwMMjYFjD4h/A4DvVPn69Nh3RyGgOUMDtkJjn8GJhmlRTIwPZkQX3MF/+sRBQGGBSWxAORBE6ErJEpYqpwMCNMJks3fNBPCwWrPQ2CTfTCgE5JuZX3N2djHr+6KRp4TChXJnzuQ+WOjIxcj80NxUzwqtiXHj2QqzmYVvWXSNr/KYA0WCeLZT7gHOeHuXL52+rh8IKLq1hs4cxUFM4Tt/TgIlZBQx0Lb9HKZ+5YPLHr8Wkk+NKgbW+exJD+6CtcL47APFvg4gwGNgFQX/RZNN5hWTvqv1kXydgKI+tn7zz9M4UYBU1SnDuGUtA1mjC6VXE9x7um2pxwMAK2VXQZJPg462Yn755jBYWXj8pfz1B5o46IDXed0VzD3rbTnR6gefO/p1L61HxmyoY6Bdn/zgqdvPPwNAsVPMGWrCPTlPTQAvFrrDkzK2Xv4oWVCcnK5m8hT79AHrpOxOVZuCvz2zl6a12brIHbXtkXwDATh3CWjb2eFUDTZe4karESdLj373ORU07xsGgKrFSsMI4+J5CevzXVaHnmOSQ/P3lZoGsB4LrOBuGcNTq0ssSE/bHtOroKHLcFTLSaJhZO7RW6/ZiCkFsOA/OH/5PaZX49C8bwwaFnjT8BhH9ZlT2iJeP2yl/1zea3lX+WjeN451Xwz81fBQnuI0qoc0yvOtbl+vP1F453yv+6M5xb7RdE7kZTJ3f1ydL0V9Slw9pmSN88oYXEc6UeFdduX+K9Gyu9ubsSX5xqPpQn+NJfOTw7Zc7eLLxUvTtKio/pdeLvH5lB/3buJn+trVkPU9BRtigXfCMOS8VtI91Lium2TVF0L0aOgenLkLUJdOcOk+ou2thFuS71nYZZgLfal85DyfpprIz2WBRyrTfQGzCbh//SrHRwJsjhjINyTfi4AZYmB4pKTZywAWT22BJN9LCbRTaa+BJg4vJvDQrtNcY/mgixBNYfMNyfdqAg9zofx4dHw+JrNSSZe5+/KAfGs1dCH5Xg6eiUni6HIqnSTTWwt6KFRpt83PKXoubzjThrW/Dj6I8c9rZhVpnO8Pic5ibJglrlN+X4oIAryV/JGc53tgFywGZrvgtkbEiss532ydQ22MNXbYJPPdw/5YruI0YrcVpWKPOU+S710A87Bj2/j5XsVUSRgEEKXeJT7vTqu8LMvNsfqjzFenXRx7aRGxgLH7xAAKrJf1XLt9PwJQWKBwWHdtW9diCrCi6xeie8XEdUX392MWan0lyfdGqok8JiDa9ByatP6VMcz6QkqavRmGzgOz08BCUIYeBEA5z/fD0HPX+W6QgEwR+2jo8n4CVMBsN2DOXVkfFvtykm8KcBfqn7SfPu48w9KAbnkfAe5Cs53m44diiznPctIOFx9NgB7frdmtEFLceZJ804HHQK7jQlmKbZGm2Dct7IJaYP80gkWYfCHJNzF4Ki377tmWix8Ax2noMjmKKdyqM4xBgTVWmr/N7wcCLEWT2V0xkOHy5bRcOwOK1YgOY4IIVXxF8s0D4AKeFDGwGrogHw9Lcp5zgSvCc3Q0gvtbpdrEBADgMbDtEatwiQ9daOQ5J7ojEoV8nEaeMwO4V5Tn4wr5cE9LTAjgMVAclSgKZ7oni8QkaGTEVANVcp4mUMXA7ox0MHymT0wIeLiA9+CGrzbR0MUcIMWz0tfwppr3kXzGAKqKiEojfOPSgGoLYgIUtfCltcZrLZAZPjEnimr4HI99O7I+01DMA9FjPYcVixKTAGhFPC7f3NdKIABgMRCRj5ynmeCjUNmjkvM0Fg0B+ZnW+8wFomO3fD7JZzSA7kz5lY+cp+GwdKtuYiBu1CVMBJ/I3+QbusuTmAEARQz0Y5r3LQGALRYDfXKeCwEdxGQxOc+lAFFrh2aGtaggDAWCDcm3aNZCazO0QQxhMs1BTBbT0GVpQPFjgVlMSbPlAVYZ0rxvwQBcBUxi8p3LBKINr+Uj/RZKFQNdyrosGmrnSRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEYST/A/RipHVRlcBwAAAAAElFTkSuQmCC" class="logo" alt="Logotipo JRB">
+  <div>
+    <h1>Guías interactivas 2026</h1>
+    <p class="lead">Portal de acceso y gestión de enlaces — Colegio de Informática Justo Rufino Bautista</p>
+    <p class="teacher">Computación, TAC y subáreas tecnológicas — Ciclo escolar 2026</p>
+  </div>
+</div>
+</header>
+
+<main>
+<section class="backup-alert" aria-labelledby="backupTitle">
+  <h2 id="backupTitle">Antes de cerrar una guía: descarga tu respaldo JSON</h2>
+  <p>Las guías realizan <strong>autoguardado local en el navegador</strong> mientras trabajas. Para continuar de forma segura en otra clase, especialmente si puedes cambiar de computadora o navegador, debes conservar un respaldo propio.</p>
+  <ol>
+    <li>Antes de cerrar la guía, pulsa <strong>Descargar respaldo JSON</strong>.</li>
+    <li>Guarda el archivo <strong>.json</strong> en un lugar seguro donde puedas encontrarlo en la siguiente clase.</li>
+    <li>Cuando regreses, abre la misma guía y selecciona <strong>Cargar respaldo JSON</strong>.</li>
+    <li>Continúa trabajando y vuelve a descargar un respaldo actualizado antes de salir.</li>
+  </ol>
+  <p class="note-accurate"><strong>Nota:</strong> el navegador puede conservar el autoguardado en el mismo equipo, pero no se garantiza si cambias de computadora o navegador, utilizas navegación privada, se borran los datos del sitio o el equipo es restaurado. El archivo JSON es el respaldo que debes conservar.</p>
+</section>
+
+<section class="tools">
+  <div class="tools-row">
+    <div class="searchbox">
+      <label for="search">Buscar guía</label>
+      <input id="search" type="text" placeholder="Ej. 2.º Básico, Laboratorio I, Diseño...">
+    </div>
+    <button type="button" id="copyAll">Copiar todos los enlaces</button>
+    <button type="button" class="secondary" id="showAll">Mostrar todas</button>
+  </div>
+</section>
+
+<h2 class="section-title">Guías disponibles</h2>
+
+<div class="grid" id="guideGrid">
+
+    <article class="guide-card" data-level="Básico" data-search="1.º básico tac / computación guía no. 1 — nuestro reglamento digital del laboratorio documento colaborativo en google docs, cinco normas del laboratorio, comentarios entre compañeros, presentación adecuada, uso responsable de una imagen y registro de fuentes.">
+      <div class="card-head">
+        <div>
+          <span class="pill">Básico</span>
+          <h3>1.º Básico</h3>
+          <div class="course">TAC / Computación</div>
+        </div>
+        <span class="status-ready">Publicada</span>
+      </div>
+      <h4>Guía No. 1 — Nuestro reglamento digital del laboratorio</h4>
+      <p class="days"><strong>Trabajo:</strong> Lunes, miércoles y viernes</p>
+      <p>Documento colaborativo en Google Docs, cinco normas del laboratorio, comentarios entre compañeros, presentación adecuada, uso responsable de una imagen y registro de fuentes.</p>
+
+      <label for="url1">Dirección para Classroom</label>
+      <div class="copy-row">
+        <input id="url1" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/1ro-basico/tac/guia-01-reglamento-digital/">
+        <button class="copy-btn" type="button" data-copy="url1">Copiar enlace</button>
+      </div>
+
+      <details>
+        <summary>Ver comentario para Google Classroom</summary>
+        <textarea id="comment1" readonly>Trabajaremos la Guía No. 1: “Nuestro reglamento digital del laboratorio”.
+
+Durante la semana debes completar las actividades en el cuaderno y en la computadora. Elaborarás en pareja un documento colaborativo en Google Docs, redactarás cinco normas, utilizarás comentarios para revisar el trabajo y registrarás correctamente la procedencia de una imagen.
+
+Importante: la guía tiene autoguardado local en el navegador, pero no debes depender únicamente de ese guardado para continuar otro día. Antes de cerrar la guía, descarga el archivo de respaldo .json y guárdalo en un lugar seguro. En la siguiente clase podrás utilizar la opción “Cargar respaldo JSON” para recuperar tu trabajo.
+
+Al finalizar, descarga el comprobante PDF y entrégalo según las indicaciones del docente.</textarea>
+        <div class="detail-actions">
+          <button class="copy-btn secondary" type="button" data-copy="comment1">Copiar comentario</button>
+        </div>
+      </details>
+
+      <div class="card-actions">
+        <a href="https://pzamoracid.github.io/2026_JRB/1ro-basico/tac/guia-01-reglamento-digital/" target="_blank" rel="noopener noreferrer">Abrir guía</a>
+      </div>
+    </article>
+    
+
+    <article class="guide-card" data-level="Básico" data-search="2.º básico tac / computación guía no. 1 — investigación segura en internet búsqueda eficiente, evaluación de tres fuentes, criterios de confiabilidad, parafraseo, miniinforme y registro de fuentes en el cuaderno.">
+      <div class="card-head">
+        <div>
+          <span class="pill">Básico</span>
+          <h3>2.º Básico</h3>
+          <div class="course">TAC / Computación</div>
+        </div>
+        <span class="status-ready">Publicada</span>
+      </div>
+      <h4>Guía No. 1 — Investigación segura en Internet</h4>
+      <p class="days"><strong>Trabajo:</strong> Lunes, miércoles y viernes</p>
+      <p>Búsqueda eficiente, evaluación de tres fuentes, criterios de confiabilidad, parafraseo, miniinforme y registro de fuentes en el cuaderno.</p>
+
+      <label for="url2">Dirección para Classroom</label>
+      <div class="copy-row">
+        <input id="url2" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/2do-basico/tac/guia-01-investigacion-segura/">
+        <button class="copy-btn" type="button" data-copy="url2">Copiar enlace</button>
+      </div>
+
+      <details>
+        <summary>Ver comentario para Google Classroom</summary>
+        <textarea id="comment2" readonly>Trabajaremos la Guía No. 1: “Investigación segura en Internet”.
+
+Debes investigar un tema escolar, comparar tres fuentes, identificar quién publica la información, revisar criterios de confiabilidad, practicar el parafraseo y elaborar un miniinforme. Parte del trabajo se registra en el cuaderno y parte se realiza en la computadora.
+
+Importante: la guía tiene autoguardado local en el navegador, pero no debes depender únicamente de ese guardado para continuar otro día. Antes de cerrar la guía, descarga el archivo de respaldo .json y guárdalo en un lugar seguro. En la siguiente clase utiliza “Cargar respaldo JSON” para recuperar tu avance.
+
+Al finalizar, descarga el comprobante PDF para la entrega correspondiente.</textarea>
+        <div class="detail-actions">
+          <button class="copy-btn secondary" type="button" data-copy="comment2">Copiar comentario</button>
+        </div>
+      </details>
+
+      <div class="card-actions">
+        <a href="https://pzamoracid.github.io/2026_JRB/2do-basico/tac/guia-01-investigacion-segura/" target="_blank" rel="noopener noreferrer">Abrir guía</a>
+      </div>
+    </article>
+    
+
+    <article class="guide-card" data-level="Básico" data-search="3.º básico tac / computación guía no. 1 — un problema escolar convertido en datos diseño de una encuesta en google forms, recolección de al menos 10 respuestas, organización de datos en google sheets, gráfica e interpretación de resultados.">
+      <div class="card-head">
+        <div>
+          <span class="pill">Básico</span>
+          <h3>3.º Básico</h3>
+          <div class="course">TAC / Computación</div>
+        </div>
+        <span class="status-ready">Publicada</span>
+      </div>
+      <h4>Guía No. 1 — Un problema escolar convertido en datos</h4>
+      <p class="days"><strong>Trabajo:</strong> Lunes y viernes</p>
+      <p>Diseño de una encuesta en Google Forms, recolección de al menos 10 respuestas, organización de datos en Google Sheets, gráfica e interpretación de resultados.</p>
+
+      <label for="url3">Dirección para Classroom</label>
+      <div class="copy-row">
+        <input id="url3" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/3ro-basico/tac/guia-01-datos/">
+        <button class="copy-btn" type="button" data-copy="url3">Copiar enlace</button>
+      </div>
+
+      <details>
+        <summary>Ver comentario para Google Classroom</summary>
+        <textarea id="comment3" readonly>Trabajaremos la Guía No. 1: “Un problema escolar convertido en datos”.
+
+Diseñarás una encuesta en Google Forms, recopilarás como mínimo 10 respuestas y analizarás los resultados en Google Sheets. También elaborarás una gráfica y escribirás una conclusión basada en los datos obtenidos. Debes conservar los registros solicitados en el cuaderno.
+
+Importante: la guía tiene autoguardado local en el navegador, pero no debes depender únicamente de ese guardado para continuar otro día. Antes de cerrar la guía, descarga el archivo de respaldo .json y guárdalo en un lugar seguro. En la siguiente clase utiliza “Cargar respaldo JSON” para recuperar tu trabajo.
+
+Al finalizar, descarga el comprobante PDF para la entrega.</textarea>
+        <div class="detail-actions">
+          <button class="copy-btn secondary" type="button" data-copy="comment3">Copiar comentario</button>
+        </div>
+      </details>
+
+      <div class="card-actions">
+        <a href="https://pzamoracid.github.io/2026_JRB/3ro-basico/tac/guia-01-datos/" target="_blank" rel="noopener noreferrer">Abrir guía</a>
+      </div>
+    </article>
+    
+
+    <article class="guide-card" data-level="Bachillerato" data-search="4.º bachillerato — computación computación aplicada guía no. 1 — análisis de incidencias técnicas del laboratorio registro de incidencias técnicas en google sheets, fórmulas y funciones, conteo por tipo de incidencia, gráfica y decisión de mantenimiento basada en datos.">
+      <div class="card-head">
+        <div>
+          <span class="pill">Bachillerato</span>
+          <h3>4.º Bachillerato — Computación</h3>
+          <div class="course">Computación Aplicada</div>
+        </div>
+        <span class="status-ready">Publicada</span>
+      </div>
+      <h4>Guía No. 1 — Análisis de incidencias técnicas del laboratorio</h4>
+      <p class="days"><strong>Trabajo:</strong> Lunes y viernes</p>
+      <p>Registro de incidencias técnicas en Google Sheets, fórmulas y funciones, conteo por tipo de incidencia, gráfica y decisión de mantenimiento basada en datos.</p>
+
+      <label for="url4">Dirección para Classroom</label>
+      <div class="copy-row">
+        <input id="url4" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/computacion-aplicada/guia-01-analisis-datos/">
+        <button class="copy-btn" type="button" data-copy="url4">Copiar enlace</button>
+      </div>
+
+      <details>
+        <summary>Ver comentario para Google Classroom</summary>
+        <textarea id="comment4" readonly>Trabajaremos la primera guía de Computación Aplicada: “Análisis de incidencias técnicas del laboratorio”.
+
+Crearás una hoja de cálculo con registros de soporte técnico, aplicarás fórmulas y funciones, analizarás tiempos y tipos de incidencia, elaborarás una gráfica y tomarás una decisión de mantenimiento basada en los resultados. También dejarás los registros indicados en el cuaderno.
+
+Importante: la guía tiene autoguardado local en el navegador, pero no debes depender únicamente de ese guardado para continuar otro día. Antes de cerrar la guía, descarga el archivo de respaldo .json y guárdalo en un lugar seguro. En la siguiente clase utiliza “Cargar respaldo JSON” para recuperar tu avance.
+
+Conserva también el enlace de tu archivo de Google Sheets. Al finalizar, descarga el comprobante PDF.</textarea>
+        <div class="detail-actions">
+          <button class="copy-btn secondary" type="button" data-copy="comment4">Copiar comentario</button>
+        </div>
+      </details>
+
+      <div class="card-actions">
+        <a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/computacion-aplicada/guia-01-analisis-datos/" target="_blank" rel="noopener noreferrer">Abrir guía</a>
+      </div>
+    </article>
+    
+
+    <article class="guide-card" data-level="Bachillerato" data-search="4.º bachillerato — diseño computación aplicada guía no. 1 — análisis de evaluación de propuestas gráficas análisis en google sheets de evaluaciones de propuestas visuales, promedios de legibilidad y atractivo, comparación gráfica y recomendación de diseño basada en datos.">
+      <div class="card-head">
+        <div>
+          <span class="pill">Bachillerato</span>
+          <h3>4.º Bachillerato — Diseño</h3>
+          <div class="course">Computación Aplicada</div>
+        </div>
+        <span class="status-ready">Publicada</span>
+      </div>
+      <h4>Guía No. 1 — Análisis de evaluación de propuestas gráficas</h4>
+      <p class="days"><strong>Trabajo:</strong> Lunes y viernes</p>
+      <p>Análisis en Google Sheets de evaluaciones de propuestas visuales, promedios de legibilidad y atractivo, comparación gráfica y recomendación de diseño basada en datos.</p>
+
+      <label for="url5">Dirección para Classroom</label>
+      <div class="copy-row">
+        <input id="url5" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/computacion-aplicada/guia-01-analisis-datos/">
+        <button class="copy-btn" type="button" data-copy="url5">Copiar enlace</button>
+      </div>
+
+      <details>
+        <summary>Ver comentario para Google Classroom</summary>
+        <textarea id="comment5" readonly>Trabajaremos la primera guía de Computación Aplicada orientada a Diseño: “Análisis de evaluación de propuestas gráficas”.
+
+Procesarás en Google Sheets datos de evaluación de distintas propuestas visuales. Calcularás resultados de legibilidad y atractivo, compararás las propuestas mediante una gráfica y justificarás cuál recomendarías utilizando los datos, no únicamente el gusto personal.
+
+Importante: la guía tiene autoguardado local en el navegador, pero no debes depender únicamente de ese guardado para continuar otro día. Antes de cerrar la guía, descarga el archivo de respaldo .json y guárdalo en un lugar seguro. En la siguiente clase utiliza “Cargar respaldo JSON” para recuperar tu avance.
+
+Conserva el enlace de Google Sheets y descarga el comprobante PDF al finalizar.</textarea>
+        <div class="detail-actions">
+          <button class="copy-btn secondary" type="button" data-copy="comment5">Copiar comentario</button>
+        </div>
+      </details>
+
+      <div class="card-actions">
+        <a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/computacion-aplicada/guia-01-analisis-datos/" target="_blank" rel="noopener noreferrer">Abrir guía</a>
+      </div>
+    </article>
+    
+
+    <article class="guide-card" data-level="Bachillerato" data-search="4.º bachillerato — biología computación aplicada guía no. 1 — análisis de datos de crecimiento vegetal procesamiento en google sheets de datos de crecimiento vegetal, cálculo de diferencias y promedios, comparación de tratamientos, gráfica y conclusión basada en observaciones.">
+      <div class="card-head">
+        <div>
+          <span class="pill">Bachillerato</span>
+          <h3>4.º Bachillerato — Biología</h3>
+          <div class="course">Computación Aplicada</div>
+        </div>
+        <span class="status-ready">Publicada</span>
+      </div>
+      <h4>Guía No. 1 — Análisis de datos de crecimiento vegetal</h4>
+      <p class="days"><strong>Trabajo:</strong> Lunes y viernes</p>
+      <p>Procesamiento en Google Sheets de datos de crecimiento vegetal, cálculo de diferencias y promedios, comparación de tratamientos, gráfica y conclusión basada en observaciones.</p>
+
+      <label for="url6">Dirección para Classroom</label>
+      <div class="copy-row">
+        <input id="url6" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/biologia/computacion-aplicada/guia-01-analisis-datos/">
+        <button class="copy-btn" type="button" data-copy="url6">Copiar enlace</button>
+      </div>
+
+      <details>
+        <summary>Ver comentario para Google Classroom</summary>
+        <textarea id="comment6" readonly>Trabajaremos la primera guía de Computación Aplicada orientada a Biología: “Análisis de datos de crecimiento vegetal”.
+
+Registrarás y procesarás en Google Sheets datos de un ensayo de crecimiento vegetal. Calcularás crecimiento, promedios y diferencias entre tratamientos, elaborarás una gráfica y redactarás una conclusión sustentada en los datos observados.
+
+Importante: la guía tiene autoguardado local en el navegador, pero no debes depender únicamente de ese guardado para continuar otro día. Antes de cerrar la guía, descarga el archivo de respaldo .json y guárdalo en un lugar seguro. En la siguiente clase utiliza “Cargar respaldo JSON” para recuperar tu avance.
+
+Conserva el enlace de Google Sheets y descarga el comprobante PDF al finalizar.</textarea>
+        <div class="detail-actions">
+          <button class="copy-btn secondary" type="button" data-copy="comment6">Copiar comentario</button>
+        </div>
+      </details>
+
+      <div class="card-actions">
+        <a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/biologia/computacion-aplicada/guia-01-analisis-datos/" target="_blank" rel="noopener noreferrer">Abrir guía</a>
+      </div>
+    </article>
+    
+
+    <article class="guide-card" data-level="Bachillerato" data-search="4.º bachillerato — computación laboratorio i guía no. 1 — de un problema a un programa entrada–proceso–salida, algoritmo, pseudocódigo, primer programa en python, pruebas de escritorio, reto de modificación y registro de depuración.">
+      <div class="card-head">
+        <div>
+          <span class="pill">Bachillerato</span>
+          <h3>4.º Bachillerato — Computación</h3>
+          <div class="course">Laboratorio I</div>
+        </div>
+        <span class="status-ready">Publicada</span>
+      </div>
+      <h4>Guía No. 1 — De un problema a un programa</h4>
+      <p class="days"><strong>Trabajo:</strong> Lunes y viernes</p>
+      <p>Entrada–proceso–salida, algoritmo, pseudocódigo, primer programa en Python, pruebas de escritorio, reto de modificación y registro de depuración.</p>
+
+      <label for="url7">Dirección para Classroom</label>
+      <div class="copy-row">
+        <input id="url7" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/laboratorio-i/guia-01-de-un-problema-a-un-programa/">
+        <button class="copy-btn" type="button" data-copy="url7">Copiar enlace</button>
+      </div>
+
+      <details>
+        <summary>Ver comentario para Google Classroom</summary>
+        <textarea id="comment7" readonly>Trabajaremos la Guía No. 1 de Laboratorio I: “De un problema a un programa”.
+
+Primero analizarás un problema mediante entrada, proceso y salida. Después escribirás el algoritmo y pseudocódigo. En la segunda sesión convertirás esa solución en un programa de Python, realizarás pruebas de escritorio, modificarás el programa y registrarás el proceso de depuración.
+
+Importante: la guía tiene autoguardado local en el navegador, pero no debes depender únicamente de ese guardado para continuar otro día. Antes de cerrar la guía, descarga el archivo de respaldo .json y guárdalo en un lugar seguro. En la siguiente clase utiliza “Cargar respaldo JSON” para recuperar tu avance.
+
+Conserva también tu archivo .py. Al finalizar, descarga el comprobante PDF.</textarea>
+        <div class="detail-actions">
+          <button class="copy-btn secondary" type="button" data-copy="comment7">Copiar comentario</button>
+        </div>
+      </details>
+
+      <div class="card-actions">
+        <a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/laboratorio-i/guia-01-de-un-problema-a-un-programa/" target="_blank" rel="noopener noreferrer">Abrir guía</a>
+      </div>
+    </article>
+    
+</div>
+
+<div class="empty" id="emptyState" hidden>No se encontraron guías con ese criterio.</div>
+
+<section class="tools" style="margin-top:20px">
+  <h2 style="margin-top:0;color:var(--azul)">Lista completa de enlaces</h2>
+  <p class="small">Este bloque sirve para copiar rápidamente todas las direcciones o comprobarlas antes de publicarlas en Classroom.</p>
+  <textarea id="allUrls" readonly>https://pzamoracid.github.io/2026_JRB/1ro-basico/tac/guia-01-reglamento-digital/
+https://pzamoracid.github.io/2026_JRB/2do-basico/tac/guia-01-investigacion-segura/
+https://pzamoracid.github.io/2026_JRB/3ro-basico/tac/guia-01-datos/
+https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/computacion-aplicada/guia-01-analisis-datos/
+https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/computacion-aplicada/guia-01-analisis-datos/
+https://pzamoracid.github.io/2026_JRB/4to-bachillerato/biologia/computacion-aplicada/guia-01-analisis-datos/
+https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/laboratorio-i/guia-01-de-un-problema-a-un-programa/</textarea>
+  <div class="detail-actions">
+    <button type="button" data-copy="allUrls">Copiar lista completa</button>
+  </div>
+</section>
+
+</main>
+
+<div class="copy-status" id="copyStatus" role="status" aria-live="polite">Copiado</div>
+
+<footer>
+Portal JRB 2026 — Las guías almacenan el avance localmente. Conserva siempre tu archivo JSON de respaldo.
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+  const cards = Array.from(document.querySelectorAll(".guide-card"));
+  const search = $("search");
+  const empty = $("emptyState");
+  let statusTimer = null;
+
+  function showStatus(message){
+    const box = $("copyStatus");
+    box.textContent = message;
+    box.classList.add("show");
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => box.classList.remove("show"), 1600);
+  }
+
+  async function copyText(text){
+    try{
+      if(navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(text);
+      } else {
+        const temp = document.createElement("textarea");
+        temp.value = text;
+        temp.setAttribute("readonly","");
+        temp.style.position = "absolute";
+        temp.style.left = "-9999px";
+        document.body.appendChild(temp);
+        temp.select();
+        const ok = document.execCommand("copy");
+        temp.remove();
+        if(!ok) throw new Error("copy failed");
+      }
+      showStatus("Copiado al portapapeles");
+    } catch(e){
+      showStatus("No se pudo copiar automáticamente");
+    }
+  }
+
+  document.querySelectorAll("[data-copy]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = $(btn.dataset.copy);
+      if(!target) return;
+      copyText(target.value || target.textContent || "");
+    });
+  });
+
+  $("copyAll").addEventListener("click", () => copyText($("allUrls").value));
+
+  function filterCards(){
+    const q = search.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const match = !q || card.dataset.search.includes(q);
+      card.hidden = !match;
+      if(match) visible++;
+    });
+    empty.hidden = visible !== 0;
+  }
+
+  search.addEventListener("input", filterCards);
+
+  $("showAll").addEventListener("click", () => {
+    search.value = "";
+    filterCards();
+    search.focus();
+  });
+})();
+</script>
+</body>
+</html>
