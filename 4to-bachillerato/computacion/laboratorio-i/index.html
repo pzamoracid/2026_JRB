@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Guía No. 1 - Laboratorio I - De un problema a un programa</title>
+<style>
+:root{
+  --azul:#183b66;--azul2:#24598f;--verde:#2f6f5e;--fondo:#f4f7fa;--panel:#fff;
+  --texto:#1f2933;--muted:#66788a;--borde:#d9e2ec;--amarillo:#fff7d6;--rojo:#943434;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--fondo);color:var(--texto);line-height:1.5}
+header{background:linear-gradient(135deg,var(--azul),var(--azul2));color:#fff;padding:22px 18px}
+.header-wrap,.container{max-width:1100px;margin:auto}
+.institution{display:flex;align-items:center;gap:18px}
+.institution-logo{width:92px;height:92px;object-fit:contain;border-radius:14px;flex:0 0 auto}
+.institution-text{min-width:0}
+h1{font-size:clamp(1.45rem,3vw,2rem);margin:4px 0 8px}
+h2{font-size:1.25rem;color:var(--azul);margin:0 0 12px}
+h3{font-size:1.05rem;margin:18px 0 8px}
+.subtitle{opacity:.96;margin:0}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}
+.meta div{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);padding:9px 10px;border-radius:10px}
+.progress-shell{position:sticky;top:0;z-index:10;background:rgba(244,247,250,.96);border-bottom:1px solid var(--borde);padding:10px 18px;backdrop-filter:blur(6px)}
+.progress-inner{max-width:1100px;margin:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.progressbar{height:12px;flex:1;min-width:180px;background:#dce5ee;border-radius:999px;overflow:hidden}
+.progressbar span{display:block;height:100%;width:0;background:var(--verde);transition:width .2s ease}
+.progress-text{font-weight:700;color:var(--azul)}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:.9rem;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;background:#b0bec9} .dot.saved{background:#3c8a67}
+.container{padding:18px}
+.card{background:var(--panel);border:1px solid var(--borde);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 3px 10px rgba(24,59,102,.05)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+label{font-weight:700;display:block;margin:8px 0 6px}
+input[type=text],input[type=number],select,textarea{
+ width:100%;padding:11px 12px;border:1px solid #b8c6d4;border-radius:9px;background:#fff;font:inherit;color:var(--texto)
+}
+textarea{min-height:92px;resize:vertical}
+textarea.code{font-family:Consolas,"Courier New",monospace;min-height:260px;tab-size:4;white-space:pre}
+input:focus,select:focus,textarea:focus,button:focus{outline:3px solid rgba(36,89,143,.22);outline-offset:2px}
+.badge{display:inline-block;font-size:.82rem;font-weight:700;border-radius:999px;padding:5px 9px;margin-right:5px;background:#e8f0f8;color:var(--azul)}
+.badge.mon{background:#e9f5ee;color:#245a48} .badge.fri{background:#fff1d6;color:#805b16}
+.note{border-left:5px solid var(--azul2);background:#eef5fb;padding:12px 14px;border-radius:8px;margin:12px 0}
+.warn{border-left-color:#c58b16;background:var(--amarillo)} .oknote{border-left-color:var(--verde);background:#edf8f3}
+.cnb{background:#f7f9fc;border:1px dashed #a8bacb;padding:12px;border-radius:10px}
+.step{border-left:4px solid var(--azul2);padding:4px 0 4px 14px;margin:15px 0}
+.question{padding:12px;background:#fafbfd;border:1px solid var(--borde);border-radius:10px;margin:10px 0}
+.checkline{display:flex;gap:10px;align-items:flex-start;margin:9px 0;font-weight:400}
+.checkline input{margin-top:4px;transform:scale(1.2)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.flow div{background:#eef3f8;border:1px solid var(--borde);border-radius:10px;padding:12px;text-align:center;font-weight:700;color:var(--azul)}
+.arrow{display:none}
+.code-example{background:#17202a;color:#f7f9fb;border-radius:10px;padding:14px;overflow-x:auto;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{border:0;padding:11px 15px;border-radius:9px;font:inherit;font-weight:700;cursor:pointer;background:var(--azul);color:#fff}
+button.secondary{background:#53687a} button.success{background:var(--verde)} button.danger{background:#8b3434}
+button:disabled{opacity:.48;cursor:not-allowed}
+.small{font-size:.88rem;color:var(--muted)} .reqmark{color:#a63b3b} .hidden{display:none!important}
+.receipt-preview{border:2px dashed #91a6b8;padding:14px;border-radius:10px;background:#fbfcfe;margin-top:12px}
+table{width:100%;border-collapse:collapse;margin-top:10px} th,td{border:1px solid var(--borde);padding:9px;text-align:left;vertical-align:top} th{background:#eef3f8;color:var(--azul)}
+footer{max-width:1100px;margin:0 auto;padding:6px 18px 28px;color:var(--muted);font-size:.86rem}
+@media(max-width:720px){.grid2,.grid3{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.institution{flex-direction:column;text-align:center}.institution-logo{width:80px;height:80px}.flow{grid-template-columns:1fr}}
+@media print{
+ body *{visibility:hidden!important}
+ #printReceipt,#printReceipt *{visibility:visible!important}
+ #printReceipt{display:block!important;position:absolute;left:0;top:0;width:100%;padding:24px;color:#000;background:#fff}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="header-wrap">
+  <div class="institution">
+    <img src="data:image/png;base64,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" class="institution-logo" alt="Logotipo JRB">
+    <div class="institution-text">
+      <div class="subtitle">Colegio de Informática Justo Rufino Bautista</div>
+      <h1>Guía No. 1 — De un problema a un programa</h1>
+      <p class="subtitle">Laboratorio I — 4.º Bachillerato en Ciencias y Letras con Orientación en Computación</p>
+    </div>
+  </div>
+  <div class="meta">
+    <div><strong>Unidad:</strong><br>V Unidad</div>
+    <div><strong>Inicio:</strong><br>Lunes 24/08/2026</div>
+    <div><strong>Cierre:</strong><br>Viernes 28/08/2026</div>
+    <div><strong>Horario:</strong><br>10:10–10:50</div>
+    <div><strong>Valor:</strong><br>10 puntos</div>
+  </div>
+</div>
+</header>
+
+<div class="progress-shell">
+<div class="progress-inner">
+  <span class="progress-text" id="progressText">Avance: 0%</span>
+  <div class="progressbar"><span id="progressBar"></span></div>
+  <span class="status"><span class="dot" id="saveDot"></span><span id="saveStatus">Preparando autoguardado…</span></span>
+</div>
+</div>
+
+<main class="container">
+
+<section class="card">
+<h2>Datos del estudiante</h2>
+<div class="grid3">
+  <div><label for="studentName">Nombre completo <span class="reqmark">*</span></label><input id="studentName" data-save data-required type="text"></div>
+  <div><label for="section">Sección <span class="reqmark">*</span></label><input id="section" data-save data-required type="text" placeholder="Ej. A"></div>
+  <div><label for="studentCode">Código o número de lista</label><input id="studentCode" data-save type="text"></div>
+</div>
+<p class="small">Tu avance se guarda localmente en este navegador. No se envía información a un servidor.</p>
+</section>
+
+<section class="card">
+<h2>Vinculación curricular y propósito de la guía</h2>
+<div class="cnb">
+<p>El descriptor de <strong>Laboratorio I</strong> establece un enfoque eminentemente práctico: el aprendizaje debe surgir de la experimentación con herramientas computacionales y de la capacidad del estudiante para introducir instrucciones de manera que la computadora realice exactamente lo esperado.</p>
+<p>En esta guía iniciaremos una <strong>transición institucional hacia pensamiento algorítmico y programación</strong>. Python se utilizará como herramienta práctica para preparar progresivamente los aprendizajes de <strong>Laboratorio II</strong>, donde el CNB sí contempla de forma explícita resolución de problemas mediante programación, construcción y depuración de programas, arreglos, procedimientos, funciones y manejo de archivos.</p>
+<p><strong>Propósito:</strong> transformar un problema sencillo en una secuencia ordenada de instrucciones y convertirla después en un programa funcional.</p>
+</div>
+</section>
+
+<section class="card">
+<h2>Idea clave</h2>
+<div class="flow">
+  <div>1. PROBLEMA</div>
+  <div>2. ENTRADA</div>
+  <div>3. PROCESO</div>
+  <div>4. SALIDA</div>
+</div>
+<div class="note">Antes de escribir código debes poder explicar qué datos necesita el programa, qué debe hacer con ellos y qué resultado debe mostrar.</div>
+</section>
+
+<section class="card">
+<span class="badge mon">LUNES</span><span class="badge">CUADERNO</span>
+<h2>Sección 1 — Pensamiento previo — 2 pts</h2>
+
+<div class="question">
+<strong>1.</strong> ¿Qué entiendes por algoritmo? Escribe un ejemplo de la vida cotidiana que tenga pasos ordenados.
+<label class="checkline"><input id="nb1" data-save data-required type="checkbox"> Respondí esta pregunta en mi cuaderno.</label>
+</div>
+
+<div class="question">
+<strong>2.</strong> ¿Por qué una computadora necesita instrucciones precisas y en un orden definido?
+<label class="checkline"><input id="nb2" data-save data-required type="checkbox"> Respondí esta pregunta en mi cuaderno.</label>
+</div>
+
+<div class="question">
+<strong>3.</strong> Escribe con tus palabras la diferencia entre <strong>entrada</strong>, <strong>proceso</strong> y <strong>salida</strong>.
+<label class="checkline"><input id="nb3" data-save data-required type="checkbox"> Respondí esta pregunta en mi cuaderno.</label>
+</div>
+</section>
+
+<section class="card">
+<span class="badge mon">LUNES</span><span class="badge">CUADERNO + COMPUTADORA</span>
+<h2>Sección 2 — Del problema al algoritmo — 4 pts</h2>
+
+<div class="note">
+<strong>Caso:</strong> El laboratorio necesita estimar cuánto espacio ocupan varios archivos antes de copiarlos a una memoria USB. El programa debe pedir la cantidad de archivos y el tamaño promedio de cada archivo en megabytes, calcular el total y mostrarlo en MB y en GB.
+</div>
+
+<div class="step">
+<h3>Paso 1. Identifica entrada, proceso y salida</h3>
+<label for="inputData">ENTRADA — ¿Qué datos debe solicitar el programa? <span class="reqmark">*</span></label>
+<textarea id="inputData" data-save data-required placeholder="Escribe los datos que tendrá que ingresar el usuario."></textarea>
+
+<label for="processData">PROCESO — ¿Qué operaciones debe realizar? <span class="reqmark">*</span></label>
+<textarea id="processData" data-save data-required placeholder="Describe las operaciones necesarias, todavía sin escribir Python."></textarea>
+
+<label for="outputData">SALIDA — ¿Qué resultados debe mostrar? <span class="reqmark">*</span></label>
+<textarea id="outputData" data-save data-required placeholder="Escribe qué información deberá aparecer al final."></textarea>
+
+<label class="checkline"><input id="nbIPO" data-save data-required type="checkbox"> Copié en mi cuaderno el esquema Entrada → Proceso → Salida de este problema.</label>
+</div>
+
+<div class="step">
+<h3>Paso 2. Escribe el algoritmo en lenguaje natural</h3>
+<p>Redacta entre 5 y 8 pasos. Cada paso debe representar una acción concreta y estar en el orden correcto.</p>
+<label for="naturalAlgorithm">Algoritmo <span class="reqmark">*</span></label>
+<textarea id="naturalAlgorithm" data-save data-required style="min-height:160px" placeholder="1. Solicitar...&#10;2. Guardar...&#10;3. Calcular..."></textarea>
+<label class="checkline"><input id="nbAlgorithm" data-save data-required type="checkbox"> También escribí el algoritmo en mi cuaderno.</label>
+</div>
+
+<div class="step">
+<h3>Paso 3. Conviértelo en pseudocódigo</h3>
+<p>Utiliza palabras sencillas como <strong>INICIO, LEER, CALCULAR, MOSTRAR y FIN</strong>. El objetivo es ordenar la lógica antes de preocuparnos por la sintaxis de Python.</p>
+<label for="pseudocode">Pseudocódigo <span class="reqmark">*</span></label>
+<textarea id="pseudocode" data-save data-required class="code" placeholder="INICIO&#10;  LEER ...&#10;  CALCULAR ...&#10;  MOSTRAR ...&#10;FIN"></textarea>
+<label class="checkline"><input id="nbPseudo" data-save data-required type="checkbox"> Dejé el pseudocódigo registrado en mi cuaderno.</label>
+</div>
+</section>
+
+<section class="card">
+<span class="badge fri">VIERNES</span><span class="badge">COMPUTADORA</span>
+<h2>Continuación — Nuestro primer programa en Python</h2>
+
+<div class="step">
+<h3>Paso 4. Conoce cuatro elementos básicos</h3>
+<p><strong>Mostrar un mensaje:</strong></p>
+<div class="code-example">print("Hola")</div>
+
+<p><strong>Solicitar información:</strong></p>
+<div class="code-example">nombre = input("Escribe tu nombre: ")</div>
+
+<p><strong>Convertir una entrada a número entero:</strong></p>
+<div class="code-example">cantidad = int(input("Cantidad de archivos: "))</div>
+
+<p><strong>Realizar un cálculo:</strong></p>
+<div class="code-example">total_mb = cantidad * tamano_promedio</div>
+
+<div class="note warn">No copies líneas sin comprenderlas. Antes de escribir cada línea debes poder indicar qué entrada recibe, qué dato guarda o qué operación realiza.</div>
+</div>
+
+<div class="step">
+<h3>Paso 5. Construye el programa</h3>
+<p>Crea un archivo nuevo en Python llamado <strong>estimador_almacenamiento.py</strong>. Tu programa debe:</p>
+<ol>
+<li>mostrar un título o mensaje inicial;</li>
+<li>pedir la cantidad de archivos;</li>
+<li>pedir el tamaño promedio de cada archivo en MB;</li>
+<li>calcular el espacio total en MB;</li>
+<li>convertir el resultado a GB utilizando <strong>1024 MB = 1 GB</strong>;</li>
+<li>mostrar ambos resultados de forma comprensible.</li>
+</ol>
+
+<label for="pythonCode">Pega aquí tu código final <span class="reqmark">*</span></label>
+<textarea id="pythonCode" data-save data-required class="code" spellcheck="false" placeholder="# Escribe tu programa en el editor de Python y pega aquí la versión final."></textarea>
+
+<div class="actions">
+<button type="button" class="secondary" id="loadPy">Cargar archivo .py</button>
+<input id="pyFile" class="hidden" type="file" accept=".py,text/x-python,text/plain">
+</div>
+
+<label class="checkline"><input id="programRuns" data-save data-required type="checkbox"> Ejecuté mi programa y funciona sin errores con al menos dos pruebas diferentes.</label>
+</div>
+
+<div class="step">
+<h3>Paso 6. Prueba de escritorio</h3>
+<p>Registra dos pruebas. No utilices exactamente los mismos valores.</p>
+<div class="grid2">
+  <div>
+    <label for="test1">Prueba 1 — Entrada y resultado <span class="reqmark">*</span></label>
+    <textarea id="test1" data-save data-required placeholder="Ej. 20 archivos, 50 MB → ..."></textarea>
+  </div>
+  <div>
+    <label for="test2">Prueba 2 — Entrada y resultado <span class="reqmark">*</span></label>
+    <textarea id="test2" data-save data-required></textarea>
+  </div>
+</div>
+<label class="checkline"><input id="nbTests" data-save data-required type="checkbox"> Registré las dos pruebas de escritorio en mi cuaderno.</label>
+</div>
+</section>
+
+<section class="card">
+<span class="badge fri">VIERNES</span>
+<h2>Sección 3 — Reto de comprensión — 2 pts</h2>
+<div class="note">Este reto permite comprobar que entendiste el programa y no únicamente copiaste instrucciones.</div>
+
+<p>Modifica tu programa para que también solicite el <strong>espacio disponible de la memoria USB en GB</strong>. Sin utilizar todavía condicionales, calcula y muestra cuánto espacio quedaría libre después de copiar los archivos.</p>
+
+<label for="challengeExplanation">Antes de modificar el código, explica qué nueva entrada y qué nueva operación necesitas <span class="reqmark">*</span></label>
+<textarea id="challengeExplanation" data-save data-required></textarea>
+
+<label for="challengeCode">Pega la versión modificada del programa <span class="reqmark">*</span></label>
+<textarea id="challengeCode" data-save data-required class="code" spellcheck="false"></textarea>
+
+<label class="checkline"><input id="challengeRuns" data-save data-required type="checkbox"> Probé la modificación y comprobé que el espacio libre se calcula correctamente.</label>
+</section>
+
+<section class="card">
+<span class="badge fri">VIERNES</span>
+<h2>Registro de depuración</h2>
+<p>Todo programador encuentra errores. Si encontraste uno, documenta qué sucedió y cómo lo corregiste. Si tu programa funcionó en el primer intento, escribe <strong>“No se presentó un error durante las pruebas”</strong> y explica qué verificaste.</p>
+<div class="grid3">
+<div><label for="errorFound">Error o problema encontrado <span class="reqmark">*</span></label><textarea id="errorFound" data-save data-required></textarea></div>
+<div><label for="errorEffect">¿Qué ocurría? <span class="reqmark">*</span></label><textarea id="errorEffect" data-save data-required></textarea></div>
+<div><label for="errorSolution">¿Cómo lo corregiste o verificaste? <span class="reqmark">*</span></label><textarea id="errorSolution" data-save data-required></textarea></div>
+</div>
+<label class="checkline"><input id="nbDebug" data-save data-required type="checkbox"> Registré también esta experiencia de depuración en mi cuaderno.</label>
+</section>
+
+<section class="card">
+<span class="badge fri">VIERNES</span>
+<h2>Sección 4 — Autoevaluación — 1 pt</h2>
+<label for="bestPart">¿Qué parte comprendiste mejor? <span class="reqmark">*</span></label>
+<select id="bestPart" data-save data-required>
+<option value="">Selecciona</option>
+<option>Identificar entrada, proceso y salida</option>
+<option>Escribir el algoritmo</option>
+<option>Crear pseudocódigo</option>
+<option>Usar print() e input()</option>
+<option>Trabajar con variables</option>
+<option>Realizar cálculos en Python</option>
+<option>Probar y corregir el programa</option>
+</select>
+
+<label for="needPractice">¿Qué necesitas practicar más y por qué? <span class="reqmark">*</span></label>
+<textarea id="needPractice" data-save data-required></textarea>
+</section>
+
+<section class="card">
+<span class="badge fri">VIERNES</span><span class="badge">CUADERNO + COMPUTADORA</span>
+<h2>Sección 5 — Reflexión final — 1 pt</h2>
+<div class="question"><strong>¿Por qué conviene comprender primero el problema y diseñar un algoritmo antes de comenzar a escribir código?</strong></div>
+<p>Responde en tu cuaderno en 4 a 6 líneas.</p>
+<label class="checkline"><input id="nbReflection" data-save data-required type="checkbox"> Escribí la reflexión completa en mi cuaderno.</label>
+
+<label for="reflectionKey">Resume aquí la idea principal de tu respuesta <span class="reqmark">*</span></label>
+<textarea id="reflectionKey" data-save data-required></textarea>
+</section>
+
+<section class="card">
+<h2>Control de entrega y comprobante</h2>
+<div class="note oknote">El comprobante acredita que completaste los registros de la guía. El docente revisará además el cuaderno y el programa funcional. <strong>El comprobante no representa la nota final.</strong></div>
+<div id="missingBox" class="note warn">Completa los campos obligatorios para habilitar el comprobante.</div>
+
+<div class="actions">
+<button type="button" class="secondary" id="downloadBackup">Descargar respaldo JSON</button>
+<button type="button" class="secondary" id="loadBackup">Cargar respaldo JSON</button>
+<input id="backupFile" class="hidden" type="file" accept=".json,application/json">
+<button type="button" class="success" id="downloadReceipt" disabled>Descargar comprobante PDF</button>
+<button type="button" id="printReceiptBtn" disabled>Imprimir / Guardar como PDF</button>
+<button type="button" class="danger" id="clearData">Borrar mis datos</button>
+</div>
+<div id="receiptPreview" class="receipt-preview hidden" aria-live="polite"></div>
+</section>
+
+<section class="card">
+<h2>Rúbrica de evaluación — 10 puntos</h2>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Criterio</th><th>Excelente</th><th>Aceptable</th><th>Deficiente</th></tr></thead>
+<tbody>
+<tr><td><strong>Pensamiento previo — 2 pts</strong></td><td>2 pts: responde las tres preguntas y diferencia correctamente entrada, proceso y salida.</td><td>1 pt: presenta respuestas incompletas o confunde algunos conceptos.</td><td>0 pts: no presenta el registro.</td></tr>
+<tr><td><strong>Algoritmo y programa — 4 pts</strong></td><td>4 pts: diseña algoritmo y pseudocódigo coherentes y construye un programa funcional que calcula MB y GB.</td><td>2 pts: el programa funciona parcialmente o existe poca correspondencia entre algoritmo y código.</td><td>0 pts: no presenta algoritmo ni programa funcional.</td></tr>
+<tr><td><strong>Reto y comprensión — 2 pts</strong></td><td>2 pts: modifica el programa, calcula el espacio restante y demuestra comprensión mediante pruebas.</td><td>1 pt: realiza una modificación parcial o con errores de cálculo.</td><td>0 pts: no realiza el reto.</td></tr>
+<tr><td><strong>Autoevaluación y reflexión — 2 pts</strong></td><td>2 pts: completa ambas secciones y explica con claridad la relación entre problema, algoritmo y código.</td><td>1 pt: completa solo una parte o responde superficialmente.</td><td>0 pts: no completa las actividades.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+</main>
+
+<div id="printReceipt" class="hidden"></div>
+<footer>Guía No. 1 — Laboratorio I — Introducción progresiva al pensamiento algorítmico y programación.</footer>
+
+<script>
+(function(){
+"use strict";
+const GUIDE_KEY="jrb_lab1_guia01_programacion_20260824_v1";
+const RECEIPT_PREFIX="JRB-LAB1-G01";
+const $=id=>document.getElementById(id);
+const saveFields=Array.from(document.querySelectorAll("[data-save]"));
+const requiredFields=Array.from(document.querySelectorAll("[data-required]"));
+let saveTimer=null,storageMode="indexeddb";
+
+function valueOf(el){return el.type==="checkbox"?el.checked:el.value}
+function setValue(el,v){if(el.type==="checkbox")el.checked=Boolean(v);else if(v!==undefined&&v!==null)el.value=v}
+function collectData(){
+ const d={};saveFields.forEach(el=>d[el.id]=valueOf(el));
+ d._updatedAt=new Date().toISOString();d._receiptCode=window.__receiptCode||"";return d;
+}
+function restoreData(d){
+ if(!d||typeof d!=="object")return;
+ saveFields.forEach(el=>{if(Object.prototype.hasOwnProperty.call(d,el.id))setValue(el,d[el.id])});
+ if(d._receiptCode)window.__receiptCode=d._receiptCode;updateProgress();
+}
+function openDB(){
+ return new Promise((resolve,reject)=>{
+   if(!("indexedDB" in window))return reject(new Error("IndexedDB no disponible"));
+   const req=indexedDB.open("JRBGuiasDB",1);
+   req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains("guias"))db.createObjectStore("guias")};
+   req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error("DB"));
+ });
+}
+async function dbSave(d){
+ const db=await openDB();return new Promise((resolve,reject)=>{
+   const tx=db.transaction("guias","readwrite");tx.objectStore("guias").put(d,GUIDE_KEY);
+   tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)};
+ });
+}
+async function dbLoad(){
+ const db=await openDB();return new Promise((resolve,reject)=>{
+   const tx=db.transaction("guias","readonly"),req=tx.objectStore("guias").get(GUIDE_KEY);
+   req.onsuccess=()=>{const r=req.result;db.close();resolve(r)};req.onerror=()=>{db.close();reject(req.error)};
+ });
+}
+function localSave(d){localStorage.setItem(GUIDE_KEY,JSON.stringify(d))}
+function localLoad(){const r=localStorage.getItem(GUIDE_KEY);return r?JSON.parse(r):null}
+async function saveAll(){
+ const d=collectData();$("saveStatus").textContent="Guardando…";$("saveDot").classList.remove("saved");
+ try{if(storageMode==="indexeddb")await dbSave(d);else localSave(d);$("saveStatus").textContent="Guardado automáticamente";$("saveDot").classList.add("saved")}
+ catch(e){try{storageMode="local";localSave(d);$("saveStatus").textContent="Guardado local de respaldo";$("saveDot").classList.add("saved")}catch(_){$("saveStatus").textContent="No se pudo guardar"}}
+}
+function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,350)}
+function isComplete(el){if(el.type==="checkbox")return el.checked;return String(el.value||"").trim().length>0}
+function updateProgress(){
+ const done=requiredFields.filter(isComplete).length;
+ const pct=Math.round(done/requiredFields.length*100);
+ const complete=done===requiredFields.length;
+ $("progressText").textContent="Avance: "+pct+"%";$("progressBar").style.width=pct+"%";
+ $("downloadReceipt").disabled=!complete;$("printReceiptBtn").disabled=!complete;
+ if(complete){$("missingBox").className="note oknote";$("missingBox").textContent="Actividad completa. Ya puedes generar el comprobante."}
+ else{$("missingBox").className="note warn";$("missingBox").textContent="Faltan "+(requiredFields.length-done)+" campos o confirmaciones obligatorias."}
+}
+saveFields.forEach(el=>["input","change"].forEach(evt=>el.addEventListener(evt,()=>{updateProgress();scheduleSave()})));
+
+async function initialLoad(){
+ try{let d=null;try{d=await dbLoad()}catch(e){storageMode="local";d=localLoad()}
+ if(d)restoreData(d);$("saveStatus").textContent=d?"Datos recuperados":"Autoguardado listo";$("saveDot").classList.add("saved")}
+ catch(e){$("saveStatus").textContent="Autoguardado limitado"}updateProgress();
+}
+
+$("loadPy").addEventListener("click",()=>$("pyFile").click());
+$("pyFile").addEventListener("change",()=>{
+ const f=$("pyFile").files&&$("pyFile").files[0];if(!f)return;
+ if(!f.name.toLowerCase().endsWith(".py")){alert("Selecciona un archivo con extensión .py");$("pyFile").value="";return}
+ const reader=new FileReader();
+ reader.onload=()=>{$("pythonCode").value=String(reader.result||"");$("pythonCode").dispatchEvent(new Event("input",{bubbles:true}));$("pyFile").value=""};
+ reader.onerror=()=>{alert("No se pudo leer el archivo.");$("pyFile").value=""};
+ reader.readAsText(f);
+});
+
+function safe(v){return String(v||"").replace(/[<>]/g,"")}
+function receiptCode(){
+ if(window.__receiptCode)return window.__receiptCode;
+ const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let s="";
+ for(let i=0;i<6;i++)s+=chars[Math.floor(Math.random()*chars.length)];
+ window.__receiptCode=RECEIPT_PREFIX+"-20260828-"+s;scheduleSave();return window.__receiptCode;
+}
+function receiptData(){
+ return{code:receiptCode(),student:safe($("studentName").value.trim()),section:safe($("section").value.trim()),
+ studentCode:safe($("studentCode").value.trim()),date:new Date().toLocaleString("es-GT"),
+ best:safe($("bestPart").value),reflection:safe($("reflectionKey").value.trim())};
+}
+function showPreview(){
+ const r=receiptData(),b=$("receiptPreview");
+ b.innerHTML="<strong>COMPROBANTE DE FINALIZACIÓN</strong><br>Código: <strong>"+r.code+"</strong><br>"+
+ "Estudiante: "+r.student+" — Sección "+r.section+"<br>Curso: Laboratorio I — 4.º Bachillerato en Computación<br>"+
+ "Guía No. 1: De un problema a un programa<br>Programa desarrollado: estimador_almacenamiento.py<br>"+
+ "Fecha de generación: "+r.date+"<br><br><span class='small'>El docente revisará cuaderno y programa funcional antes de asignar la calificación.</span>";
+ b.classList.remove("hidden");return r;
+}
+function cp1252Bytes(str){
+ const map={0x20AC:0x80,0x2018:0x91,0x2019:0x92,0x201C:0x93,0x201D:0x94,0x2013:0x96,0x2014:0x97};
+ const out=[];for(const ch of str){const c=ch.codePointAt(0);if(c<=255)out.push(c);else if(map[c])out.push(map[c]);else out.push(63)}return new Uint8Array(out);
+}
+function concatBytes(parts){let t=0;parts.forEach(p=>t+=p.length);const o=new Uint8Array(t);let off=0;parts.forEach(p=>{o.set(p,off);off+=p.length});return o}
+function pdfEscape(t){return String(t).replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)")}
+function wrap(text,n){const words=String(text).split(/\s+/),lines=[];let line="";words.forEach(w=>{if(!line)line=w;else if((line+" "+w).length<=n)line+=" "+w;else{lines.push(line);line=w}});if(line)lines.push(line);return lines}
+function buildPdf(r){
+ const lines=["COLEGIO DE INFORMÁTICA JUSTO RUFINO BAUTISTA","COMPROBANTE DE FINALIZACIÓN","","Curso: Laboratorio I","Grado: 4.º Bachillerato con Orientación en Computación",
+ "Guía No. 1: De un problema a un programa","Periodo: 24 al 28 de agosto de 2026","Valor: 10 puntos","",
+ "Estudiante: "+r.student,"Sección: "+r.section+(r.studentCode?"    Código/lista: "+r.studentCode:""),"Código de comprobante: "+r.code,"Generado: "+r.date,"",
+ "Evidencias registradas:","- Entrada, proceso y salida del problema","- Algoritmo y pseudocódigo","- Programa estimador_almacenamiento.py","- Dos pruebas de escritorio","- Reto de modificación","- Registro de depuración","- Autoevaluación y reflexión","",
+ "Aspecto que el estudiante indica dominar mejor: "+r.best,"","Idea principal de la reflexión:"];
+ wrap(r.reflection,78).forEach(x=>lines.push("  "+x));lines.push("","Este comprobante acredita la finalización del registro.","La calificación corresponde al docente según la rúbrica.");
+ const content=["BT","/F1 10 Tf","45 800 Td","13 TL"];lines.forEach((line,i)=>content.push((i?"T* ":"")+"("+pdfEscape(line)+") Tj"));content.push("ET");
+ const stream=content.join("\n"),objs=[];objs[1]="<< /Type /Catalog /Pages 2 0 R >>";objs[2]="<< /Type /Pages /Kids [3 0 R] /Count 1 >>";
+ objs[3]="<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>";
+ objs[4]="<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>";
+ const sb=cp1252Bytes(stream);objs[5]="<< /Length "+sb.length+" >>\nstream\n"+stream+"\nendstream";
+ const header=cp1252Bytes("%PDF-1.4\n%âãÏÓ\n"),parts=[header],offs=[0];let cur=header.length;
+ for(let i=1;i<=5;i++){offs[i]=cur;const bb=cp1252Bytes(i+" 0 obj\n"+objs[i]+"\nendobj\n");parts.push(bb);cur+=bb.length}
+ const xoff=cur;let x="xref\n0 6\n0000000000 65535 f \n";for(let i=1;i<=5;i++)x+=String(offs[i]).padStart(10,"0")+" 00000 n \n";
+ x+="trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n"+xoff+"\n%%EOF";parts.push(cp1252Bytes(x));return concatBytes(parts);
+}
+function downloadBlob(bytes,name,type){
+ const blob=new Blob([bytes],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+$("downloadReceipt").addEventListener("click",()=>{
+ if(requiredFields.some(el=>!isComplete(el))){updateProgress();return}
+ const r=showPreview(),base=(r.student||"estudiante").replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+/g,"_").replace(/^_+|_+$/g,"");
+ downloadBlob(buildPdf(r),"Comprobante_Laboratorio_I_Guia_01_"+base+".pdf","application/pdf");saveAll();
+});
+$("printReceiptBtn").addEventListener("click",()=>{
+ if(requiredFields.some(el=>!isComplete(el)))return;
+ const r=showPreview();$("printReceipt").innerHTML="<h1>Comprobante de finalización</h1><p><strong>Colegio de Informática Justo Rufino Bautista</strong></p>"+
+ "<p><strong>Estudiante:</strong> "+r.student+"<br><strong>Curso:</strong> Laboratorio I — 4.º Bachillerato en Computación<br>"+
+ "<strong>Guía No. 1:</strong> De un problema a un programa<br><strong>Código:</strong> "+r.code+"<br><strong>Generado:</strong> "+r.date+"</p>"+
+ "<p>Programa desarrollado: <strong>estimador_almacenamiento.py</strong></p><p><em>La calificación final corresponde al docente.</em></p>";
+ $("printReceipt").classList.remove("hidden");window.print();setTimeout(()=>$("printReceipt").classList.add("hidden"),500);
+});
+$("downloadBackup").addEventListener("click",()=>{
+ const txt=JSON.stringify({guide:GUIDE_KEY,version:1,data:collectData()},null,2);
+ downloadBlob(new TextEncoder().encode(txt),"Respaldo_Laboratorio_I_Guia_01.json","application/json");
+});
+$("loadBackup").addEventListener("click",()=>$("backupFile").click());
+$("backupFile").addEventListener("change",()=>{
+ const f=$("backupFile").files&&$("backupFile").files[0];if(!f)return;
+ const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(String(rd.result));restoreData(o.data||o);saveAll();alert("Respaldo cargado correctamente.")}
+ catch(e){alert("El archivo no es un respaldo válido.")}$("backupFile").value=""};rd.readAsText(f);
+});
+$("clearData").addEventListener("click",async()=>{
+ if(!confirm("¿Deseas borrar todas tus respuestas guardadas en esta guía?"))return;
+ saveFields.forEach(el=>{if(el.type==="checkbox")el.checked=false;else if(el.tagName==="SELECT")el.selectedIndex=0;else el.value=""});
+ window.__receiptCode="";
+ try{const db=await openDB(),tx=db.transaction("guias","readwrite");tx.objectStore("guias").delete(GUIDE_KEY);tx.oncomplete=()=>db.close()}catch(e){}
+ try{localStorage.removeItem(GUIDE_KEY)}catch(e){}
+ updateProgress();$("receiptPreview").classList.add("hidden");$("saveStatus").textContent="Datos borrados";$("saveDot").classList.remove("saved");
+});
+initialLoad();
+})();
+</script>
+</body>
+</html>

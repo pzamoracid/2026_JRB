@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.º Básico TAC - Investigación segura en Internet</title>
+<style>
+:root{
+  --azul:#183b66;--azul2:#24598f;--verde:#2f6f5e;--fondo:#f4f7fa;--panel:#fff;
+  --texto:#1f2933;--muted:#66788a;--borde:#d9e2ec;--amarillo:#fff7d6;--rojo:#9f2f2f;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--fondo);color:var(--texto);line-height:1.5}
+header{background:linear-gradient(135deg,var(--azul),var(--azul2));color:#fff;padding:22px 18px}
+.header-wrap,.container{max-width:1100px;margin:auto}
+.institution{display:flex;align-items:center;gap:18px}
+.institution-logo{width:92px;height:92px;object-fit:contain;border-radius:14px;flex:0 0 auto}
+.institution-text{min-width:0}
+h1{font-size:clamp(1.45rem,3vw,2rem);margin:4px 0 8px}
+h2{font-size:1.25rem;color:var(--azul);margin:0 0 12px}
+h3{font-size:1.05rem;margin:18px 0 8px}
+.subtitle{opacity:.96;margin:0}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}
+.meta div{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);padding:9px 10px;border-radius:10px}
+.progress-shell{position:sticky;top:0;z-index:10;background:rgba(244,247,250,.96);border-bottom:1px solid var(--borde);padding:10px 18px;backdrop-filter:blur(6px)}
+.progress-inner{max-width:1100px;margin:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.progressbar{height:12px;flex:1;min-width:180px;background:#dce5ee;border-radius:999px;overflow:hidden}
+.progressbar span{display:block;height:100%;width:0;background:var(--verde);transition:width .2s ease}
+.progress-text{font-weight:700;color:var(--azul)}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:.9rem;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;background:#b0bec9} .dot.saved{background:#3c8a67}
+.container{padding:18px}
+.card{background:var(--panel);border:1px solid var(--borde);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 3px 10px rgba(24,59,102,.05)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+label{font-weight:700;display:block;margin:8px 0 6px}
+input[type="text"],input[type="number"],input[type="url"],select,textarea{
+ width:100%;padding:11px 12px;border:1px solid #b8c6d4;border-radius:9px;background:#fff;font:inherit;color:var(--texto)
+}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus{outline:3px solid rgba(36,89,143,.22);outline-offset:2px}
+.badge{display:inline-block;font-size:.82rem;font-weight:700;border-radius:999px;padding:5px 9px;margin-right:5px;background:#e8f0f8;color:var(--azul)}
+.badge.mon{background:#e9f5ee;color:#245a48} .badge.wed{background:#ece9f8;color:#554180} .badge.fri{background:#fff1d6;color:#805b16}
+.note{border-left:5px solid var(--azul2);background:#eef5fb;padding:12px 14px;border-radius:8px;margin:12px 0}
+.warn{border-left-color:#c58b16;background:var(--amarillo)} .oknote{border-left-color:var(--verde);background:#edf8f3}
+.cnb{background:#f7f9fc;border:1px dashed #a8bacb;padding:12px;border-radius:10px;font-size:.95rem}
+.step{border-left:4px solid var(--azul2);padding:4px 0 4px 14px;margin:15px 0}
+.question{padding:12px;background:#fafbfd;border:1px solid var(--borde);border-radius:10px;margin:10px 0}
+.checkline{display:flex;gap:10px;align-items:flex-start;margin:9px 0;font-weight:400}
+.checkline input{margin-top:4px;transform:scale(1.2)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{border:0;padding:11px 15px;border-radius:9px;font:inherit;font-weight:700;cursor:pointer;background:var(--azul);color:#fff}
+button.secondary{background:#53687a} button.success{background:var(--verde)} button.danger{background:#8b3434}
+button:disabled{opacity:.48;cursor:not-allowed}
+.small{font-size:.88rem;color:var(--muted)} .reqmark{color:#a63b3b}
+.hidden{display:none!important}
+.receipt-preview{border:2px dashed #91a6b8;padding:14px;border-radius:10px;background:#fbfcfe;margin-top:12px}
+.source-card{border:1px solid var(--borde);border-radius:12px;padding:14px;margin:12px 0;background:#fbfcfe}
+.source-card h3{margin-top:0;color:var(--azul)}
+.criteria{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px}
+.criteria .checkline{margin:4px 0}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid var(--borde);padding:9px;text-align:left;vertical-align:top}
+th{background:#eef3f8;color:var(--azul)}
+footer{max-width:1100px;margin:0 auto;padding:6px 18px 28px;color:var(--muted);font-size:.86rem}
+@media(max-width:720px){.grid2,.grid3,.criteria{grid-template-columns:1fr}}
+@media(max-width:600px){.institution{flex-direction:column;text-align:center}.institution-logo{width:80px;height:80px}}
+@media print{
+ body *{visibility:hidden!important}
+ #printReceipt,#printReceipt *{visibility:visible!important}
+ #printReceipt{display:block!important;position:absolute;left:0;top:0;width:100%;padding:24px;color:#000;background:#fff}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="header-wrap">
+  <div class="institution">
+    <img src="data:image/png;base64,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" class="institution-logo" alt="Logotipo JRB">
+    <div class="institution-text">
+      <div class="subtitle">Colegio de Informática Justo Rufino Bautista</div>
+      <h1>Investigar en Internet: encontrar, comprobar y usar información</h1>
+      <p class="subtitle">Guía interactiva — 2.º Básico — TAC / Computación</p>
+    </div>
+  </div>
+  <div class="meta">
+    <div><strong>Inicio:</strong><br>Lunes 24/08/2026</div>
+    <div><strong>Continuación:</strong><br>Miércoles 26/08/2026</div>
+    <div><strong>Cierre:</strong><br>Viernes 28/08/2026</div>
+    <div><strong>Horario lunes:</strong><br>7:40–8:20</div>
+    <div><strong>Valor:</strong><br>10 puntos</div>
+  </div>
+</div>
+</header>
+
+<div class="progress-shell">
+  <div class="progress-inner">
+    <span class="progress-text" id="progressText">Avance: 0%</span>
+    <div class="progressbar" aria-label="Progreso"><span id="progressBar"></span></div>
+    <span class="status"><span class="dot" id="saveDot"></span><span id="saveStatus">Preparando autoguardado…</span></span>
+  </div>
+</div>
+
+<main class="container" id="app">
+
+<section class="card">
+  <h2>Datos del estudiante</h2>
+  <div class="grid3">
+    <div><label for="studentName">Nombre completo <span class="reqmark">*</span></label><input id="studentName" data-save data-required type="text"></div>
+    <div><label for="section">Sección <span class="reqmark">*</span></label><input id="section" data-save data-required type="text" placeholder="Ej. A"></div>
+    <div><label for="studentCode">Código o número de lista</label><input id="studentCode" data-save type="text"></div>
+  </div>
+  <p class="small">La información se guarda en este navegador. El HTML no envía respuestas a un servidor.</p>
+</section>
+
+<section class="card">
+  <h2>Alineación curricular — CNB Guatemala</h2>
+  <div class="cnb">
+    <p><strong>Competencia 2:</strong> Emplea información por medio de técnicas de investigación en la web de manera precisa, segura, legal y ética.</p>
+    <p><strong>Indicador 2.1:</strong> Selecciona técnicas de investigación de acuerdo con los requerimientos para elaborar diferentes documentos.</p>
+    <p><strong>Indicador 2.2:</strong> Distingue sitios seguros y éticos para la obtención de información gráfica y textual.</p>
+    <p><strong>Indicador 2.3:</strong> Demuestra valores éticos al hacer uso de la información y respeta los derechos de autor.</p>
+    <p><strong>Saberes trabajados:</strong> búsqueda eficiente en Internet; características de un sitio seguro; técnicas para evitar el plagio —parafraseo, resumen, comentario y cita textual—; ciudadanía digital.</p>
+  </div>
+</section>
+
+<section class="card">
+  <span class="badge mon">LUNES</span><span class="badge">CUADERNO</span>
+  <h2>Sección 1 — Saberes previos — 2 pts</h2>
+  <div class="note">Responde a mano en el cuaderno. Después confirma cada registro en esta guía.</div>
+  <div class="question"><strong>1.</strong> Cuando buscas información para una tarea, ¿cómo decides qué página utilizar?
+    <label class="checkline"><input id="nb1" data-save data-required type="checkbox"> Ya respondí esta pregunta en mi cuaderno.</label>
+  </div>
+  <div class="question"><strong>2.</strong> ¿Qué diferencia puede existir entre una página confiable y una que solo intenta llamar tu atención?
+    <label class="checkline"><input id="nb2" data-save data-required type="checkbox"> Ya respondí esta pregunta en mi cuaderno.</label>
+  </div>
+  <div class="question"><strong>3.</strong> ¿Qué significa copiar información de Internet sin mencionar de dónde se obtuvo?
+    <label class="checkline"><input id="nb3" data-save data-required type="checkbox"> Ya respondí esta pregunta en mi cuaderno.</label>
+  </div>
+</section>
+
+<section class="card">
+  <span class="badge mon">LUNES</span><span class="badge">COMPUTADORA</span>
+  <h2>Sección 2 — Investigación segura y responsable — 4 pts</h2>
+
+  <div class="step">
+    <h3>Paso 1. Elige un tema escolar</h3>
+    <label for="topic">Tema de investigación <span class="reqmark">*</span></label>
+    <select id="topic" data-save data-required>
+      <option value="">Selecciona un tema</option>
+      <option>Beneficios y riesgos del uso de redes sociales</option>
+      <option>Uso responsable de la inteligencia artificial para estudiar</option>
+      <option>Seguridad de contraseñas</option>
+      <option>Reciclaje de dispositivos electrónicos</option>
+      <option>Cuidado de la información personal en Internet</option>
+      <option>Otro tema autorizado por el docente</option>
+    </select>
+    <label for="researchGoal">¿Qué quieres averiguar? <span class="reqmark">*</span></label>
+    <textarea id="researchGoal" data-save data-required placeholder="Escribe una pregunta concreta que guíe tu investigación."></textarea>
+  </div>
+
+  <div class="step">
+    <h3>Paso 2. Realiza una búsqueda eficiente</h3>
+    <p>Utiliza palabras clave relacionadas con tu pregunta. No copies la primera respuesta que aparezca. Revisa varias páginas y compara la información.</p>
+    <label for="keywords">Palabras clave utilizadas <span class="reqmark">*</span></label>
+    <input id="keywords" data-save data-required type="text" placeholder="Ej. contraseñas seguras adolescentes">
+    <label class="checkline"><input id="compareSearch" data-save data-required type="checkbox"> Revisé más de un resultado antes de seleccionar mis fuentes.</label>
+  </div>
+
+  <div class="step">
+    <h3>Paso 3. Evalúa tres fuentes</h3>
+    <div class="note warn"><strong>Recuerda:</strong> que una página utilice HTTPS no significa por sí sola que su contenido sea verdadero. También debes revisar quién publica, cuándo se actualizó, para qué fue creada y si la información coincide con otras fuentes.</div>
+
+    <div class="source-card">
+      <h3>Fuente 1</h3>
+      <label for="s1title">Título o nombre del sitio <span class="reqmark">*</span></label><input id="s1title" data-save data-required type="text">
+      <label for="s1url">Dirección web <span class="reqmark">*</span></label><input id="s1url" data-save data-required type="url" placeholder="https://...">
+      <label for="s1who">Autor, institución u organización responsable <span class="reqmark">*</span></label><input id="s1who" data-save data-required type="text">
+      <div class="criteria">
+        <label class="checkline"><input id="s1secure" data-save type="checkbox"> Usa conexión HTTPS.</label>
+        <label class="checkline"><input id="s1author" data-save type="checkbox"> Identifica autor o institución.</label>
+        <label class="checkline"><input id="s1date" data-save type="checkbox"> Presenta fecha o actualización.</label>
+        <label class="checkline"><input id="s1compare" data-save type="checkbox"> Coincide con otra fuente revisada.</label>
+      </div>
+      <label for="s1reason">¿Por qué la consideras útil o confiable? <span class="reqmark">*</span></label><textarea id="s1reason" data-save data-required></textarea>
+    </div>
+
+    <div class="source-card">
+      <h3>Fuente 2</h3>
+      <label for="s2title">Título o nombre del sitio <span class="reqmark">*</span></label><input id="s2title" data-save data-required type="text">
+      <label for="s2url">Dirección web <span class="reqmark">*</span></label><input id="s2url" data-save data-required type="url" placeholder="https://...">
+      <label for="s2who">Autor, institución u organización responsable <span class="reqmark">*</span></label><input id="s2who" data-save data-required type="text">
+      <div class="criteria">
+        <label class="checkline"><input id="s2secure" data-save type="checkbox"> Usa conexión HTTPS.</label>
+        <label class="checkline"><input id="s2author" data-save type="checkbox"> Identifica autor o institución.</label>
+        <label class="checkline"><input id="s2date" data-save type="checkbox"> Presenta fecha o actualización.</label>
+        <label class="checkline"><input id="s2compare" data-save type="checkbox"> Coincide con otra fuente revisada.</label>
+      </div>
+      <label for="s2reason">¿Por qué la consideras útil o confiable? <span class="reqmark">*</span></label><textarea id="s2reason" data-save data-required></textarea>
+    </div>
+
+    <div class="source-card">
+      <h3>Fuente 3</h3>
+      <label for="s3title">Título o nombre del sitio <span class="reqmark">*</span></label><input id="s3title" data-save data-required type="text">
+      <label for="s3url">Dirección web <span class="reqmark">*</span></label><input id="s3url" data-save data-required type="url" placeholder="https://...">
+      <label for="s3who">Autor, institución u organización responsable <span class="reqmark">*</span></label><input id="s3who" data-save data-required type="text">
+      <div class="criteria">
+        <label class="checkline"><input id="s3secure" data-save type="checkbox"> Usa conexión HTTPS.</label>
+        <label class="checkline"><input id="s3author" data-save type="checkbox"> Identifica autor o institución.</label>
+        <label class="checkline"><input id="s3date" data-save type="checkbox"> Presenta fecha o actualización.</label>
+        <label class="checkline"><input id="s3compare" data-save type="checkbox"> Coincide con otra fuente revisada.</label>
+      </div>
+      <label for="s3reason">¿Por qué la consideras útil o confiable? <span class="reqmark">*</span></label><textarea id="s3reason" data-save data-required></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <span class="badge wed">MIÉRCOLES</span><span class="badge">CUADERNO + COMPUTADORA</span>
+  <h2>Continuación — Organiza y utiliza la información</h2>
+
+  <div class="step">
+    <h3>Paso 4. Selecciona información relevante</h3>
+    <p>Elige una idea útil de cada fuente. No copies párrafos completos. Lee, comprende y escribe la idea con tus propias palabras.</p>
+    <label for="idea1">Idea obtenida de la fuente 1 <span class="reqmark">*</span></label><textarea id="idea1" data-save data-required></textarea>
+    <label for="idea2">Idea obtenida de la fuente 2 <span class="reqmark">*</span></label><textarea id="idea2" data-save data-required></textarea>
+    <label for="idea3">Idea obtenida de la fuente 3 <span class="reqmark">*</span></label><textarea id="idea3" data-save data-required></textarea>
+  </div>
+
+  <div class="step">
+    <h3>Paso 5. Practica el parafraseo</h3>
+    <label for="originalIdea">Escribe una idea breve tomada de una de tus fuentes <span class="reqmark">*</span></label>
+    <textarea id="originalIdea" data-save data-required placeholder="No copies un párrafo extenso; utiliza solo una idea breve."></textarea>
+    <label for="paraphrase">Ahora explíquela con tus propias palabras <span class="reqmark">*</span></label>
+    <textarea id="paraphrase" data-save data-required></textarea>
+    <label for="paraphraseSource">Indica de cuál fuente procede <span class="reqmark">*</span></label>
+    <select id="paraphraseSource" data-save data-required>
+      <option value="">Selecciona</option><option>Fuente 1</option><option>Fuente 2</option><option>Fuente 3</option>
+    </select>
+  </div>
+
+  <div class="step">
+    <h3>Paso 6. Deja registro en tu cuaderno</h3>
+    <p>Copia una tabla con las columnas <strong>Fuente / Idea principal / ¿Por qué la considero confiable?</strong> y completa una fila por cada sitio investigado.</p>
+    <label class="checkline"><input id="nbSources" data-save data-required type="checkbox"> Registré las tres fuentes y mis observaciones en el cuaderno.</label>
+  </div>
+</section>
+
+<section class="card">
+  <span class="badge fri">VIERNES</span><span class="badge">COMPUTADORA</span>
+  <h2>Sección 3 — Producto final y comprensión — 2 pts</h2>
+
+  <div class="step">
+    <h3>Paso 7. Redacta un miniinforme</h3>
+    <p>Redacta un texto de aproximadamente <strong>120 a 180 palabras</strong>. Debe responder tu pregunta de investigación usando las ideas que comprobaste. No pegues fragmentos completos de las páginas consultadas.</p>
+    <label for="finalReport">Miniinforme <span class="reqmark">*</span></label>
+    <textarea id="finalReport" data-save data-required style="min-height:190px"></textarea>
+    <div class="small" id="wordCounter">Palabras: 0</div>
+  </div>
+
+  <div class="step">
+    <h3>Paso 8. Comprensión en el cuaderno</h3>
+    <ol>
+      <li>¿Por qué no debemos confiar automáticamente en el primer resultado de una búsqueda?</li>
+      <li>¿Qué criterios utilizaste para decidir si una fuente era adecuada?</li>
+      <li>¿Cuál es la diferencia entre copiar y parafrasear?</li>
+    </ol>
+    <label class="checkline"><input id="nbUnderstanding" data-save data-required type="checkbox"> Respondí las tres preguntas en mi cuaderno.</label>
+  </div>
+</section>
+
+<section class="card">
+  <span class="badge fri">VIERNES</span>
+  <h2>Sección 4 — Autoevaluación — 1 pt</h2>
+  <label for="bestSkill">¿Qué lograste hacer mejor? <span class="reqmark">*</span></label>
+  <select id="bestSkill" data-save data-required>
+    <option value="">Selecciona</option>
+    <option>Buscar con palabras clave</option>
+    <option>Comparar sitios web</option>
+    <option>Identificar quién publica la información</option>
+    <option>Parafrasear</option>
+    <option>Redactar una conclusión con varias fuentes</option>
+  </select>
+  <label for="improveSkill">¿Qué necesitas mejorar? <span class="reqmark">*</span></label>
+  <textarea id="improveSkill" data-save data-required></textarea>
+</section>
+
+<section class="card">
+  <span class="badge fri">VIERNES</span><span class="badge">CUADERNO + COMPUTADORA</span>
+  <h2>Sección 5 — Reflexión final — 1 pt</h2>
+  <p><strong>En el cuaderno:</strong> responde en 4 a 6 líneas: ¿Qué problemas puede causar utilizar o compartir información de Internet sin verificarla y sin respetar a su autor?</p>
+  <label class="checkline"><input id="nbReflection" data-save data-required type="checkbox"> Escribí la reflexión completa en mi cuaderno.</label>
+  <label for="reflectionKey">Idea principal de tu reflexión <span class="reqmark">*</span></label>
+  <textarea id="reflectionKey" data-save data-required placeholder="Resume tu idea principal en 2 o 3 líneas."></textarea>
+</section>
+
+<section class="card">
+  <h2>Control de entrega y comprobante</h2>
+  <div class="note oknote">El comprobante acredita que completaste los registros de la guía. <strong>No es la nota final</strong>; el docente calificará el cuaderno y el trabajo digital con la rúbrica.</div>
+  <div id="missingBox" class="note warn">Completa los campos obligatorios para habilitar el comprobante.</div>
+  <div class="actions">
+    <button type="button" class="secondary" id="downloadBackup">Descargar respaldo JSON</button>
+    <button type="button" class="secondary" id="loadBackup">Cargar respaldo JSON</button>
+    <input type="file" id="backupFile" accept=".json,application/json" class="hidden">
+    <button type="button" class="success" id="downloadReceipt" disabled>Descargar comprobante PDF</button>
+    <button type="button" id="printReceiptBtn" disabled>Imprimir / Guardar como PDF</button>
+    <button type="button" class="danger" id="clearData">Borrar mis datos</button>
+  </div>
+  <div id="receiptPreview" class="receipt-preview hidden" aria-live="polite"></div>
+</section>
+
+<section class="card">
+  <h2>Rúbrica de evaluación — 10 puntos</h2>
+  <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Criterio</th><th>Excelente</th><th>Aceptable</th><th>Deficiente</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Saberes previos — 2 pts</strong></td><td>2 pts: responde las tres preguntas en el cuaderno con ideas claras.</td><td>1 pt: respuestas incompletas o superficiales.</td><td>0 pts: no presenta el registro.</td></tr>
+        <tr><td><strong>Investigación segura — 4 pts</strong></td><td>4 pts: define su búsqueda, registra y evalúa tres fuentes, compara información y realiza el parafraseo.</td><td>2 pts: presenta fuentes pero la evaluación o el uso ético de la información está incompleto.</td><td>0 pts: no presenta la investigación.</td></tr>
+        <tr><td><strong>Producto y comprensión — 2 pts</strong></td><td>2 pts: redacta el miniinforme con información comprobada y responde la comprensión en el cuaderno.</td><td>1 pt: producto incompleto o poco relacionado con las fuentes.</td><td>0 pts: no presenta el producto.</td></tr>
+        <tr><td><strong>Autoevaluación y reflexión — 2 pts</strong></td><td>2 pts: completa ambas actividades y relaciona sus respuestas con seguridad, ética y derechos de autor.</td><td>1 pt: completa solo una parte o responde de forma muy breve.</td><td>0 pts: no completa las actividades.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+<div id="printReceipt" class="hidden"></div>
+<footer>Guía semanal: lunes, miércoles y viernes. Autoguardado local en el navegador del equipo utilizado.</footer>
+
+<script>
+(function(){
+"use strict";
+const GUIDE_KEY="jrb_2basico_tac_investigacion_20260824_v1";
+const $=id=>document.getElementById(id);
+const saveFields=Array.from(document.querySelectorAll("[data-save]"));
+const requiredFields=Array.from(document.querySelectorAll("[data-required]"));
+let saveTimer=null,storageMode="indexeddb";
+
+function valueOf(el){return el.type==="checkbox"?el.checked:el.value}
+function setValue(el,v){if(el.type==="checkbox")el.checked=Boolean(v);else if(v!==undefined&&v!==null)el.value=v}
+function collectData(){
+ const d={};saveFields.forEach(el=>d[el.id]=valueOf(el));
+ d._updatedAt=new Date().toISOString();d._receiptCode=window.__receiptCode||"";return d;
+}
+function restoreData(d){
+ if(!d||typeof d!=="object")return;
+ saveFields.forEach(el=>{if(Object.prototype.hasOwnProperty.call(d,el.id))setValue(el,d[el.id])});
+ if(d._receiptCode)window.__receiptCode=d._receiptCode;
+ updateWordCount();updateProgress();
+}
+function openDB(){
+ return new Promise((resolve,reject)=>{
+   if(!("indexedDB" in window))return reject(new Error("IndexedDB no disponible"));
+   const req=indexedDB.open("JRBGuiasDB",1);
+   req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains("guias"))db.createObjectStore("guias")};
+   req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error("No se pudo abrir IndexedDB"));
+ });
+}
+async function dbSave(data){
+ const db=await openDB();return new Promise((resolve,reject)=>{
+  const tx=db.transaction("guias","readwrite");tx.objectStore("guias").put(data,GUIDE_KEY);
+  tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)};
+ });
+}
+async function dbLoad(){
+ const db=await openDB();return new Promise((resolve,reject)=>{
+  const tx=db.transaction("guias","readonly"),req=tx.objectStore("guias").get(GUIDE_KEY);
+  req.onsuccess=()=>{const r=req.result;db.close();resolve(r)};req.onerror=()=>{db.close();reject(req.error)};
+ });
+}
+function localSave(data){localStorage.setItem(GUIDE_KEY,JSON.stringify(data))}
+function localLoad(){const raw=localStorage.getItem(GUIDE_KEY);return raw?JSON.parse(raw):null}
+async function saveAll(){
+ const d=collectData();$("saveStatus").textContent="Guardando…";$("saveDot").classList.remove("saved");
+ try{if(storageMode==="indexeddb")await dbSave(d);else localSave(d);$("saveStatus").textContent="Guardado automáticamente";$("saveDot").classList.add("saved")}
+ catch(e){try{storageMode="local";localSave(d);$("saveStatus").textContent="Guardado local de respaldo";$("saveDot").classList.add("saved")}catch(_){$("saveStatus").textContent="No se pudo guardar automáticamente"}}
+}
+function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,350)}
+function wordCount(text){const t=String(text||"").trim();return t?t.split(/\s+/).length:0}
+function updateWordCount(){const n=wordCount($("finalReport").value);$("wordCounter").textContent="Palabras: "+n+" (meta: 120–180)"}
+function isComplete(el){
+ if(el.type==="checkbox")return el.checked;
+ if(el.id==="finalReport"){const n=wordCount(el.value);return n>=120&&n<=180}
+ return String(el.value||"").trim().length>0;
+}
+function updateProgress(){
+ const done=requiredFields.filter(isComplete).length,pct=Math.round(done/requiredFields.length*100);
+ $("progressText").textContent="Avance: "+pct+"%";$("progressBar").style.width=pct+"%";
+ const complete=done===requiredFields.length;
+ $("downloadReceipt").disabled=!complete;$("printReceiptBtn").disabled=!complete;
+ if(complete){$("missingBox").className="note oknote";$("missingBox").textContent="Actividad completa. Ya puedes generar el comprobante."}
+ else{$("missingBox").className="note warn";$("missingBox").textContent="Faltan "+(requiredFields.length-done)+" campos o confirmaciones obligatorias. El miniinforme debe tener entre 120 y 180 palabras."}
+}
+saveFields.forEach(el=>{["input","change"].forEach(evt=>el.addEventListener(evt,()=>{if(el.id==="finalReport")updateWordCount();updateProgress();scheduleSave()}))});
+
+async function initialLoad(){
+ try{let data=null;try{data=await dbLoad()}catch(e){storageMode="local";data=localLoad()}
+ if(data)restoreData(data);$("saveStatus").textContent=data?"Datos recuperados":"Autoguardado listo";$("saveDot").classList.add("saved")}
+ catch(e){$("saveStatus").textContent="Autoguardado limitado"} updateWordCount();updateProgress();
+}
+
+function safeText(v){return String(v||"").replace(/[<>]/g,"")}
+function makeReceiptCode(){
+ if(window.__receiptCode)return window.__receiptCode;
+ const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let rnd="";
+ for(let i=0;i<6;i++)rnd+=chars[Math.floor(Math.random()*chars.length)];
+ window.__receiptCode="JRB-2BTAC-20260828-"+rnd;scheduleSave();return window.__receiptCode;
+}
+function receiptData(){
+ return{code:makeReceiptCode(),student:safeText($("studentName").value.trim()),section:safeText($("section").value.trim()),
+ studentCode:safeText($("studentCode").value.trim()),topic:safeText($("topic").value),
+ source1:safeText($("s1title").value),source2:safeText($("s2title").value),source3:safeText($("s3title").value),
+ report:safeText($("finalReport").value.trim()),date:new Date().toLocaleString("es-GT")};
+}
+function showReceiptPreview(){
+ const r=receiptData(),box=$("receiptPreview");
+ box.innerHTML="<strong>COMPROBANTE DE FINALIZACIÓN</strong><br>Código: <strong>"+r.code+"</strong><br>Estudiante: "+r.student+" — Sección "+r.section+
+ "<br>Actividad: Investigación segura y responsable en Internet<br>Tema: "+r.topic+"<br>Fuentes evaluadas: 3<br>Fecha de generación: "+r.date+
+ "<br><br><span class='small'>El comprobante registra la finalización de la actividad; la calificación corresponde al docente.</span>";
+ box.classList.remove("hidden");return r;
+}
+function cp1252Bytes(str){
+ const map={0x20AC:0x80,0x201A:0x82,0x0192:0x83,0x201E:0x84,0x2026:0x85,0x2020:0x86,0x2021:0x87,0x02C6:0x88,0x2030:0x89,0x0160:0x8A,0x2039:0x8B,0x0152:0x8C,0x017D:0x8E,0x2018:0x91,0x2019:0x92,0x201C:0x93,0x201D:0x94,0x2022:0x95,0x2013:0x96,0x2014:0x97,0x02DC:0x98,0x2122:0x99,0x0161:0x9A,0x203A:0x9B,0x0153:0x9C,0x017E:0x9E,0x0178:0x9F};
+ const out=[];for(const ch of str){const c=ch.codePointAt(0);if(c<=255)out.push(c);else if(map[c])out.push(map[c]);else out.push(63)}return new Uint8Array(out);
+}
+function concatBytes(parts){let total=0;parts.forEach(p=>total+=p.length);const out=new Uint8Array(total);let off=0;parts.forEach(p=>{out.set(p,off);off+=p.length});return out}
+function wrapLine(text,maxLen){const words=String(text).split(/\s+/),lines=[];let line="";words.forEach(w=>{if(!line)line=w;else if((line+" "+w).length<=maxLen)line+=" "+w;else{lines.push(line);line=w}});if(line)lines.push(line);return lines.length?lines:[""]}
+function pdfEscape(t){return String(t).replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)")}
+function buildReceiptPdf(r){
+ const lines=["COLEGIO DE INFORMÁTICA JUSTO RUFINO BAUTISTA","COMPROBANTE DE FINALIZACIÓN DE ACTIVIDAD","",
+ "Curso: Tecnologías del Aprendizaje y la Comunicación (TAC) / Computación","Grado: 2.º Básico",
+ "Actividad: Investigación segura y responsable en Internet","Periodo de trabajo: 24 al 28 de agosto de 2026","Valor de la guía: 10 puntos","",
+ "Estudiante: "+r.student,"Sección: "+r.section+(r.studentCode?"    Código/lista: "+r.studentCode:""),
+ "Código de comprobante: "+r.code,"Generado: "+r.date,"","Tema investigado: "+r.topic,
+ "Fuentes evaluadas: "+r.source1+" | "+r.source2+" | "+r.source3,"","Producto final: miniinforme de investigación."];
+ lines.push("Registro en cuaderno confirmado: saberes previos, fuentes, comprensión y reflexión.");
+ lines.push("Registro digital confirmado: búsqueda, evaluación de fuentes, parafraseo, miniinforme y autoevaluación.");
+ lines.push("","Este comprobante acredita la finalización del registro de la actividad.","La calificación final corresponde al docente según la rúbrica.");
+ const content=["BT","/F1 11 Tf","50 795 Td","14 TL"];
+ lines.forEach((line,i)=>{if(i===0)content.push("("+pdfEscape(line)+") Tj");else content.push("T* ("+pdfEscape(line)+") Tj")});content.push("ET");
+ const stream=content.join("\n"),objs=[];
+ objs[1]="<< /Type /Catalog /Pages 2 0 R >>";objs[2]="<< /Type /Pages /Kids [3 0 R] /Count 1 >>";
+ objs[3]="<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>";
+ objs[4]="<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>";
+ const streamBytes=cp1252Bytes(stream);objs[5]="<< /Length "+streamBytes.length+" >>\nstream\n"+stream+"\nendstream";
+ const header=cp1252Bytes("%PDF-1.4\n%âãÏÓ\n"),parts=[header],offsets=[0];let current=header.length;
+ for(let i=1;i<=5;i++){offsets[i]=current;const b=cp1252Bytes(i+" 0 obj\n"+objs[i]+"\nendobj\n");parts.push(b);current+=b.length}
+ const xrefOffset=current;let xref="xref\n0 6\n0000000000 65535 f \n";
+ for(let i=1;i<=5;i++)xref+=String(offsets[i]).padStart(10,"0")+" 00000 n \n";
+ xref+="trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n"+xrefOffset+"\n%%EOF";parts.push(cp1252Bytes(xref));return concatBytes(parts);
+}
+function downloadBlob(bytes,filename,type){
+ const blob=new Blob([bytes],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+$("downloadReceipt").addEventListener("click",()=>{
+ if(requiredFields.some(el=>!isComplete(el))){updateProgress();alert("Aún faltan campos obligatorios.");return}
+ const r=showReceiptPreview(),pdf=buildReceiptPdf(r),base=(r.student||"estudiante").replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+/g,"_").replace(/^_+|_+$/g,"");
+ downloadBlob(pdf,"Comprobante_2do_Basico_TAC_"+base+".pdf","application/pdf");saveAll();
+});
+$("printReceiptBtn").addEventListener("click",()=>{
+ if(requiredFields.some(el=>!isComplete(el))){updateProgress();return}
+ const r=showReceiptPreview();$("printReceipt").innerHTML="<h1>Comprobante de finalización</h1><p><strong>Colegio de Informática Justo Rufino Bautista</strong></p>"+
+ "<p><strong>Estudiante:</strong> "+r.student+"<br><strong>Sección:</strong> "+r.section+"<br><strong>Curso:</strong> TAC / Computación — 2.º Básico<br>"+
+ "<strong>Actividad:</strong> Investigación segura y responsable en Internet<br><strong>Código:</strong> "+r.code+"<br><strong>Generado:</strong> "+r.date+"</p>"+
+ "<p><strong>Tema:</strong> "+r.topic+"<br><strong>Fuentes evaluadas:</strong> 3</p><p>Registro en cuaderno y computadora confirmado por el estudiante.</p>"+
+ "<p><em>La calificación final corresponde al docente según la rúbrica.</em></p>";
+ $("printReceipt").classList.remove("hidden");window.print();setTimeout(()=>$("printReceipt").classList.add("hidden"),500);
+});
+$("downloadBackup").addEventListener("click",()=>{
+ const txt=JSON.stringify({guide:GUIDE_KEY,version:1,data:collectData()},null,2);
+ downloadBlob(new TextEncoder().encode(txt),"Respaldo_2do_Basico_TAC.json","application/json");
+});
+$("loadBackup").addEventListener("click",()=>$("backupFile").click());
+$("backupFile").addEventListener("change",()=>{
+ const file=$("backupFile").files&&$("backupFile").files[0];if(!file)return;
+ const reader=new FileReader();reader.onload=()=>{try{const obj=JSON.parse(String(reader.result)),data=obj&&obj.data?obj.data:obj;restoreData(data);saveAll();alert("Respaldo cargado correctamente.")}
+ catch(e){alert("El archivo seleccionado no es un respaldo válido.")}$("backupFile").value=""};reader.readAsText(file);
+});
+$("clearData").addEventListener("click",async()=>{
+ if(!confirm("¿Deseas borrar todas tus respuestas guardadas en esta guía?"))return;
+ saveFields.forEach(el=>{if(el.type==="checkbox")el.checked=false;else if(el.tagName==="SELECT")el.selectedIndex=0;else el.value=""});
+ window.__receiptCode="";try{const db=await openDB(),tx=db.transaction("guias","readwrite");tx.objectStore("guias").delete(GUIDE_KEY);tx.oncomplete=()=>db.close()}catch(e){}
+ try{localStorage.removeItem(GUIDE_KEY)}catch(e){} updateWordCount();updateProgress();$("receiptPreview").classList.add("hidden");$("saveStatus").textContent="Datos borrados";$("saveDot").classList.remove("saved");
+});
+initialLoad();
+})();
+</script>
+</body>
+</html>
