@@ -1,0 +1,5699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Robótica - Segundo Básico - Guía No. 1 - El sonido y las notas musicales</title>
+
+<style>
+:root{
+  --azul:#183b66;
+  --azul2:#24598f;
+  --verde:#2f6f5e;
+  --verde2:#3b8069;
+  --fondo:#f4f7fa;
+  --panel:#ffffff;
+  --texto:#1f2933;
+  --muted:#66788a;
+  --borde:#d9e2ec;
+  --amarillo:#fff7d6;
+  --rojo:#8b3434;
+  --violeta:#674c91;
+  --celeste:#eaf5fb;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--fondo);
+  color:var(--texto);
+  line-height:1.5;
+}
+
+.hidden{display:none!important}
+
+header{
+  background:linear-gradient(135deg,var(--azul),var(--azul2));
+  color:#fff;
+  padding:22px 18px;
+}
+
+.header-wrap,.container{
+  max-width:1100px;
+  margin:auto;
+}
+
+.institution{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.institution-logo{
+  width:92px;
+  height:92px;
+  flex:0 0 auto;
+  border-radius:14px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.13);
+}
+
+.institution-logo svg{
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+.institution-text{min-width:0}
+
+h1{
+  font-size:clamp(1.45rem,3vw,2rem);
+  margin:4px 0 8px;
+}
+
+h2{
+  font-size:1.25rem;
+  color:var(--azul);
+  margin:0 0 12px;
+}
+
+h3{
+  font-size:1.05rem;
+  margin:18px 0 8px;
+}
+
+.subtitle{
+  opacity:.96;
+  margin:2px 0;
+}
+
+.meta{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:10px;
+  margin-top:16px;
+}
+
+.meta div{
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.25);
+  padding:9px 10px;
+  border-radius:10px;
+}
+
+.progress-shell{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(244,247,250,.96);
+  border-bottom:1px solid var(--borde);
+  padding:10px 18px;
+  backdrop-filter:blur(6px);
+}
+
+.progress-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.progress-text{
+  font-weight:700;
+  color:var(--azul);
+}
+
+.progressbar{
+  height:12px;
+  flex:1;
+  min-width:180px;
+  background:#dce5ee;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progressbar span{
+  display:block;
+  width:0;
+  height:100%;
+  background:var(--verde);
+  transition:width .2s ease;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#b0bec9;
+}
+
+.dot.saved{background:#3c8a67}
+
+.container{padding:18px}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--borde);
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 3px 10px rgba(24,59,102,.05);
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+label{
+  display:block;
+  margin:8px 0 6px;
+  font-weight:700;
+}
+
+input[type=text],
+textarea{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #b8c6d4;
+  border-radius:9px;
+  background:#fff;
+  color:var(--texto);
+  font:inherit;
+}
+
+textarea{
+  min-height:105px;
+  resize:vertical;
+}
+
+textarea.answer{
+  min-height:90px;
+}
+
+input:focus,
+textarea:focus,
+button:focus{
+  outline:3px solid rgba(36,89,143,.22);
+  outline-offset:2px;
+}
+
+button{
+  border:0;
+  padding:11px 15px;
+  border-radius:9px;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  background:var(--azul);
+  color:#fff;
+}
+
+button.secondary{background:#53687a}
+button.success{background:var(--verde)}
+button.danger{background:var(--rojo)}
+button.violet{background:var(--violeta)}
+
+button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.badge{
+  display:inline-block;
+  font-size:.82rem;
+  font-weight:700;
+  border-radius:999px;
+  padding:5px 9px;
+  margin:0 5px 7px 0;
+  background:#e8f0f8;
+  color:var(--azul);
+}
+
+.badge.work{
+  background:#e9f5ee;
+  color:#245a48;
+}
+
+.badge.optional{
+  background:#f0eafa;
+  color:#60428a;
+}
+
+.badge.deadline{
+  background:#fff1d6;
+  color:#805b16;
+}
+
+.note{
+  border-left:5px solid var(--azul2);
+  background:#eef5fb;
+  padding:12px 14px;
+  border-radius:8px;
+  margin:12px 0;
+}
+
+.warn{
+  border-left-color:#c58b16;
+  background:var(--amarillo);
+}
+
+.oknote{
+  border-left-color:var(--verde);
+  background:#edf8f3;
+}
+
+.source{
+  border-left-color:var(--violeta);
+  background:#f4effa;
+}
+
+.step{
+  border-left:4px solid var(--azul2);
+  padding:4px 0 4px 14px;
+  margin:15px 0;
+}
+
+.question{
+  padding:13px;
+  margin:12px 0;
+  border:1px solid var(--borde);
+  border-radius:10px;
+  background:#fafbfd;
+}
+
+.small{
+  font-size:.88rem;
+  color:var(--muted);
+}
+
+.reqmark{color:#a63b3b}
+
+.checkline{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin:12px 0;
+  padding:11px;
+  border:1px solid var(--borde);
+  border-radius:10px;
+  background:#fafbfd;
+  font-weight:400;
+}
+
+.checkline input{
+  margin-top:4px;
+  transform:scale(1.2);
+  flex:0 0 auto;
+}
+
+.declaration{
+  border-left:4px solid var(--violeta);
+}
+
+.table-wrap{overflow-x:auto}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+th,td{
+  border:1px solid var(--borde);
+  padding:9px;
+  text-align:left;
+  vertical-align:top;
+}
+
+th{
+  background:#eef3f8;
+  color:var(--azul);
+}
+
+.image-area{
+  border:2px dashed #b8c6d4;
+  border-radius:12px;
+  padding:14px;
+  background:#fbfcfe;
+  margin-top:15px;
+}
+
+.image-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:12px;
+  margin-top:12px;
+}
+
+.image-card{
+  border:1px solid var(--borde);
+  border-radius:11px;
+  padding:9px;
+  background:#fff;
+}
+
+.image-card img{
+  display:block;
+  width:100%;
+  height:160px;
+  object-fit:contain;
+  background:#f5f7f9;
+  border-radius:8px;
+}
+
+.image-name{
+  margin:7px 0;
+  color:var(--muted);
+  font-size:.82rem;
+  overflow-wrap:anywhere;
+}
+
+.image-card button{
+  padding:7px 9px;
+  font-size:.82rem;
+}
+
+.review-list{
+  display:grid;
+  gap:9px;
+  margin-top:12px;
+}
+
+.review-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:11px;
+  border:1px solid var(--borde);
+  border-radius:10px;
+}
+
+.review-state{
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.complete{color:var(--verde)}
+.pending{color:#9a6810}
+
+.identity-overlay{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(20,35,50,.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.identity-card{
+  width:min(620px,100%);
+  background:#fff;
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 20px 70px rgba(0,0,0,.3);
+}
+
+.identity-message{
+  margin:12px 0;
+  padding:12px;
+  background:#eef5fb;
+  border-radius:9px;
+}
+
+#printArea{display:none}
+
+footer{
+  max-width:1100px;
+  margin:auto;
+  padding:6px 18px 28px;
+  color:var(--muted);
+  font-size:.86rem;
+}
+
+@media(max-width:720px){
+  .grid2,.grid3{grid-template-columns:1fr}
+}
+
+@media(max-width:600px){
+  .institution{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .institution-logo{
+    width:80px;
+    height:80px;
+  }
+}
+
+@media print{
+  body *{
+    visibility:hidden!important;
+  }
+
+  #printArea,
+  #printArea *{
+    visibility:visible!important;
+  }
+
+  #printArea{
+    display:block!important;
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    padding:24px;
+    color:#000;
+    background:#fff;
+  }
+
+  #printArea img{
+    max-width:100%;
+    max-height:500px;
+    object-fit:contain;
+  }
+
+  .pdf-section{
+    margin-top:20px;
+    page-break-inside:avoid;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==========================================================
+     IDENTIFICACIÓN DEL ESTUDIANTE
+     Se solicita ANTES de consultar IndexedDB.
+     ========================================================== -->
+<div id="identityOverlay" class="identity-overlay">
+
+  <div class="identity-card">
+
+    <h2>Identificar estudiante</h2>
+
+    <p>
+      Antes de buscar un borrador, escribe tu Clave/Carné y Sección.
+      La guía consultará únicamente el trabajo correspondiente a esa identificación.
+    </p>
+
+    <div class="grid2">
+
+      <div>
+        <label for="identityKey">
+          Clave / Carné <span class="reqmark">*</span>
+        </label>
+        <input id="identityKey" type="text" autocomplete="off">
+      </div>
+
+      <div>
+        <label for="identitySection">
+          Sección <span class="reqmark">*</span>
+        </label>
+        <input id="identitySection" type="text" autocomplete="off">
+      </div>
+
+    </div>
+
+    <label for="identityName">Nombre completo</label>
+    <input id="identityName" type="text" autocomplete="off">
+
+    <div id="identityMessage" class="identity-message">
+      Ingresa tu identificación para comenzar.
+    </div>
+
+    <div class="actions">
+
+      <button id="identifyBtn" type="button">
+        Continuar
+      </button>
+
+      <button
+        id="continueDraftBtn"
+        type="button"
+        class="success hidden">
+        Continuar borrador
+      </button>
+
+      <button
+        id="newDraftBtn"
+        type="button"
+        class="secondary hidden">
+        Iniciar nuevamente
+      </button>
+
+      <button
+        id="cancelIdentityBtn"
+        type="button"
+        class="danger hidden">
+        Cancelar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<header>
+
+<div class="header-wrap">
+
+  <div class="institution">
+
+    <!-- Identificador institucional autocontenido -->
+    <div class="institution-logo" aria-label="Colegio JRB">
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 200 200"
+        role="img"
+        aria-label="JRB">
+
+        <rect
+          width="200"
+          height="200"
+          rx="28"
+          fill="#ffffff"/>
+
+        <circle
+          cx="100"
+          cy="100"
+          r="76"
+          fill="#24598f"/>
+
+        <text
+          x="100"
+          y="118"
+          text-anchor="middle"
+          font-family="Arial,Helvetica,sans-serif"
+          font-size="52"
+          font-weight="700"
+          fill="#ffffff">
+          JRB
+        </text>
+
+      </svg>
+
+    </div>
+
+
+    <div class="institution-text">
+
+      <div class="subtitle">
+        Colegio de Informática Justo Rufino Bautista
+      </div>
+
+      <h1>
+        El sonido y las notas musicales
+      </h1>
+
+      <p class="subtitle">
+        Robótica — Segundo Básico
+      </p>
+
+      <p class="subtitle">
+        Guía No. 1 — V Unidad — V Bimestre
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="meta">
+
+    <div>
+      <strong>Publicación:</strong><br>
+      Martes 25/08/2026
+    </div>
+
+    <div>
+      <strong>Trabajo:</strong><br>
+      Martes 25 y jueves 27/08/2026
+    </div>
+
+    <div>
+      <strong>Entrega:</strong><br>
+      Viernes 28/08/2026 — 18:00
+    </div>
+
+    <div>
+      <strong>Herramientas:</strong><br>
+      mBlock + mBot2 + CyberPi
+    </div>
+
+    <div>
+      <strong>Valor:</strong><br>
+      10 puntos
+    </div>
+
+  </div>
+
+</div>
+
+</header>
+
+
+<div class="progress-shell">
+
+  <div class="progress-inner">
+
+    <span id="progressText" class="progress-text">
+      Avance: 0%
+    </span>
+
+    <div class="progressbar">
+      <span id="progressBar"></span>
+    </div>
+
+    <span class="status">
+      <span id="saveDot" class="dot"></span>
+      <span id="saveStatus">
+        Identifica al estudiante para iniciar
+      </span>
+    </span>
+
+  </div>
+
+</div>
+
+
+<main class="container">
+
+
+<!-- ==========================================================
+     IDENTIFICACIÓN DE LA GUÍA
+     ========================================================== -->
+<section class="card">
+
+  <h2>GUÍA DE TRABAJO No. 1 — V UNIDAD</h2>
+
+  <div class="grid2">
+
+    <div>
+      <strong>Tema:</strong><br>
+      El sonido y las notas musicales
+    </div>
+
+    <div>
+      <strong>Curso:</strong><br>
+      Robótica
+    </div>
+
+    <div>
+      <strong>Grado:</strong><br>
+      Segundo Básico
+    </div>
+
+    <div>
+      <strong>Unidad:</strong><br>
+      V Unidad
+    </div>
+
+    <div>
+      <strong>Bimestre:</strong><br>
+      V
+    </div>
+
+    <div>
+      <strong>Fecha de publicación:</strong><br>
+      25 de agosto de 2026
+    </div>
+
+    <div>
+      <strong>Días de trabajo:</strong><br>
+      martes 25 y jueves 27 de agosto de 2026
+    </div>
+
+    <div>
+      <strong>Fecha y hora de entrega:</strong><br>
+      28 de agosto de 2026 — 18:00 horas
+    </div>
+
+    <div>
+      <strong>Ponderación:</strong><br>
+      10 puntos
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     DATOS DEL ESTUDIANTE
+     ========================================================== -->
+<section class="card">
+
+  <h2>Datos del estudiante</h2>
+
+  <div class="grid3">
+
+    <div>
+      <label>Nombre completo</label>
+      <input id="studentName" type="text" data-save readonly>
+    </div>
+
+    <div>
+      <label>Clave / Carné</label>
+      <input id="studentKey" type="text" data-save readonly>
+    </div>
+
+    <div>
+      <label>Sección</label>
+      <input id="studentSection" type="text" data-save readonly>
+    </div>
+
+  </div>
+
+  <p class="small">
+    El borrador se guarda localmente en este navegador y queda separado
+    mediante la Clave/Carné y Sección del estudiante.
+  </p>
+
+  <div class="actions">
+
+    <button
+      id="changeStudentBtn"
+      type="button"
+      class="secondary">
+      Cambiar de estudiante
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     FUENTE ACADÉMICA
+     ========================================================== -->
+<section class="card">
+
+  <h2>Fuente académica de esta guía</h2>
+
+  <div class="note source">
+
+    Esta guía se desarrolla a partir del material proporcionado para
+    Segundo Básico, páginas 118–123, correspondiente al tema
+    <strong>“El sonido y las notas musicales”</strong>.
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     CONTENIDO DE APOYO
+     ========================================================== -->
+<section class="card">
+
+  <h2>Contenido de apoyo</h2>
+
+  <h3>¿Qué es el sonido?</h3>
+
+  <p>
+    El sonido es una forma de energía que se produce cuando algo vibra.
+    Estas vibraciones viajan a través del aire o de otros medios,
+    como el agua o los sólidos, en forma de ondas.
+  </p>
+
+
+  <h3>Propagación del sonido</h3>
+
+  <p>
+    <strong>Aire:</strong>
+    las partículas del aire transmiten la energía de las vibraciones.
+  </p>
+
+  <p>
+    <strong>Agua:</strong>
+    las moléculas están más cerca unas de otras, por lo que el sonido
+    puede propagarse con mayor rapidez que en el aire.
+  </p>
+
+  <p>
+    <strong>Sólidos:</strong>
+    sus partículas están aún más juntas.
+  </p>
+
+
+  <h3>Frecuencia y tono</h3>
+
+  <p>
+    Las notas musicales son sonidos con una frecuencia específica.
+    La frecuencia se mide en hertz (Hz).
+  </p>
+
+  <p>
+    Una frecuencia baja produce sonidos graves y una frecuencia alta
+    produce sonidos agudos.
+  </p>
+
+  <p>
+    En el material aparecen las notas:
+    <strong>do, re, mi, fa, sol, la y si</strong>.
+  </p>
+
+
+  <h3>Sonido musical y ruido</h3>
+
+  <p>
+    <strong>Sonido musical:</strong>
+    tiene una frecuencia definida y presenta un patrón regular.
+  </p>
+
+  <p>
+    <strong>Ruido:</strong>
+    presenta ondas irregulares y no mantiene una frecuencia definida.
+  </p>
+
+
+  <h3>Sonidos naturales y artificiales</h3>
+
+  <p>
+    Los sonidos naturales son producidos por elementos de la naturaleza.
+    Los sonidos artificiales son producidos por objetos o dispositivos
+    creados por el ser humano.
+  </p>
+
+
+  <h3>Aplicaciones del sonido</h3>
+
+  <p>
+    El material presenta aplicaciones relacionadas con comunicación,
+    entretenimiento, seguridad, timbres y alarmas, melodías mediante
+    microcontroladores y reconocimiento de voz.
+  </p>
+
+</section>
+
+
+<!-- ==========================================================
+     ACTIVIDAD 1
+     ========================================================== -->
+<section class="card" id="activity1">
+
+  <span class="badge work">MARTES</span>
+  <span class="badge">COMPRENDER</span>
+
+  <h2>
+    Actividad 1 — Comprendiendo el sonido en robótica — 3 pts
+  </h2>
+
+  <div class="note">
+
+    <strong>¿Qué aprenderás?</strong><br>
+
+    Comprenderás qué es el sonido, cómo se produce, cómo se propaga,
+    qué relación existe entre frecuencia y tono y cómo se utilizan
+    distintos tipos de sonido en la vida cotidiana y en la tecnología.
+
+  </div>
+
+
+  <h3>¿Qué debes hacer?</h3>
+
+  <p>
+    Lee y analiza la información de las páginas 118–120 del material de estudio.
+    Después responde las 7 preguntas de
+    <strong>“Aplico mis conocimientos”</strong>.
+  </p>
+
+
+  <!-- Pregunta 1 -->
+  <div class="question">
+
+    <label for="q1">
+      1. ¿Qué es el sonido y cómo se produce?
+      <span class="reqmark">*</span>
+    </label>
+
+    <textarea
+      id="q1"
+      class="answer"
+      data-save
+      data-required
+      placeholder="Escribe aquí tu respuesta."></textarea>
+
+  </div>
+
+
+  <!-- Pregunta 2 -->
+  <div class="question">
+
+    <label for="q2">
+      2. ¿Cuál es la diferencia entre un sonido musical y un ruido?
+      <span class="reqmark">*</span>
+    </label>
+
+    <textarea
+      id="q2"
+      class="answer"
+      data-save
+      data-required
+      placeholder="Escribe aquí tu respuesta."></textarea>
+
+  </div>
+
+
+  <!-- Pregunta 3 -->
+  <div class="question">
+
+    <label for="q3">
+      3. ¿Qué tipos de sonidos se consideran artificiales y cuáles aplicaciones tienen en tecnología?
+      <span class="reqmark">*</span>
+    </label>
+
+    <textarea
+      id="q3"
+      class="answer"
+      data-save
+      data-required
+      placeholder="Escribe aquí tu respuesta."></textarea>
+
+  </div>
+
+
+  <!-- Pregunta 4 -->
+  <div class="question">
+
+    <label for="q4">
+      4. ¿Cómo se propaga el sonido a través del aire?
+      <span class="reqmark">*</span>
+    </label>
+
+    <textarea
+      id="q4"
+      class="answer"
+      data-save
+      data-required
+      placeholder="Escribe aquí tu respuesta."></textarea>
+
+  </div>
+
+
+  <!-- Pregunta 5 -->
+  <div class="question">
+
+    <label for="q5">
+      5. Explica cómo se difunde el sonido a través del agua.
+      <span class="reqmark">*</span>
+    </label>
+
+    <textarea
+      id="q5"
+      class="answer"
+      data-save
+      data-required
+      placeholder="Escribe aquí tu respuesta."></textarea>
+
+  </div>
+
+
+  <!-- Pregunta 6 -->
+  <div class="question">
+
+    <label for="q6">
+      6. Define el concepto de frecuencia y describe cómo afecta al tono de un sonido.
+      <span class="reqmark">*</span>
+    </label>
+
+    <textarea
+      id="q6"
+      class="answer"
+      data-save
+      data-required
+      placeholder="Escribe aquí tu respuesta."></textarea>
+
+  </div>
+
+
+  <!-- Pregunta 7 -->
+  <div class="question">
+
+    <label for="q7">
+      7. ¿Qué papel juega el sonido en la comunicación diaria?
+      <span class="reqmark">*</span>
+    </label>
+
+    <textarea
+      id="q7"
+      class="answer"
+      data-save
+      data-required
+      placeholder="Escribe aquí tu respuesta."></textarea>
+
+  </div>
+
+
+  <h3>Evidencia requerida</h3>
+
+  <p>
+    Las 7 respuestas registradas dentro de la guía.
+  </p>
+
+
+  <div class="image-area">
+
+    <span class="badge optional">
+      FOTOGRAFÍAS O CAPTURAS OPCIONALES
+    </span>
+
+    <h3>Imágenes de apoyo</h3>
+
+    <p>
+      Puedes agregar imágenes relacionadas con esta actividad.
+      No son obligatorias y no intervienen en el porcentaje de completitud.
+    </p>
+
+    <input
+      id="activity1Images"
+      type="file"
+      accept="image/*"
+      multiple>
+
+    <div
+      id="activity1ImageGrid"
+      class="image-grid">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     ACTIVIDAD 2
+     ========================================================== -->
+<section class="card" id="activity2">
+
+  <span class="badge work">MARTES / JUEVES</span>
+  <span class="badge">EXPLORAR</span>
+
+  <h2>
+    Actividad 2 — Exploración del bloque “tocar nota” en mBlock — 3 pts
+  </h2>
+
+
+  <div class="note">
+
+    <strong>¿Qué aprenderás?</strong><br>
+
+    Explorarás cómo utilizar el bloque
+    <strong>“tocar nota”</strong>
+    en mBlock para seleccionar una nota musical y establecer su duración.
+
+  </div>
+
+
+  <h3>¿Qué debes hacer?</h3>
+
+  <p>
+    Abre mBlock y trabaja con el bloque
+    <strong>“tocar nota”</strong>
+    de la categoría Audio, siguiendo la explicación presentada en el material.
+  </p>
+
+
+  <div class="step">
+
+    <h3>Explora el bloque “tocar nota”</h3>
+
+    <p>
+      Observa cómo el bloque permite seleccionar una nota musical.
+    </p>
+
+    <p>
+      El material relaciona:
+    </p>
+
+    <p>
+      <strong>
+        C = do · D = re · E = mi · F = fa ·
+        G = sol · A = la · B = si
+      </strong>
+    </p>
+
+    <p>
+      Observa también el número asociado a la nota.
+      En el ejemplo del material aparece el número 60.
+    </p>
+
+    <p>
+      Explora el parámetro que determina la duración.
+      En el ejemplo del material aparece
+      <strong>“durante 0.25 tiempos”</strong>.
+    </p>
+
+  </div>
+
+
+  <label for="explorationRegister">
+
+    Registro abierto de la exploración
+    <span class="reqmark">*</span>
+
+  </label>
+
+  <textarea
+    id="explorationRegister"
+    data-save
+    data-required
+    placeholder="Deja constancia de lo observado durante tu exploración del bloque “tocar nota”, incluyendo la selección de la nota musical y su duración."></textarea>
+
+
+  <label class="checkline declaration">
+
+    <input
+      id="mblockPracticeConfirmed"
+      type="checkbox"
+      data-save
+      data-required>
+
+    <span>
+      <strong>Declaración del estudiante:</strong>
+      confirmo que realicé la práctica de exploración del bloque
+      “tocar nota” en mBlock.
+      Esta confirmación registra mi declaración y no verifica automáticamente
+      el funcionamiento de la práctica.
+    </span>
+
+  </label>
+
+
+  <h3>Evidencia requerida</h3>
+
+  <p>
+    Registro realizado dentro de la guía y práctica desarrollada en mBlock.
+  </p>
+
+
+  <div class="image-area">
+
+    <span class="badge optional">
+      FOTOGRAFÍAS O CAPTURAS OPCIONALES
+    </span>
+
+    <h3>Imágenes de apoyo</h3>
+
+    <p>
+      Puedes agregar imágenes relacionadas con la exploración en mBlock.
+      No son obligatorias.
+    </p>
+
+    <input
+      id="activity2Images"
+      type="file"
+      accept="image/*"
+      multiple>
+
+    <div
+      id="activity2ImageGrid"
+      class="image-grid">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     ACTIVIDAD 3
+     ========================================================== -->
+<section class="card" id="activity3">
+
+  <span class="badge work">JUEVES</span>
+  <span class="badge">PROGRAMAR</span>
+
+  <h2>
+    Actividad 3 — Programación de una melodía con mBot2 — 4 pts
+  </h2>
+
+
+  <div class="note">
+
+    <strong>¿Qué aprenderás?</strong><br>
+
+    Programarás una secuencia musical en mBlock y comprobarás
+    su funcionamiento utilizando mBot2 y CyberPi.
+
+  </div>
+
+
+  <h3>¿Qué debes hacer?</h3>
+
+  <p>
+    Trabaja con la actividad musical presentada en la página 122 del material.
+    La actividad utiliza la melodía
+    <strong>“Himno a la alegría”</strong>
+    como referencia para construir y completar una secuencia de notas en mBlock.
+  </p>
+
+
+  <div class="step">
+
+    <h3>Observa la partitura</h3>
+
+    <p>
+      Revisa la partitura presentada en el material y utiliza las notas
+      y valores mostrados como referencia para programar la melodía.
+    </p>
+
+  </div>
+
+
+  <div class="step">
+
+    <h3>Programa la primera parte</h3>
+
+    <p>
+      Construye en mBlock la primera parte de la secuencia musical
+      indicada en el documento utilizando los bloques “tocar nota”.
+    </p>
+
+  </div>
+
+
+  <div class="step">
+
+    <h3>Completa la melodía</h3>
+
+    <p>
+      Observa nuevamente la partitura y completa la segunda parte
+      del código. Después reproduce la melodía completa.
+    </p>
+
+  </div>
+
+
+  <div class="step">
+
+    <h3>Utiliza la barra LED de CyberPi</h3>
+
+    <p>
+      Programa la barra LED de CyberPi para que se encienda un color
+      diferente durante la reproducción de las notas, siguiendo la
+      indicación presentada en el material.
+    </p>
+
+  </div>
+
+
+  <div class="step">
+
+    <h3>Ejecuta el proyecto</h3>
+
+    <p>
+      Ejecuta el programa utilizando mBot2 y CyberPi y comprueba
+      físicamente el funcionamiento de la melodía y de la barra LED.
+    </p>
+
+  </div>
+
+
+  <label class="checkline declaration">
+
+    <input
+      id="projectConfirmed"
+      type="checkbox"
+      data-save
+      data-required>
+
+    <span>
+      <strong>Declaración del estudiante:</strong>
+      confirmo que elaboré el proyecto funcional en mBlock.
+      Esta confirmación registra mi declaración; la comprobación real
+      del proyecto corresponde al docente.
+    </span>
+
+  </label>
+
+
+  <label class="checkline declaration">
+
+    <input
+      id="physicalExecutionConfirmed"
+      type="checkbox"
+      data-save
+      data-required>
+
+    <span>
+      <strong>Declaración del estudiante:</strong>
+      confirmo que realicé la ejecución práctica en mBot2/CyberPi.
+      Esta confirmación registra mi declaración; la comprobación física
+      corresponde al docente durante la demostración práctica.
+    </span>
+
+  </label>
+
+
+  <h3>Evidencia requerida</h3>
+
+  <p>
+    Proyecto funcional elaborado en mBlock y ejecución práctica
+    en mBot2/CyberPi.
+  </p>
+
+
+  <div class="image-area">
+
+    <span class="badge optional">
+      FOTOGRAFÍAS O CAPTURAS OPCIONALES
+    </span>
+
+    <h3>Imágenes de apoyo</h3>
+
+    <p>
+      Puedes agregar imágenes relacionadas con el proyecto o la práctica.
+      No sustituyen la demostración práctica.
+    </p>
+
+    <input
+      id="activity3Images"
+      type="file"
+      accept="image/*"
+      multiple>
+
+    <div
+      id="activity3ImageGrid"
+      class="image-grid">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     ENTREGA
+     ========================================================== -->
+<section class="card">
+
+  <span class="badge deadline">VIERNES</span>
+
+  <h2>Entrega final</h2>
+
+  <div class="grid2">
+
+    <div class="note">
+
+      <strong>Demostración práctica:</strong><br>
+      funcionamiento del programa en mBot2/CyberPi durante el trabajo de clase.
+
+    </div>
+
+    <div class="note">
+
+      <strong>Google Classroom:</strong><br>
+      archivo del proyecto elaborado en mBlock + PDF generado por esta guía.
+
+    </div>
+
+  </div>
+
+  <div class="note warn">
+
+    <strong>Fecha límite:</strong>
+    viernes 28 de agosto de 2026 a las 18:00 horas.
+
+  </div>
+
+  <p>
+    El mecanismo de entrega no crea actividades ni criterios académicos adicionales.
+  </p>
+
+</section>
+
+
+<!-- ==========================================================
+     PONDERACIÓN
+     ========================================================== -->
+<section class="card">
+
+  <h2>Ponderación — 10 puntos</h2>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Actividad</th>
+          <th>Evidencia aprobada</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>
+            <strong>
+              Actividad 1 — Comprendiendo el sonido en robótica
+            </strong>
+          </td>
+
+          <td>
+            7 respuestas de “Aplico mis conocimientos”.
+          </td>
+
+          <td>
+            <strong>3 pts</strong>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <strong>
+              Actividad 2 — Exploración del bloque “tocar nota” en mBlock
+            </strong>
+          </td>
+
+          <td>
+            Registro realizado dentro de la guía y práctica desarrollada en mBlock.
+          </td>
+
+          <td>
+            <strong>3 pts</strong>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <strong>
+              Actividad 3 — Programación de una melodía con mBot2
+            </strong>
+          </td>
+
+          <td>
+            Proyecto funcional elaborado en mBlock y ejecución práctica en mBot2/CyberPi.
+          </td>
+
+          <td>
+            <strong>4 pts</strong>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="2">
+            <strong>TOTAL</strong>
+          </td>
+
+          <td>
+            <strong>10 pts</strong>
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     REVISIÓN
+     ========================================================== -->
+<section class="card">
+
+  <h2>REVISAR MI ENTREGA</h2>
+
+  <div class="note">
+
+    Esta revisión comprueba la completitud de las evidencias académicas
+    y no representa una calificación automática.
+
+  </div>
+
+
+  <div class="actions">
+
+    <button id="reviewBtn" type="button">
+      Revisar mi entrega
+    </button>
+
+  </div>
+
+
+  <div id="reviewList" class="review-list"></div>
+
+</section>
+
+
+<!-- ==========================================================
+     RESPALDO Y PDF
+     ========================================================== -->
+<section class="card">
+
+  <h2>Guardar, respaldar y generar PDF</h2>
+
+
+  <div id="pdfStatus" class="note warn">
+
+    Completa el 100 % de las evidencias académicas registradas
+    en la guía para habilitar el PDF.
+
+  </div>
+
+
+  <div class="note oknote">
+
+    Las fotografías o capturas son opcionales.
+    No participan en el cálculo del porcentaje.
+
+  </div>
+
+
+  <div class="actions">
+
+    <button
+      id="downloadBackup"
+      type="button"
+      class="secondary">
+      Descargar respaldo JSON
+    </button>
+
+
+    <button
+      id="loadBackup"
+      type="button"
+      class="secondary">
+      Cargar respaldo JSON
+    </button>
+
+
+    <input
+      id="backupFile"
+      class="hidden"
+      type="file"
+      accept=".json,application/json">
+
+
+    <button
+      id="generatePdf"
+      type="button"
+      class="success"
+      disabled>
+      Generar / Descargar PDF
+    </button>
+
+
+    <button
+      id="printPdf"
+      type="button"
+      disabled>
+      Imprimir / Guardar como PDF
+    </button>
+
+
+    <button
+      id="clearDraft"
+      type="button"
+      class="danger">
+      Borrar este borrador
+    </button>
+
+  </div>
+
+  <p class="small">
+    El respaldo JSON puede descargarse aunque la guía todavía no esté completa.
+  </p>
+
+</section>
+
+</main>
+
+
+<div id="printArea"></div>
+
+
+<footer>
+  Robótica — Segundo Básico —
+  Guía No. 1 — V Unidad — V Bimestre.
+</footer>
+
+
+
+<script>
+(function(){
+"use strict";
+
+
+/* ==========================================================
+   IDENTIFICACIÓN TÉCNICA DE LA GUÍA
+   ========================================================== */
+
+const SCHEMA_VERSION = "2026.1";
+
+const GUIDE_ID =
+  "jrb_segundo_basico_robotica_guia01_vunidad_20260825";
+
+const COURSE_ID =
+  "jrb_robotica_segundo_basico";
+
+const GRADE = "segundo_basico";
+const ORIENTATION = "basico";
+const COURSE = "robotica";
+const GUIDE_NUMBER = "guia01";
+
+const DB_NAME = "JRBGuias2026";
+const DB_VERSION = 1;
+const STORE_NAME = "drafts";
+
+const $ =
+  id => document.getElementById(id);
+
+let activeIdentity = null;
+let activeDraftKey = null;
+let activeDraft = null;
+let saveTimer = null;
+let currentImageReplace = null;
+
+
+/* ==========================================================
+   REQUISITOS DE COMPLETITUD
+
+   ÚNICAMENTE:
+   - 7 respuestas Actividad 1.
+   - Registro abierto Actividad 2.
+   - Declaración práctica mBlock.
+   - Declaración proyecto mBlock.
+   - Declaración ejecución mBot2/CyberPi.
+
+   Las fotografías NO están aquí.
+   ========================================================== */
+
+const requiredFields = [
+
+  $("q1"),
+  $("q2"),
+  $("q3"),
+  $("q4"),
+  $("q5"),
+  $("q6"),
+  $("q7"),
+
+  $("explorationRegister"),
+
+  $("mblockPracticeConfirmed"),
+
+  $("projectConfirmed"),
+
+  $("physicalExecutionConfirmed")
+
+];
+
+
+const saveFields =
+  Array.from(
+    document.querySelectorAll("[data-save]")
+  );
+
+
+/* ==========================================================
+   UTILIDADES
+   ========================================================== */
+
+function normalizeKey(value){
+
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g,"_")
+    .replace(/[^a-z0-9áéíóúüñ_-]/gi,"");
+
+}
+
+
+function makeDraftKey(section,studentKey){
+
+  return [
+    GRADE,
+    ORIENTATION,
+    COURSE,
+    GUIDE_NUMBER,
+    "seccion" + normalizeKey(section),
+    "clave" + normalizeKey(studentKey)
+  ].join("_");
+
+}
+
+
+function isComplete(el){
+
+  if(el.type === "checkbox"){
+    return el.checked;
+  }
+
+  return String(el.value || "").trim().length > 0;
+
+}
+
+
+function guideIsComplete(){
+
+  return (
+    requiredFields.length === 11 &&
+    requiredFields.every(isComplete)
+  );
+
+}
+
+
+function updateProgress(){
+
+  const done =
+    requiredFields.filter(isComplete).length;
+
+  const total =
+    requiredFields.length;
+
+  const pct =
+    total
+      ? Math.round((done / total) * 100)
+      : 0;
+
+  const complete =
+    done === total;
+
+
+  $("progressText").textContent =
+    complete
+      ? "Avance: 100% — Guía completada"
+      : "Avance: " + pct + "%";
+
+
+  $("progressBar").style.width =
+    pct + "%";
+
+
+  $("generatePdf").disabled =
+    !complete;
+
+
+  $("printPdf").disabled =
+    !complete;
+
+
+  if(complete){
+
+    $("pdfStatus").className =
+      "note oknote";
+
+    $("pdfStatus").textContent =
+      "Guía completada al 100 %. Ya puedes generar, descargar o imprimir el PDF.";
+
+  }else{
+
+    $("pdfStatus").className =
+      "note warn";
+
+    $("pdfStatus").textContent =
+      "Completa el 100 % de las evidencias académicas registradas en la guía " +
+      "para habilitar el PDF. Elementos pendientes: " +
+      (total - done) +
+      ".";
+
+  }
+
+}
+
+
+function setSaveState(text,saved){
+
+  $("saveStatus").textContent =
+    text;
+
+  $("saveDot").classList.toggle(
+    "saved",
+    Boolean(saved)
+  );
+
+}
+
+
+function randomId(){
+
+  if(
+    window.crypto &&
+    typeof crypto.randomUUID === "function"
+  ){
+    return crypto.randomUUID();
+  }
+
+  return (
+    String(Date.now()) +
+    "_" +
+    Math.random().toString(36).slice(2)
+  );
+
+}
+
+
+/* ==========================================================
+   INDEXEDDB
+   ========================================================== */
+
+function openDB(){
+
+  return new Promise((resolve,reject)=>{
+
+    if(!("indexedDB" in window)){
+
+      reject(
+        new Error("IndexedDB no disponible")
+      );
+
+      return;
+
+    }
+
+
+    const req =
+      indexedDB.open(
+        DB_NAME,
+        DB_VERSION
+      );
+
+
+    req.onupgradeneeded =
+      ()=>{
+
+        const db =
+          req.result;
+
+        if(
+          !db.objectStoreNames.contains(
+            STORE_NAME
+          )
+        ){
+
+          db.createObjectStore(
+            STORE_NAME
+          );
+
+        }
+
+      };
+
+
+    req.onsuccess =
+      ()=>resolve(req.result);
+
+
+    req.onerror =
+      ()=>reject(
+        req.error ||
+        new Error("No fue posible abrir IndexedDB")
+      );
+
+  });
+
+}
+
+
+async function dbGet(key){
+
+  const db =
+    await openDB();
+
+
+  return new Promise((resolve,reject)=>{
+
+    const tx =
+      db.transaction(
+        STORE_NAME,
+        "readonly"
+      );
+
+    const req =
+      tx.objectStore(
+        STORE_NAME
+      ).get(key);
+
+
+    req.onsuccess =
+      ()=>resolve(
+        req.result || null
+      );
+
+
+    req.onerror =
+      ()=>reject(req.error);
+
+
+    tx.oncomplete =
+      ()=>db.close();
+
+
+    tx.onerror =
+      ()=>db.close();
+
+  });
+
+}
+
+
+async function dbPut(key,value){
+
+  const db =
+    await openDB();
+
+
+  return new Promise((resolve,reject)=>{
+
+    const tx =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
+
+
+    tx.objectStore(
+      STORE_NAME
+    ).put(
+      value,
+      key
+    );
+
+
+    tx.oncomplete =
+      ()=>{
+
+        db.close();
+        resolve();
+
+      };
+
+
+    tx.onerror =
+      ()=>{
+
+        db.close();
+        reject(tx.error);
+
+      };
+
+  });
+
+}
+
+
+async function dbDelete(key){
+
+  const db =
+    await openDB();
+
+
+  return new Promise((resolve,reject)=>{
+
+    const tx =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
+
+
+    tx.objectStore(
+      STORE_NAME
+    ).delete(key);
+
+
+    tx.oncomplete =
+      ()=>{
+
+        db.close();
+        resolve();
+
+      };
+
+
+    tx.onerror =
+      ()=>{
+
+        db.close();
+        reject(tx.error);
+
+      };
+
+  });
+
+}
+
+
+/* ==========================================================
+   BORRADOR
+   ========================================================== */
+
+function emptyDraft(){
+
+  return {
+
+    schemaVersion:SCHEMA_VERSION,
+
+    guideId:GUIDE_ID,
+
+    courseId:COURSE_ID,
+
+    grade:GRADE,
+
+    orientation:ORIENTATION,
+
+    studentKey:
+      activeIdentity.studentKey,
+
+    section:
+      activeIdentity.section,
+
+    studentName:
+      activeIdentity.studentName || "",
+
+    timestamp:
+      new Date().toISOString(),
+
+    data:{
+
+      fields:{},
+
+      images:{
+        activity1:[],
+        activity2:[],
+        activity3:[]
+      }
+
+    }
+
+  };
+
+}
+
+
+function collectFields(){
+
+  const fields = {};
+
+
+  saveFields.forEach(el=>{
+
+    fields[el.id] =
+      el.type === "checkbox"
+        ? el.checked
+        : el.value;
+
+  });
+
+
+  return fields;
+
+}
+
+
+function restoreFields(fields){
+
+  if(
+    !fields ||
+    typeof fields !== "object"
+  ){
+    return;
+  }
+
+
+  saveFields.forEach(el=>{
+
+    if(
+      !Object.prototype.hasOwnProperty.call(
+        fields,
+        el.id
+      )
+    ){
+      return;
+    }
+
+
+    const value =
+      fields[el.id];
+
+
+    if(el.type === "checkbox"){
+
+      el.checked =
+        Boolean(value);
+
+    }else{
+
+      el.value =
+        value == null
+          ? ""
+          : String(value);
+
+    }
+
+  });
+
+
+  updateProgress();
+
+}
+
+
+async function saveDraft(){
+
+  if(
+    !activeIdentity ||
+    !activeDraftKey
+  ){
+    return;
+  }
+
+
+  if(!activeDraft){
+
+    activeDraft =
+      emptyDraft();
+
+  }
+
+
+  activeDraft.studentName =
+    $("studentName").value ||
+    activeIdentity.studentName ||
+    "";
+
+
+  activeDraft.studentKey =
+    activeIdentity.studentKey;
+
+
+  activeDraft.section =
+    activeIdentity.section;
+
+
+  activeDraft.timestamp =
+    new Date().toISOString();
+
+
+  activeDraft.data.fields =
+    collectFields();
+
+
+  setSaveState(
+    "Guardando...",
+    false
+  );
+
+
+  try{
+
+    await dbPut(
+      activeDraftKey,
+      activeDraft
+    );
+
+
+    setSaveState(
+      "Guardado automáticamente ✓",
+      true
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+
+    if(
+      error &&
+      (
+        error.name === "QuotaExceededError" ||
+        String(error)
+          .toLowerCase()
+          .includes("quota")
+      )
+    ){
+
+      setSaveState(
+        "Almacenamiento local lleno. Descarga un respaldo antes de continuar.",
+        false
+      );
+
+    }else{
+
+      setSaveState(
+        "Error al guardar",
+        false
+      );
+
+    }
+
+  }
+
+}
+
+
+function scheduleSave(){
+
+  clearTimeout(saveTimer);
+
+  saveTimer =
+    setTimeout(
+      saveDraft,
+      400
+    );
+
+}
+
+
+/* ==========================================================
+   IDENTIDAD ANTES DE RECUPERAR
+   ========================================================== */
+
+function resetIdentityButtons(){
+
+  $("identifyBtn")
+    .classList.remove("hidden");
+
+  $("continueDraftBtn")
+    .classList.add("hidden");
+
+  $("newDraftBtn")
+    .classList.add("hidden");
+
+  $("cancelIdentityBtn")
+    .classList.add("hidden");
+
+}
+
+
+function showIdentityOverlay(){
+
+  $("identityOverlay")
+    .classList.remove("hidden");
+
+}
+
+
+function hideIdentityOverlay(){
+
+  $("identityOverlay")
+    .classList.add("hidden");
+
+}
+
+
+function applyIdentity(){
+
+  $("studentName").value =
+    activeIdentity.studentName || "";
+
+  $("studentKey").value =
+    activeIdentity.studentKey;
+
+  $("studentSection").value =
+    activeIdentity.section;
+
+}
+
+
+async function identifyStudent(){
+
+  const studentKey =
+    $("identityKey")
+      .value
+      .trim();
+
+  const section =
+    $("identitySection")
+      .value
+      .trim();
+
+  const studentName =
+    $("identityName")
+      .value
+      .trim();
+
+
+  if(
+    !studentKey ||
+    !section
+  ){
+
+    $("identityMessage").textContent =
+      "Es necesario escribir Clave/Carné y Sección antes de buscar un borrador.";
+
+    return;
+
+  }
+
+
+  const proposedKey =
+    makeDraftKey(
+      section,
+      studentKey
+    );
+
+
+  $("identityMessage").textContent =
+    "Buscando únicamente el borrador de esta identificación...";
+
+
+  try{
+
+    const found =
+      await dbGet(
+        proposedKey
+      );
+
+
+    activeIdentity = {
+      studentKey,
+      section,
+      studentName
+    };
+
+
+    activeDraftKey =
+      proposedKey;
+
+
+    if(found){
+
+      activeDraft =
+        found;
+
+
+      const when =
+        found.timestamp
+          ? new Date(
+              found.timestamp
+            ).toLocaleString("es-GT")
+          : "fecha no disponible";
+
+
+      $("identityMessage").textContent =
+        "Se encontró un trabajo guardado para esta guía. Último guardado: " +
+        when;
+
+
+      $("identifyBtn")
+        .classList.add("hidden");
+
+      $("continueDraftBtn")
+        .classList.remove("hidden");
+
+      $("newDraftBtn")
+        .classList.remove("hidden");
+
+      $("cancelIdentityBtn")
+        .classList.remove("hidden");
+
+    }else{
+
+      activeDraft =
+        emptyDraft();
+
+      await enterNewDraft();
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    $("identityMessage").textContent =
+      "No fue posible abrir el almacenamiento local.";
+
+  }
+
+}
+
+
+async function continueExistingDraft(){
+
+  if(!activeDraft){
+    return;
+  }
+
+
+  activeIdentity.studentName =
+    activeDraft.studentName ||
+    activeIdentity.studentName ||
+    "";
+
+
+  applyIdentity();
+
+
+  restoreFields(
+    activeDraft.data &&
+    activeDraft.data.fields
+  );
+
+
+  renderAllImages();
+
+
+  hideIdentityOverlay();
+
+  resetIdentityButtons();
+
+
+  setSaveState(
+    "Borrador recuperado ✓",
+    true
+  );
+
+}
+
+
+async function enterNewDraft(){
+
+  activeDraft =
+    emptyDraft();
+
+
+  applyIdentity();
+
+  restoreFields({});
+
+  renderAllImages();
+
+  await saveDraft();
+
+  hideIdentityOverlay();
+
+  resetIdentityButtons();
+
+
+  setSaveState(
+    "Nuevo trabajo creado ✓",
+    true
+  );
+
+}
+
+
+async function confirmNewDraft(){
+
+  const ok =
+    confirm(
+      "Se eliminará el trabajo guardado de esta guía para esta Clave/Carné y Sección. " +
+      "Esta acción no puede deshacerse si no tienes un respaldo. ¿Deseas continuar?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  try{
+
+    await dbDelete(
+      activeDraftKey
+    );
+
+
+    activeDraft =
+      emptyDraft();
+
+
+    await enterNewDraft();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "No fue posible iniciar nuevamente."
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   IMÁGENES OPCIONALES
+   ========================================================== */
+
+function imageBucket(activity){
+
+  if(
+    !activeDraft.data.images[activity]
+  ){
+
+    activeDraft.data.images[activity] =
+      [];
+
+  }
+
+  return activeDraft.data.images[activity];
+
+}
+
+
+async function addImages(
+  activity,
+  fileList
+){
+
+  if(!activeDraft){
+    return;
+  }
+
+
+  const files =
+    Array.from(
+      fileList || []
+    ).filter(
+      file =>
+        file.type.startsWith("image/")
+    );
+
+
+  if(!files.length){
+    return;
+  }
+
+
+  const bucket =
+    imageBucket(activity);
+
+
+  for(const file of files){
+
+    bucket.push({
+
+      id:randomId(),
+
+      name:
+        file.name ||
+        "imagen",
+
+      type:
+        file.type ||
+        "image/*",
+
+      blob:file
+
+    });
+
+  }
+
+
+  renderImages(activity);
+
+  await saveDraft();
+
+}
+
+
+function renderAllImages(){
+
+  renderImages("activity1");
+  renderImages("activity2");
+  renderImages("activity3");
+
+}
+
+
+function renderImages(activity){
+
+  const grid =
+    $(
+      activity +
+      "ImageGrid"
+    );
+
+
+  grid.replaceChildren();
+
+
+  if(
+    !activeDraft ||
+    !activeDraft.data ||
+    !activeDraft.data.images
+  ){
+    return;
+  }
+
+
+  const bucket =
+    imageBucket(activity);
+
+
+  bucket.forEach(item=>{
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "image-card";
+
+
+    const img =
+      document.createElement("img");
+
+    img.alt =
+      "Imagen opcional";
+
+
+    const objectURL =
+      URL.createObjectURL(
+        item.blob
+      );
+
+
+    img.src =
+      objectURL;
+
+
+    img.onload =
+      ()=>URL.revokeObjectURL(
+        objectURL
+      );
+
+
+    const name =
+      document.createElement("div");
+
+    name.className =
+      "image-name";
+
+    name.textContent =
+      item.name ||
+      "imagen";
+
+
+    const actions =
+      document.createElement("div");
+
+    actions.className =
+      "actions";
+
+
+    const replaceBtn =
+      document.createElement("button");
+
+    replaceBtn.type =
+      "button";
+
+    replaceBtn.className =
+      "secondary";
+
+    replaceBtn.textContent =
+      "Reemplazar";
+
+
+    replaceBtn.addEventListener(
+      "click",
+      ()=>{
+
+        currentImageReplace = {
+          activity,
+          id:item.id
+        };
+
+
+        const input =
+          $(
+            activity +
+            "Images"
+          );
+
+
+        input.multiple =
+          false;
+
+        input.click();
+
+      }
+    );
+
+
+    const deleteBtn =
+      document.createElement("button");
+
+    deleteBtn.type =
+      "button";
+
+    deleteBtn.className =
+      "danger";
+
+    deleteBtn.textContent =
+      "Eliminar";
+
+
+    deleteBtn.addEventListener(
+      "click",
+      async ()=>{
+
+        const ok =
+          confirm(
+            "¿Deseas eliminar esta imagen de la guía?"
+          );
+
+
+        if(!ok){
+          return;
+        }
+
+
+        const current =
+          imageBucket(activity);
+
+
+        const index =
+          current.findIndex(
+            x => x.id === item.id
+          );
+
+
+        if(index >= 0){
+
+          current.splice(
+            index,
+            1
+          );
+
+
+          renderImages(activity);
+
+          await saveDraft();
+
+        }
+
+      }
+    );
+
+
+    actions.append(
+      replaceBtn,
+      deleteBtn
+    );
+
+
+    card.append(
+      img,
+      name,
+      actions
+    );
+
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+
+async function handleImageInput(
+  activity,
+  input
+){
+
+  const files =
+    Array.from(
+      input.files || []
+    );
+
+
+  if(
+    currentImageReplace &&
+    currentImageReplace.activity === activity
+  ){
+
+    const file =
+      files.find(
+        f =>
+          f.type.startsWith("image/")
+      );
+
+
+    if(file){
+
+      const bucket =
+        imageBucket(activity);
+
+
+      const index =
+        bucket.findIndex(
+          x =>
+            x.id ===
+            currentImageReplace.id
+        );
+
+
+      if(index >= 0){
+
+        bucket[index] = {
+
+          id:
+            bucket[index].id,
+
+          name:
+            file.name ||
+            "imagen",
+
+          type:
+            file.type ||
+            "image/*",
+
+          blob:file
+
+        };
+
+      }
+
+
+      renderImages(activity);
+
+      await saveDraft();
+
+    }
+
+
+    currentImageReplace =
+      null;
+
+    input.multiple =
+      true;
+
+    input.value =
+      "";
+
+
+    return;
+
+  }
+
+
+  await addImages(
+    activity,
+    files
+  );
+
+
+  input.multiple =
+    true;
+
+  input.value =
+    "";
+
+}
+
+
+/* ==========================================================
+   REVISIÓN DE COMPLETITUD
+   ========================================================== */
+
+function reviewItem(
+  container,
+  text,
+  complete
+){
+
+  const row =
+    document.createElement("div");
+
+  row.className =
+    "review-row";
+
+
+  const label =
+    document.createElement("div");
+
+  label.textContent =
+    text;
+
+
+  const state =
+    document.createElement("div");
+
+  state.className =
+    "review-state " +
+    (
+      complete
+        ? "complete"
+        : "pending"
+    );
+
+
+  state.textContent =
+    complete
+      ? "COMPLETO"
+      : "PENDIENTE";
+
+
+  row.append(
+    label,
+    state
+  );
+
+
+  container.appendChild(row);
+
+}
+
+
+function activity1Complete(){
+
+  return [
+    $("q1"),
+    $("q2"),
+    $("q3"),
+    $("q4"),
+    $("q5"),
+    $("q6"),
+    $("q7")
+  ].every(isComplete);
+
+}
+
+
+function reviewSubmission(){
+
+  const box =
+    $("reviewList");
+
+
+  box.replaceChildren();
+
+
+  reviewItem(
+    box,
+    "Actividad 1 — Las 7 preguntas de “Aplico mis conocimientos” están respondidas",
+    activity1Complete()
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 2 — Registro abierto de la exploración realizado",
+    isComplete(
+      $("explorationRegister")
+    )
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 2 — El estudiante declara haber realizado la práctica en mBlock",
+    $("mblockPracticeConfirmed").checked
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 3 — El estudiante declara haber elaborado el proyecto funcional en mBlock",
+    $("projectConfirmed").checked
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 3 — El estudiante declara haber realizado la ejecución práctica en mBot2/CyberPi",
+    $("physicalExecutionConfirmed").checked
+  );
+
+
+  const note =
+    document.createElement("div");
+
+  note.className =
+    "note";
+
+  note.textContent =
+    "Esta revisión comprueba la completitud de las evidencias académicas " +
+    "y no representa una calificación automática. Las confirmaciones son " +
+    "declaraciones del estudiante; la comprobación real corresponde al docente.";
+
+
+  box.appendChild(note);
+
+}
+
+
+/* ==========================================================
+   RESPALDO JSON VALIDADO
+   ========================================================== */
+
+function blobToDataURL(blob){
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        ()=>resolve(
+          reader.result
+        );
+
+
+      reader.onerror =
+        ()=>reject(
+          reader.error
+        );
+
+
+      reader.readAsDataURL(
+        blob
+      );
+
+    }
+  );
+
+}
+
+
+function dataURLToBlob(dataURL){
+
+  const parts =
+    String(dataURL).split(",");
+
+
+  if(parts.length !== 2){
+
+    throw new Error(
+      "Imagen no válida"
+    );
+
+  }
+
+
+  const mimeMatch =
+    parts[0].match(
+      /data:([^;]+)/
+    );
+
+
+  const mime =
+    mimeMatch
+      ? mimeMatch[1]
+      : "application/octet-stream";
+
+
+  const binary =
+    atob(
+      parts[1]
+    );
+
+
+  const bytes =
+    new Uint8Array(
+      binary.length
+    );
+
+
+  for(
+    let i=0;
+    i<binary.length;
+    i++
+  ){
+
+    bytes[i] =
+      binary.charCodeAt(i);
+
+  }
+
+
+  return new Blob(
+    [bytes],
+    {type:mime}
+  );
+
+}
+
+
+async function draftForBackup(){
+
+  await saveDraft();
+
+
+  const backup = {
+
+    schemaVersion:
+      SCHEMA_VERSION,
+
+    guideId:
+      GUIDE_ID,
+
+    courseId:
+      COURSE_ID,
+
+    grade:
+      GRADE,
+
+    orientation:
+      ORIENTATION,
+
+    studentKey:
+      activeIdentity.studentKey,
+
+    section:
+      activeIdentity.section,
+
+    studentName:
+      $("studentName").value || "",
+
+    timestamp:
+      new Date().toISOString(),
+
+    data:{
+
+      fields:
+        collectFields(),
+
+      images:{
+
+        activity1:[],
+        activity2:[],
+        activity3:[]
+
+      }
+
+    }
+
+  };
+
+
+  for(
+    const activity
+    of [
+      "activity1",
+      "activity2",
+      "activity3"
+    ]
+  ){
+
+    for(
+      const item
+      of imageBucket(activity)
+    ){
+
+      backup.data.images[activity].push({
+
+        id:item.id,
+
+        name:item.name,
+
+        type:item.type,
+
+        dataURL:
+          await blobToDataURL(
+            item.blob
+          )
+
+      });
+
+    }
+
+  }
+
+
+  return backup;
+
+}
+
+
+function downloadBlob(
+  blob,
+  filename
+){
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement("a");
+
+
+  link.href =
+    url;
+
+  link.download =
+    filename;
+
+
+  document.body.appendChild(
+    link
+  );
+
+
+  link.click();
+
+  link.remove();
+
+
+  setTimeout(
+    ()=>URL.revokeObjectURL(
+      url
+    ),
+    1500
+  );
+
+}
+
+
+async function downloadBackup(){
+
+  if(!activeIdentity){
+    return;
+  }
+
+
+  const backup =
+    await draftForBackup();
+
+
+  const json =
+    JSON.stringify(
+      backup,
+      null,
+      2
+    );
+
+
+  const filename =
+    "Respaldo_Robotica_Segundo_Guia01_" +
+    normalizeKey(
+      activeIdentity.section
+    ) +
+    "_" +
+    normalizeKey(
+      activeIdentity.studentKey
+    ) +
+    ".json";
+
+
+  downloadBlob(
+
+    new Blob(
+      [json],
+      {
+        type:"application/json"
+      }
+    ),
+
+    filename
+
+  );
+
+}
+
+
+function validateBackupObject(obj){
+
+  if(
+    !obj ||
+    typeof obj !== "object"
+  ){
+
+    throw new Error(
+      "El archivo no contiene un respaldo válido."
+    );
+
+  }
+
+
+  if(
+    obj.schemaVersion !==
+    SCHEMA_VERSION
+  ){
+
+    throw new Error(
+      "La versión del respaldo no corresponde a esta guía."
+    );
+
+  }
+
+
+  if(
+    obj.guideId !== GUIDE_ID ||
+    obj.courseId !== COURSE_ID
+  ){
+
+    throw new Error(
+      "Este respaldo pertenece a otra guía o curso y no puede cargarse aquí."
+    );
+
+  }
+
+
+  if(
+    !obj.data ||
+    typeof obj.data !== "object"
+  ){
+
+    throw new Error(
+      "El respaldo no contiene la estructura requerida."
+    );
+
+  }
+
+
+  if(
+    !obj.data.fields ||
+    typeof obj.data.fields !== "object"
+  ){
+
+    throw new Error(
+      "El respaldo no contiene los registros de la guía."
+    );
+
+  }
+
+
+  if(
+    !obj.studentKey ||
+    !obj.section
+  ){
+
+    throw new Error(
+      "El respaldo no contiene identificación del estudiante."
+    );
+
+  }
+
+
+  return true;
+
+}
+
+
+async function importBackupFile(file){
+
+  const text =
+    await file.text();
+
+
+  let obj;
+
+
+  try{
+
+    obj =
+      JSON.parse(text);
+
+  }catch(error){
+
+    throw new Error(
+      "El archivo seleccionado no contiene JSON válido."
+    );
+
+  }
+
+
+  validateBackupObject(obj);
+
+
+  const differentIdentity =
+    normalizeKey(
+      obj.studentKey
+    ) !==
+      normalizeKey(
+        activeIdentity.studentKey
+      ) ||
+
+    normalizeKey(
+      obj.section
+    ) !==
+      normalizeKey(
+        activeIdentity.section
+      );
+
+
+  if(differentIdentity){
+
+    const ok =
+      confirm(
+        "La Clave/Carné o Sección del respaldo no coincide con la identidad activa. " +
+        "¿Deseas cambiar a la identidad del respaldo antes de importarlo?"
+      );
+
+
+    if(!ok){
+
+      throw new Error(
+        "Importación cancelada."
+      );
+
+    }
+
+
+    activeIdentity = {
+
+      studentKey:
+        obj.studentKey,
+
+      section:
+        obj.section,
+
+      studentName:
+        obj.studentName || ""
+
+    };
+
+
+    activeDraftKey =
+      makeDraftKey(
+        obj.section,
+        obj.studentKey
+      );
+
+  }
+
+
+  const importedImages = {
+
+    activity1:[],
+    activity2:[],
+    activity3:[]
+
+  };
+
+
+  const sourceImages =
+    obj.data.images &&
+    typeof obj.data.images === "object"
+      ? obj.data.images
+      : {};
+
+
+  for(
+    const activity
+    of [
+      "activity1",
+      "activity2",
+      "activity3"
+    ]
+  ){
+
+    const items =
+      Array.isArray(
+        sourceImages[activity]
+      )
+        ? sourceImages[activity]
+        : [];
+
+
+    for(const item of items){
+
+      if(!item.dataURL){
+        continue;
+      }
+
+
+      importedImages[activity].push({
+
+        id:
+          item.id ||
+          randomId(),
+
+        name:
+          item.name ||
+          "imagen",
+
+        type:
+          item.type ||
+          "image/*",
+
+        blob:
+          dataURLToBlob(
+            item.dataURL
+          )
+
+      });
+
+    }
+
+  }
+
+
+  activeDraft = {
+
+    schemaVersion:
+      SCHEMA_VERSION,
+
+    guideId:
+      GUIDE_ID,
+
+    courseId:
+      COURSE_ID,
+
+    grade:
+      GRADE,
+
+    orientation:
+      ORIENTATION,
+
+    studentKey:
+      activeIdentity.studentKey,
+
+    section:
+      activeIdentity.section,
+
+    studentName:
+      obj.studentName || "",
+
+    timestamp:
+      new Date().toISOString(),
+
+    data:{
+
+      fields:
+        obj.data.fields,
+
+      images:
+        importedImages
+
+    }
+
+  };
+
+
+  applyIdentity();
+
+
+  restoreFields(
+    obj.data.fields
+  );
+
+
+  renderAllImages();
+
+
+  await saveDraft();
+
+
+  alert(
+    "Respaldo cargado correctamente."
+  );
+
+}
+
+
+/* ==========================================================
+   PDF AUTOCONTENIDO
+   Genera páginas JPEG y construye un PDF sin librerías externas.
+   ========================================================== */
+
+function wrapCanvasText(
+  ctx,
+  text,
+  maxWidth
+){
+
+  const paragraphs =
+    String(text || "")
+      .split(/\n+/);
+
+  const lines = [];
+
+
+  paragraphs.forEach(paragraph=>{
+
+    const words =
+      paragraph
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+
+    if(!words.length){
+
+      lines.push("");
+      return;
+
+    }
+
+
+    let line = "";
+
+
+    words.forEach(word=>{
+
+      const candidate =
+        line
+          ? line + " " + word
+          : word;
+
+
+      if(
+        ctx.measureText(candidate).width <=
+        maxWidth
+      ){
+
+        line =
+          candidate;
+
+      }else{
+
+        if(line){
+          lines.push(line);
+        }
+
+        line =
+          word;
+
+      }
+
+    });
+
+
+    if(line){
+      lines.push(line);
+    }
+
+  });
+
+
+  return lines;
+
+}
+
+
+function createPdfPage(){
+
+  const canvas =
+    document.createElement("canvas");
+
+
+  canvas.width =
+    1240;
+
+  canvas.height =
+    1754;
+
+
+  const ctx =
+    canvas.getContext("2d");
+
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+
+  return {
+    canvas,
+    ctx,
+    y:90
+  };
+
+}
+
+
+function drawPdfHeader(page){
+
+  const ctx =
+    page.ctx;
+
+
+  ctx.fillStyle =
+    "#183b66";
+
+  ctx.fillRect(
+    0,
+    0,
+    page.canvas.width,
+    135
+  );
+
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.font =
+    "bold 31px Arial";
+
+  ctx.fillText(
+    "Colegio de Informática Justo Rufino Bautista",
+    70,
+    58
+  );
+
+
+  ctx.font =
+    "22px Arial";
+
+  ctx.fillText(
+    "Robótica — Segundo Básico — Guía No. 1",
+    70,
+    96
+  );
+
+
+  page.y =
+    175;
+
+}
+
+
+function pdfDrawText(
+  pages,
+  text,
+  options={}
+){
+
+  let page =
+    pages[pages.length - 1];
+
+
+  const size =
+    options.size || 22;
+
+  const bold =
+    Boolean(options.bold);
+
+  const color =
+    options.color || "#1f2933";
+
+  const marginX =
+    70;
+
+  const maxWidth =
+    page.canvas.width -
+    (marginX * 2);
+
+  const lineHeight =
+    Math.round(size * 1.42);
+
+
+  page.ctx.font =
+    (bold ? "bold " : "") +
+    size +
+    "px Arial";
+
+
+  const lines =
+    wrapCanvasText(
+      page.ctx,
+      text,
+      maxWidth
+    );
+
+
+  for(const line of lines){
+
+    if(
+      page.y +
+      lineHeight >
+      page.canvas.height - 85
+    ){
+
+      page =
+        createPdfPage();
+
+      pages.push(page);
+
+      drawPdfHeader(page);
+
+
+      page.ctx.font =
+        (bold ? "bold " : "") +
+        size +
+        "px Arial";
+
+    }
+
+
+    page.ctx.fillStyle =
+      color;
+
+
+    page.ctx.fillText(
+      line,
+      marginX,
+      page.y
+    );
+
+
+    page.y +=
+      lineHeight;
+
+  }
+
+
+  page.y +=
+    options.after == null
+      ? 8
+      : options.after;
+
+}
+
+
+function loadBlobImage(blob){
+
+  return new Promise((resolve,reject)=>{
+
+    const url =
+      URL.createObjectURL(blob);
+
+
+    const img =
+      new Image();
+
+
+    img.onload =
+      ()=>{
+
+        URL.revokeObjectURL(url);
+
+        resolve(img);
+
+      };
+
+
+    img.onerror =
+      ()=>{
+
+        URL.revokeObjectURL(url);
+
+        reject(
+          new Error("No fue posible leer una imagen.")
+        );
+
+      };
+
+
+    img.src =
+      url;
+
+  });
+
+}
+
+
+async function pdfDrawImages(
+  pages,
+  activity
+){
+
+  const bucket =
+    imageBucket(activity);
+
+
+  if(!bucket.length){
+    return;
+  }
+
+
+  pdfDrawText(
+    pages,
+    "Fotografías o capturas opcionales conservadas:",
+    {
+      size:21,
+      bold:true,
+      color:"#24598f",
+      after:10
+    }
+  );
+
+
+  for(const item of bucket){
+
+    const img =
+      await loadBlobImage(
+        item.blob
+      );
+
+
+    let page =
+      pages[pages.length - 1];
+
+
+    const maxW =
+      1000;
+
+    const maxH =
+      570;
+
+
+    const ratio =
+      Math.min(
+        maxW / img.width,
+        maxH / img.height,
+        1
+      );
+
+
+    const width =
+      img.width * ratio;
+
+    const height =
+      img.height * ratio;
+
+
+    if(
+      page.y +
+      height +
+      70 >
+      page.canvas.height - 80
+    ){
+
+      page =
+        createPdfPage();
+
+      pages.push(page);
+
+      drawPdfHeader(page);
+
+    }
+
+
+    const x =
+      (page.canvas.width - width) / 2;
+
+
+    page.ctx.drawImage(
+      img,
+      x,
+      page.y,
+      width,
+      height
+    );
+
+
+    page.y +=
+      height + 20;
+
+
+    page.ctx.fillStyle =
+      "#66788a";
+
+    page.ctx.font =
+      "17px Arial";
+
+
+    page.ctx.fillText(
+      item.name || "Imagen opcional",
+      70,
+      page.y
+    );
+
+
+    page.y +=
+      35;
+
+  }
+
+}
+
+
+function dataURLToBinaryBytes(dataURL){
+
+  const base64 =
+    dataURL.split(",")[1];
+
+
+  const binary =
+    atob(base64);
+
+
+  const bytes =
+    new Uint8Array(
+      binary.length
+    );
+
+
+  for(
+    let i=0;
+    i<binary.length;
+    i++
+  ){
+
+    bytes[i] =
+      binary.charCodeAt(i);
+
+  }
+
+
+  return bytes;
+
+}
+
+
+function strBytes(text){
+
+  return new TextEncoder()
+    .encode(text);
+
+}
+
+
+function concatByteArrays(parts){
+
+  let total = 0;
+
+
+  parts.forEach(
+    part => total += part.length
+  );
+
+
+  const out =
+    new Uint8Array(total);
+
+
+  let offset = 0;
+
+
+  parts.forEach(part=>{
+
+    out.set(
+      part,
+      offset
+    );
+
+    offset +=
+      part.length;
+
+  });
+
+
+  return out;
+
+}
+
+
+function buildRasterPdf(
+  jpegPages,
+  width,
+  height
+){
+
+  const objects = [];
+
+
+  const addObject =
+    content =>{
+
+      objects.push(content);
+
+      return objects.length;
+
+    };
+
+
+  const catalogId =
+    addObject(null);
+
+
+  const pagesId =
+    addObject(null);
+
+
+  const pageIds = [];
+
+
+  jpegPages.forEach((jpegBytes,index)=>{
+
+    const imageId =
+      addObject({
+        stream:jpegBytes,
+        dict:
+          "<< /Type /XObject /Subtype /Image " +
+          "/Width " + width + " " +
+          "/Height " + height + " " +
+          "/ColorSpace /DeviceRGB " +
+          "/BitsPerComponent 8 " +
+          "/Filter /DCTDecode " +
+          "/Length " + jpegBytes.length +
+          " >>"
+      });
+
+
+    const contentString =
+      "q\n" +
+      "595 0 0 842 0 0 cm\n" +
+      "/Im" + index + " Do\n" +
+      "Q\n";
+
+
+    const contentBytes =
+      strBytes(
+        contentString
+      );
+
+
+    const contentId =
+      addObject({
+        stream:contentBytes,
+        dict:
+          "<< /Length " +
+          contentBytes.length +
+          " >>"
+      });
+
+
+    const pageId =
+      addObject(
+        "<< /Type /Page " +
+        "/Parent " + pagesId + " 0 R " +
+        "/MediaBox [0 0 595 842] " +
+        "/Resources << /XObject << " +
+        "/Im" + index + " " +
+        imageId + " 0 R " +
+        ">> >> " +
+        "/Contents " +
+        contentId + " 0 R " +
+        ">>"
+      );
+
+
+    pageIds.push(
+      pageId
+    );
+
+  });
+
+
+  objects[catalogId - 1] =
+    "<< /Type /Catalog /Pages " +
+    pagesId +
+    " 0 R >>";
+
+
+  objects[pagesId - 1] =
+    "<< /Type /Pages /Kids [" +
+    pageIds
+      .map(id => id + " 0 R")
+      .join(" ") +
+    "] /Count " +
+    pageIds.length +
+    " >>";
+
+
+  const header =
+    strBytes(
+      "%PDF-1.4\n%PDFGEN\n"
+    );
+
+
+  const chunks = [
+    header
+  ];
+
+
+  const offsets = [
+    0
+  ];
+
+
+  let currentOffset =
+    header.length;
+
+
+  objects.forEach(
+    (obj,index)=>{
+
+      offsets[index + 1] =
+        currentOffset;
+
+
+      const prefix =
+        strBytes(
+          (index + 1) +
+          " 0 obj\n"
+        );
+
+
+      chunks.push(prefix);
+
+      currentOffset +=
+        prefix.length;
+
+
+      if(
+        obj &&
+        typeof obj === "object" &&
+        obj.stream
+      ){
+
+        const dict =
+          strBytes(
+            obj.dict +
+            "\nstream\n"
+          );
+
+
+        chunks.push(dict);
+
+        currentOffset +=
+          dict.length;
+
+
+        chunks.push(
+          obj.stream
+        );
+
+        currentOffset +=
+          obj.stream.length;
+
+
+        const suffix =
+          strBytes(
+            "\nendstream\nendobj\n"
+          );
+
+
+        chunks.push(suffix);
+
+        currentOffset +=
+          suffix.length;
+
+      }else{
+
+        const content =
+          strBytes(
+            String(obj) +
+            "\nendobj\n"
+          );
+
+
+        chunks.push(content);
+
+        currentOffset +=
+          content.length;
+
+      }
+
+    }
+  );
+
+
+  const xrefOffset =
+    currentOffset;
+
+
+  let xref =
+    "xref\n" +
+    "0 " +
+    (objects.length + 1) +
+    "\n" +
+    "0000000000 65535 f \n";
+
+
+  for(
+    let i=1;
+    i<=objects.length;
+    i++
+  ){
+
+    xref +=
+      String(offsets[i])
+        .padStart(10,"0") +
+      " 00000 n \n";
+
+  }
+
+
+  xref +=
+    "trailer\n" +
+    "<< /Size " +
+    (objects.length + 1) +
+    " /Root " +
+    catalogId +
+    " 0 R >>\n" +
+    "startxref\n" +
+    xrefOffset +
+    "\n%%EOF";
+
+
+  chunks.push(
+    strBytes(xref)
+  );
+
+
+  return concatByteArrays(
+    chunks
+  );
+
+}
+
+
+async function buildPdfPages(){
+
+  const pages = [
+    createPdfPage()
+  ];
+
+
+  drawPdfHeader(
+    pages[0]
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Guía No. 1 — V Unidad — V Bimestre",
+    {
+      size:27,
+      bold:true,
+      color:"#183b66"
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Tema: El sonido y las notas musicales",
+    {
+      size:23,
+      bold:true
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Estudiante: " +
+    ($("studentName").value || "")
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Clave/Carné: " +
+    $("studentKey").value
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Sección: " +
+    $("studentSection").value
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Entrega: viernes 28 de agosto de 2026 — 18:00 horas"
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Ponderación total: 10 puntos"
+  );
+
+
+  /* ACTIVIDAD 1 */
+
+  pdfDrawText(
+    pages,
+    "Actividad 1 — Comprendiendo el sonido en robótica — 3 pts",
+    {
+      size:25,
+      bold:true,
+      color:"#24598f",
+      after:12
+    }
+  );
+
+
+  const questions = [
+
+    [
+      "1. ¿Qué es el sonido y cómo se produce?",
+      $("q1").value
+    ],
+
+    [
+      "2. ¿Cuál es la diferencia entre un sonido musical y un ruido?",
+      $("q2").value
+    ],
+
+    [
+      "3. ¿Qué tipos de sonidos se consideran artificiales y cuáles aplicaciones tienen en tecnología?",
+      $("q3").value
+    ],
+
+    [
+      "4. ¿Cómo se propaga el sonido a través del aire?",
+      $("q4").value
+    ],
+
+    [
+      "5. Explica cómo se difunde el sonido a través del agua.",
+      $("q5").value
+    ],
+
+    [
+      "6. Define el concepto de frecuencia y describe cómo afecta al tono de un sonido.",
+      $("q6").value
+    ],
+
+    [
+      "7. ¿Qué papel juega el sonido en la comunicación diaria?",
+      $("q7").value
+    ]
+
+  ];
+
+
+  questions.forEach(item=>{
+
+    pdfDrawText(
+      pages,
+      item[0],
+      {
+        size:20,
+        bold:true
+      }
+    );
+
+
+    pdfDrawText(
+      pages,
+      item[1],
+      {
+        size:19,
+        after:18
+      }
+    );
+
+  });
+
+
+  await pdfDrawImages(
+    pages,
+    "activity1"
+  );
+
+
+  /* ACTIVIDAD 2 */
+
+  pdfDrawText(
+    pages,
+    "Actividad 2 — Exploración del bloque “tocar nota” en mBlock — 3 pts",
+    {
+      size:25,
+      bold:true,
+      color:"#24598f",
+      after:12
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Registro abierto de la exploración:",
+    {
+      size:20,
+      bold:true
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    $("explorationRegister").value,
+    {
+      size:19,
+      after:18
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Declaración del estudiante — práctica en mBlock: " +
+    (
+      $("mblockPracticeConfirmed").checked
+        ? "CONFIRMADA"
+        : "PENDIENTE"
+    ),
+    {
+      size:20,
+      bold:true
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "La confirmación anterior es una declaración del estudiante y no constituye una verificación automática del funcionamiento.",
+    {
+      size:18
+    }
+  );
+
+
+  await pdfDrawImages(
+    pages,
+    "activity2"
+  );
+
+
+  /* ACTIVIDAD 3 */
+
+  pdfDrawText(
+    pages,
+    "Actividad 3 — Programación de una melodía con mBot2 — 4 pts",
+    {
+      size:25,
+      bold:true,
+      color:"#24598f",
+      after:12
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Declaración del estudiante — proyecto funcional elaborado en mBlock: " +
+    (
+      $("projectConfirmed").checked
+        ? "CONFIRMADA"
+        : "PENDIENTE"
+    ),
+    {
+      size:20,
+      bold:true
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Declaración del estudiante — ejecución práctica realizada en mBot2/CyberPi: " +
+    (
+      $("physicalExecutionConfirmed").checked
+        ? "CONFIRMADA"
+        : "PENDIENTE"
+    ),
+    {
+      size:20,
+      bold:true
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Estas confirmaciones registran declaraciones del estudiante. La comprobación real del proyecto funcional y de la ejecución física corresponde al docente.",
+    {
+      size:18
+    }
+  );
+
+
+  await pdfDrawImages(
+    pages,
+    "activity3"
+  );
+
+
+  /* REVISIÓN */
+
+  pdfDrawText(
+    pages,
+    "Revisión de completitud",
+    {
+      size:25,
+      bold:true,
+      color:"#24598f"
+    }
+  );
+
+
+  const reviewRows = [
+
+    [
+      "Actividad 1 — 7 respuestas",
+      activity1Complete()
+    ],
+
+    [
+      "Actividad 2 — Registro abierto",
+      isComplete(
+        $("explorationRegister")
+      )
+    ],
+
+    [
+      "Actividad 2 — Declaración de práctica mBlock",
+      $("mblockPracticeConfirmed").checked
+    ],
+
+    [
+      "Actividad 3 — Declaración de proyecto mBlock",
+      $("projectConfirmed").checked
+    ],
+
+    [
+      "Actividad 3 — Declaración de ejecución mBot2/CyberPi",
+      $("physicalExecutionConfirmed").checked
+    ]
+
+  ];
+
+
+  reviewRows.forEach(row=>{
+
+    pdfDrawText(
+      pages,
+      row[0] +
+      ": " +
+      (
+        row[1]
+          ? "COMPLETO"
+          : "PENDIENTE"
+      ),
+      {
+        size:20
+      }
+    );
+
+  });
+
+
+  pdfDrawText(
+    pages,
+    "Esta revisión comprueba la completitud de las evidencias académicas y no representa una calificación automática.",
+    {
+      size:18,
+      bold:true
+    }
+  );
+
+
+  /* PONDERACIÓN */
+
+  pdfDrawText(
+    pages,
+    "Ponderación",
+    {
+      size:25,
+      bold:true,
+      color:"#24598f"
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Actividad 1 — Comprendiendo el sonido en robótica: 3 pts"
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Actividad 2 — Exploración del bloque “tocar nota” en mBlock: 3 pts"
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Actividad 3 — Programación de una melodía con mBot2: 4 pts"
+  );
+
+
+  pdfDrawText(
+    pages,
+    "TOTAL: 10 puntos",
+    {
+      bold:true
+    }
+  );
+
+
+  /* ENTREGA */
+
+  pdfDrawText(
+    pages,
+    "Entrega oficial",
+    {
+      size:25,
+      bold:true,
+      color:"#24598f"
+    }
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Demostración práctica: mBot2/CyberPi."
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Google Classroom: archivo del proyecto de mBlock + PDF generado por la guía."
+  );
+
+
+  pdfDrawText(
+    pages,
+    "Las fotografías o capturas incluidas en este PDF son opcionales y no constituyen requisitos de completitud.",
+    {
+      size:18
+    }
+  );
+
+
+  return pages;
+
+}
+
+
+async function generatePdf(){
+
+  if(!guideIsComplete()){
+
+    updateProgress();
+
+    alert(
+      "Debes completar el 100 % de las evidencias académicas de la guía antes de generar el PDF."
+    );
+
+    return;
+
+  }
+
+
+  await saveDraft();
+
+
+  const pages =
+    await buildPdfPages();
+
+
+  const jpegPages =
+    pages.map(page=>{
+
+      const dataURL =
+        page.canvas.toDataURL(
+          "image/jpeg",
+          0.88
+        );
+
+
+      return dataURLToBinaryBytes(
+        dataURL
+      );
+
+    });
+
+
+  const pdfBytes =
+    buildRasterPdf(
+      jpegPages,
+      1240,
+      1754
+    );
+
+
+  const filename =
+    "Guia01_Robotica_Segundo_" +
+    normalizeKey(
+      $("studentSection").value
+    ) +
+    "_" +
+    normalizeKey(
+      $("studentKey").value
+    ) +
+    ".pdf";
+
+
+  downloadBlob(
+
+    new Blob(
+      [pdfBytes],
+      {
+        type:"application/pdf"
+      }
+    ),
+
+    filename
+
+  );
+
+}
+
+
+/* ==========================================================
+   IMPRESIÓN / GUARDAR COMO PDF
+   ========================================================== */
+
+function appendPrintText(
+  parent,
+  tag,
+  label,
+  value
+){
+
+  const el =
+    document.createElement(tag);
+
+
+  const strong =
+    document.createElement("strong");
+
+  strong.textContent =
+    label;
+
+
+  el.appendChild(strong);
+
+  el.appendChild(
+    document.createTextNode(
+      value || ""
+    )
+  );
+
+
+  parent.appendChild(el);
+
+}
+
+
+async function appendPrintImages(
+  parent,
+  activity
+){
+
+  const bucket =
+    imageBucket(activity);
+
+
+  if(!bucket.length){
+    return;
+  }
+
+
+  const title =
+    document.createElement("h3");
+
+  title.textContent =
+    "Fotografías o capturas opcionales";
+
+  parent.appendChild(title);
+
+
+  for(const item of bucket){
+
+    const img =
+      document.createElement("img");
+
+
+    img.src =
+      await blobToDataURL(
+        item.blob
+      );
+
+
+    img.alt =
+      "Imagen opcional";
+
+
+    parent.appendChild(img);
+
+  }
+
+}
+
+
+async function buildPrintArea(){
+
+  const area =
+    $("printArea");
+
+
+  area.replaceChildren();
+
+
+  const h1 =
+    document.createElement("h1");
+
+  h1.textContent =
+    "Colegio de Informática Justo Rufino Bautista";
+
+
+  area.appendChild(h1);
+
+
+  const h2 =
+    document.createElement("h2");
+
+  h2.textContent =
+    "Robótica — Segundo Básico — Guía No. 1 — V Unidad";
+
+
+  area.appendChild(h2);
+
+
+  appendPrintText(
+    area,
+    "p",
+    "Tema: ",
+    "El sonido y las notas musicales"
+  );
+
+
+  appendPrintText(
+    area,
+    "p",
+    "Estudiante: ",
+    $("studentName").value
+  );
+
+
+  appendPrintText(
+    area,
+    "p",
+    "Clave/Carné: ",
+    $("studentKey").value
+  );
+
+
+  appendPrintText(
+    area,
+    "p",
+    "Sección: ",
+    $("studentSection").value
+  );
+
+
+  appendPrintText(
+    area,
+    "p",
+    "Entrega: ",
+    "28/08/2026 — 18:00 horas"
+  );
+
+
+  const a1 =
+    document.createElement("section");
+
+  a1.className =
+    "pdf-section";
+
+
+  const a1h =
+    document.createElement("h2");
+
+  a1h.textContent =
+    "Actividad 1 — Comprendiendo el sonido en robótica — 3 pts";
+
+
+  a1.appendChild(a1h);
+
+
+  const questions = [
+
+    ["1. ¿Qué es el sonido y cómo se produce? ",$("q1").value],
+    ["2. ¿Cuál es la diferencia entre un sonido musical y un ruido? ",$("q2").value],
+    ["3. ¿Qué tipos de sonidos se consideran artificiales y cuáles aplicaciones tienen en tecnología? ",$("q3").value],
+    ["4. ¿Cómo se propaga el sonido a través del aire? ",$("q4").value],
+    ["5. Explica cómo se difunde el sonido a través del agua. ",$("q5").value],
+    ["6. Define el concepto de frecuencia y describe cómo afecta al tono de un sonido. ",$("q6").value],
+    ["7. ¿Qué papel juega el sonido en la comunicación diaria? ",$("q7").value]
+
+  ];
+
+
+  questions.forEach(item=>{
+
+    appendPrintText(
+      a1,
+      "p",
+      item[0],
+      item[1]
+    );
+
+  });
+
+
+  await appendPrintImages(
+    a1,
+    "activity1"
+  );
+
+
+  area.appendChild(a1);
+
+
+  const a2 =
+    document.createElement("section");
+
+  a2.className =
+    "pdf-section";
+
+
+  const a2h =
+    document.createElement("h2");
+
+  a2h.textContent =
+    "Actividad 2 — Exploración del bloque “tocar nota” en mBlock — 3 pts";
+
+
+  a2.appendChild(a2h);
+
+
+  appendPrintText(
+    a2,
+    "p",
+    "Registro abierto: ",
+    $("explorationRegister").value
+  );
+
+
+  appendPrintText(
+    a2,
+    "p",
+    "Declaración de práctica en mBlock: ",
+    $("mblockPracticeConfirmed").checked
+      ? "CONFIRMADA"
+      : "PENDIENTE"
+  );
+
+
+  await appendPrintImages(
+    a2,
+    "activity2"
+  );
+
+
+  area.appendChild(a2);
+
+
+  const a3 =
+    document.createElement("section");
+
+  a3.className =
+    "pdf-section";
+
+
+  const a3h =
+    document.createElement("h2");
+
+  a3h.textContent =
+    "Actividad 3 — Programación de una melodía con mBot2 — 4 pts";
+
+
+  a3.appendChild(a3h);
+
+
+  appendPrintText(
+    a3,
+    "p",
+    "Declaración de proyecto funcional en mBlock: ",
+    $("projectConfirmed").checked
+      ? "CONFIRMADA"
+      : "PENDIENTE"
+  );
+
+
+  appendPrintText(
+    a3,
+    "p",
+    "Declaración de ejecución práctica en mBot2/CyberPi: ",
+    $("physicalExecutionConfirmed").checked
+      ? "CONFIRMADA"
+      : "PENDIENTE"
+  );
+
+
+  await appendPrintImages(
+    a3,
+    "activity3"
+  );
+
+
+  area.appendChild(a3);
+
+
+  const review =
+    document.createElement("section");
+
+  review.className =
+    "pdf-section";
+
+
+  const rh =
+    document.createElement("h2");
+
+  rh.textContent =
+    "Revisión de completitud";
+
+  review.appendChild(rh);
+
+
+  const rows = [
+
+    ["Actividad 1 — 7 respuestas",activity1Complete()],
+    ["Actividad 2 — Registro abierto",isComplete($("explorationRegister"))],
+    ["Actividad 2 — Declaración práctica mBlock",$("mblockPracticeConfirmed").checked],
+    ["Actividad 3 — Declaración proyecto mBlock",$("projectConfirmed").checked],
+    ["Actividad 3 — Declaración ejecución mBot2/CyberPi",$("physicalExecutionConfirmed").checked]
+
+  ];
+
+
+  rows.forEach(row=>{
+
+    const p =
+      document.createElement("p");
+
+    p.textContent =
+      row[0] +
+      ": " +
+      (
+        row[1]
+          ? "COMPLETO"
+          : "PENDIENTE"
+      );
+
+
+    review.appendChild(p);
+
+  });
+
+
+  const note =
+    document.createElement("p");
+
+  note.textContent =
+    "Esta revisión comprueba la completitud de las evidencias académicas " +
+    "y no representa una calificación automática.";
+
+
+  review.appendChild(note);
+
+  area.appendChild(review);
+
+
+  const points =
+    document.createElement("section");
+
+  points.className =
+    "pdf-section";
+
+
+  const ph =
+    document.createElement("h2");
+
+  ph.textContent =
+    "Ponderación";
+
+
+  points.appendChild(ph);
+
+
+  appendPrintText(
+    points,
+    "p",
+    "Actividad 1: ",
+    "3 pts"
+  );
+
+
+  appendPrintText(
+    points,
+    "p",
+    "Actividad 2: ",
+    "3 pts"
+  );
+
+
+  appendPrintText(
+    points,
+    "p",
+    "Actividad 3: ",
+    "4 pts"
+  );
+
+
+  appendPrintText(
+    points,
+    "p",
+    "TOTAL: ",
+    "10 puntos"
+  );
+
+
+  area.appendChild(points);
+
+
+  return area;
+
+}
+
+
+async function printPdf(){
+
+  if(!guideIsComplete()){
+
+    updateProgress();
+
+    alert(
+      "Debes completar el 100 % de las evidencias académicas antes de imprimir o guardar como PDF."
+    );
+
+    return;
+
+  }
+
+
+  await saveDraft();
+
+  await buildPrintArea();
+
+  window.print();
+
+}
+
+
+/* ==========================================================
+   CAMBIAR ESTUDIANTE
+   ========================================================== */
+
+async function changeStudent(){
+
+  const ok =
+    confirm(
+      "El borrador actual se guardará antes de cambiar de estudiante. ¿Deseas continuar?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  await saveDraft();
+
+
+  activeIdentity = null;
+  activeDraftKey = null;
+  activeDraft = null;
+
+
+  $("identityKey").value =
+    "";
+
+  $("identitySection").value =
+    "";
+
+  $("identityName").value =
+    "";
+
+
+  $("identityMessage").textContent =
+    "Ingresa la nueva identificación.";
+
+
+  resetIdentityButtons();
+
+  showIdentityOverlay();
+
+
+  setSaveState(
+    "Esperando identificación",
+    false
+  );
+
+}
+
+
+/* ==========================================================
+   BORRAR BORRADOR
+   ========================================================== */
+
+async function clearCurrentDraft(){
+
+  if(!activeDraftKey){
+    return;
+  }
+
+
+  const ok =
+    confirm(
+      "Se eliminará el trabajo guardado de esta guía para esta Clave/Carné y Sección. " +
+      "Esta acción no puede deshacerse si no tienes un respaldo. ¿Deseas continuar?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  try{
+
+    await dbDelete(
+      activeDraftKey
+    );
+
+
+    saveFields.forEach(el=>{
+
+      if(el.type === "checkbox"){
+
+        el.checked =
+          false;
+
+      }else if(!el.readOnly){
+
+        el.value =
+          "";
+
+      }
+
+    });
+
+
+    activeDraft =
+      emptyDraft();
+
+
+    renderAllImages();
+
+    updateProgress();
+
+
+    $("reviewList")
+      .replaceChildren();
+
+
+    await saveDraft();
+
+
+    alert(
+      "Se creó un nuevo borrador vacío para esta identificación."
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "No fue posible borrar el borrador."
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   EVENTOS
+   ========================================================== */
+
+$("identifyBtn")
+  .addEventListener(
+    "click",
+    identifyStudent
+  );
+
+
+$("continueDraftBtn")
+  .addEventListener(
+    "click",
+    continueExistingDraft
+  );
+
+
+$("newDraftBtn")
+  .addEventListener(
+    "click",
+    confirmNewDraft
+  );
+
+
+$("cancelIdentityBtn")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      activeIdentity = null;
+      activeDraftKey = null;
+      activeDraft = null;
+
+
+      resetIdentityButtons();
+
+
+      $("identityMessage").textContent =
+        "Operación cancelada. Ingresa tu identificación para continuar.";
+
+    }
+  );
+
+
+$("changeStudentBtn")
+  .addEventListener(
+    "click",
+    changeStudent
+  );
+
+
+saveFields.forEach(el=>{
+
+  ["input","change"]
+    .forEach(eventName=>{
+
+      el.addEventListener(
+        eventName,
+        ()=>{
+
+          updateProgress();
+
+          scheduleSave();
+
+        }
+      );
+
+    });
+
+});
+
+
+$("activity1Images")
+  .addEventListener(
+    "change",
+    function(){
+
+      handleImageInput(
+        "activity1",
+        this
+      );
+
+    }
+  );
+
+
+$("activity2Images")
+  .addEventListener(
+    "change",
+    function(){
+
+      handleImageInput(
+        "activity2",
+        this
+      );
+
+    }
+  );
+
+
+$("activity3Images")
+  .addEventListener(
+    "change",
+    function(){
+
+      handleImageInput(
+        "activity3",
+        this
+      );
+
+    }
+  );
+
+
+$("reviewBtn")
+  .addEventListener(
+    "click",
+    reviewSubmission
+  );
+
+
+$("downloadBackup")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      downloadBackup()
+        .catch(error=>{
+
+          console.error(error);
+
+          alert(
+            "No fue posible generar el respaldo."
+          );
+
+        });
+
+    }
+  );
+
+
+$("loadBackup")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      $("backupFile")
+        .click();
+
+    }
+  );
+
+
+$("backupFile")
+  .addEventListener(
+    "change",
+    async function(){
+
+      const file =
+        this.files &&
+        this.files[0];
+
+
+      if(!file){
+        return;
+      }
+
+
+      try{
+
+        await importBackupFile(
+          file
+        );
+
+      }catch(error){
+
+        alert(
+          error.message ||
+          "No fue posible cargar el respaldo."
+        );
+
+      }
+
+
+      this.value =
+        "";
+
+    }
+  );
+
+
+$("generatePdf")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      generatePdf()
+        .catch(error=>{
+
+          console.error(error);
+
+          alert(
+            "No fue posible generar el PDF."
+          );
+
+        });
+
+    }
+  );
+
+
+$("printPdf")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      printPdf()
+        .catch(error=>{
+
+          console.error(error);
+
+          alert(
+            "No fue posible preparar la impresión."
+          );
+
+        });
+
+    }
+  );
+
+
+$("clearDraft")
+  .addEventListener(
+    "click",
+    clearCurrentDraft
+  );
+
+
+/* Estado inicial */
+updateProgress();
+
+})();
+</script>
+
+</body>
+</html>

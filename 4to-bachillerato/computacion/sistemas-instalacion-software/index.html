@@ -1,0 +1,4464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Sistemas e Instalación de Software - Guía No. 1 - T568A y T568B</title>
+
+<style>
+:root{
+  --azul:#183b66;
+  --azul2:#24598f;
+  --verde:#2f6f5e;
+  --fondo:#f4f7fa;
+  --panel:#ffffff;
+  --texto:#1f2933;
+  --muted:#66788a;
+  --borde:#d9e2ec;
+  --amarillo:#fff7d6;
+  --rojo:#8b3434;
+  --violeta:#674c91;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--fondo);
+  color:var(--texto);
+  line-height:1.5;
+}
+
+.hidden{display:none!important}
+
+header{
+  background:linear-gradient(135deg,var(--azul),var(--azul2));
+  color:#fff;
+  padding:22px 18px;
+}
+
+.header-wrap,.container{
+  max-width:1100px;
+  margin:auto;
+}
+
+.institution{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.institution-logo{
+  width:92px;
+  height:92px;
+  flex:0 0 auto;
+  border-radius:14px;
+  background:#fff;
+}
+
+.institution-text{min-width:0}
+
+h1{
+  font-size:clamp(1.45rem,3vw,2rem);
+  margin:4px 0 8px;
+}
+
+h2{
+  font-size:1.25rem;
+  color:var(--azul);
+  margin:0 0 12px;
+}
+
+h3{
+  font-size:1.05rem;
+  margin:18px 0 8px;
+}
+
+.subtitle{
+  opacity:.96;
+  margin:2px 0;
+}
+
+.meta{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:10px;
+  margin-top:16px;
+}
+
+.meta div{
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.25);
+  padding:9px 10px;
+  border-radius:10px;
+}
+
+.progress-shell{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(244,247,250,.96);
+  border-bottom:1px solid var(--borde);
+  padding:10px 18px;
+  backdrop-filter:blur(6px);
+}
+
+.progress-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.progressbar{
+  height:12px;
+  flex:1;
+  min-width:180px;
+  background:#dce5ee;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progressbar span{
+  display:block;
+  height:100%;
+  width:0;
+  background:var(--verde);
+  transition:width .2s ease;
+}
+
+.progress-text{
+  font-weight:700;
+  color:var(--azul);
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#b0bec9;
+}
+
+.dot.saved{background:#3c8a67}
+
+.container{padding:18px}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--borde);
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 3px 10px rgba(24,59,102,.05);
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+label{
+  font-weight:700;
+  display:block;
+  margin:8px 0 6px;
+}
+
+input[type=text],
+textarea{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #b8c6d4;
+  border-radius:9px;
+  background:#fff;
+  color:var(--texto);
+  font:inherit;
+}
+
+textarea{
+  min-height:95px;
+  resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+button:focus{
+  outline:3px solid rgba(36,89,143,.22);
+  outline-offset:2px;
+}
+
+button{
+  border:0;
+  padding:11px 15px;
+  border-radius:9px;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  background:var(--azul);
+  color:#fff;
+}
+
+button.secondary{background:#53687a}
+button.success{background:var(--verde)}
+button.danger{background:var(--rojo)}
+button.violet{background:var(--violeta)}
+
+button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.badge{
+  display:inline-block;
+  font-size:.82rem;
+  font-weight:700;
+  border-radius:999px;
+  padding:5px 9px;
+  margin:0 5px 7px 0;
+  background:#e8f0f8;
+  color:var(--azul);
+}
+
+.badge.work{
+  background:#e9f5ee;
+  color:#245a48;
+}
+
+.badge.optional{
+  background:#f0eafa;
+  color:#60428a;
+}
+
+.badge.deadline{
+  background:#fff1d6;
+  color:#805b16;
+}
+
+.note{
+  border-left:5px solid var(--azul2);
+  background:#eef5fb;
+  padding:12px 14px;
+  border-radius:8px;
+  margin:12px 0;
+}
+
+.warn{
+  border-left-color:#c58b16;
+  background:var(--amarillo);
+}
+
+.oknote{
+  border-left-color:var(--verde);
+  background:#edf8f3;
+}
+
+.cnb{
+  background:#f7f9fc;
+  border:1px dashed #a8bacb;
+  padding:12px;
+  border-radius:10px;
+}
+
+.step{
+  border-left:4px solid var(--azul2);
+  padding:4px 0 4px 14px;
+  margin:15px 0;
+}
+
+.small{
+  font-size:.88rem;
+  color:var(--muted);
+}
+
+.reqmark{color:#a63b3b}
+
+.checkline{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin:10px 0;
+  font-weight:400;
+}
+
+.checkline input{
+  margin-top:4px;
+  transform:scale(1.18);
+}
+
+.table-wrap{overflow-x:auto}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+th,td{
+  border:1px solid var(--borde);
+  padding:9px;
+  text-align:left;
+  vertical-align:top;
+}
+
+th{
+  background:#eef3f8;
+  color:var(--azul);
+}
+
+.pin-table td:first-child{
+  width:60px;
+  text-align:center;
+  font-weight:700;
+}
+
+.color-sequence{
+  font-family:Consolas,monospace;
+  background:#f4f6f8;
+  border:1px solid var(--borde);
+  border-radius:8px;
+  padding:10px;
+}
+
+.image-area{
+  border:2px dashed #b8c6d4;
+  border-radius:12px;
+  padding:14px;
+  background:#fbfcfe;
+  margin-top:15px;
+}
+
+.image-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:12px;
+  margin-top:12px;
+}
+
+.image-card{
+  border:1px solid var(--borde);
+  border-radius:11px;
+  padding:9px;
+  background:#fff;
+}
+
+.image-card img{
+  display:block;
+  width:100%;
+  height:160px;
+  object-fit:contain;
+  background:#f5f7f9;
+  border-radius:8px;
+}
+
+.image-name{
+  margin:7px 0;
+  color:var(--muted);
+  font-size:.82rem;
+  overflow-wrap:anywhere;
+}
+
+.image-card button{
+  padding:7px 9px;
+  font-size:.82rem;
+}
+
+.review-list{
+  display:grid;
+  gap:9px;
+  margin-top:12px;
+}
+
+.review-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:11px;
+  border:1px solid var(--borde);
+  border-radius:10px;
+}
+
+.review-state{
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.complete{color:var(--verde)}
+.pending{color:#9a6810}
+
+.identity-overlay{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(20,35,50,.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.identity-card{
+  width:min(610px,100%);
+  background:#fff;
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 20px 70px rgba(0,0,0,.3);
+}
+
+.identity-message{
+  margin:12px 0;
+  padding:12px;
+  background:#eef5fb;
+  border-radius:9px;
+}
+
+.pdf-photo{
+  margin:12px 0 20px;
+  page-break-inside:avoid;
+}
+
+.pdf-photo img{
+  display:block;
+  max-width:100%;
+  max-height:480px;
+  object-fit:contain;
+}
+
+.pdf-review-row{
+  margin:5px 0;
+}
+
+#printArea{display:none}
+
+footer{
+  max-width:1100px;
+  margin:auto;
+  padding:6px 18px 28px;
+  color:var(--muted);
+  font-size:.86rem;
+}
+
+@media(max-width:720px){
+  .grid2,.grid3{grid-template-columns:1fr}
+}
+
+@media(max-width:600px){
+  .institution{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .institution-logo{
+    width:80px;
+    height:80px;
+  }
+}
+
+@media print{
+  body *{
+    visibility:hidden!important;
+  }
+
+  #printArea,
+  #printArea *{
+    visibility:visible!important;
+  }
+
+  #printArea{
+    display:block!important;
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    padding:24px;
+    color:#000;
+    background:#fff;
+  }
+
+  #printArea img{
+    max-width:100%;
+    max-height:500px;
+    object-fit:contain;
+  }
+
+  .pdf-section{
+    page-break-inside:avoid;
+    margin-top:20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==========================================================
+     IDENTIFICACIÓN ANTES DE INDEXEDDB
+     ========================================================== -->
+<div id="identityOverlay" class="identity-overlay">
+
+  <div class="identity-card">
+
+    <h2>Identificar estudiante</h2>
+
+    <p>
+      Antes de buscar un borrador, escribe tu Clave/Carné y Sección.
+      La guía consultará únicamente el trabajo correspondiente a esa identificación.
+    </p>
+
+    <div class="grid2">
+
+      <div>
+        <label for="identityKey">
+          Clave / Carné <span class="reqmark">*</span>
+        </label>
+
+        <input
+          id="identityKey"
+          type="text"
+          autocomplete="off">
+      </div>
+
+      <div>
+        <label for="identitySection">
+          Sección <span class="reqmark">*</span>
+        </label>
+
+        <input
+          id="identitySection"
+          type="text"
+          autocomplete="off">
+      </div>
+
+    </div>
+
+    <label for="identityName">
+      Nombre completo
+    </label>
+
+    <input
+      id="identityName"
+      type="text"
+      autocomplete="off">
+
+    <div id="identityMessage" class="identity-message">
+      Ingresa tu identificación para comenzar.
+    </div>
+
+    <div class="actions">
+
+      <button
+        id="identifyBtn"
+        type="button">
+        Continuar
+      </button>
+
+      <button
+        id="continueDraftBtn"
+        type="button"
+        class="success hidden">
+        Continuar trabajo
+      </button>
+
+      <button
+        id="newDraftBtn"
+        type="button"
+        class="secondary hidden">
+        Iniciar nuevamente
+      </button>
+
+      <button
+        id="cancelIdentityBtn"
+        type="button"
+        class="danger hidden">
+        Cancelar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<header>
+
+<div class="header-wrap">
+
+  <div class="institution">
+
+    <!-- Identificador autocontenido JRB -->
+    <img
+      class="institution-logo"
+      alt="Identificador JRB"
+      src='data:image/svg+xml;utf8,
+      <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+        <rect width="200" height="200" rx="28" fill="white"/>
+        <circle cx="100" cy="100" r="76" fill="%2324598f"/>
+        <text x="100" y="119" text-anchor="middle"
+          font-family="Arial" font-size="54" font-weight="700" fill="white">JRB</text>
+      </svg>'>
+
+    <div class="institution-text">
+
+      <div class="subtitle">
+        Colegio de Informática Justo Rufino Bautista
+      </div>
+
+      <h1>
+        Elaboración de cables UTP con RJ45
+      </h1>
+
+      <p class="subtitle">
+        Sistemas e Instalación de Software —
+        4.º Bachillerato en Ciencias y Letras con Orientación en Computación
+      </p>
+
+      <p class="subtitle">
+        Guía No. 1 — IV Unidad — IV Bimestre
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="meta">
+
+    <div>
+      <strong>Publicación:</strong><br>
+      Lunes 24/08/2026
+    </div>
+
+    <div>
+      <strong>Trabajo:</strong><br>
+      Martes 25 y jueves 27/08/2026
+    </div>
+
+    <div>
+      <strong>Entrega:</strong><br>
+      Viernes 28/08/2026 — 18:00
+    </div>
+
+    <div>
+      <strong>Producto:</strong><br>
+      T568A–T568A + T568B–T568B
+    </div>
+
+    <div>
+      <strong>Valor:</strong><br>
+      10 puntos
+    </div>
+
+  </div>
+
+</div>
+
+</header>
+
+
+<div class="progress-shell">
+
+  <div class="progress-inner">
+
+    <span
+      class="progress-text"
+      id="progressText">
+      Avance: 0%
+    </span>
+
+    <div class="progressbar">
+      <span id="progressBar"></span>
+    </div>
+
+    <span class="status">
+      <span class="dot" id="saveDot"></span>
+      <span id="saveStatus">
+        Identifica al estudiante para iniciar
+      </span>
+    </span>
+
+  </div>
+
+</div>
+
+
+<main class="container">
+
+
+<!-- ==========================================================
+     DATOS INSTITUCIONALES
+     ========================================================== -->
+<section class="card">
+
+  <h2>GUÍA DE TRABAJO No. 1 — IV UNIDAD</h2>
+
+  <div class="grid2">
+
+    <div>
+      <strong>Tema:</strong><br>
+      Instalación y configuración de red de área local:
+      elaboración de cables UTP con conectores RJ45 utilizando T568A y T568B.
+    </div>
+
+    <div>
+      <strong>Institución:</strong><br>
+      Colegio de Informática Justo Rufino Bautista
+    </div>
+
+    <div>
+      <strong>Carrera:</strong><br>
+      Bachillerato en Ciencias y Letras con Orientación en Computación
+    </div>
+
+    <div>
+      <strong>Grado:</strong><br>
+      4.º Bachillerato
+    </div>
+
+    <div>
+      <strong>Curso:</strong><br>
+      Sistemas e Instalación de Software
+    </div>
+
+    <div>
+      <strong>Docente:</strong><br>
+      Erick Enrique Zamora Paz
+    </div>
+
+    <div>
+      <strong>Fecha de asignación:</strong><br>
+      24 de agosto de 2026
+    </div>
+
+    <div>
+      <strong>Fecha y hora de entrega:</strong><br>
+      28 de agosto de 2026 — 18:00 horas
+    </div>
+
+    <div>
+      <strong>Ponderación:</strong><br>
+      10 puntos
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     DATOS DEL ESTUDIANTE
+     ========================================================== -->
+<section class="card">
+
+  <h2>Datos del estudiante</h2>
+
+  <div class="grid3">
+
+    <div>
+      <label>Nombre completo</label>
+
+      <input
+        id="studentName"
+        type="text"
+        data-save
+        readonly>
+    </div>
+
+    <div>
+      <label>Clave / Carné</label>
+
+      <input
+        id="studentKey"
+        type="text"
+        data-save
+        readonly>
+    </div>
+
+    <div>
+      <label>Sección</label>
+
+      <input
+        id="studentSection"
+        type="text"
+        data-save
+        readonly>
+    </div>
+
+  </div>
+
+  <p class="small">
+    El borrador se guarda localmente en este navegador y se separa
+    mediante tu Clave/Carné y Sección.
+  </p>
+
+  <div class="actions">
+
+    <button
+      id="changeStudentBtn"
+      type="button"
+      class="secondary">
+      Cambiar de estudiante
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     CNB
+     ========================================================== -->
+<section class="card">
+
+  <h2>Alineación curricular</h2>
+
+  <div class="cnb">
+
+    <p>
+      <strong>Competencia 1:</strong>
+      Identifica los componentes internos y externos del computador,
+      así como los tipos de red que facilitan la comunicación electrónica.
+    </p>
+
+    <p>
+      <strong>Indicador de logro 1.3:</strong>
+      Instala y configura Red de área local.
+    </p>
+
+    <p>
+      <strong>Contenido 1.3.1:</strong>
+      Instalación y configuración de red de área local.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     APOYO
+     ========================================================== -->
+<section class="card">
+
+  <h2>Referencia de T568A y T568B</h2>
+
+  <div class="table-wrap">
+
+    <table class="pin-table">
+
+      <thead>
+        <tr>
+          <th>Pin</th>
+          <th>T568A</th>
+          <th>T568B</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>1</td>
+          <td>Blanco/Verde</td>
+          <td>Blanco/Naranja</td>
+        </tr>
+
+        <tr>
+          <td>2</td>
+          <td>Verde</td>
+          <td>Naranja</td>
+        </tr>
+
+        <tr>
+          <td>3</td>
+          <td>Blanco/Naranja</td>
+          <td>Blanco/Verde</td>
+        </tr>
+
+        <tr>
+          <td>4</td>
+          <td>Azul</td>
+          <td>Azul</td>
+        </tr>
+
+        <tr>
+          <td>5</td>
+          <td>Blanco/Azul</td>
+          <td>Blanco/Azul</td>
+        </tr>
+
+        <tr>
+          <td>6</td>
+          <td>Naranja</td>
+          <td>Verde</td>
+        </tr>
+
+        <tr>
+          <td>7</td>
+          <td>Blanco/Café</td>
+          <td>Blanco/Café</td>
+        </tr>
+
+        <tr>
+          <td>8</td>
+          <td>Café</td>
+          <td>Café</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div class="note">
+    En esta guía elaborarás únicamente dos cables directos:
+    <strong>T568A–T568A</strong> y <strong>T568B–T568B</strong>.
+    No se trabajará cable cruzado T568A–T568B.
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     ACTIVIDAD 1
+     ========================================================== -->
+<section class="card">
+
+  <span class="badge work">MARTES</span>
+  <span class="badge">IDENTIFICAR</span>
+
+  <h2>
+    Actividad 1 — Identificación de T568A y T568B — 3 pts
+  </h2>
+
+  <div class="note">
+    <strong>Qué aprenderás:</strong>
+    identificar el cable UTP, el conector RJ45 y el orden correcto
+    de los ocho conductores para T568A y T568B.
+  </div>
+
+  <div class="step">
+
+    <h3>Qué debes hacer</h3>
+
+    <p>
+      Observa la tabla de referencia y registra el orden completo
+      de colores correspondiente a cada estándar.
+    </p>
+
+  </div>
+
+
+  <!-- REQUISITO 1 -->
+  <label for="t568aIdentification">
+    1. Identificación de T568A
+    <span class="reqmark">*</span>
+  </label>
+
+  <textarea
+    id="t568aIdentification"
+    data-save
+    data-required
+    placeholder="Registra el orden de colores T568A desde el pin 1 hasta el pin 8."></textarea>
+
+
+  <!-- REQUISITO 2 -->
+  <label for="t568bIdentification">
+    2. Identificación de T568B
+    <span class="reqmark">*</span>
+  </label>
+
+  <textarea
+    id="t568bIdentification"
+    data-save
+    data-required
+    placeholder="Registra el orden de colores T568B desde el pin 1 hasta el pin 8."></textarea>
+
+
+  <h3>Evidencia requerida</h3>
+
+  <p>
+    El registro realizado dentro de esta guía con la identificación
+    de los órdenes T568A y T568B.
+  </p>
+
+
+  <div class="image-area">
+
+    <span class="badge optional">
+      FOTOGRAFÍAS OPCIONALES
+    </span>
+
+    <h3>Imágenes de apoyo</h3>
+
+    <p>
+      Puedes agregar fotografías relacionadas con esta actividad.
+      No son obligatorias y no intervienen en el porcentaje de completitud.
+    </p>
+
+    <input
+      id="activity1Images"
+      type="file"
+      accept="image/*"
+      multiple>
+
+    <div
+      id="activity1ImageGrid"
+      class="image-grid">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     ACTIVIDAD 2
+     ========================================================== -->
+<section class="card">
+
+  <span class="badge work">MARTES / JUEVES</span>
+  <span class="badge">CONSTRUIR</span>
+
+  <h2>
+    Actividad 2 — Preparación y terminación del cable UTP — 3 pts
+  </h2>
+
+  <div class="note">
+    <strong>Qué aprenderás:</strong>
+    preparar el cable UTP, organizar los conductores según el estándar
+    correspondiente e instalar los conectores RJ45.
+  </div>
+
+  <div class="step">
+
+    <h3>Producto que debes elaborar</h3>
+
+    <p>
+      <strong>Cable 1:</strong> T568A–T568A.
+    </p>
+
+    <p>
+      <strong>Cable 2:</strong> T568B–T568B.
+    </p>
+
+  </div>
+
+  <div class="step">
+
+    <h3>Procedimiento</h3>
+
+    <ol>
+      <li>Identifica qué cable vas a elaborar.</li>
+      <li>Consulta el orden correspondiente en la tabla de referencia.</li>
+      <li>Prepara el extremo del cable UTP.</li>
+      <li>Organiza los conductores de acuerdo con el estándar correspondiente.</li>
+      <li>Instala el conector RJ45.</li>
+      <li>Repite el procedimiento en el otro extremo conservando el mismo estándar.</li>
+    </ol>
+
+  </div>
+
+
+  <!-- REQUISITO 3 -->
+  <label class="checkline">
+
+    <input
+      id="cableACompleted"
+      type="checkbox"
+      data-save
+      data-required>
+
+    3. Confirmo que elaboré el cable
+    <strong>T568A–T568A</strong>.
+
+  </label>
+
+
+  <!-- REQUISITO 4 -->
+  <label class="checkline">
+
+    <input
+      id="cableBCompleted"
+      type="checkbox"
+      data-save
+      data-required>
+
+    4. Confirmo que elaboré el cable
+    <strong>T568B–T568B</strong>.
+
+  </label>
+
+
+  <h3>Evidencia requerida</h3>
+
+  <p>
+    Dos productos físicos:
+    un cable T568A–T568A y un cable T568B–T568B.
+  </p>
+
+
+  <div class="image-area">
+
+    <span class="badge optional">
+      FOTOGRAFÍAS OPCIONALES
+    </span>
+
+    <h3>Imágenes de apoyo</h3>
+
+    <p>
+      Puedes agregar fotografías del proceso o de los cables terminados.
+      No sustituyen los productos físicos.
+    </p>
+
+    <input
+      id="activity2Images"
+      type="file"
+      accept="image/*"
+      multiple>
+
+    <div
+      id="activity2ImageGrid"
+      class="image-grid">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     ACTIVIDAD 3
+     ========================================================== -->
+<section class="card">
+
+  <span class="badge work">JUEVES</span>
+  <span class="badge">COMPROBAR</span>
+
+  <h2>
+    Actividad 3 — Elaboración y comprobación de cables T568A y T568B — 4 pts
+  </h2>
+
+  <div class="note">
+    <strong>Qué aprenderás:</strong>
+    comprobar con un tester de cable de red que los dos cables
+    mantienen continuidad correcta y correspondencia de los pines 1 al 8.
+  </div>
+
+
+  <div class="step">
+
+    <h3>Cable T568A–T568A</h3>
+
+    <p>
+      Conecta el cable al tester y observa la correspondencia de los pines.
+      El cable debe mantener el mismo orden entre ambos extremos:
+    </p>
+
+    <div class="color-sequence">
+      1→1 · 2→2 · 3→3 · 4→4 · 5→5 · 6→6 · 7→7 · 8→8
+    </div>
+
+  </div>
+
+
+  <!-- REQUISITO 5 -->
+  <label for="testerAResult">
+    5. Registro de comprobación con tester del cable T568A–T568A
+    <span class="reqmark">*</span>
+  </label>
+
+  <textarea
+    id="testerAResult"
+    data-save
+    data-required
+    placeholder="Registra aquí el resultado observado en el tester."></textarea>
+
+
+  <div class="step">
+
+    <h3>Cable T568B–T568B</h3>
+
+    <p>
+      Realiza la misma comprobación con el cable T568B–T568B.
+    </p>
+
+    <div class="color-sequence">
+      1→1 · 2→2 · 3→3 · 4→4 · 5→5 · 6→6 · 7→7 · 8→8
+    </div>
+
+  </div>
+
+
+  <!-- REQUISITO 6 -->
+  <label for="testerBResult">
+    6. Registro de comprobación con tester del cable T568B–T568B
+    <span class="reqmark">*</span>
+  </label>
+
+  <textarea
+    id="testerBResult"
+    data-save
+    data-required
+    placeholder="Registra aquí el resultado observado en el tester."></textarea>
+
+
+  <h3>Evidencia requerida</h3>
+
+  <p>
+    Los dos productos físicos funcionales y su comprobación mediante
+    tester de cable de red.
+  </p>
+
+
+  <div class="image-area">
+
+    <span class="badge optional">
+      FOTOGRAFÍAS OPCIONALES
+    </span>
+
+    <h3>Imágenes de apoyo</h3>
+
+    <p>
+      Puedes agregar fotografías de la comprobación o de los productos.
+      No son obligatorias.
+    </p>
+
+    <input
+      id="activity3Images"
+      type="file"
+      accept="image/*"
+      multiple>
+
+    <div
+      id="activity3ImageGrid"
+      class="image-grid">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     ENTREGA
+     ========================================================== -->
+<section class="card">
+
+  <span class="badge deadline">VIERNES</span>
+
+  <h2>Entrega final</h2>
+
+  <div class="grid2">
+
+    <div class="note">
+      <strong>Entrega física al docente:</strong><br>
+      Cable T568A–T568A y cable T568B–T568B.
+    </div>
+
+    <div class="note">
+      <strong>Google Classroom:</strong><br>
+      PDF generado por esta guía.
+    </div>
+
+  </div>
+
+  <div class="note warn">
+    <strong>Fecha límite:</strong>
+    viernes 28 de agosto de 2026 a las 18:00 horas.
+  </div>
+
+  <p>
+    El PDF no sustituye la entrega física de los dos cables.
+  </p>
+
+</section>
+
+
+<!-- ==========================================================
+     PONDERACIÓN
+     ========================================================== -->
+<section class="card">
+
+  <h2>RÚBRICA DE CALIFICACIÓN (10 pts)</h2>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Criterio de calificación</th>
+          <th>Evidencia aprobada</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>
+            <strong>
+              Identificación de T568A y T568B
+            </strong>
+          </td>
+
+          <td>
+            Registro dentro de la guía con la identificación
+            de los dos órdenes de colores.
+          </td>
+
+          <td>
+            <strong>3 pts</strong>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <strong>
+              Preparación y terminación del cable UTP
+            </strong>
+          </td>
+
+          <td>
+            Cable T568A–T568A y cable T568B–T568B.
+          </td>
+
+          <td>
+            <strong>3 pts</strong>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <strong>
+              Elaboración y comprobación de cables T568A y T568B
+            </strong>
+          </td>
+
+          <td>
+            Dos cables físicos funcionales y comprobación
+            mediante tester de red.
+          </td>
+
+          <td>
+            <strong>4 pts</strong>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="2">
+            <strong>TOTAL</strong>
+          </td>
+
+          <td>
+            <strong>10 pts</strong>
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <p class="small">
+    La guía únicamente verifica completitud.
+    La calificación oficial corresponde al docente.
+  </p>
+
+</section>
+
+
+<!-- ==========================================================
+     REVISIÓN
+     ========================================================== -->
+<section class="card">
+
+  <h2>REVISAR MI ENTREGA</h2>
+
+  <div class="note">
+    Esta revisión comprueba exclusivamente los seis requisitos
+    académicos aprobados. Las fotografías opcionales no participan.
+  </div>
+
+  <div class="actions">
+
+    <button
+      id="reviewBtn"
+      type="button">
+      Revisar mi entrega
+    </button>
+
+  </div>
+
+  <div
+    id="reviewList"
+    class="review-list">
+  </div>
+
+</section>
+
+
+<!-- ==========================================================
+     RESPALDO Y PDF
+     ========================================================== -->
+<section class="card">
+
+  <h2>Guardar, respaldar y generar PDF</h2>
+
+  <div
+    id="pdfStatus"
+    class="note warn">
+
+    Completa los seis requisitos para alcanzar el 100 %
+    y habilitar el PDF.
+
+  </div>
+
+  <div class="note oknote">
+    Las fotografías son opcionales. Puedes alcanzar el 100 %
+    aunque no agregues ninguna.
+  </div>
+
+  <div class="actions">
+
+    <button
+      id="downloadBackup"
+      type="button"
+      class="secondary">
+      Descargar respaldo JSON
+    </button>
+
+    <button
+      id="loadBackup"
+      type="button"
+      class="secondary">
+      Cargar respaldo JSON
+    </button>
+
+    <input
+      id="backupFile"
+      class="hidden"
+      type="file"
+      accept=".json,application/json">
+
+    <button
+      id="generatePdf"
+      type="button"
+      class="success"
+      disabled>
+      Generar / Descargar PDF
+    </button>
+
+    <button
+      id="printPdf"
+      type="button"
+      disabled>
+      Imprimir / Guardar como PDF
+    </button>
+
+    <button
+      id="clearDraft"
+      type="button"
+      class="danger">
+      Borrar este borrador
+    </button>
+
+  </div>
+
+  <p class="small">
+    El respaldo JSON permanece disponible aunque todavía no hayas
+    completado la guía.
+  </p>
+
+</section>
+
+</main>
+
+
+<div id="printArea"></div>
+
+
+<footer>
+  Sistemas e Instalación de Software —
+  4.º Bachillerato con Orientación en Computación —
+  Guía No. 1 — IV Unidad.
+</footer>
+
+
+<!--
+  Biblioteca opcional para descarga directa del PDF.
+  Si no carga, la guía conserva la alternativa de impresión.
+-->
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+</script>
+
+
+<script>
+(function(){
+"use strict";
+
+
+/* ==========================================================
+   CONSTANTES
+   ========================================================== */
+
+const SCHEMA_VERSION = "2026.1";
+
+const GUIDE_ID =
+  "jrb_4to_computacion_sistemas_instalacion_software_guia01_iv_20260824";
+
+const COURSE_ID =
+  "jrb_sistemas_e_instalacion_de_software_4to_computacion";
+
+const GRADE = "4to_bachillerato";
+const ORIENTATION = "computacion";
+const COURSE = "sistemas_e_instalacion_de_software";
+const GUIDE_NUMBER = "guia01";
+
+const DB_NAME = "JRBGuias2026";
+const DB_VERSION = 1;
+const STORE_NAME = "drafts";
+
+const $ =
+  id => document.getElementById(id);
+
+let activeIdentity = null;
+let activeDraftKey = null;
+let activeDraft = null;
+let saveTimer = null;
+let currentImageReplace = null;
+
+
+/*
+  Estos son EXACTAMENTE los seis requisitos aprobados.
+  Las fotografías NO aparecen aquí.
+*/
+const requiredFields = [
+  $("t568aIdentification"),
+  $("t568bIdentification"),
+  $("cableACompleted"),
+  $("cableBCompleted"),
+  $("testerAResult"),
+  $("testerBResult")
+];
+
+
+const saveFields =
+  Array.from(
+    document.querySelectorAll("[data-save]")
+  );
+
+
+/* ==========================================================
+   UTILIDADES
+   ========================================================== */
+
+function normalizeKey(value){
+
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g,"_")
+    .replace(/[^a-z0-9áéíóúüñ_-]/gi,"");
+
+}
+
+
+function makeDraftKey(section,studentKey){
+
+  return [
+    GRADE,
+    ORIENTATION,
+    COURSE,
+    GUIDE_NUMBER,
+    "seccion" + normalizeKey(section),
+    "clave" + normalizeKey(studentKey)
+  ].join("_");
+
+}
+
+
+function isComplete(el){
+
+  if(el.type === "checkbox"){
+    return el.checked;
+  }
+
+  return String(el.value || "").trim().length > 0;
+
+}
+
+
+function guideIsComplete(){
+
+  return (
+    requiredFields.length === 6 &&
+    requiredFields.every(isComplete)
+  );
+
+}
+
+
+function updateProgress(){
+
+  const done =
+    requiredFields.filter(isComplete).length;
+
+  const total = 6;
+
+  const pct =
+    Math.round((done / total) * 100);
+
+  const complete =
+    done === total;
+
+
+  $("progressText").textContent =
+    complete
+      ? "Avance: 100% — Guía completada"
+      : "Avance: " + pct + "%";
+
+
+  $("progressBar").style.width =
+    pct + "%";
+
+
+  $("generatePdf").disabled =
+    !complete;
+
+
+  $("printPdf").disabled =
+    !complete;
+
+
+  if(complete){
+
+    $("pdfStatus").className =
+      "note oknote";
+
+    $("pdfStatus").textContent =
+      "Guía completada al 100 %. Ya puedes generar, descargar o imprimir el PDF.";
+
+  }else{
+
+    $("pdfStatus").className =
+      "note warn";
+
+    $("pdfStatus").textContent =
+      "Completa los seis requisitos para habilitar el PDF. " +
+      "Requisitos pendientes: " +
+      (total - done) +
+      ".";
+
+  }
+
+}
+
+
+function setSaveState(text,saved){
+
+  $("saveStatus").textContent =
+    text;
+
+  $("saveDot").classList.toggle(
+    "saved",
+    Boolean(saved)
+  );
+
+}
+
+
+function randomId(){
+
+  if(
+    window.crypto &&
+    typeof crypto.randomUUID === "function"
+  ){
+    return crypto.randomUUID();
+  }
+
+  return (
+    String(Date.now()) +
+    "_" +
+    Math.random().toString(36).slice(2)
+  );
+
+}
+
+
+/* ==========================================================
+   INDEXEDDB
+   ========================================================== */
+
+function openDB(){
+
+  return new Promise((resolve,reject)=>{
+
+    if(!("indexedDB" in window)){
+
+      reject(
+        new Error("IndexedDB no disponible")
+      );
+
+      return;
+
+    }
+
+
+    const req =
+      indexedDB.open(
+        DB_NAME,
+        DB_VERSION
+      );
+
+
+    req.onupgradeneeded =
+      ()=>{
+
+        const db =
+          req.result;
+
+        if(
+          !db.objectStoreNames.contains(
+            STORE_NAME
+          )
+        ){
+
+          db.createObjectStore(
+            STORE_NAME
+          );
+
+        }
+
+      };
+
+
+    req.onsuccess =
+      ()=>resolve(req.result);
+
+
+    req.onerror =
+      ()=>reject(
+        req.error ||
+        new Error("No fue posible abrir IndexedDB")
+      );
+
+  });
+
+}
+
+
+async function dbGet(key){
+
+  const db =
+    await openDB();
+
+
+  return new Promise((resolve,reject)=>{
+
+    const tx =
+      db.transaction(
+        STORE_NAME,
+        "readonly"
+      );
+
+    const req =
+      tx.objectStore(
+        STORE_NAME
+      ).get(key);
+
+
+    req.onsuccess =
+      ()=>resolve(
+        req.result || null
+      );
+
+
+    req.onerror =
+      ()=>reject(req.error);
+
+
+    tx.oncomplete =
+      ()=>db.close();
+
+
+    tx.onerror =
+      ()=>db.close();
+
+  });
+
+}
+
+
+async function dbPut(key,value){
+
+  const db =
+    await openDB();
+
+
+  return new Promise((resolve,reject)=>{
+
+    const tx =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
+
+
+    tx.objectStore(
+      STORE_NAME
+    ).put(
+      value,
+      key
+    );
+
+
+    tx.oncomplete =
+      ()=>{
+
+        db.close();
+        resolve();
+
+      };
+
+
+    tx.onerror =
+      ()=>{
+
+        db.close();
+        reject(tx.error);
+
+      };
+
+  });
+
+}
+
+
+async function dbDelete(key){
+
+  const db =
+    await openDB();
+
+
+  return new Promise((resolve,reject)=>{
+
+    const tx =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
+
+
+    tx.objectStore(
+      STORE_NAME
+    ).delete(key);
+
+
+    tx.oncomplete =
+      ()=>{
+
+        db.close();
+        resolve();
+
+      };
+
+
+    tx.onerror =
+      ()=>{
+
+        db.close();
+        reject(tx.error);
+
+      };
+
+  });
+
+}
+
+
+/* ==========================================================
+   BORRADOR
+   ========================================================== */
+
+function emptyDraft(){
+
+  return {
+
+    schemaVersion:SCHEMA_VERSION,
+
+    guideId:GUIDE_ID,
+
+    courseId:COURSE_ID,
+
+    grade:GRADE,
+
+    orientation:ORIENTATION,
+
+    studentKey:
+      activeIdentity.studentKey,
+
+    section:
+      activeIdentity.section,
+
+    studentName:
+      activeIdentity.studentName || "",
+
+    timestamp:
+      new Date().toISOString(),
+
+    data:{
+
+      fields:{},
+
+      images:{
+        activity1:[],
+        activity2:[],
+        activity3:[]
+      }
+
+    }
+
+  };
+
+}
+
+
+function collectFields(){
+
+  const fields = {};
+
+
+  saveFields.forEach(el=>{
+
+    fields[el.id] =
+      el.type === "checkbox"
+        ? el.checked
+        : el.value;
+
+  });
+
+
+  return fields;
+
+}
+
+
+function restoreFields(fields){
+
+  if(
+    !fields ||
+    typeof fields !== "object"
+  ){
+    return;
+  }
+
+
+  saveFields.forEach(el=>{
+
+    if(
+      !Object.prototype.hasOwnProperty.call(
+        fields,
+        el.id
+      )
+    ){
+      return;
+    }
+
+
+    const value =
+      fields[el.id];
+
+
+    if(el.type === "checkbox"){
+
+      el.checked =
+        Boolean(value);
+
+    }else{
+
+      el.value =
+        value == null
+          ? ""
+          : String(value);
+
+    }
+
+  });
+
+
+  updateProgress();
+
+}
+
+
+async function saveDraft(){
+
+  if(
+    !activeIdentity ||
+    !activeDraftKey
+  ){
+    return;
+  }
+
+
+  if(!activeDraft){
+
+    activeDraft =
+      emptyDraft();
+
+  }
+
+
+  activeDraft.studentName =
+    $("studentName").value ||
+    activeIdentity.studentName ||
+    "";
+
+
+  activeDraft.studentKey =
+    activeIdentity.studentKey;
+
+
+  activeDraft.section =
+    activeIdentity.section;
+
+
+  activeDraft.timestamp =
+    new Date().toISOString();
+
+
+  activeDraft.data.fields =
+    collectFields();
+
+
+  setSaveState(
+    "Guardando...",
+    false
+  );
+
+
+  try{
+
+    await dbPut(
+      activeDraftKey,
+      activeDraft
+    );
+
+
+    setSaveState(
+      "Guardado automáticamente ✓",
+      true
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+
+    if(
+      error &&
+      (
+        error.name === "QuotaExceededError" ||
+        String(error)
+          .toLowerCase()
+          .includes("quota")
+      )
+    ){
+
+      setSaveState(
+        "Almacenamiento local lleno. Descarga un respaldo antes de continuar.",
+        false
+      );
+
+    }else{
+
+      setSaveState(
+        "Error al guardar",
+        false
+      );
+
+    }
+
+  }
+
+}
+
+
+function scheduleSave(){
+
+  clearTimeout(saveTimer);
+
+  saveTimer =
+    setTimeout(
+      saveDraft,
+      400
+    );
+
+}
+
+
+/* ==========================================================
+   IDENTIDAD
+   ========================================================== */
+
+function resetIdentityButtons(){
+
+  $("identifyBtn")
+    .classList.remove("hidden");
+
+  $("continueDraftBtn")
+    .classList.add("hidden");
+
+  $("newDraftBtn")
+    .classList.add("hidden");
+
+  $("cancelIdentityBtn")
+    .classList.add("hidden");
+
+}
+
+
+function showIdentityOverlay(){
+
+  $("identityOverlay")
+    .classList.remove("hidden");
+
+}
+
+
+function hideIdentityOverlay(){
+
+  $("identityOverlay")
+    .classList.add("hidden");
+
+}
+
+
+function applyIdentity(){
+
+  $("studentName").value =
+    activeIdentity.studentName || "";
+
+  $("studentKey").value =
+    activeIdentity.studentKey;
+
+  $("studentSection").value =
+    activeIdentity.section;
+
+}
+
+
+async function identifyStudent(){
+
+  const studentKey =
+    $("identityKey")
+      .value
+      .trim();
+
+  const section =
+    $("identitySection")
+      .value
+      .trim();
+
+  const studentName =
+    $("identityName")
+      .value
+      .trim();
+
+
+  if(
+    !studentKey ||
+    !section
+  ){
+
+    $("identityMessage").textContent =
+      "Es necesario escribir Clave/Carné y Sección antes de buscar un borrador.";
+
+    return;
+
+  }
+
+
+  const proposedKey =
+    makeDraftKey(
+      section,
+      studentKey
+    );
+
+
+  $("identityMessage").textContent =
+    "Buscando únicamente el borrador de esta identificación...";
+
+
+  try{
+
+    const found =
+      await dbGet(
+        proposedKey
+      );
+
+
+    activeIdentity = {
+      studentKey,
+      section,
+      studentName
+    };
+
+
+    activeDraftKey =
+      proposedKey;
+
+
+    if(found){
+
+      activeDraft =
+        found;
+
+
+      const when =
+        found.timestamp
+          ? new Date(
+              found.timestamp
+            ).toLocaleString("es-GT")
+          : "fecha no disponible";
+
+
+      $("identityMessage").textContent =
+        "Se encontró un trabajo guardado para esta guía. Último guardado: " +
+        when;
+
+
+      $("identifyBtn")
+        .classList.add("hidden");
+
+      $("continueDraftBtn")
+        .classList.remove("hidden");
+
+      $("newDraftBtn")
+        .classList.remove("hidden");
+
+      $("cancelIdentityBtn")
+        .classList.remove("hidden");
+
+    }else{
+
+      activeDraft =
+        emptyDraft();
+
+      await enterNewDraft();
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    $("identityMessage").textContent =
+      "No fue posible abrir el almacenamiento local.";
+
+  }
+
+}
+
+
+async function continueExistingDraft(){
+
+  if(!activeDraft){
+    return;
+  }
+
+
+  activeIdentity.studentName =
+    activeDraft.studentName ||
+    activeIdentity.studentName ||
+    "";
+
+
+  applyIdentity();
+
+
+  restoreFields(
+    activeDraft.data &&
+    activeDraft.data.fields
+  );
+
+
+  renderAllImages();
+
+
+  hideIdentityOverlay();
+
+
+  resetIdentityButtons();
+
+
+  setSaveState(
+    "Borrador recuperado ✓",
+    true
+  );
+
+}
+
+
+async function enterNewDraft(){
+
+  activeDraft =
+    emptyDraft();
+
+
+  applyIdentity();
+
+
+  restoreFields({});
+
+
+  renderAllImages();
+
+
+  await saveDraft();
+
+
+  hideIdentityOverlay();
+
+
+  resetIdentityButtons();
+
+
+  setSaveState(
+    "Nuevo trabajo creado ✓",
+    true
+  );
+
+}
+
+
+async function confirmNewDraft(){
+
+  const ok =
+    confirm(
+      "Se eliminará el trabajo guardado de esta guía para esta Clave/Carné y Sección. " +
+      "Esta acción no puede deshacerse si no tienes un respaldo. " +
+      "¿Deseas continuar?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  try{
+
+    await dbDelete(
+      activeDraftKey
+    );
+
+
+    activeDraft =
+      emptyDraft();
+
+
+    await enterNewDraft();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "No fue posible iniciar nuevamente."
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   IMÁGENES OPCIONALES
+   ========================================================== */
+
+function imageBucket(activity){
+
+  if(
+    !activeDraft.data.images[activity]
+  ){
+
+    activeDraft.data.images[activity] =
+      [];
+
+  }
+
+  return activeDraft.data.images[activity];
+
+}
+
+
+async function addImages(
+  activity,
+  fileList
+){
+
+  if(!activeDraft){
+    return;
+  }
+
+
+  const files =
+    Array.from(
+      fileList || []
+    ).filter(
+      file =>
+        file.type.startsWith("image/")
+    );
+
+
+  if(!files.length){
+    return;
+  }
+
+
+  const bucket =
+    imageBucket(activity);
+
+
+  for(const file of files){
+
+    bucket.push({
+
+      id:randomId(),
+
+      name:
+        file.name ||
+        "fotografía",
+
+      type:
+        file.type ||
+        "image/*",
+
+      blob:file
+
+    });
+
+  }
+
+
+  renderImages(activity);
+
+  await saveDraft();
+
+}
+
+
+function renderAllImages(){
+
+  renderImages("activity1");
+  renderImages("activity2");
+  renderImages("activity3");
+
+}
+
+
+function renderImages(activity){
+
+  const grid =
+    $(
+      activity +
+      "ImageGrid"
+    );
+
+
+  grid.replaceChildren();
+
+
+  if(
+    !activeDraft ||
+    !activeDraft.data ||
+    !activeDraft.data.images
+  ){
+    return;
+  }
+
+
+  const bucket =
+    imageBucket(activity);
+
+
+  bucket.forEach(item=>{
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "image-card";
+
+
+    const img =
+      document.createElement("img");
+
+    img.alt =
+      "Fotografía opcional";
+
+
+    const objectURL =
+      URL.createObjectURL(
+        item.blob
+      );
+
+
+    img.src =
+      objectURL;
+
+
+    img.onload =
+      ()=>URL.revokeObjectURL(
+        objectURL
+      );
+
+
+    const name =
+      document.createElement("div");
+
+    name.className =
+      "image-name";
+
+    name.textContent =
+      item.name ||
+      "fotografía";
+
+
+    const actions =
+      document.createElement("div");
+
+    actions.className =
+      "actions";
+
+
+    const replaceBtn =
+      document.createElement("button");
+
+    replaceBtn.type =
+      "button";
+
+    replaceBtn.className =
+      "secondary";
+
+    replaceBtn.textContent =
+      "Reemplazar";
+
+
+    replaceBtn.addEventListener(
+      "click",
+      ()=>{
+
+        currentImageReplace = {
+          activity,
+          id:item.id
+        };
+
+
+        const input =
+          $(
+            activity +
+            "Images"
+          );
+
+
+        input.multiple =
+          false;
+
+
+        input.click();
+
+      }
+    );
+
+
+    const deleteBtn =
+      document.createElement("button");
+
+    deleteBtn.type =
+      "button";
+
+    deleteBtn.className =
+      "danger";
+
+    deleteBtn.textContent =
+      "Eliminar";
+
+
+    deleteBtn.addEventListener(
+      "click",
+      async ()=>{
+
+        const ok =
+          confirm(
+            "¿Deseas eliminar esta fotografía de la guía?"
+          );
+
+
+        if(!ok){
+          return;
+        }
+
+
+        const current =
+          imageBucket(activity);
+
+
+        const index =
+          current.findIndex(
+            x => x.id === item.id
+          );
+
+
+        if(index >= 0){
+
+          current.splice(
+            index,
+            1
+          );
+
+
+          renderImages(activity);
+
+          await saveDraft();
+
+        }
+
+      }
+    );
+
+
+    actions.append(
+      replaceBtn,
+      deleteBtn
+    );
+
+
+    card.append(
+      img,
+      name,
+      actions
+    );
+
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+
+async function handleImageInput(
+  activity,
+  input
+){
+
+  const files =
+    Array.from(
+      input.files || []
+    );
+
+
+  if(
+    currentImageReplace &&
+    currentImageReplace.activity === activity
+  ){
+
+    const file =
+      files.find(
+        f =>
+          f.type.startsWith("image/")
+      );
+
+
+    if(file){
+
+      const bucket =
+        imageBucket(activity);
+
+
+      const index =
+        bucket.findIndex(
+          x =>
+            x.id ===
+            currentImageReplace.id
+        );
+
+
+      if(index >= 0){
+
+        bucket[index] = {
+
+          id:
+            bucket[index].id,
+
+          name:
+            file.name ||
+            "fotografía",
+
+          type:
+            file.type ||
+            "image/*",
+
+          blob:file
+
+        };
+
+      }
+
+
+      renderImages(activity);
+
+      await saveDraft();
+
+    }
+
+
+    currentImageReplace =
+      null;
+
+
+    input.multiple =
+      true;
+
+
+    input.value =
+      "";
+
+
+    return;
+
+  }
+
+
+  await addImages(
+    activity,
+    files
+  );
+
+
+  input.multiple =
+    true;
+
+
+  input.value =
+    "";
+
+}
+
+
+/* ==========================================================
+   REVISIÓN DE LOS 6 REQUISITOS
+   ========================================================== */
+
+function reviewItem(
+  container,
+  text,
+  complete
+){
+
+  const row =
+    document.createElement("div");
+
+  row.className =
+    "review-row";
+
+
+  const label =
+    document.createElement("div");
+
+  label.textContent =
+    text;
+
+
+  const state =
+    document.createElement("div");
+
+  state.className =
+    "review-state " +
+    (
+      complete
+        ? "complete"
+        : "pending"
+    );
+
+
+  state.textContent =
+    complete
+      ? "COMPLETO"
+      : "PENDIENTE";
+
+
+  row.append(
+    label,
+    state
+  );
+
+
+  container.appendChild(row);
+
+}
+
+
+function reviewSubmission(){
+
+  const box =
+    $("reviewList");
+
+
+  box.replaceChildren();
+
+
+  reviewItem(
+    box,
+    "1. Identificación de T568A completada",
+    isComplete(
+      $("t568aIdentification")
+    )
+  );
+
+
+  reviewItem(
+    box,
+    "2. Identificación de T568B completada",
+    isComplete(
+      $("t568bIdentification")
+    )
+  );
+
+
+  reviewItem(
+    box,
+    "3. Confirmación de elaboración del cable T568A–T568A",
+    $("cableACompleted").checked
+  );
+
+
+  reviewItem(
+    box,
+    "4. Confirmación de elaboración del cable T568B–T568B",
+    $("cableBCompleted").checked
+  );
+
+
+  reviewItem(
+    box,
+    "5. Registro de comprobación con tester del cable T568A–T568A",
+    isComplete(
+      $("testerAResult")
+    )
+  );
+
+
+  reviewItem(
+    box,
+    "6. Registro de comprobación con tester del cable T568B–T568B",
+    isComplete(
+      $("testerBResult")
+    )
+  );
+
+}
+
+
+/* ==========================================================
+   RESPALDO JSON
+   ========================================================== */
+
+function blobToDataURL(blob){
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        ()=>resolve(
+          reader.result
+        );
+
+
+      reader.onerror =
+        ()=>reject(
+          reader.error
+        );
+
+
+      reader.readAsDataURL(
+        blob
+      );
+
+    }
+  );
+
+}
+
+
+function dataURLToBlob(dataURL){
+
+  const parts =
+    String(dataURL).split(",");
+
+
+  if(parts.length !== 2){
+
+    throw new Error(
+      "Imagen no válida"
+    );
+
+  }
+
+
+  const mimeMatch =
+    parts[0].match(
+      /data:([^;]+)/
+    );
+
+
+  const mime =
+    mimeMatch
+      ? mimeMatch[1]
+      : "application/octet-stream";
+
+
+  const binary =
+    atob(
+      parts[1]
+    );
+
+
+  const bytes =
+    new Uint8Array(
+      binary.length
+    );
+
+
+  for(
+    let i=0;
+    i<binary.length;
+    i++
+  ){
+
+    bytes[i] =
+      binary.charCodeAt(i);
+
+  }
+
+
+  return new Blob(
+    [bytes],
+    {type:mime}
+  );
+
+}
+
+
+async function draftForBackup(){
+
+  await saveDraft();
+
+
+  const backup = {
+
+    schemaVersion:
+      SCHEMA_VERSION,
+
+    guideId:
+      GUIDE_ID,
+
+    courseId:
+      COURSE_ID,
+
+    grade:
+      GRADE,
+
+    orientation:
+      ORIENTATION,
+
+    studentKey:
+      activeIdentity.studentKey,
+
+    section:
+      activeIdentity.section,
+
+    studentName:
+      $("studentName").value || "",
+
+    timestamp:
+      new Date().toISOString(),
+
+    data:{
+
+      fields:
+        collectFields(),
+
+      images:{
+
+        activity1:[],
+        activity2:[],
+        activity3:[]
+
+      }
+
+    }
+
+  };
+
+
+  for(
+    const activity
+    of [
+      "activity1",
+      "activity2",
+      "activity3"
+    ]
+  ){
+
+    for(
+      const item
+      of imageBucket(activity)
+    ){
+
+      backup.data.images[activity].push({
+
+        id:item.id,
+
+        name:item.name,
+
+        type:item.type,
+
+        dataURL:
+          await blobToDataURL(
+            item.blob
+          )
+
+      });
+
+    }
+
+  }
+
+
+  return backup;
+
+}
+
+
+function downloadBlob(
+  blob,
+  filename
+){
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement("a");
+
+
+  link.href =
+    url;
+
+
+  link.download =
+    filename;
+
+
+  document.body.appendChild(
+    link
+  );
+
+
+  link.click();
+
+
+  link.remove();
+
+
+  setTimeout(
+    ()=>URL.revokeObjectURL(
+      url
+    ),
+    1500
+  );
+
+}
+
+
+async function downloadBackup(){
+
+  if(!activeIdentity){
+    return;
+  }
+
+
+  const backup =
+    await draftForBackup();
+
+
+  const json =
+    JSON.stringify(
+      backup,
+      null,
+      2
+    );
+
+
+  const filename =
+    "Respaldo_Guia01_Sistemas_Instalacion_" +
+    normalizeKey(
+      activeIdentity.section
+    ) +
+    "_" +
+    normalizeKey(
+      activeIdentity.studentKey
+    ) +
+    ".json";
+
+
+  downloadBlob(
+
+    new Blob(
+      [json],
+      {
+        type:
+          "application/json"
+      }
+    ),
+
+    filename
+
+  );
+
+}
+
+
+function validateBackupObject(obj){
+
+  if(
+    !obj ||
+    typeof obj !== "object"
+  ){
+
+    throw new Error(
+      "El archivo no contiene un respaldo válido."
+    );
+
+  }
+
+
+  if(
+    obj.schemaVersion !==
+    SCHEMA_VERSION
+  ){
+
+    throw new Error(
+      "La versión del respaldo no corresponde a esta guía."
+    );
+
+  }
+
+
+  if(
+    obj.guideId !== GUIDE_ID ||
+    obj.courseId !== COURSE_ID
+  ){
+
+    throw new Error(
+      "Este respaldo pertenece a otra guía o curso y no puede cargarse aquí."
+    );
+
+  }
+
+
+  if(
+    !obj.data ||
+    typeof obj.data !== "object"
+  ){
+
+    throw new Error(
+      "El respaldo no contiene la estructura requerida."
+    );
+
+  }
+
+
+  if(
+    !obj.data.fields ||
+    typeof obj.data.fields !== "object"
+  ){
+
+    throw new Error(
+      "El respaldo no contiene los registros de la guía."
+    );
+
+  }
+
+
+  if(
+    !obj.studentKey ||
+    !obj.section
+  ){
+
+    throw new Error(
+      "El respaldo no contiene identificación del estudiante."
+    );
+
+  }
+
+
+  return true;
+
+}
+
+
+async function importBackupFile(file){
+
+  const text =
+    await file.text();
+
+
+  let obj;
+
+
+  try{
+
+    obj =
+      JSON.parse(text);
+
+  }catch(error){
+
+    throw new Error(
+      "El archivo seleccionado no contiene JSON válido."
+    );
+
+  }
+
+
+  validateBackupObject(obj);
+
+
+  const differentIdentity =
+    normalizeKey(
+      obj.studentKey
+    ) !==
+      normalizeKey(
+        activeIdentity.studentKey
+      ) ||
+
+    normalizeKey(
+      obj.section
+    ) !==
+      normalizeKey(
+        activeIdentity.section
+      );
+
+
+  if(differentIdentity){
+
+    const ok =
+      confirm(
+        "La Clave/Carné o Sección del respaldo no coincide con la identidad activa. " +
+        "¿Deseas cambiar a la identidad del respaldo?"
+      );
+
+
+    if(!ok){
+
+      throw new Error(
+        "Importación cancelada."
+      );
+
+    }
+
+
+    activeIdentity = {
+
+      studentKey:
+        obj.studentKey,
+
+      section:
+        obj.section,
+
+      studentName:
+        obj.studentName || ""
+
+    };
+
+
+    activeDraftKey =
+      makeDraftKey(
+        obj.section,
+        obj.studentKey
+      );
+
+  }
+
+
+  const importedImages = {
+
+    activity1:[],
+    activity2:[],
+    activity3:[]
+
+  };
+
+
+  const sourceImages =
+    obj.data.images &&
+    typeof obj.data.images === "object"
+      ? obj.data.images
+      : {};
+
+
+  for(
+    const activity
+    of [
+      "activity1",
+      "activity2",
+      "activity3"
+    ]
+  ){
+
+    const items =
+      Array.isArray(
+        sourceImages[activity]
+      )
+        ? sourceImages[activity]
+        : [];
+
+
+    for(const item of items){
+
+      if(!item.dataURL){
+        continue;
+      }
+
+
+      importedImages[activity].push({
+
+        id:
+          item.id ||
+          randomId(),
+
+        name:
+          item.name ||
+          "fotografía",
+
+        type:
+          item.type ||
+          "image/*",
+
+        blob:
+          dataURLToBlob(
+            item.dataURL
+          )
+
+      });
+
+    }
+
+  }
+
+
+  activeDraft = {
+
+    schemaVersion:
+      SCHEMA_VERSION,
+
+    guideId:
+      GUIDE_ID,
+
+    courseId:
+      COURSE_ID,
+
+    grade:
+      GRADE,
+
+    orientation:
+      ORIENTATION,
+
+    studentKey:
+      activeIdentity.studentKey,
+
+    section:
+      activeIdentity.section,
+
+    studentName:
+      obj.studentName || "",
+
+    timestamp:
+      new Date().toISOString(),
+
+    data:{
+
+      fields:
+        obj.data.fields,
+
+      images:
+        importedImages
+
+    }
+
+  };
+
+
+  applyIdentity();
+
+
+  restoreFields(
+    obj.data.fields
+  );
+
+
+  renderAllImages();
+
+
+  await saveDraft();
+
+
+  alert(
+    "Respaldo cargado correctamente."
+  );
+
+}
+
+
+/* ==========================================================
+   PDF / IMPRESIÓN
+   ========================================================== */
+
+function appendText(
+  parent,
+  tag,
+  label,
+  value
+){
+
+  const el =
+    document.createElement(tag);
+
+
+  const strong =
+    document.createElement(
+      "strong"
+    );
+
+
+  strong.textContent =
+    label;
+
+
+  el.appendChild(
+    strong
+  );
+
+
+  el.appendChild(
+    document.createTextNode(
+      value || ""
+    )
+  );
+
+
+  parent.appendChild(el);
+
+}
+
+
+async function appendPdfImages(
+  section,
+  activity
+){
+
+  const bucket =
+    imageBucket(activity);
+
+
+  if(!bucket.length){
+    return;
+  }
+
+
+  const title =
+    document.createElement("h3");
+
+  title.textContent =
+    "Fotografías opcionales agregadas";
+
+
+  section.appendChild(title);
+
+
+  for(const item of bucket){
+
+    const holder =
+      document.createElement("div");
+
+    holder.className =
+      "pdf-photo";
+
+
+    const img =
+      document.createElement("img");
+
+
+    img.src =
+      await blobToDataURL(
+        item.blob
+      );
+
+
+    img.alt =
+      "Fotografía opcional";
+
+
+    holder.appendChild(img);
+
+    section.appendChild(holder);
+
+  }
+
+}
+
+
+async function buildPrintArea(){
+
+  const area =
+    $("printArea");
+
+
+  area.replaceChildren();
+
+
+  const h1 =
+    document.createElement("h1");
+
+  h1.textContent =
+    "Colegio de Informática Justo Rufino Bautista";
+
+
+  area.appendChild(h1);
+
+
+  const h2 =
+    document.createElement("h2");
+
+  h2.textContent =
+    "Guía No. 1 — Sistemas e Instalación de Software";
+
+
+  area.appendChild(h2);
+
+
+  appendText(
+    area,
+    "p",
+    "Grado: ",
+    "4.º Bachillerato con Orientación en Computación"
+  );
+
+
+  appendText(
+    area,
+    "p",
+    "Unidad: ",
+    "IV Unidad"
+  );
+
+
+  appendText(
+    area,
+    "p",
+    "Bimestre: ",
+    "IV"
+  );
+
+
+  appendText(
+    area,
+    "p",
+    "Valor: ",
+    "10 puntos"
+  );
+
+
+  appendText(
+    area,
+    "p",
+    "Entrega: ",
+    "28/08/2026 — 18:00 horas"
+  );
+
+
+  appendText(
+    area,
+    "p",
+    "Estudiante: ",
+    $("studentName").value
+  );
+
+
+  appendText(
+    area,
+    "p",
+    "Clave/Carné: ",
+    $("studentKey").value
+  );
+
+
+  appendText(
+    area,
+    "p",
+    "Sección: ",
+    $("studentSection").value
+  );
+
+
+  /* Actividad 1 */
+
+  const a1 =
+    document.createElement("section");
+
+  a1.className =
+    "pdf-section";
+
+
+  const a1h =
+    document.createElement("h2");
+
+  a1h.textContent =
+    "Actividad 1 — Identificación de T568A y T568B — 3 pts";
+
+
+  a1.appendChild(a1h);
+
+
+  appendText(
+    a1,
+    "p",
+    "T568A: ",
+    $("t568aIdentification").value
+  );
+
+
+  appendText(
+    a1,
+    "p",
+    "T568B: ",
+    $("t568bIdentification").value
+  );
+
+
+  await appendPdfImages(
+    a1,
+    "activity1"
+  );
+
+
+  area.appendChild(a1);
+
+
+  /* Actividad 2 */
+
+  const a2 =
+    document.createElement("section");
+
+  a2.className =
+    "pdf-section";
+
+
+  const a2h =
+    document.createElement("h2");
+
+  a2h.textContent =
+    "Actividad 2 — Preparación y terminación del cable UTP — 3 pts";
+
+
+  a2.appendChild(a2h);
+
+
+  appendText(
+    a2,
+    "p",
+    "Cable T568A–T568A elaborado: ",
+    $("cableACompleted").checked
+      ? "Sí"
+      : "No"
+  );
+
+
+  appendText(
+    a2,
+    "p",
+    "Cable T568B–T568B elaborado: ",
+    $("cableBCompleted").checked
+      ? "Sí"
+      : "No"
+  );
+
+
+  await appendPdfImages(
+    a2,
+    "activity2"
+  );
+
+
+  area.appendChild(a2);
+
+
+  /* Actividad 3 */
+
+  const a3 =
+    document.createElement("section");
+
+  a3.className =
+    "pdf-section";
+
+
+  const a3h =
+    document.createElement("h2");
+
+  a3h.textContent =
+    "Actividad 3 — Elaboración y comprobación de cables T568A y T568B — 4 pts";
+
+
+  a3.appendChild(a3h);
+
+
+  appendText(
+    a3,
+    "p",
+    "Tester T568A–T568A: ",
+    $("testerAResult").value
+  );
+
+
+  appendText(
+    a3,
+    "p",
+    "Tester T568B–T568B: ",
+    $("testerBResult").value
+  );
+
+
+  await appendPdfImages(
+    a3,
+    "activity3"
+  );
+
+
+  area.appendChild(a3);
+
+
+  /* Revisión */
+
+  const review =
+    document.createElement("section");
+
+  review.className =
+    "pdf-section";
+
+
+  const rh =
+    document.createElement("h2");
+
+  rh.textContent =
+    "Revisión de completitud";
+
+
+  review.appendChild(rh);
+
+
+  const reviewData = [
+
+    [
+      "1. Identificación de T568A",
+      isComplete(
+        $("t568aIdentification")
+      )
+    ],
+
+    [
+      "2. Identificación de T568B",
+      isComplete(
+        $("t568bIdentification")
+      )
+    ],
+
+    [
+      "3. Cable T568A–T568A elaborado",
+      $("cableACompleted").checked
+    ],
+
+    [
+      "4. Cable T568B–T568B elaborado",
+      $("cableBCompleted").checked
+    ],
+
+    [
+      "5. Tester T568A–T568A registrado",
+      isComplete(
+        $("testerAResult")
+      )
+    ],
+
+    [
+      "6. Tester T568B–T568B registrado",
+      isComplete(
+        $("testerBResult")
+      )
+    ]
+
+  ];
+
+
+  reviewData.forEach(item=>{
+
+    const p =
+      document.createElement("p");
+
+    p.className =
+      "pdf-review-row";
+
+    p.textContent =
+      item[0] +
+      ": " +
+      (
+        item[1]
+          ? "COMPLETO"
+          : "PENDIENTE"
+      );
+
+
+    review.appendChild(p);
+
+  });
+
+
+  area.appendChild(review);
+
+
+  /* Ponderación */
+
+  const points =
+    document.createElement("section");
+
+  points.className =
+    "pdf-section";
+
+
+  const ph =
+    document.createElement("h2");
+
+  ph.textContent =
+    "Ponderación";
+
+
+  points.appendChild(ph);
+
+
+  appendText(
+    points,
+    "p",
+    "Actividad 1: ",
+    "3 pts"
+  );
+
+
+  appendText(
+    points,
+    "p",
+    "Actividad 2: ",
+    "3 pts"
+  );
+
+
+  appendText(
+    points,
+    "p",
+    "Actividad 3: ",
+    "4 pts"
+  );
+
+
+  appendText(
+    points,
+    "p",
+    "Total: ",
+    "10 puntos"
+  );
+
+
+  area.appendChild(points);
+
+
+  /* Entrega */
+
+  const delivery =
+    document.createElement("section");
+
+  delivery.className =
+    "pdf-section";
+
+
+  const dh =
+    document.createElement("h2");
+
+  dh.textContent =
+    "Entrega oficial";
+
+
+  delivery.appendChild(dh);
+
+
+  const dp =
+    document.createElement("p");
+
+  dp.textContent =
+    "Entrega física: cable T568A–T568A y cable T568B–T568B. " +
+    "Google Classroom: PDF generado por esta guía. " +
+    "Las fotografías incorporadas son opcionales y no sustituyen los cables físicos.";
+
+
+  delivery.appendChild(dp);
+
+  area.appendChild(delivery);
+
+
+  return area;
+
+}
+
+
+async function generatePdf(){
+
+  if(!guideIsComplete()){
+
+    updateProgress();
+
+    alert(
+      "Debes completar el 100 % de los seis requisitos antes de generar el PDF."
+    );
+
+    return;
+
+  }
+
+
+  await saveDraft();
+
+
+  const area =
+    await buildPrintArea();
+
+
+  if(
+    typeof window.html2pdf ===
+    "function"
+  ){
+
+    const filename =
+      "Guia01_Sistemas_Instalacion_" +
+      normalizeKey(
+        $("studentSection").value
+      ) +
+      "_" +
+      normalizeKey(
+        $("studentKey").value
+      ) +
+      ".pdf";
+
+
+    try{
+
+      await window
+        .html2pdf()
+        .set({
+
+          margin:10,
+
+          filename:filename,
+
+          image:{
+            type:"jpeg",
+            quality:.94
+          },
+
+          html2canvas:{
+            scale:1.6,
+            useCORS:true
+          },
+
+          jsPDF:{
+            unit:"mm",
+            format:"a4",
+            orientation:"portrait"
+          },
+
+          pagebreak:{
+            mode:[
+              "css",
+              "legacy"
+            ]
+          }
+
+        })
+        .from(area)
+        .save();
+
+
+      return;
+
+    }catch(error){
+
+      console.error(error);
+
+    }
+
+  }
+
+
+  alert(
+    "No fue posible utilizar el generador automático. " +
+    "Se abrirá Imprimir / Guardar como PDF."
+  );
+
+
+  window.print();
+
+}
+
+
+async function printPdf(){
+
+  if(!guideIsComplete()){
+
+    updateProgress();
+
+    alert(
+      "Debes completar el 100 % de los seis requisitos antes de imprimir o guardar como PDF."
+    );
+
+    return;
+
+  }
+
+
+  await saveDraft();
+
+  await buildPrintArea();
+
+  window.print();
+
+}
+
+
+/* ==========================================================
+   CAMBIO / BORRADO
+   ========================================================== */
+
+async function changeStudent(){
+
+  const ok =
+    confirm(
+      "El borrador actual se guardará antes de cambiar de estudiante. ¿Deseas continuar?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  await saveDraft();
+
+
+  activeIdentity = null;
+  activeDraftKey = null;
+  activeDraft = null;
+
+
+  $("identityKey").value =
+    "";
+
+  $("identitySection").value =
+    "";
+
+  $("identityName").value =
+    "";
+
+
+  $("identityMessage").textContent =
+    "Ingresa la nueva identificación.";
+
+
+  resetIdentityButtons();
+
+  showIdentityOverlay();
+
+
+  setSaveState(
+    "Esperando identificación",
+    false
+  );
+
+}
+
+
+async function clearCurrentDraft(){
+
+  if(!activeDraftKey){
+    return;
+  }
+
+
+  const ok =
+    confirm(
+      "Se eliminará el trabajo guardado de esta guía para esta Clave/Carné y Sección. " +
+      "Esta acción no puede deshacerse si no tienes un respaldo. " +
+      "¿Deseas continuar?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  try{
+
+    await dbDelete(
+      activeDraftKey
+    );
+
+
+    saveFields.forEach(el=>{
+
+      if(el.type === "checkbox"){
+
+        el.checked =
+          false;
+
+      }else if(!el.readOnly){
+
+        el.value =
+          "";
+
+      }
+
+    });
+
+
+    activeDraft =
+      emptyDraft();
+
+
+    renderAllImages();
+
+    updateProgress();
+
+    await saveDraft();
+
+
+    $("reviewList")
+      .replaceChildren();
+
+
+    alert(
+      "Se creó un nuevo borrador vacío para esta identificación."
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "No fue posible borrar el borrador."
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   EVENTOS
+   ========================================================== */
+
+$("identifyBtn")
+  .addEventListener(
+    "click",
+    identifyStudent
+  );
+
+
+$("continueDraftBtn")
+  .addEventListener(
+    "click",
+    continueExistingDraft
+  );
+
+
+$("newDraftBtn")
+  .addEventListener(
+    "click",
+    confirmNewDraft
+  );
+
+
+$("cancelIdentityBtn")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      activeIdentity = null;
+      activeDraftKey = null;
+      activeDraft = null;
+
+      resetIdentityButtons();
+
+      $("identityMessage").textContent =
+        "Operación cancelada. Ingresa tu identificación para continuar.";
+
+    }
+  );
+
+
+$("changeStudentBtn")
+  .addEventListener(
+    "click",
+    changeStudent
+  );
+
+
+saveFields.forEach(el=>{
+
+  ["input","change"]
+    .forEach(eventName=>{
+
+      el.addEventListener(
+        eventName,
+        ()=>{
+
+          updateProgress();
+
+          scheduleSave();
+
+        }
+      );
+
+    });
+
+});
+
+
+$("activity1Images")
+  .addEventListener(
+    "change",
+    function(){
+
+      handleImageInput(
+        "activity1",
+        this
+      );
+
+    }
+  );
+
+
+$("activity2Images")
+  .addEventListener(
+    "change",
+    function(){
+
+      handleImageInput(
+        "activity2",
+        this
+      );
+
+    }
+  );
+
+
+$("activity3Images")
+  .addEventListener(
+    "change",
+    function(){
+
+      handleImageInput(
+        "activity3",
+        this
+      );
+
+    }
+  );
+
+
+$("reviewBtn")
+  .addEventListener(
+    "click",
+    reviewSubmission
+  );
+
+
+$("downloadBackup")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      downloadBackup()
+        .catch(error=>{
+
+          console.error(error);
+
+          alert(
+            "No fue posible generar el respaldo."
+          );
+
+        });
+
+    }
+  );
+
+
+$("loadBackup")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      $("backupFile")
+        .click();
+
+    }
+  );
+
+
+$("backupFile")
+  .addEventListener(
+    "change",
+    async function(){
+
+      const file =
+        this.files &&
+        this.files[0];
+
+
+      if(!file){
+        return;
+      }
+
+
+      try{
+
+        await importBackupFile(
+          file
+        );
+
+      }catch(error){
+
+        alert(
+          error.message ||
+          "No fue posible cargar el respaldo."
+        );
+
+      }
+
+
+      this.value =
+        "";
+
+    }
+  );
+
+
+$("generatePdf")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      generatePdf()
+        .catch(error=>{
+
+          console.error(error);
+
+          alert(
+            "No fue posible preparar el PDF."
+          );
+
+        });
+
+    }
+  );
+
+
+$("printPdf")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      printPdf()
+        .catch(error=>{
+
+          console.error(error);
+
+          alert(
+            "No fue posible preparar la impresión."
+          );
+
+        });
+
+    }
+  );
+
+
+$("clearDraft")
+  .addEventListener(
+    "click",
+    clearCurrentDraft
+  );
+
+
+/* Estado inicial */
+updateProgress();
+
+})();
+</script>
+
+</body>
+</html>

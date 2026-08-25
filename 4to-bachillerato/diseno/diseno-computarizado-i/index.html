@@ -1,0 +1,4410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Diseño Computarizado I - Guía No. 1 - Codificación digital del color</title>
+
+<style>
+:root{
+  --azul:#183b66;
+  --azul2:#24598f;
+  --verde:#2f6f5e;
+  --fondo:#f4f7fa;
+  --panel:#fff;
+  --texto:#1f2933;
+  --muted:#66788a;
+  --borde:#d9e2ec;
+  --amarillo:#fff7d6;
+  --rojo:#8b3434;
+  --violeta:#65498b;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--fondo);
+  color:var(--texto);
+  line-height:1.5;
+}
+
+.hidden{display:none!important}
+
+header{
+  background:linear-gradient(135deg,var(--azul),var(--azul2));
+  color:#fff;
+  padding:22px 18px;
+}
+
+.header-wrap,.container{
+  max-width:1100px;
+  margin:auto;
+}
+
+.institution{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.institution-logo{
+  width:92px;
+  height:92px;
+  object-fit:contain;
+  border-radius:14px;
+  flex:0 0 auto;
+}
+
+.institution-text{min-width:0}
+
+h1{
+  font-size:clamp(1.45rem,3vw,2rem);
+  margin:4px 0 8px;
+}
+
+h2{
+  font-size:1.25rem;
+  color:var(--azul);
+  margin:0 0 12px;
+}
+
+h3{
+  font-size:1.05rem;
+  margin:18px 0 8px;
+}
+
+.subtitle{
+  opacity:.96;
+  margin:2px 0;
+}
+
+.meta{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:10px;
+  margin-top:16px;
+}
+
+.meta div{
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.25);
+  padding:9px 10px;
+  border-radius:10px;
+}
+
+.progress-shell{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(244,247,250,.96);
+  border-bottom:1px solid var(--borde);
+  padding:10px 18px;
+  backdrop-filter:blur(6px);
+}
+
+.progress-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.progressbar{
+  height:12px;
+  flex:1;
+  min-width:180px;
+  background:#dce5ee;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progressbar span{
+  display:block;
+  height:100%;
+  width:0;
+  background:var(--verde);
+  transition:width .2s ease;
+}
+
+.progress-text{
+  font-weight:700;
+  color:var(--azul);
+}
+
+.status{
+  display:inline-flex;
+  gap:7px;
+  align-items:center;
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#b0bec9;
+}
+
+.dot.saved{background:#3c8a67}
+
+.container{padding:18px}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--borde);
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 3px 10px rgba(24,59,102,.05);
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+label{
+  font-weight:700;
+  display:block;
+  margin:8px 0 6px;
+}
+
+input[type=text],
+textarea{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #b8c6d4;
+  border-radius:9px;
+  background:#fff;
+  font:inherit;
+  color:var(--texto);
+}
+
+textarea{
+  min-height:105px;
+  resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+button:focus{
+  outline:3px solid rgba(36,89,143,.22);
+  outline-offset:2px;
+}
+
+button{
+  border:0;
+  padding:11px 15px;
+  border-radius:9px;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  background:var(--azul);
+  color:#fff;
+}
+
+button.secondary{background:#53687a}
+button.success{background:var(--verde)}
+button.danger{background:var(--rojo)}
+button:disabled{opacity:.45;cursor:not-allowed}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.badge{
+  display:inline-block;
+  font-size:.82rem;
+  font-weight:700;
+  border-radius:999px;
+  padding:5px 9px;
+  margin:0 5px 7px 0;
+  background:#e8f0f8;
+  color:var(--azul);
+}
+
+.badge.work{
+  background:#e9f5ee;
+  color:#245a48;
+}
+
+.badge.deadline{
+  background:#fff1d6;
+  color:#805b16;
+}
+
+.badge.optional{
+  background:#f0eafa;
+  color:#60428a;
+}
+
+.note{
+  border-left:5px solid var(--azul2);
+  background:#eef5fb;
+  padding:12px 14px;
+  border-radius:8px;
+  margin:12px 0;
+}
+
+.warn{
+  border-left-color:#c58b16;
+  background:var(--amarillo);
+}
+
+.oknote{
+  border-left-color:var(--verde);
+  background:#edf8f3;
+}
+
+.cnb{
+  background:#f7f9fc;
+  border:1px dashed #a8bacb;
+  padding:12px;
+  border-radius:10px;
+}
+
+.step{
+  border-left:4px solid var(--azul2);
+  padding:4px 0 4px 14px;
+  margin:15px 0;
+}
+
+.checkline{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  margin:10px 0;
+  font-weight:400;
+}
+
+.checkline input{
+  margin-top:4px;
+  transform:scale(1.18);
+}
+
+.small{
+  font-size:.88rem;
+  color:var(--muted);
+}
+
+.reqmark{color:#a63b3b}
+
+.table-wrap{overflow-x:auto}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+th,td{
+  border:1px solid var(--borde);
+  padding:9px;
+  text-align:left;
+  vertical-align:top;
+}
+
+th{
+  background:#eef3f8;
+  color:var(--azul);
+}
+
+.image-area{
+  border:2px dashed #b8c6d4;
+  border-radius:12px;
+  padding:14px;
+  background:#fbfcfe;
+  margin-top:12px;
+}
+
+.image-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:12px;
+  margin-top:12px;
+}
+
+.image-card{
+  border:1px solid var(--borde);
+  border-radius:11px;
+  padding:9px;
+  background:#fff;
+}
+
+.image-card img{
+  display:block;
+  width:100%;
+  height:150px;
+  object-fit:contain;
+  background:#f5f7f9;
+  border-radius:8px;
+}
+
+.image-name{
+  font-size:.82rem;
+  color:var(--muted);
+  overflow-wrap:anywhere;
+  margin:7px 0;
+}
+
+.review-list{
+  display:grid;
+  gap:9px;
+  margin-top:12px;
+}
+
+.review-row{
+  border:1px solid var(--borde);
+  border-radius:10px;
+  padding:11px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.review-state{
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.complete{color:var(--verde)}
+.pending{color:#9a6810}
+
+.identity-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(20,35,50,.88);
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.identity-card{
+  width:min(600px,100%);
+  background:#fff;
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 20px 70px rgba(0,0,0,.28);
+}
+
+.identity-message{
+  margin:12px 0;
+  padding:12px;
+  border-radius:9px;
+  background:#eef5fb;
+}
+
+#printArea{display:none}
+
+footer{
+  max-width:1100px;
+  margin:auto;
+  padding:6px 18px 28px;
+  color:var(--muted);
+  font-size:.86rem;
+}
+
+@media(max-width:720px){
+  .grid2,.grid3{grid-template-columns:1fr}
+}
+
+@media(max-width:600px){
+  .institution{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .institution-logo{
+    width:80px;
+    height:80px;
+  }
+}
+
+@media print{
+  body *{visibility:hidden!important}
+
+  #printArea,
+  #printArea *{
+    visibility:visible!important;
+  }
+
+  #printArea{
+    display:block!important;
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    padding:22px;
+    color:#000;
+    background:#fff;
+  }
+
+  #printArea img{
+    max-width:100%;
+    max-height:520px;
+    object-fit:contain;
+    page-break-inside:avoid;
+  }
+
+  .pdf-activity{
+    margin-top:22px;
+    page-break-inside:avoid;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="identityOverlay" class="identity-overlay">
+  <div class="identity-card">
+    <h2>Identificar estudiante</h2>
+
+    <p>
+      Escribe tu Clave/Carné y Sección antes de continuar.
+      La guía buscará únicamente el borrador correspondiente a esta identificación.
+    </p>
+
+    <div class="grid2">
+      <div>
+        <label for="identityKey">
+          Clave / Carné <span class="reqmark">*</span>
+        </label>
+        <input id="identityKey" type="text" autocomplete="off">
+      </div>
+
+      <div>
+        <label for="identitySection">
+          Sección <span class="reqmark">*</span>
+        </label>
+        <input id="identitySection" type="text" autocomplete="off">
+      </div>
+    </div>
+
+    <label for="identityName">Nombre completo</label>
+    <input id="identityName" type="text" autocomplete="off">
+
+    <div id="identityMessage" class="identity-message">
+      Ingresa tu identificación para comenzar.
+    </div>
+
+    <div class="actions">
+      <button type="button" id="identifyBtn">Continuar</button>
+
+      <button
+        type="button"
+        id="continueDraftBtn"
+        class="success hidden">
+        Continuar trabajo
+      </button>
+
+      <button
+        type="button"
+        id="newDraftBtn"
+        class="secondary hidden">
+        Iniciar nuevamente
+      </button>
+
+      <button
+        type="button"
+        id="cancelIdentityBtn"
+        class="danger hidden">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<header>
+<div class="header-wrap">
+
+  <div class="institution">
+
+    <!-- ======================================================
+         PEGAR_AQUI_IMG_LOGOTIPO
+         Copia aquí EXACTAMENTE la etiqueta <img ...> completa
+         del index.html original que subiste.
+         Debe conservar:
+         class="institution-logo"
+         alt="Logotipo JRB"
+         y TODO el src="data:image/png;base64,..."
+         ====================================================== -->
+
+    <div class="institution-text">
+      <div class="subtitle">
+        Colegio de Informática Justo Rufino Bautista
+      </div>
+
+      <h1>Codificación digital del color</h1>
+
+      <p class="subtitle">
+        Diseño Computarizado I — 4.º Bachillerato con orientación en Diseño Gráfico
+      </p>
+
+      <p class="subtitle">
+        Guía No. 1 — IV Unidad — IV Bimestre
+      </p>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div>
+      <strong>Publicación:</strong><br>
+      Martes 25/08/2026
+    </div>
+
+    <div>
+      <strong>Trabajo principal:</strong><br>
+      Jueves 27/08/2026
+    </div>
+
+    <div>
+      <strong>Entrega:</strong><br>
+      Viernes 28/08/2026 — 18:00
+    </div>
+
+    <div>
+      <strong>Programas:</strong><br>
+      Inkscape + Photopea
+    </div>
+
+    <div>
+      <strong>Valor:</strong><br>
+      10 puntos
+    </div>
+  </div>
+
+</div>
+</header>
+
+
+<div class="progress-shell">
+  <div class="progress-inner">
+
+    <span class="progress-text" id="progressText">
+      Avance: 0%
+    </span>
+
+    <div class="progressbar">
+      <span id="progressBar"></span>
+    </div>
+
+    <span class="status">
+      <span class="dot" id="saveDot"></span>
+      <span id="saveStatus">
+        Identifica al estudiante para iniciar
+      </span>
+    </span>
+
+  </div>
+</div>
+
+
+<main class="container">
+
+<section class="card">
+  <h2>GUÍA DE TRABAJO NO. 1 — IV UNIDAD</h2>
+
+  <div class="grid2">
+    <div>
+      <strong>Tema:</strong><br>
+      Identificación del índice de codificación computarizado de los colores y tonos.
+    </div>
+
+    <div>
+      <strong>Institución:</strong><br>
+      Colegio de Informática Justo Rufino Bautista
+    </div>
+
+    <div>
+      <strong>Carrera:</strong><br>
+      Bachillerato en Ciencias y Letras con Orientación en Diseño Gráfico
+    </div>
+
+    <div>
+      <strong>Grado:</strong><br>
+      4.º Bachillerato
+    </div>
+
+    <div>
+      <strong>Curso:</strong><br>
+      Diseño Computarizado I
+    </div>
+
+    <div>
+      <strong>Fecha de asignación:</strong><br>
+      Martes 25 de agosto de 2026
+    </div>
+
+    <div>
+      <strong>Fecha y hora de entrega:</strong><br>
+      Viernes 28 de agosto de 2026 — 18:00 horas
+    </div>
+
+    <div>
+      <strong>Ponderación:</strong><br>
+      10 puntos
+    </div>
+  </div>
+</section>
+
+
+<section class="card">
+  <h2>Datos del estudiante</h2>
+
+  <div class="grid3">
+    <div>
+      <label>Nombre completo</label>
+      <input
+        id="studentName"
+        type="text"
+        data-save
+        readonly>
+    </div>
+
+    <div>
+      <label>Clave / Carné</label>
+      <input
+        id="studentKey"
+        type="text"
+        data-save
+        readonly>
+    </div>
+
+    <div>
+      <label>Sección</label>
+      <input
+        id="studentSection"
+        type="text"
+        data-save
+        readonly>
+    </div>
+  </div>
+
+  <p class="small">
+    El borrador se guarda localmente en este navegador y queda asociado
+    a la Clave/Carné y Sección identificados.
+  </p>
+
+  <div class="actions">
+    <button
+      type="button"
+      class="secondary"
+      id="changeStudentBtn">
+      Cambiar de estudiante
+    </button>
+  </div>
+</section>
+
+
+<section class="card">
+  <h2>Alineación curricular</h2>
+
+  <div class="cnb">
+    <p>
+      <strong>Competencia 2:</strong>
+      Utiliza programas de cómputo en la solución de problemas relacionados
+      con el Área o campo de trabajo.
+    </p>
+
+    <p>
+      <strong>Indicador de logro 2.1:</strong>
+      Crea diseños personalizados para su uso en la elaboración de diferentes
+      producciones.
+    </p>
+
+    <p>
+      <strong>Contenido 2.1.1:</strong>
+      Identificación del índice de codificación computarizado de los colores y tonos.
+    </p>
+  </div>
+</section>
+
+
+<section class="card">
+  <h2>Recursos de apoyo</h2>
+
+  <p>
+    Para desarrollar esta guía utilizarás:
+    <strong>Inkscape</strong> y <strong>Photopea</strong>.
+  </p>
+
+  <div class="note">
+    Las capturas que agregues dentro de esta guía son opcionales.
+    No existe cantidad mínima ni máxima y no afectan el porcentaje de completitud.
+  </div>
+
+  <div class="note warn">
+    Las capturas no sustituyen los archivos que debes entregar mediante Google Classroom.
+  </div>
+</section>
+
+
+<section class="card" id="activity1">
+
+  <span class="badge work">JUEVES</span>
+  <span class="badge">INKSCAPE + PHOTOPEA</span>
+
+  <h2>
+    Actividad 1 — Exploración de la codificación digital del color — 3 pts
+  </h2>
+
+  <div class="note">
+    <strong>Qué aprenderás:</strong>
+    identificar cómo Inkscape y Photopea representan digitalmente los colores
+    y relacionar su codificación con el color o tono mostrado.
+  </div>
+
+  <div class="step">
+    <h3>Qué debes hacer</h3>
+    <p>
+      Realiza una exploración práctica de la selección y representación del
+      color en Inkscape y Photopea.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Procedimiento</h3>
+
+    <ol>
+      <li>
+        Abre Inkscape y explora las herramientas relacionadas con la selección
+        o edición del color.
+      </li>
+
+      <li>
+        Observa cómo el programa identifica digitalmente los colores o tonos
+        que utilizas.
+      </li>
+
+      <li>
+        Abre Photopea y realiza una exploración equivalente utilizando su
+        selector de color.
+      </li>
+
+      <li>
+        Registra los colores o tonos utilizados junto con los códigos que
+        muestran ambos programas.
+      </li>
+
+      <li>
+        Explica brevemente la relación entre el código observado y el color
+        representado.
+      </li>
+    </ol>
+  </div>
+
+  <label for="activity1Register">
+    Registro de colores o tonos y sus códigos
+    <span class="reqmark">*</span>
+  </label>
+
+  <textarea
+    id="activity1Register"
+    data-save
+    data-required
+    placeholder="Registra aquí los colores o tonos utilizados y los códigos observados en Inkscape y Photopea."></textarea>
+
+
+  <label for="activity1Explanation">
+    Explicación de la relación entre código y color
+    <span class="reqmark">*</span>
+  </label>
+
+  <textarea
+    id="activity1Explanation"
+    data-save
+    data-required
+    placeholder="Explica brevemente la relación entre el código observado y el color representado."></textarea>
+
+
+  <h3>Evidencia requerida</h3>
+
+  <p>
+    La evidencia debe permitir comprobar el uso de Inkscape y Photopea
+    y la identificación de la codificación digital del color.
+  </p>
+
+  <label class="checkline">
+    <input
+      id="activity1FileReady"
+      type="checkbox"
+      data-save
+      data-required>
+
+    Preparé el archivo correspondiente a la evidencia de la Actividad 1
+    para entregarlo mediante Google Classroom.
+  </label>
+
+
+  <div class="image-area">
+
+    <span class="badge optional">
+      CAPTURAS OPCIONALES
+    </span>
+
+    <h3>Capturas de apoyo</h3>
+
+    <p>
+      Puedes agregar capturas relacionadas con la exploración realizada
+      en Inkscape y Photopea.
+    </p>
+
+    <input
+      id="activity1Images"
+      type="file"
+      accept="image/*"
+      multiple>
+
+    <div
+      id="activity1ImageGrid"
+      class="image-grid">
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="card" id="activity2">
+
+  <span class="badge work">JUEVES</span>
+  <span class="badge">INKSCAPE</span>
+
+  <h2>
+    Actividad 2 — Construcción de una paleta digital — 3 pts
+  </h2>
+
+  <div class="note">
+    <strong>Qué aprenderás:</strong>
+    construir en Inkscape una paleta digital identificando los colores
+    mediante su codificación.
+  </div>
+
+  <div class="step">
+    <h3>Qué debes hacer</h3>
+
+    <p>
+      Elabora en Inkscape una paleta digital propia.
+      Cada color utilizado deberá estar identificado con su correspondiente
+      código de color.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Procedimiento</h3>
+
+    <ol>
+      <li>Abre Inkscape.</li>
+      <li>Construye una paleta digital propia.</li>
+      <li>Organiza de manera clara los colores seleccionados.</li>
+      <li>Identifica cada color con su correspondiente código.</li>
+      <li>Explica brevemente el criterio utilizado para combinarlos.</li>
+    </ol>
+  </div>
+
+
+  <label for="activity2Explanation">
+    Criterio utilizado para combinar los colores
+    <span class="reqmark">*</span>
+  </label>
+
+  <textarea
+    id="activity2Explanation"
+    data-save
+    data-required
+    placeholder="Explica brevemente el criterio utilizado para seleccionar y combinar los colores de la paleta."></textarea>
+
+
+  <h3>Evidencia requerida</h3>
+
+  <p>
+    Paleta digital elaborada en Inkscape con los colores identificados
+    mediante su correspondiente código y explicación del criterio utilizado.
+  </p>
+
+  <label class="checkline">
+    <input
+      id="activity2SvgReady"
+      type="checkbox"
+      data-save
+      data-required>
+
+    Preparé el archivo editable SVG de Inkscape para entregarlo mediante
+    Google Classroom.
+  </label>
+
+
+  <div class="image-area">
+
+    <span class="badge optional">
+      CAPTURAS OPCIONALES
+    </span>
+
+    <h3>Capturas de apoyo</h3>
+
+    <p>
+      Puedes agregar capturas del proceso o resultado trabajado en Inkscape.
+    </p>
+
+    <input
+      id="activity2Images"
+      type="file"
+      accept="image/*"
+      multiple>
+
+    <div
+      id="activity2ImageGrid"
+      class="image-grid">
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="card" id="activity3">
+
+  <span class="badge work">JUEVES</span>
+  <span class="badge">PHOTOPEA</span>
+
+  <h2>
+    Actividad 3 — Aplicación de color en una composición gráfica — 4 pts
+  </h2>
+
+  <div class="note">
+    <strong>Qué aprenderás:</strong>
+    aplicar en Photopea una selección planificada de colores en una composición
+    gráfica utilizando su codificación digital.
+  </div>
+
+  <div class="step">
+    <h3>Qué debes hacer</h3>
+
+    <p>
+      Elabora en Photopea una composición gráfica propia utilizando una
+      selección planificada de colores.
+    </p>
+  </div>
+
+  <div class="step">
+    <h3>Procedimiento</h3>
+
+    <ol>
+      <li>Abre Photopea.</li>
+      <li>Desarrolla una composición gráfica propia.</li>
+      <li>Aplica una selección planificada de colores.</li>
+      <li>Relaciona los colores empleados con su codificación digital.</li>
+      <li>Explica la intención o criterio de color utilizado.</li>
+    </ol>
+  </div>
+
+
+  <label for="activity3Explanation">
+    Intención o criterio de color aplicado
+    <span class="reqmark">*</span>
+  </label>
+
+  <textarea
+    id="activity3Explanation"
+    data-save
+    data-required
+    placeholder="Explica brevemente la intención o criterio de color aplicado en tu composición."></textarea>
+
+
+  <h3>Evidencia requerida</h3>
+
+  <p>
+    La evidencia estará formada por el archivo editable de Photopea
+    y la exportación final de la composición gráfica.
+  </p>
+
+  <label class="checkline">
+    <input
+      id="activity3PsdReady"
+      type="checkbox"
+      data-save
+      data-required>
+
+    Preparé el archivo editable PSD de Photopea para entregarlo mediante
+    Google Classroom.
+  </label>
+
+  <label class="checkline">
+    <input
+      id="activity3ExportReady"
+      type="checkbox"
+      data-save
+      data-required>
+
+    Preparé la exportación final de la composición gráfica para entregarla
+    mediante Google Classroom.
+  </label>
+
+
+  <div class="image-area">
+
+    <span class="badge optional">
+      CAPTURAS OPCIONALES
+    </span>
+
+    <h3>Capturas de apoyo</h3>
+
+    <p>
+      Puedes agregar capturas del proceso o resultado trabajado en Photopea.
+    </p>
+
+    <input
+      id="activity3Images"
+      type="file"
+      accept="image/*"
+      multiple>
+
+    <div
+      id="activity3ImageGrid"
+      class="image-grid">
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="card">
+
+  <span class="badge deadline">VIERNES</span>
+
+  <h2>Instrucciones para entregar en Google Classroom</h2>
+
+  <p>
+    Dentro de la actividad correspondiente a la
+    <strong>Guía No. 1 — IV Unidad</strong>,
+    adjunta:
+  </p>
+
+  <ul>
+    <li>
+      El archivo correspondiente a la evidencia de la
+      <strong>Actividad 1</strong>.
+    </li>
+
+    <li>
+      El archivo editable
+      <strong>SVG de Inkscape</strong>
+      de la Actividad 2.
+    </li>
+
+    <li>
+      El archivo editable
+      <strong>PSD de Photopea</strong>
+      de la Actividad 3.
+    </li>
+
+    <li>
+      La
+      <strong>exportación final de la composición gráfica</strong>
+      realizada en Photopea.
+    </li>
+  </ul>
+
+  <div class="note warn">
+    <strong>Fecha límite:</strong>
+    viernes 28 de agosto de 2026 hasta las 18:00 horas.
+  </div>
+
+  <p>
+    Las capturas agregadas dentro de esta guía son opcionales y no sustituyen
+    ninguno de los archivos indicados anteriormente.
+  </p>
+
+</section>
+
+
+<section class="card">
+
+  <h2>RÚBRICA DE CALIFICACIÓN (10 pts)</h2>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Criterio de calificación</th>
+          <th>Evidencia aprobada</th>
+          <th>Valor máximo</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>
+            <strong>
+              Exploración de la codificación digital del color
+            </strong>
+          </td>
+
+          <td>
+            Exploración práctica en Inkscape y Photopea,
+            registro de colores o tonos con sus códigos y explicación
+            de la relación observada.
+          </td>
+
+          <td>
+            <strong>3 pts</strong>
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>
+            <strong>
+              Construcción de una paleta digital
+            </strong>
+          </td>
+
+          <td>
+            Paleta digital propia en Inkscape,
+            identificación mediante códigos,
+            explicación del criterio de combinación
+            y archivo SVG editable.
+          </td>
+
+          <td>
+            <strong>3 pts</strong>
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>
+            <strong>
+              Aplicación de color en una composición gráfica
+            </strong>
+          </td>
+
+          <td>
+            Composición gráfica propia en Photopea,
+            explicación de la intención de color,
+            archivo PSD editable y exportación final.
+          </td>
+
+          <td>
+            <strong>4 pts</strong>
+          </td>
+        </tr>
+
+
+        <tr>
+          <td colspan="2">
+            <strong>TOTAL</strong>
+          </td>
+
+          <td>
+            <strong>10 pts</strong>
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <p class="small">
+    La comprobación automática de esta página únicamente verifica completitud.
+    La calificación oficial corresponde al docente.
+  </p>
+
+</section>
+
+
+<section class="card">
+
+  <h2>REVISAR MI ENTREGA</h2>
+
+  <div class="note">
+    Esta revisión comprueba únicamente los requisitos de la guía.
+    No verifica automáticamente el contenido de archivos externos.
+  </div>
+
+  <div class="actions">
+    <button
+      type="button"
+      id="reviewBtn">
+      Revisar mi entrega
+    </button>
+  </div>
+
+  <div
+    id="reviewList"
+    class="review-list">
+  </div>
+
+</section>
+
+
+<section class="card">
+
+  <h2>Control de entrega y PDF</h2>
+
+  <div
+    id="pdfStatus"
+    class="note warn">
+
+    Completa el 100% de la guía para habilitar
+    la generación o impresión del PDF.
+
+  </div>
+
+  <div class="note oknote">
+    Las capturas son opcionales y no participan en el cálculo del 100%.
+  </div>
+
+  <div class="actions">
+
+    <button
+      type="button"
+      class="secondary"
+      id="downloadBackup">
+      Descargar respaldo JSON
+    </button>
+
+    <button
+      type="button"
+      class="secondary"
+      id="loadBackup">
+      Cargar respaldo JSON
+    </button>
+
+    <input
+      id="backupFile"
+      class="hidden"
+      type="file"
+      accept=".json,application/json">
+
+
+    <button
+      type="button"
+      class="success"
+      id="generatePdf"
+      disabled>
+      Generar PDF
+    </button>
+
+
+    <button
+      type="button"
+      id="printPdf"
+      disabled>
+      Imprimir / Guardar como PDF
+    </button>
+
+
+    <button
+      type="button"
+      class="danger"
+      id="clearDraft">
+      Borrar este borrador
+    </button>
+
+  </div>
+
+  <p class="small">
+    Descargar un respaldo JSON está permitido aunque la guía todavía no esté completa.
+  </p>
+
+</section>
+
+</main>
+
+
+<div id="printArea"></div>
+
+
+<footer>
+  Diseño Computarizado I — 4.º Bachillerato con orientación en Diseño Gráfico —
+  Guía No. 1 — IV Unidad — IV Bimestre.
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+
+<script>
+(function(){
+"use strict";
+
+
+/* ==========================================================
+   IDENTIFICACIÓN FIJA DE LA GUÍA
+   ========================================================== */
+
+const SCHEMA_VERSION = "2026.1";
+
+const GUIDE_ID =
+  "jrb_4to_diseno_diseno_computarizado_i_guia01_iv_20260825";
+
+const COURSE_ID =
+  "jrb_diseno_computarizado_i_4to_diseno";
+
+const GRADE = "4to_bachillerato";
+const ORIENTATION = "diseno_grafico";
+const COURSE = "diseno_computarizado_i";
+const GUIDE_NUMBER = "guia01";
+
+const DB_NAME = "JRBGuias2026";
+const DB_VERSION = 1;
+const STORE_NAME = "drafts";
+
+const $ = id => document.getElementById(id);
+
+let activeIdentity = null;
+let activeDraftKey = null;
+let activeDraft = null;
+
+let saveTimer = null;
+let currentImageReplace = null;
+
+const saveFields =
+  Array.from(document.querySelectorAll("[data-save]"));
+
+const requiredFields =
+  Array.from(document.querySelectorAll("[data-required]"));
+
+
+/* ==========================================================
+   UTILIDADES
+   ========================================================== */
+
+function normalizeKey(value){
+
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g,"_")
+    .replace(/[^a-z0-9áéíóúüñ_-]/gi,"");
+
+}
+
+
+function makeDraftKey(section,studentKey){
+
+  return [
+    GRADE,
+    ORIENTATION,
+    COURSE,
+    GUIDE_NUMBER,
+    "seccion" + normalizeKey(section),
+    "clave" + normalizeKey(studentKey)
+  ].join("_");
+
+}
+
+
+function isComplete(el){
+
+  if(el.type === "checkbox"){
+    return el.checked;
+  }
+
+  return String(el.value || "").trim().length > 0;
+
+}
+
+
+function guideIsComplete(){
+
+  return (
+    requiredFields.length > 0 &&
+    requiredFields.every(isComplete)
+  );
+
+}
+
+
+/* ==========================================================
+   PROGRESO Y BLOQUEO DE PDF
+   ========================================================== */
+
+function updateProgress(){
+
+  const done =
+    requiredFields.filter(isComplete).length;
+
+  const total =
+    requiredFields.length;
+
+  const pct =
+    total
+      ? Math.round((done / total) * 100)
+      : 0;
+
+  const complete =
+    total > 0 &&
+    done === total;
+
+
+  $("progressText").textContent =
+    complete
+      ? "Avance: 100% — Guía completada"
+      : "Avance: " + pct + "%";
+
+
+  $("progressBar").style.width =
+    pct + "%";
+
+
+  $("generatePdf").disabled =
+    !complete;
+
+  $("printPdf").disabled =
+    !complete;
+
+
+  if(complete){
+
+    $("pdfStatus").className =
+      "note oknote";
+
+    $("pdfStatus").textContent =
+      "Guía completada al 100%. Ya puedes generar o imprimir el PDF.";
+
+  }else{
+
+    $("pdfStatus").className =
+      "note warn";
+
+    $("pdfStatus").textContent =
+      "Completa el 100% de los requisitos de la guía para habilitar el PDF. " +
+      "Faltan " +
+      (total - done) +
+      " registros o confirmaciones.";
+
+  }
+
+}
+
+
+/* ==========================================================
+   ESTADO DE GUARDADO
+   ========================================================== */
+
+function setSaveState(text,saved){
+
+  $("saveStatus").textContent =
+    text;
+
+  $("saveDot").classList.toggle(
+    "saved",
+    Boolean(saved)
+  );
+
+}
+
+
+/* ==========================================================
+   INDEXEDDB
+   ========================================================== */
+
+function openDB(){
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      if(!("indexedDB" in window)){
+
+        reject(
+          new Error("IndexedDB no disponible")
+        );
+
+        return;
+
+      }
+
+
+      const request =
+        indexedDB.open(
+          DB_NAME,
+          DB_VERSION
+        );
+
+
+      request.onupgradeneeded =
+        ()=>{
+
+          const db =
+            request.result;
+
+          if(
+            !db.objectStoreNames.contains(
+              STORE_NAME
+            )
+          ){
+
+            db.createObjectStore(
+              STORE_NAME
+            );
+
+          }
+
+        };
+
+
+      request.onsuccess =
+        ()=>resolve(
+          request.result
+        );
+
+
+      request.onerror =
+        ()=>reject(
+          request.error ||
+          new Error("Error de base de datos")
+        );
+
+    }
+  );
+
+}
+
+
+async function dbGet(key){
+
+  const db =
+    await openDB();
+
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const tx =
+        db.transaction(
+          STORE_NAME,
+          "readonly"
+        );
+
+      const request =
+        tx.objectStore(
+          STORE_NAME
+        ).get(key);
+
+
+      request.onsuccess =
+        ()=>resolve(
+          request.result || null
+        );
+
+
+      request.onerror =
+        ()=>reject(
+          request.error
+        );
+
+
+      tx.oncomplete =
+        ()=>db.close();
+
+
+      tx.onerror =
+        ()=>db.close();
+
+    }
+  );
+
+}
+
+
+async function dbPut(key,value){
+
+  const db =
+    await openDB();
+
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const tx =
+        db.transaction(
+          STORE_NAME,
+          "readwrite"
+        );
+
+      tx.objectStore(
+        STORE_NAME
+      ).put(
+        value,
+        key
+      );
+
+
+      tx.oncomplete =
+        ()=>{
+
+          db.close();
+
+          resolve();
+
+        };
+
+
+      tx.onerror =
+        ()=>{
+
+          db.close();
+
+          reject(
+            tx.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+async function dbDelete(key){
+
+  const db =
+    await openDB();
+
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const tx =
+        db.transaction(
+          STORE_NAME,
+          "readwrite"
+        );
+
+      tx.objectStore(
+        STORE_NAME
+      ).delete(
+        key
+      );
+
+
+      tx.oncomplete =
+        ()=>{
+
+          db.close();
+
+          resolve();
+
+        };
+
+
+      tx.onerror =
+        ()=>{
+
+          db.close();
+
+          reject(
+            tx.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+/* ==========================================================
+   BORRADOR
+   ========================================================== */
+
+function emptyDraft(){
+
+  return {
+
+    schemaVersion:
+      SCHEMA_VERSION,
+
+    guideId:
+      GUIDE_ID,
+
+    courseId:
+      COURSE_ID,
+
+    grade:
+      GRADE,
+
+    orientation:
+      ORIENTATION,
+
+    studentKey:
+      activeIdentity.studentKey,
+
+    section:
+      activeIdentity.section,
+
+    studentName:
+      activeIdentity.studentName || "",
+
+    timestamp:
+      new Date().toISOString(),
+
+    data:{
+
+      fields:{},
+
+      images:{
+        activity1:[],
+        activity2:[],
+        activity3:[]
+      }
+
+    }
+
+  };
+
+}
+
+
+function collectFields(){
+
+  const fields = {};
+
+
+  saveFields.forEach(
+    el=>{
+
+      fields[el.id] =
+        el.type === "checkbox"
+          ? el.checked
+          : el.value;
+
+    }
+  );
+
+
+  return fields;
+
+}
+
+
+function restoreFields(fields){
+
+  if(
+    !fields ||
+    typeof fields !== "object"
+  ){
+    return;
+  }
+
+
+  saveFields.forEach(
+    el=>{
+
+      if(
+        !Object.prototype.hasOwnProperty.call(
+          fields,
+          el.id
+        )
+      ){
+        return;
+      }
+
+
+      const value =
+        fields[el.id];
+
+
+      if(
+        el.type === "checkbox"
+      ){
+
+        el.checked =
+          Boolean(value);
+
+      }else{
+
+        el.value =
+          value == null
+            ? ""
+            : String(value);
+
+      }
+
+    }
+  );
+
+
+  updateProgress();
+
+}
+
+
+async function saveDraft(){
+
+  if(
+    !activeIdentity ||
+    !activeDraftKey
+  ){
+    return;
+  }
+
+
+  if(!activeDraft){
+
+    activeDraft =
+      emptyDraft();
+
+  }
+
+
+  activeDraft.studentName =
+    $("studentName").value ||
+    activeIdentity.studentName ||
+    "";
+
+
+  activeDraft.studentKey =
+    activeIdentity.studentKey;
+
+
+  activeDraft.section =
+    activeIdentity.section;
+
+
+  activeDraft.timestamp =
+    new Date().toISOString();
+
+
+  activeDraft.data.fields =
+    collectFields();
+
+
+  setSaveState(
+    "Guardando...",
+    false
+  );
+
+
+  try{
+
+    await dbPut(
+      activeDraftKey,
+      activeDraft
+    );
+
+
+    setSaveState(
+      "Guardado automáticamente ✓",
+      true
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+
+    if(
+      error &&
+      (
+        error.name === "QuotaExceededError" ||
+        String(error).toLowerCase().includes("quota")
+      )
+    ){
+
+      setSaveState(
+        "Almacenamiento local lleno. Descarga un respaldo antes de continuar.",
+        false
+      );
+
+    }else{
+
+      setSaveState(
+        "Error al guardar",
+        false
+      );
+
+    }
+
+  }
+
+}
+
+
+function scheduleSave(){
+
+  clearTimeout(
+    saveTimer
+  );
+
+
+  saveTimer =
+    setTimeout(
+      saveDraft,
+      400
+    );
+
+}
+
+
+/* ==========================================================
+   IDENTIFICACIÓN
+   ========================================================== */
+
+function resetIdentityButtons(){
+
+  $("identifyBtn")
+    .classList.remove(
+      "hidden"
+    );
+
+
+  $("continueDraftBtn")
+    .classList.add(
+      "hidden"
+    );
+
+
+  $("newDraftBtn")
+    .classList.add(
+      "hidden"
+    );
+
+
+  $("cancelIdentityBtn")
+    .classList.add(
+      "hidden"
+    );
+
+}
+
+
+function showIdentityOverlay(){
+
+  $("identityOverlay")
+    .classList.remove(
+      "hidden"
+    );
+
+}
+
+
+function hideIdentityOverlay(){
+
+  $("identityOverlay")
+    .classList.add(
+      "hidden"
+    );
+
+}
+
+
+async function identifyStudent(){
+
+  const studentKey =
+    $("identityKey")
+      .value
+      .trim();
+
+
+  const section =
+    $("identitySection")
+      .value
+      .trim();
+
+
+  const studentName =
+    $("identityName")
+      .value
+      .trim();
+
+
+  if(
+    !studentKey ||
+    !section
+  ){
+
+    $("identityMessage").textContent =
+      "Es necesario escribir Clave/Carné y Sección antes de buscar un borrador.";
+
+    return;
+
+  }
+
+
+  const proposedKey =
+    makeDraftKey(
+      section,
+      studentKey
+    );
+
+
+  $("identityMessage").textContent =
+    "Buscando únicamente el borrador de esta identificación...";
+
+
+  try{
+
+    const found =
+      await dbGet(
+        proposedKey
+      );
+
+
+    activeIdentity = {
+
+      studentKey,
+      section,
+      studentName
+
+    };
+
+
+    activeDraftKey =
+      proposedKey;
+
+
+    if(found){
+
+      activeDraft =
+        found;
+
+
+      const when =
+        found.timestamp
+          ? new Date(
+              found.timestamp
+            ).toLocaleString(
+              "es-GT"
+            )
+          : "fecha no disponible";
+
+
+      $("identityMessage").textContent =
+        "Se encontró un trabajo guardado para esta guía. Último guardado: " +
+        when;
+
+
+      $("identifyBtn")
+        .classList.add(
+          "hidden"
+        );
+
+
+      $("continueDraftBtn")
+        .classList.remove(
+          "hidden"
+        );
+
+
+      $("newDraftBtn")
+        .classList.remove(
+          "hidden"
+        );
+
+
+      $("cancelIdentityBtn")
+        .classList.remove(
+          "hidden"
+        );
+
+    }else{
+
+      activeDraft =
+        emptyDraft();
+
+
+      await enterNewDraft();
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+
+    $("identityMessage").textContent =
+      "No fue posible abrir el almacenamiento local de esta guía.";
+
+  }
+
+}
+
+
+function applyIdentity(){
+
+  $("studentName").value =
+    activeIdentity.studentName ||
+    "";
+
+
+  $("studentKey").value =
+    activeIdentity.studentKey;
+
+
+  $("studentSection").value =
+    activeIdentity.section;
+
+}
+
+
+async function continueExistingDraft(){
+
+  if(!activeDraft){
+    return;
+  }
+
+
+  activeIdentity.studentName =
+    activeDraft.studentName ||
+    activeIdentity.studentName ||
+    "";
+
+
+  applyIdentity();
+
+
+  restoreFields(
+    activeDraft.data &&
+    activeDraft.data.fields
+  );
+
+
+  renderAllImages();
+
+
+  hideIdentityOverlay();
+
+
+  resetIdentityButtons();
+
+
+  setSaveState(
+    "Borrador recuperado ✓",
+    true
+  );
+
+}
+
+
+async function enterNewDraft(){
+
+  activeDraft =
+    emptyDraft();
+
+
+  applyIdentity();
+
+
+  restoreFields({});
+
+
+  renderAllImages();
+
+
+  await saveDraft();
+
+
+  hideIdentityOverlay();
+
+
+  resetIdentityButtons();
+
+
+  setSaveState(
+    "Nuevo trabajo creado ✓",
+    true
+  );
+
+}
+
+
+async function confirmNewDraft(){
+
+  const ok =
+    confirm(
+      "Se eliminará el trabajo guardado de esta guía para esta Clave/Carné y Sección. " +
+      "Esta acción no puede deshacerse si no tienes un respaldo. ¿Deseas continuar?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  try{
+
+    await dbDelete(
+      activeDraftKey
+    );
+
+
+    activeDraft =
+      emptyDraft();
+
+
+    await enterNewDraft();
+
+  }catch(error){
+
+    console.error(error);
+
+
+    alert(
+      "No fue posible iniciar nuevamente."
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   CAPTURAS OPCIONALES
+   ========================================================== */
+
+function imageBucket(activity){
+
+  if(
+    !activeDraft.data.images[activity]
+  ){
+
+    activeDraft.data.images[activity] =
+      [];
+
+  }
+
+
+  return activeDraft.data.images[activity];
+
+}
+
+
+async function addImages(
+  activity,
+  fileList
+){
+
+  if(!activeDraft){
+    return;
+  }
+
+
+  const files =
+    Array.from(
+      fileList || []
+    ).filter(
+      file=>
+        file.type.startsWith(
+          "image/"
+        )
+    );
+
+
+  if(!files.length){
+    return;
+  }
+
+
+  const bucket =
+    imageBucket(
+      activity
+    );
+
+
+  for(
+    const file
+    of files
+  ){
+
+    bucket.push({
+
+      id:
+        window.crypto &&
+        crypto.randomUUID
+          ? crypto.randomUUID()
+          : String(Date.now()) +
+            "_" +
+            Math.random()
+              .toString(36)
+              .slice(2),
+
+      name:
+        file.name ||
+        "captura",
+
+      type:
+        file.type ||
+        "image/*",
+
+      blob:
+        file
+
+    });
+
+  }
+
+
+  renderImages(
+    activity
+  );
+
+
+  await saveDraft();
+
+}
+
+
+function renderAllImages(){
+
+  renderImages(
+    "activity1"
+  );
+
+  renderImages(
+    "activity2"
+  );
+
+  renderImages(
+    "activity3"
+  );
+
+}
+
+
+function renderImages(activity){
+
+  const grid =
+    $(
+      activity +
+      "ImageGrid"
+    );
+
+
+  grid.replaceChildren();
+
+
+  if(
+    !activeDraft ||
+    !activeDraft.data ||
+    !activeDraft.data.images
+  ){
+    return;
+  }
+
+
+  const bucket =
+    imageBucket(
+      activity
+    );
+
+
+  bucket.forEach(
+    item=>{
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "image-card";
+
+
+      const img =
+        document.createElement(
+          "img"
+        );
+
+      img.alt =
+        "Captura opcional";
+
+
+      const objectUrl =
+        URL.createObjectURL(
+          item.blob
+        );
+
+
+      img.src =
+        objectUrl;
+
+
+      img.onload =
+        ()=>URL.revokeObjectURL(
+          objectUrl
+        );
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+      name.className =
+        "image-name";
+
+      name.textContent =
+        item.name ||
+        "captura";
+
+
+      const actions =
+        document.createElement(
+          "div"
+        );
+
+      actions.className =
+        "actions";
+
+
+      const replaceBtn =
+        document.createElement(
+          "button"
+        );
+
+      replaceBtn.type =
+        "button";
+
+      replaceBtn.className =
+        "secondary";
+
+      replaceBtn.textContent =
+        "Reemplazar";
+
+
+      replaceBtn.addEventListener(
+        "click",
+        ()=>{
+
+          currentImageReplace = {
+            activity,
+            id:item.id
+          };
+
+
+          const input =
+            $(
+              activity +
+              "Images"
+            );
+
+
+          input.multiple =
+            false;
+
+
+          input.click();
+
+        }
+      );
+
+
+      const deleteBtn =
+        document.createElement(
+          "button"
+        );
+
+      deleteBtn.type =
+        "button";
+
+      deleteBtn.className =
+        "danger";
+
+      deleteBtn.textContent =
+        "Eliminar";
+
+
+      deleteBtn.addEventListener(
+        "click",
+        async ()=>{
+
+          const ok =
+            confirm(
+              "¿Deseas eliminar esta captura de la guía?"
+            );
+
+
+          if(!ok){
+            return;
+          }
+
+
+          const current =
+            imageBucket(
+              activity
+            );
+
+
+          const index =
+            current.findIndex(
+              x=>
+                x.id ===
+                item.id
+            );
+
+
+          if(index >= 0){
+
+            current.splice(
+              index,
+              1
+            );
+
+
+            renderImages(
+              activity
+            );
+
+
+            await saveDraft();
+
+          }
+
+        }
+      );
+
+
+      actions.append(
+        replaceBtn,
+        deleteBtn
+      );
+
+
+      card.append(
+        img,
+        name,
+        actions
+      );
+
+
+      grid.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+async function handleImageInput(
+  activity,
+  input
+){
+
+  const files =
+    Array.from(
+      input.files || []
+    );
+
+
+  if(
+    currentImageReplace &&
+    currentImageReplace.activity ===
+      activity
+  ){
+
+    const file =
+      files.find(
+        f=>
+          f.type.startsWith(
+            "image/"
+          )
+      );
+
+
+    if(file){
+
+      const bucket =
+        imageBucket(
+          activity
+        );
+
+
+      const index =
+        bucket.findIndex(
+          x=>
+            x.id ===
+            currentImageReplace.id
+        );
+
+
+      if(index >= 0){
+
+        bucket[index] = {
+
+          id:
+            bucket[index].id,
+
+          name:
+            file.name ||
+            "captura",
+
+          type:
+            file.type ||
+            "image/*",
+
+          blob:
+            file
+
+        };
+
+      }
+
+
+      renderImages(
+        activity
+      );
+
+
+      await saveDraft();
+
+    }
+
+
+    currentImageReplace =
+      null;
+
+
+    input.multiple =
+      true;
+
+
+    input.value =
+      "";
+
+
+    return;
+
+  }
+
+
+  await addImages(
+    activity,
+    files
+  );
+
+
+  input.multiple =
+    true;
+
+
+  input.value =
+    "";
+
+}
+
+
+/* ==========================================================
+   REVISAR MI ENTREGA
+   ========================================================== */
+
+function reviewItem(
+  container,
+  title,
+  complete
+){
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "review-row";
+
+
+  const text =
+    document.createElement(
+      "div"
+    );
+
+
+  text.textContent =
+    title;
+
+
+  const state =
+    document.createElement(
+      "div"
+    );
+
+
+  state.className =
+    "review-state " +
+    (
+      complete
+        ? "complete"
+        : "pending"
+    );
+
+
+  state.textContent =
+    complete
+      ? "COMPLETO"
+      : "PENDIENTE";
+
+
+  row.append(
+    text,
+    state
+  );
+
+
+  container.appendChild(
+    row
+  );
+
+}
+
+
+function reviewSubmission(){
+
+  const box =
+    $("reviewList");
+
+
+  box.replaceChildren();
+
+
+  reviewItem(
+    box,
+    "Actividad 1 — Registro de colores o tonos y códigos",
+    isComplete(
+      $("activity1Register")
+    )
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 1 — Explicación de la relación entre código y color",
+    isComplete(
+      $("activity1Explanation")
+    )
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 1 — Archivo de evidencia preparado para Classroom",
+    $("activity1FileReady").checked
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 2 — Explicación del criterio de combinación",
+    isComplete(
+      $("activity2Explanation")
+    )
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 2 — Archivo SVG editable preparado",
+    $("activity2SvgReady").checked
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 3 — Explicación de la intención o criterio de color",
+    isComplete(
+      $("activity3Explanation")
+    )
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 3 — Archivo PSD editable preparado",
+    $("activity3PsdReady").checked
+  );
+
+
+  reviewItem(
+    box,
+    "Actividad 3 — Exportación final preparada",
+    $("activity3ExportReady").checked
+  );
+
+
+  const note =
+    document.createElement(
+      "div"
+    );
+
+
+  note.className =
+    "note";
+
+
+  note.textContent =
+    "Las capturas opcionales no forman parte de esta comprobación. " +
+    "La guía tampoco puede verificar directamente los archivos externos.";
+
+
+  box.appendChild(
+    note
+  );
+
+}
+
+
+/* ==========================================================
+   RESPALDO JSON
+   ========================================================== */
+
+function blobToDataURL(blob){
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        ()=>resolve(
+          reader.result
+        );
+
+
+      reader.onerror =
+        ()=>reject(
+          reader.error
+        );
+
+
+      reader.readAsDataURL(
+        blob
+      );
+
+    }
+  );
+
+}
+
+
+function dataURLToBlob(dataURL){
+
+  const parts =
+    String(
+      dataURL
+    ).split(",");
+
+
+  if(parts.length !== 2){
+
+    throw new Error(
+      "Imagen no válida"
+    );
+
+  }
+
+
+  const mimeMatch =
+    parts[0].match(
+      /data:([^;]+)/
+    );
+
+
+  const mime =
+    mimeMatch
+      ? mimeMatch[1]
+      : "application/octet-stream";
+
+
+  const binary =
+    atob(
+      parts[1]
+    );
+
+
+  const bytes =
+    new Uint8Array(
+      binary.length
+    );
+
+
+  for(
+    let i=0;
+    i<binary.length;
+    i++
+  ){
+
+    bytes[i] =
+      binary.charCodeAt(i);
+
+  }
+
+
+  return new Blob(
+    [bytes],
+    {type:mime}
+  );
+
+}
+
+
+async function draftForBackup(){
+
+  await saveDraft();
+
+
+  const exportDraft = {
+
+    schemaVersion:
+      SCHEMA_VERSION,
+
+    guideId:
+      GUIDE_ID,
+
+    courseId:
+      COURSE_ID,
+
+    grade:
+      GRADE,
+
+    orientation:
+      ORIENTATION,
+
+    studentKey:
+      activeIdentity.studentKey,
+
+    section:
+      activeIdentity.section,
+
+    studentName:
+      $("studentName").value || "",
+
+    timestamp:
+      new Date().toISOString(),
+
+    data:{
+
+      fields:
+        collectFields(),
+
+      images:{
+
+        activity1:[],
+        activity2:[],
+        activity3:[]
+
+      }
+
+    }
+
+  };
+
+
+  for(
+    const activity
+    of [
+      "activity1",
+      "activity2",
+      "activity3"
+    ]
+  ){
+
+    const bucket =
+      imageBucket(
+        activity
+      );
+
+
+    for(
+      const item
+      of bucket
+    ){
+
+      exportDraft.data.images[activity].push({
+
+        id:item.id,
+
+        name:item.name,
+
+        type:item.type,
+
+        dataURL:
+          await blobToDataURL(
+            item.blob
+          )
+
+      });
+
+    }
+
+  }
+
+
+  return exportDraft;
+
+}
+
+
+function downloadBlob(
+  blob,
+  filename
+){
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    filename;
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+
+  a.remove();
+
+
+  setTimeout(
+    ()=>URL.revokeObjectURL(
+      url
+    ),
+    1500
+  );
+
+}
+
+
+async function downloadBackup(){
+
+  if(!activeIdentity){
+    return;
+  }
+
+
+  const backup =
+    await draftForBackup();
+
+
+  const json =
+    JSON.stringify(
+      backup,
+      null,
+      2
+    );
+
+
+  downloadBlob(
+
+    new Blob(
+      [json],
+      {
+        type:
+          "application/json"
+      }
+    ),
+
+    "Respaldo_Guia01_Diseno_Computarizado_I_" +
+    normalizeKey(
+      activeIdentity.section
+    ) +
+    "_" +
+    normalizeKey(
+      activeIdentity.studentKey
+    ) +
+    ".json"
+
+  );
+
+}
+
+
+function validateBackupObject(obj){
+
+  if(
+    !obj ||
+    typeof obj !== "object"
+  ){
+
+    throw new Error(
+      "El archivo no contiene un respaldo válido."
+    );
+
+  }
+
+
+  if(
+    obj.schemaVersion !==
+    SCHEMA_VERSION
+  ){
+
+    throw new Error(
+      "La versión del respaldo no corresponde a esta guía."
+    );
+
+  }
+
+
+  if(
+    obj.guideId !==
+      GUIDE_ID ||
+    obj.courseId !==
+      COURSE_ID
+  ){
+
+    throw new Error(
+      "Este respaldo pertenece a otra guía o curso y no puede cargarse aquí."
+    );
+
+  }
+
+
+  if(
+    !obj.data ||
+    typeof obj.data !== "object"
+  ){
+
+    throw new Error(
+      "El respaldo no contiene la estructura de datos requerida."
+    );
+
+  }
+
+
+  if(
+    !obj.data.fields ||
+    typeof obj.data.fields !== "object"
+  ){
+
+    throw new Error(
+      "El respaldo no contiene los registros de la guía."
+    );
+
+  }
+
+
+  if(
+    !obj.studentKey ||
+    !obj.section
+  ){
+
+    throw new Error(
+      "El respaldo no contiene identificación del estudiante."
+    );
+
+  }
+
+
+  return true;
+
+}
+
+
+async function importBackupFile(file){
+
+  const text =
+    await file.text();
+
+
+  let obj;
+
+
+  try{
+
+    obj =
+      JSON.parse(
+        text
+      );
+
+  }catch(error){
+
+    throw new Error(
+      "El archivo seleccionado no contiene JSON válido."
+    );
+
+  }
+
+
+  validateBackupObject(
+    obj
+  );
+
+
+  const differentIdentity =
+    normalizeKey(
+      obj.studentKey
+    ) !==
+      normalizeKey(
+        activeIdentity.studentKey
+      ) ||
+
+    normalizeKey(
+      obj.section
+    ) !==
+      normalizeKey(
+        activeIdentity.section
+      );
+
+
+  if(differentIdentity){
+
+    const ok =
+      confirm(
+        "La Clave/Carné o Sección del respaldo no coincide con la identidad activa. " +
+        "¿Deseas cambiar a la identidad del respaldo antes de importarlo?"
+      );
+
+
+    if(!ok){
+
+      throw new Error(
+        "Importación cancelada."
+      );
+
+    }
+
+
+    activeIdentity = {
+
+      studentKey:
+        obj.studentKey,
+
+      section:
+        obj.section,
+
+      studentName:
+        obj.studentName || ""
+
+    };
+
+
+    activeDraftKey =
+      makeDraftKey(
+        obj.section,
+        obj.studentKey
+      );
+
+  }
+
+
+  const importedImages = {
+
+    activity1:[],
+    activity2:[],
+    activity3:[]
+
+  };
+
+
+  const sourceImages =
+
+    obj.data.images &&
+    typeof obj.data.images === "object"
+
+      ? obj.data.images
+
+      : {};
+
+
+  for(
+    const activity
+    of [
+      "activity1",
+      "activity2",
+      "activity3"
+    ]
+  ){
+
+    const items =
+      Array.isArray(
+        sourceImages[activity]
+      )
+        ? sourceImages[activity]
+        : [];
+
+
+    for(
+      const item
+      of items
+    ){
+
+      if(!item.dataURL){
+        continue;
+      }
+
+
+      importedImages[activity].push({
+
+        id:
+          item.id ||
+          String(Date.now()) +
+          Math.random(),
+
+        name:
+          item.name ||
+          "captura",
+
+        type:
+          item.type ||
+          "image/*",
+
+        blob:
+          dataURLToBlob(
+            item.dataURL
+          )
+
+      });
+
+    }
+
+  }
+
+
+  activeDraft = {
+
+    schemaVersion:
+      SCHEMA_VERSION,
+
+    guideId:
+      GUIDE_ID,
+
+    courseId:
+      COURSE_ID,
+
+    grade:
+      GRADE,
+
+    orientation:
+      ORIENTATION,
+
+    studentKey:
+      activeIdentity.studentKey,
+
+    section:
+      activeIdentity.section,
+
+    studentName:
+      obj.studentName || "",
+
+    timestamp:
+      new Date().toISOString(),
+
+    data:{
+
+      fields:
+        obj.data.fields,
+
+      images:
+        importedImages
+
+    }
+
+  };
+
+
+  applyIdentity();
+
+
+  restoreFields(
+    obj.data.fields
+  );
+
+
+  renderAllImages();
+
+
+  await saveDraft();
+
+
+  alert(
+    "Respaldo cargado correctamente."
+  );
+
+}
+
+
+/* ==========================================================
+   PDF
+   ========================================================== */
+
+function addTextElement(
+  parent,
+  tag,
+  label,
+  value
+){
+
+  const el =
+    document.createElement(
+      tag
+    );
+
+
+  const strong =
+    document.createElement(
+      "strong"
+    );
+
+
+  strong.textContent =
+    label;
+
+
+  el.appendChild(
+    strong
+  );
+
+
+  el.appendChild(
+    document.createTextNode(
+      value || ""
+    )
+  );
+
+
+  parent.appendChild(
+    el
+  );
+
+}
+
+
+async function addActivityImagesToPdf(
+  section,
+  activity
+){
+
+  const bucket =
+    imageBucket(
+      activity
+    );
+
+
+  if(!bucket.length){
+    return;
+  }
+
+
+  const title =
+    document.createElement(
+      "h3"
+    );
+
+
+  title.textContent =
+    "Capturas opcionales agregadas";
+
+
+  section.appendChild(
+    title
+  );
+
+
+  for(
+    const item
+    of bucket
+  ){
+
+    const img =
+      document.createElement(
+        "img"
+      );
+
+
+    img.alt =
+      "Captura opcional";
+
+
+    img.src =
+      await blobToDataURL(
+        item.blob
+      );
+
+
+    section.appendChild(
+      img
+    );
+
+  }
+
+}
+
+
+async function buildPrintArea(){
+
+  const area =
+    $("printArea");
+
+
+  area.replaceChildren();
+
+
+  const title =
+    document.createElement(
+      "h1"
+    );
+
+
+  title.textContent =
+    "Colegio de Informática Justo Rufino Bautista";
+
+
+  area.appendChild(
+    title
+  );
+
+
+  const guide =
+    document.createElement(
+      "h2"
+    );
+
+
+  guide.textContent =
+    "Diseño Computarizado I — Guía No. 1";
+
+
+  area.appendChild(
+    guide
+  );
+
+
+  addTextElement(
+    area,
+    "p",
+    "Unidad: ",
+    "IV Unidad"
+  );
+
+
+  addTextElement(
+    area,
+    "p",
+    "Bimestre: ",
+    "IV"
+  );
+
+
+  addTextElement(
+    area,
+    "p",
+    "Valor: ",
+    "10 puntos"
+  );
+
+
+  addTextElement(
+    area,
+    "p",
+    "Publicación: ",
+    "25/08/2026"
+  );
+
+
+  addTextElement(
+    area,
+    "p",
+    "Entrega: ",
+    "28/08/2026 — 18:00 horas"
+  );
+
+
+  addTextElement(
+    area,
+    "p",
+    "Estudiante: ",
+    $("studentName").value
+  );
+
+
+  addTextElement(
+    area,
+    "p",
+    "Clave/Carné: ",
+    $("studentKey").value
+  );
+
+
+  addTextElement(
+    area,
+    "p",
+    "Sección: ",
+    $("studentSection").value
+  );
+
+
+  const a1 =
+    document.createElement(
+      "section"
+    );
+
+
+  a1.className =
+    "pdf-activity";
+
+
+  const a1Title =
+    document.createElement(
+      "h2"
+    );
+
+
+  a1Title.textContent =
+    "Actividad 1 — Exploración de la codificación digital del color — 3 pts";
+
+
+  a1.appendChild(
+    a1Title
+  );
+
+
+  addTextElement(
+    a1,
+    "p",
+    "Registro de colores o tonos y códigos: ",
+    $("activity1Register").value
+  );
+
+
+  addTextElement(
+    a1,
+    "p",
+    "Explicación: ",
+    $("activity1Explanation").value
+  );
+
+
+  await addActivityImagesToPdf(
+    a1,
+    "activity1"
+  );
+
+
+  area.appendChild(
+    a1
+  );
+
+
+  const a2 =
+    document.createElement(
+      "section"
+    );
+
+
+  a2.className =
+    "pdf-activity";
+
+
+  const a2Title =
+    document.createElement(
+      "h2"
+    );
+
+
+  a2Title.textContent =
+    "Actividad 2 — Construcción de una paleta digital — 3 pts";
+
+
+  a2.appendChild(
+    a2Title
+  );
+
+
+  addTextElement(
+    a2,
+    "p",
+    "Criterio utilizado para combinar los colores: ",
+    $("activity2Explanation").value
+  );
+
+
+  await addActivityImagesToPdf(
+    a2,
+    "activity2"
+  );
+
+
+  area.appendChild(
+    a2
+  );
+
+
+  const a3 =
+    document.createElement(
+      "section"
+    );
+
+
+  a3.className =
+    "pdf-activity";
+
+
+  const a3Title =
+    document.createElement(
+      "h2"
+    );
+
+
+  a3Title.textContent =
+    "Actividad 3 — Aplicación de color en una composición gráfica — 4 pts";
+
+
+  a3.appendChild(
+    a3Title
+  );
+
+
+  addTextElement(
+    a3,
+    "p",
+    "Intención o criterio de color aplicado: ",
+    $("activity3Explanation").value
+  );
+
+
+  await addActivityImagesToPdf(
+    a3,
+    "activity3"
+  );
+
+
+  area.appendChild(
+    a3
+  );
+
+
+  const delivery =
+    document.createElement(
+      "section"
+    );
+
+
+  delivery.className =
+    "pdf-activity";
+
+
+  const deliveryTitle =
+    document.createElement(
+      "h2"
+    );
+
+
+  deliveryTitle.textContent =
+    "Entrega en Google Classroom";
+
+
+  delivery.appendChild(
+    deliveryTitle
+  );
+
+
+  const deliveryText =
+    document.createElement(
+      "p"
+    );
+
+
+  deliveryText.textContent =
+    "La entrega oficial requiere el archivo de evidencia de la Actividad 1, " +
+    "el SVG editable de Inkscape, el PSD editable de Photopea y la exportación " +
+    "final de la composición gráfica. Este PDF no sustituye esos archivos.";
+
+
+  delivery.appendChild(
+    deliveryText
+  );
+
+
+  area.appendChild(
+    delivery
+  );
+
+
+  return area;
+
+}
+
+
+async function generatePdf(){
+
+  if(
+    !guideIsComplete()
+  ){
+
+    updateProgress();
+
+
+    alert(
+      "Debes completar el 100% de la guía antes de generar el PDF."
+    );
+
+
+    return;
+
+  }
+
+
+  await saveDraft();
+
+
+  const area =
+    await buildPrintArea();
+
+
+  if(
+    typeof window.html2pdf ===
+    "function"
+  ){
+
+    const filename =
+      "Guia01_Diseno_Computarizado_I_" +
+      normalizeKey(
+        $("studentSection").value
+      ) +
+      "_" +
+      normalizeKey(
+        $("studentKey").value
+      ) +
+      ".pdf";
+
+
+    try{
+
+      await window
+        .html2pdf()
+        .set({
+
+          margin:10,
+
+          filename,
+
+          image:{
+            type:"jpeg",
+            quality:.94
+          },
+
+          html2canvas:{
+            scale:1.6,
+            useCORS:true
+          },
+
+          jsPDF:{
+            unit:"mm",
+            format:"a4",
+            orientation:"portrait"
+          },
+
+          pagebreak:{
+            mode:[
+              "css",
+              "legacy"
+            ]
+          }
+
+        })
+        .from(
+          area
+        )
+        .save();
+
+
+      return;
+
+    }catch(error){
+
+      console.error(error);
+
+    }
+
+  }
+
+
+  alert(
+    "No fue posible utilizar el generador automático. " +
+    "Se abrirá la alternativa Imprimir / Guardar como PDF."
+  );
+
+
+  window.print();
+
+}
+
+
+async function printPdf(){
+
+  if(
+    !guideIsComplete()
+  ){
+
+    updateProgress();
+
+
+    alert(
+      "Debes completar el 100% de la guía antes de imprimir o guardar como PDF."
+    );
+
+
+    return;
+
+  }
+
+
+  await saveDraft();
+
+
+  await buildPrintArea();
+
+
+  window.print();
+
+}
+
+
+/* ==========================================================
+   CAMBIO / BORRADO DE ESTUDIANTE
+   ========================================================== */
+
+async function changeStudent(){
+
+  const ok =
+    confirm(
+      "El borrador actual se guardará antes de cambiar de estudiante. ¿Deseas continuar?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  await saveDraft();
+
+
+  activeIdentity =
+    null;
+
+
+  activeDraftKey =
+    null;
+
+
+  activeDraft =
+    null;
+
+
+  $("identityKey").value =
+    "";
+
+
+  $("identitySection").value =
+    "";
+
+
+  $("identityName").value =
+    "";
+
+
+  $("identityMessage").textContent =
+    "Ingresa la nueva identificación.";
+
+
+  resetIdentityButtons();
+
+
+  showIdentityOverlay();
+
+
+  setSaveState(
+    "Esperando identificación",
+    false
+  );
+
+}
+
+
+async function clearCurrentDraft(){
+
+  if(!activeDraftKey){
+    return;
+  }
+
+
+  const ok =
+    confirm(
+      "Se eliminará el trabajo guardado de esta guía para esta Clave/Carné y Sección. " +
+      "Esta acción no puede deshacerse si no tienes un respaldo. ¿Deseas continuar?"
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  try{
+
+    await dbDelete(
+      activeDraftKey
+    );
+
+
+    saveFields.forEach(
+      el=>{
+
+        if(
+          el.type ===
+          "checkbox"
+        ){
+
+          el.checked =
+            false;
+
+        }else if(
+          !el.readOnly
+        ){
+
+          el.value =
+            "";
+
+        }
+
+      }
+    );
+
+
+    activeDraft =
+      emptyDraft();
+
+
+    renderAllImages();
+
+
+    updateProgress();
+
+
+    await saveDraft();
+
+
+    alert(
+      "Se creó un nuevo borrador vacío para esta identificación."
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+
+    alert(
+      "No fue posible borrar el borrador."
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   EVENTOS
+   ========================================================== */
+
+$("identifyBtn")
+  .addEventListener(
+    "click",
+    identifyStudent
+  );
+
+
+$("continueDraftBtn")
+  .addEventListener(
+    "click",
+    continueExistingDraft
+  );
+
+
+$("newDraftBtn")
+  .addEventListener(
+    "click",
+    confirmNewDraft
+  );
+
+
+$("cancelIdentityBtn")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      activeIdentity =
+        null;
+
+
+      activeDraftKey =
+        null;
+
+
+      activeDraft =
+        null;
+
+
+      resetIdentityButtons();
+
+
+      $("identityMessage").textContent =
+        "Operación cancelada. Ingresa tu identificación para continuar.";
+
+    }
+  );
+
+
+$("changeStudentBtn")
+  .addEventListener(
+    "click",
+    changeStudent
+  );
+
+
+saveFields.forEach(
+  el=>{
+
+    ["input","change"]
+      .forEach(
+        eventName=>{
+
+          el.addEventListener(
+            eventName,
+            ()=>{
+
+              updateProgress();
+
+              scheduleSave();
+
+            }
+          );
+
+        }
+      );
+
+  }
+);
+
+
+$("activity1Images")
+  .addEventListener(
+    "change",
+    function(){
+
+      handleImageInput(
+        "activity1",
+        this
+      );
+
+    }
+  );
+
+
+$("activity2Images")
+  .addEventListener(
+    "change",
+    function(){
+
+      handleImageInput(
+        "activity2",
+        this
+      );
+
+    }
+  );
+
+
+$("activity3Images")
+  .addEventListener(
+    "change",
+    function(){
+
+      handleImageInput(
+        "activity3",
+        this
+      );
+
+    }
+  );
+
+
+$("reviewBtn")
+  .addEventListener(
+    "click",
+    reviewSubmission
+  );
+
+
+$("downloadBackup")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      downloadBackup()
+        .catch(
+          error=>{
+
+            console.error(error);
+
+            alert(
+              "No fue posible generar el respaldo."
+            );
+
+          }
+        );
+
+    }
+  );
+
+
+$("loadBackup")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      $("backupFile")
+        .click();
+
+    }
+  );
+
+
+$("backupFile")
+  .addEventListener(
+    "change",
+    async function(){
+
+      const file =
+        this.files &&
+        this.files[0];
+
+
+      if(!file){
+        return;
+      }
+
+
+      try{
+
+        await importBackupFile(
+          file
+        );
+
+      }catch(error){
+
+        alert(
+          error.message ||
+          "No fue posible cargar el respaldo."
+        );
+
+      }
+
+
+      this.value =
+        "";
+
+    }
+  );
+
+
+$("generatePdf")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      generatePdf()
+        .catch(
+          error=>{
+
+            console.error(error);
+
+            alert(
+              "No fue posible preparar el PDF."
+            );
+
+          }
+        );
+
+    }
+  );
+
+
+$("printPdf")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      printPdf()
+        .catch(
+          error=>{
+
+            console.error(error);
+
+            alert(
+              "No fue posible preparar la impresión."
+            );
+
+          }
+        );
+
+    }
+  );
+
+
+$("clearDraft")
+  .addEventListener(
+    "click",
+    clearCurrentDraft
+  );
+
+
+/* Estado inicial */
+
+updateProgress();
+
+})();
+</script>
+
+</body>
+</html>
