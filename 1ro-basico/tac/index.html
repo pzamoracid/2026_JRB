@@ -59,10 +59,33 @@ table{width:100%;border-collapse:collapse;margin-top:10px} th,td{border:1px soli
 footer{max-width:1100px;margin:0 auto;padding:6px 18px 28px;color:var(--muted);font-size:.86rem}
 @media(max-width:720px){.grid2,.grid3{grid-template-columns:1fr}}
 @media(max-width:600px){.institution{flex-direction:column;text-align:center}.institution-logo{width:80px;height:80px}}
+
+.evidence-box{border:1px dashed #9db2c5;background:#f8fbfe;border-radius:11px;padding:13px;margin:12px 0}
+.photo-grid-ui{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-top:10px}
+.photo-card-ui{border:1px solid var(--borde);border-radius:9px;padding:7px;background:#fff}
+.photo-card-ui img{width:100%;height:120px;object-fit:cover;border-radius:7px;display:block}
+.photo-card-ui .small{overflow-wrap:anywhere}
+.file-label{border:0;padding:11px 15px;border-radius:9px;font:inherit;font-weight:700;cursor:pointer;background:#53687a;color:#fff;display:inline-block}
+#printReport{display:none}
+#printReport .pr-head{display:flex;align-items:center;gap:14px;border-bottom:2px solid #183b66;padding-bottom:10px;margin-bottom:12px}
+#printReport .pr-logo{width:62px;height:62px;object-fit:contain}
+#printReport .pr-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;font-size:12px;margin:10px 0 16px}
+#printReport h1{font-size:20px;margin:0;color:#183b66}
+#printReport h2{font-size:15px;margin:18px 0 8px;padding-bottom:4px;border-bottom:1px solid #9fb0bf;color:#183b66}
+#printReport h3{font-size:13px;margin:13px 0 5px}
+#printReport .pr-box{border:1px solid #b9c5d0;padding:7px;margin:5px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+#printReport .pr-check{font-size:12px;margin:3px 0}
+#printReport .pr-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#printReport figure{margin:0;border:1px solid #c8d2dc;padding:6px;break-inside:avoid}
+#printReport figure img{width:100%;max-height:330px;object-fit:contain;display:block}
+#printReport figcaption{font-size:10px;color:#455565;margin-top:4px;overflow-wrap:anywhere}
+
 @media print{
  body *{visibility:hidden!important}
- #printReceipt,#printReceipt *{visibility:visible!important}
- #printReceipt{display:block!important;position:absolute;left:0;top:0;width:100%;padding:24px;color:#000;background:#fff}
+ #printReport,#printReport *{visibility:visible!important}
+ #printReport{display:block!important;position:absolute;left:0;top:0;width:100%;padding:18px;color:#000;background:#fff}
+ #printReport .pr-photos{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #printReport figure{page-break-inside:avoid}
 }
 </style>
 </head>
@@ -282,16 +305,42 @@ En parejas elaborarás un <strong>documento colaborativo en Google Docs</strong>
 <textarea id="reflectionKey" data-save data-required></textarea>
 </section>
 
+
+<section class="card">
+<h2>Evidencias fotográficas opcionales para el PDF final</h2>
+<div class="note">
+Las fotografías no cambian el estado de completitud. Sirven para que el PDF final pueda mostrar también el trabajo realizado fuera de los campos digitales de esta guía.
+</div>
+
+<div class="evidence-box">
+<h3>Fotografías del cuaderno</h3>
+<p class="small">Agrega hasta 4 fotografías claras de las respuestas, apuntes o reflexión que realizaste en el cuaderno.</p>
+<label class="file-label">Agregar fotos del cuaderno
+<input id="photoNotebookInput" type="file" accept="image/*" multiple hidden>
+</label>
+<div id="photosNotebook" class="photo-grid-ui"></div>
+</div>
+
+<div class="evidence-box">
+<h3>Fotografías o capturas del documento de Google Docs</h3>
+<p class="small">Agrega hasta 3 capturas del reglamento digital, comentarios de revisión o producto final.</p>
+<label class="file-label">Agregar evidencias de Google Docs
+<input id="photoDocsInput" type="file" accept="image/*" multiple hidden>
+</label>
+<div id="photosDocs" class="photo-grid-ui"></div>
+</div>
+</section>
+
 <section class="card">
 <h2>Control de entrega y comprobante</h2>
-<div class="note oknote">El comprobante registra que completaste la guía. El docente revisará el documento de Google Docs y el cuaderno para asignar la nota.</div>
+<div class="note oknote">El PDF final integra los datos y registros realizados en esta guía y, si las agregas, las fotografías del cuaderno y del documento de Google Docs. La calificación final corresponde al docente.</div>
 <div id="missingBox" class="note warn">Completa los campos obligatorios para habilitar el comprobante.</div>
 
 <div class="actions">
 <button type="button" class="secondary" id="downloadBackup">Descargar respaldo JSON</button>
 <button type="button" class="secondary" id="loadBackup">Cargar respaldo JSON</button>
 <input id="backupFile" class="hidden" type="file" accept=".json,application/json">
-<button type="button" class="success" id="downloadReceipt" disabled>Descargar comprobante PDF</button>
+<button type="button" class="success" id="downloadReceipt" disabled>Generar PDF completo</button>
 <button type="button" id="printReceiptBtn" disabled>Imprimir / Guardar como PDF</button>
 <button type="button" class="danger" id="clearData">Borrar mis datos</button>
 </div>
@@ -316,161 +365,370 @@ En parejas elaborarás un <strong>documento colaborativo en Google Docs</strong>
 
 </main>
 
-<div id="printReceipt" class="hidden"></div>
+<div id="printReport" class="hidden"></div>
 <footer>Guía No. 1 — 1.º Básico — TAC / Computación — Trabajo colaborativo con registro en cuaderno y computadora.</footer>
 
 <script>
 (function(){
 "use strict";
-const GUIDE_KEY="jrb_1basico_tac_guia01_colaborativo_20260824_v1";
+
+const GUIDE_KEY="jrb_1basico_tac_guia01_colaborativo_20260824_v2";
+const LEGACY_KEY="jrb_1basico_tac_guia01_colaborativo_20260824_v1";
 const RECEIPT_PREFIX="JRB-1BTAC-G01";
+const PHOTO_LIMITS={notebook:4,docs:3};
 const $=id=>document.getElementById(id);
 const saveFields=Array.from(document.querySelectorAll("[data-save]"));
 const requiredFields=Array.from(document.querySelectorAll("[data-required]"));
-let saveTimer=null,storageMode="indexeddb";
+let saveTimer=null;
+let photos={notebook:[],docs:[]};
 
 function valueOf(el){return el.type==="checkbox"?el.checked:el.value}
 function setValue(el,v){if(el.type==="checkbox")el.checked=Boolean(v);else if(v!==undefined&&v!==null)el.value=v}
+function normalizePhotos(d){
+ const p=d&&d._photos;
+ if(p&&typeof p==="object"){
+   photos.notebook=Array.isArray(p.notebook)?p.notebook:[];
+   photos.docs=Array.isArray(p.docs)?p.docs:[];
+ }
+}
 function collectData(){
- const d={};saveFields.forEach(el=>d[el.id]=valueOf(el));
- d._updatedAt=new Date().toISOString();d._receiptCode=window.__receiptCode||"";return d;
+ const d={};
+ saveFields.forEach(el=>d[el.id]=valueOf(el));
+ d._updatedAt=new Date().toISOString();
+ d._receiptCode=window.__receiptCode||"";
+ d._photos=photos;
+ return d;
 }
 function restoreData(d){
  if(!d||typeof d!=="object")return;
  saveFields.forEach(el=>{if(Object.prototype.hasOwnProperty.call(d,el.id))setValue(el,d[el.id])});
- if(d._receiptCode)window.__receiptCode=d._receiptCode;updateProgress();
+ if(d._receiptCode)window.__receiptCode=d._receiptCode;
+ normalizePhotos(d);
+ renderPhotos();
+ updateProgress();
 }
 function openDB(){
  return new Promise((resolve,reject)=>{
    if(!("indexedDB" in window))return reject(new Error("IndexedDB no disponible"));
-   const req=indexedDB.open("JRBGuiasDB",1);
+   const req=indexedDB.open("JRBGuiasDB",2);
    req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains("guias"))db.createObjectStore("guias")};
-   req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error("DB"));
+   req.onsuccess=()=>resolve(req.result);
+   req.onerror=()=>reject(req.error||new Error("DB"));
  });
 }
-async function dbSave(d){
- const db=await openDB();return new Promise((resolve,reject)=>{
-   const tx=db.transaction("guias","readwrite");tx.objectStore("guias").put(d,GUIDE_KEY);
-   tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)};
+async function dbSave(d,key=GUIDE_KEY){
+ const db=await openDB();
+ return new Promise((resolve,reject)=>{
+   const tx=db.transaction("guias","readwrite");
+   tx.objectStore("guias").put(d,key);
+   tx.oncomplete=()=>{db.close();resolve()};
+   tx.onerror=()=>{db.close();reject(tx.error)};
  });
 }
-async function dbLoad(){
- const db=await openDB();return new Promise((resolve,reject)=>{
-   const tx=db.transaction("guias","readonly"),req=tx.objectStore("guias").get(GUIDE_KEY);
-   req.onsuccess=()=>{const r=req.result;db.close();resolve(r)};req.onerror=()=>{db.close();reject(req.error)};
+async function dbLoad(key=GUIDE_KEY){
+ const db=await openDB();
+ return new Promise((resolve,reject)=>{
+   const tx=db.transaction("guias","readonly"),req=tx.objectStore("guias").get(key);
+   req.onsuccess=()=>{const r=req.result;db.close();resolve(r)};
+   req.onerror=()=>{db.close();reject(req.error)};
  });
 }
-function localSave(d){localStorage.setItem(GUIDE_KEY,JSON.stringify(d))}
-function localLoad(){const r=localStorage.getItem(GUIDE_KEY);return r?JSON.parse(r):null}
+function localPayload(d){
+ const x={...d};
+ // localStorage sirve como respaldo de texto; las fotos se conservan en IndexedDB/JSON
+ x._photos={notebook:[],docs:[]};
+ return x;
+}
+function localSave(d,key=GUIDE_KEY){localStorage.setItem(key,JSON.stringify(localPayload(d)))}
+function localLoad(key=GUIDE_KEY){const r=localStorage.getItem(key);return r?JSON.parse(r):null}
+
 async function saveAll(){
- const d=collectData();$("saveStatus").textContent="Guardando…";$("saveDot").classList.remove("saved");
- try{if(storageMode==="indexeddb")await dbSave(d);else localSave(d);$("saveStatus").textContent="Guardado automáticamente";$("saveDot").classList.add("saved")}
- catch(e){try{storageMode="local";localSave(d);$("saveStatus").textContent="Guardado local de respaldo";$("saveDot").classList.add("saved")}catch(_){$("saveStatus").textContent="No se pudo guardar"}}
+ const d=collectData();
+ $("saveStatus").textContent="Guardando…";
+ $("saveDot").classList.remove("saved");
+ let fullSaved=false,localSaved=false;
+ try{await dbSave(d);fullSaved=true}catch(e){}
+ try{localSave(d);localSaved=true}catch(e){}
+ if(fullSaved){
+   $("saveStatus").textContent="Guardado automáticamente";
+   $("saveDot").classList.add("saved");
+ }else if(localSaved){
+   $("saveStatus").textContent="Guardado de texto local; usa JSON para asegurar evidencias";
+   $("saveDot").classList.add("saved");
+ }else{
+   $("saveStatus").textContent="No se pudo guardar; descarga el respaldo JSON";
+ }
 }
 function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,350)}
 function isComplete(el){if(el.type==="checkbox")return el.checked;return String(el.value||"").trim().length>0}
 function updateProgress(){
- const done=requiredFields.filter(isComplete).length,pct=Math.round(done/requiredFields.length*100),complete=done===requiredFields.length;
- $("progressText").textContent="Avance: "+pct+"%";$("progressBar").style.width=pct+"%";
- $("downloadReceipt").disabled=!complete;$("printReceiptBtn").disabled=!complete;
- if(complete){$("missingBox").className="note oknote";$("missingBox").textContent="Actividad completa. Ya puedes generar el comprobante."}
- else{$("missingBox").className="note warn";$("missingBox").textContent="Faltan "+(requiredFields.length-done)+" campos o confirmaciones obligatorias."}
+ const done=requiredFields.filter(isComplete).length;
+ const pct=Math.round(done/requiredFields.length*100);
+ const complete=done===requiredFields.length;
+ $("progressText").textContent="Avance: "+pct+"%";
+ $("progressBar").style.width=pct+"%";
+ $("downloadReceipt").disabled=!complete;
+ $("printReceiptBtn").disabled=!complete;
+ if(complete){
+   $("missingBox").className="note oknote";
+   $("missingBox").textContent="Actividad completa. Ya puedes generar el PDF con todos los registros.";
+ }else{
+   $("missingBox").className="note warn";
+   $("missingBox").textContent="Faltan "+(requiredFields.length-done)+" campos o confirmaciones obligatorias.";
+ }
 }
 saveFields.forEach(el=>["input","change"].forEach(evt=>el.addEventListener(evt,()=>{updateProgress();scheduleSave()})));
+
 async function initialLoad(){
- try{let d=null;try{d=await dbLoad()}catch(e){storageMode="local";d=localLoad()}
- if(d)restoreData(d);$("saveStatus").textContent=d?"Datos recuperados":"Autoguardado listo";$("saveDot").classList.add("saved")}
- catch(e){$("saveStatus").textContent="Autoguardado limitado"}updateProgress();
+ let d=null;
+ try{d=await dbLoad(GUIDE_KEY)}catch(e){}
+ if(!d){try{d=localLoad(GUIDE_KEY)}catch(e){}}
+ // Migración transparente del v1 al v2
+ if(!d){
+   try{d=await dbLoad(LEGACY_KEY)}catch(e){}
+   if(!d){try{d=localLoad(LEGACY_KEY)}catch(e){}}
+   if(d){
+     restoreData(d);
+     await saveAll();
+     $("saveStatus").textContent="Datos anteriores recuperados y actualizados";
+     $("saveDot").classList.add("saved");
+     updateProgress();
+     return;
+   }
+ }
+ if(d){
+   restoreData(d);
+   $("saveStatus").textContent="Datos recuperados";
+   $("saveDot").classList.add("saved");
+ }else{
+   $("saveStatus").textContent="Autoguardado listo";
+   $("saveDot").classList.add("saved");
+ }
+ updateProgress();
 }
 
-function safe(v){return String(v||"").replace(/[<>]/g,"")}
+function esc(v){
+ return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function yesNo(id){return $(id)&&$(id).checked?"Sí":"No"}
+function val(id){return $(id)?$(id).value.trim():""}
 function receiptCode(){
  if(window.__receiptCode)return window.__receiptCode;
  const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let s="";
  for(let i=0;i<6;i++)s+=chars[Math.floor(Math.random()*chars.length)];
- window.__receiptCode=RECEIPT_PREFIX+"-20260828-"+s;scheduleSave();return window.__receiptCode;
+ window.__receiptCode=RECEIPT_PREFIX+"-20260828-"+s;
+ scheduleSave();
+ return window.__receiptCode;
 }
-function receiptData(){
- return{code:receiptCode(),student:safe($("studentName").value.trim()),section:safe($("section").value.trim()),
- codeStudent:safe($("studentCode").value.trim()),docs:safe($("docsLink").value.trim()),
- participation:safe($("participationLevel").value),reflection:safe($("reflectionKey").value.trim()),
- date:new Date().toLocaleString("es-GT")};
+
+async function compressImage(file){
+ return new Promise((resolve,reject)=>{
+   const reader=new FileReader(),img=new Image();
+   reader.onload=()=>{
+     img.onload=()=>{
+       const max=1200,scale=Math.min(1,max/Math.max(img.width,img.height));
+       const c=document.createElement("canvas");
+       c.width=Math.max(1,Math.round(img.width*scale));
+       c.height=Math.max(1,Math.round(img.height*scale));
+       c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+       resolve(c.toDataURL("image/jpeg",0.78));
+     };
+     img.onerror=reject;img.src=reader.result;
+   };
+   reader.onerror=reject;reader.readAsDataURL(file);
+ });
 }
-function showPreview(){
- const r=receiptData(),b=$("receiptPreview");
- b.innerHTML="<strong>COMPROBANTE DE FINALIZACIÓN</strong><br>Código: <strong>"+r.code+"</strong><br>"+
- "Estudiante: "+r.student+" — Sección "+r.section+"<br>Curso: TAC / Computación — 1.º Básico<br>"+
- "Actividad: Nuestro reglamento digital del laboratorio<br>Documento: "+r.docs+"<br>Fecha: "+r.date+
- "<br><br><span class='small'>La calificación final corresponde al docente después de revisar el documento y el cuaderno.</span>";
- b.classList.remove("hidden");return r;
+async function addPhotos(files,bucket){
+ const list=photos[bucket],limit=PHOTO_LIMITS[bucket],slots=Math.max(0,limit-list.length);
+ for(const f of Array.from(files||[]).slice(0,slots)){
+   try{list.push({name:f.name,data:await compressImage(f)})}catch(e){}
+ }
+ renderPhotos();
+ await saveAll();
 }
-function cp1252Bytes(str){
- const map={0x20AC:0x80,0x2018:0x91,0x2019:0x92,0x201C:0x93,0x201D:0x94,0x2013:0x96,0x2014:0x97};
- const out=[];for(const ch of str){const c=ch.codePointAt(0);if(c<=255)out.push(c);else if(map[c])out.push(map[c]);else out.push(63)}return new Uint8Array(out);
+function renderPhotoBucket(bucket,containerId,label){
+ const box=$(containerId),list=photos[bucket]||[];
+ box.innerHTML=list.map((p,i)=>`
+   <div class="photo-card-ui">
+     <img src="${p.data}" alt="${esc(label)}">
+     <div class="small">${esc(p.name||("Evidencia "+(i+1)))}</div>
+     <button type="button" class="danger" data-photo-bucket="${bucket}" data-photo-index="${i}" style="width:100%;margin-top:6px">Eliminar</button>
+   </div>`).join("");
 }
-function concatBytes(parts){let t=0;parts.forEach(p=>t+=p.length);const o=new Uint8Array(t);let off=0;parts.forEach(p=>{o.set(p,off);off+=p.length});return o}
-function pdfEscape(t){return String(t).replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)")}
-function wrap(text,n){const words=String(text).split(/\s+/),lines=[];let line="";words.forEach(w=>{if(!line)line=w;else if((line+" "+w).length<=n)line+=" "+w;else{lines.push(line);line=w}});if(line)lines.push(line);return lines}
-function buildPdf(r){
- const lines=["COLEGIO DE INFORMÁTICA JUSTO RUFINO BAUTISTA","COMPROBANTE DE FINALIZACIÓN","","Curso: TAC / Computación","Grado: 1.º Básico",
- "Guía No. 1: Nuestro reglamento digital del laboratorio","Periodo: 24 al 28 de agosto de 2026","Valor: 10 puntos","",
- "Estudiante: "+r.student,"Sección: "+r.section+(r.codeStudent?"    Código/lista: "+r.codeStudent:""),
- "Código de comprobante: "+r.code,"Generado: "+r.date,"","Evidencias registradas:",
- "- Saberes previos en cuaderno","- Cinco normas","- Documento colaborativo","- Comentarios de revisión","- Fuente de imagen",
- "- Comprensión, autoevaluación y reflexión","","Enlace del documento:"];
- wrap(r.docs,78).forEach(x=>lines.push("  "+x));
- lines.push("","Participación declarada: "+r.participation,"","Idea principal de reflexión:");
- wrap(r.reflection,78).forEach(x=>lines.push("  "+x));
- lines.push("","Este comprobante acredita la finalización del registro.","La calificación corresponde al docente según la rúbrica.");
- const content=["BT","/F1 10 Tf","45 800 Td","13 TL"];
- lines.forEach((line,i)=>content.push((i?"T* ":"")+"("+pdfEscape(line)+") Tj"));content.push("ET");
- const stream=content.join("\n"),objs=[];
- objs[1]="<< /Type /Catalog /Pages 2 0 R >>";objs[2]="<< /Type /Pages /Kids [3 0 R] /Count 1 >>";
- objs[3]="<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>";
- objs[4]="<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>";
- const sb=cp1252Bytes(stream);objs[5]="<< /Length "+sb.length+" >>\nstream\n"+stream+"\nendstream";
- const header=cp1252Bytes("%PDF-1.4\n%âãÏÓ\n"),parts=[header],offs=[0];let cur=header.length;
- for(let i=1;i<=5;i++){offs[i]=cur;const bb=cp1252Bytes(i+" 0 obj\n"+objs[i]+"\nendobj\n");parts.push(bb);cur+=bb.length}
- const xoff=cur;let x="xref\n0 6\n0000000000 65535 f \n";
- for(let i=1;i<=5;i++)x+=String(offs[i]).padStart(10,"0")+" 00000 n \n";
- x+="trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n"+xoff+"\n%%EOF";parts.push(cp1252Bytes(x));return concatBytes(parts);
+function renderPhotos(){
+ renderPhotoBucket("notebook","photosNotebook","Fotografía del cuaderno");
+ renderPhotoBucket("docs","photosDocs","Evidencia de Google Docs");
+ document.querySelectorAll("[data-photo-bucket]").forEach(btn=>{
+   btn.onclick=async()=>{
+     if(!confirm("¿Eliminar esta fotografía?"))return;
+     photos[btn.dataset.photoBucket].splice(Number(btn.dataset.photoIndex),1);
+     renderPhotos();await saveAll();
+   };
+ });
 }
+
+function photoReport(title,list){
+ if(!list||!list.length)return `<h3>${esc(title)}</h3><p>No se agregaron fotografías.</p>`;
+ return `<h3>${esc(title)}</h3><div class="pr-photos">${list.map((p,i)=>`
+ <figure><img src="${p.data}" alt="${esc(title)} ${i+1}"><figcaption>${esc(p.name||("Fotografía "+(i+1)))}</figcaption></figure>`).join("")}</div>`;
+}
+function box(title,value){
+ return `<p><b>${esc(title)}</b></p><div class="pr-box">${esc(value||"Sin registro")}</div>`;
+}
+function check(title,id){
+ return `<div class="pr-check"><b>${esc(title)}:</b> ${yesNo(id)}</div>`;
+}
+function buildFullReport(){
+ const code=receiptCode();
+ const logo=document.querySelector(".institution-logo")?.src||"";
+ const report=$("printReport");
+ report.innerHTML=`
+ <div class="pr-head">
+   ${logo?`<img class="pr-logo" src="${logo}" alt="Logotipo JRB">`:""}
+   <div><h1>Colegio de Informática Justo Rufino Bautista</h1>
+   <div><b>Guía No. 1 — Nuestro reglamento digital del laboratorio</b></div>
+   <div>TAC / Computación — 1.º Básico — V Unidad</div></div>
+ </div>
+ <div class="pr-meta">
+   <div><b>Estudiante:</b> ${esc(val("studentName"))}</div>
+   <div><b>Sección:</b> ${esc(val("section"))}</div>
+   <div><b>Código/lista:</b> ${esc(val("studentCode")||"—")}</div>
+   <div><b>Valor:</b> 10 puntos</div>
+   <div><b>Período:</b> 24 al 28 de agosto de 2026</div>
+   <div><b>Código de comprobante:</b> ${esc(code)}</div>
+ </div>
+
+ <h2>Sección 1 — Saberes previos</h2>
+ ${check("Pregunta 1 respondida en cuaderno","nb1")}
+ ${check("Pregunta 2 respondida en cuaderno","nb2")}
+ ${check("Pregunta 3 respondida en cuaderno","nb3")}
+
+ <h2>Sección 2 — Construcción del documento colaborativo</h2>
+ ${box("Regla 1",val("rule1"))}
+ ${box("Regla 2",val("rule2"))}
+ ${box("Regla 3",val("rule3"))}
+ ${box("Regla 4",val("rule4"))}
+ ${box("Regla 5",val("rule5"))}
+ ${check("Cinco reglas anotadas en el cuaderno","nbRules")}
+ ${box("Borrador de introducción",val("intro"))}
+ ${check("Documento creado con los elementos solicitados","docCreated")}
+ ${check("Documento compartido con el compañero","sharedDoc")}
+ ${box("Enlace del documento de Google Docs",val("docsLink"))}
+
+ <h2>Continuación — Revisión y convivencia digital</h2>
+ ${check("Dejó al menos un comentario de revisión","comment1")}
+ ${check("Recibió al menos un comentario","comment2")}
+ ${box("Observación recibida",val("receivedComment"))}
+ ${box("Cambio realizado después del comentario",val("changeMade"))}
+ ${check("Comentarios respetuosos","respectful")}
+ ${check("No eliminó trabajo del compañero sin consultarlo","noDelete")}
+ ${check("Participación real en el documento","participated")}
+ ${check("Registro del comentario en el cuaderno","nbFeedback")}
+
+ <h2>Sección 3 — Presentación y uso responsable de recursos</h2>
+ ${check("Título claramente distinguible","formatTitle")}
+ ${check("Texto legible","formatText")}
+ ${check("Normas con formato consistente","formatOrder")}
+ ${check("Ortografía revisada","spelling")}
+ ${box("Página o sitio de procedencia de la imagen",val("imageSource"))}
+ ${box("Dirección de la página de la imagen",val("imageUrl"))}
+ ${check("Procedencia agregada en la sección Fuentes","sourceAdded")}
+ ${check("Tres preguntas de comprensión respondidas en cuaderno","nbUnderstanding")}
+
+ <h2>Sección 4 — Autoevaluación</h2>
+ ${box("Participación declarada",val("participationLevel"))}
+ ${box("Qué aprendió sobre trabajar en un documento compartido",val("learned"))}
+
+ <h2>Sección 5 — Reflexión final</h2>
+ ${check("Reflexión completa escrita en cuaderno","nbReflection")}
+ ${box("Idea principal de la reflexión",val("reflectionKey"))}
+
+ <h2>Evidencias fotográficas opcionales</h2>
+ ${photoReport("Fotografías del cuaderno",photos.notebook)}
+ ${photoReport("Evidencias del documento de Google Docs",photos.docs)}
+
+ <h2>Estado de completitud</h2>
+ <p><b>${requiredFields.every(isComplete)?"COMPLETO":"PENDIENTE"}</b></p>
+ <p style="font-size:11px">La completitud no representa una calificación automática. El docente revisará el documento, las evidencias y la rúbrica para asignar la nota.</p>`;
+ report.classList.remove("hidden");
+ return report;
+}
+function waitForImages(root,timeout=4000){
+ const imgs=Array.from(root.querySelectorAll("img"));
+ if(!imgs.length)return Promise.resolve();
+ return Promise.race([
+   Promise.all(imgs.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{
+     img.addEventListener("load",resolve,{once:true});
+     img.addEventListener("error",resolve,{once:true});
+   }))),
+   new Promise(resolve=>setTimeout(resolve,timeout))
+ ]);
+}
+async function printFullReport(){
+ if(requiredFields.some(el=>!isComplete(el))){updateProgress();return}
+ await saveAll();
+ const report=buildFullReport();
+ await waitForImages(report);
+ const cleanup=()=>{report.classList.add("hidden");window.removeEventListener("afterprint",cleanup)};
+ window.addEventListener("afterprint",cleanup);
+ requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()));
+ setTimeout(()=>report.classList.add("hidden"),8000);
+}
+
 function downloadBlob(bytes,name,type){
  const blob=new Blob([bytes],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+ a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1500);
 }
-$("downloadReceipt").addEventListener("click",()=>{
- if(requiredFields.some(el=>!isComplete(el))){updateProgress();return}
- const r=showPreview(),base=(r.student||"estudiante").replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+/g,"_").replace(/^_+|_+$/g,"");
- downloadBlob(buildPdf(r),"Comprobante_1ro_Basico_TAC_Guia_01_"+base+".pdf","application/pdf");saveAll();
-});
-$("printReceiptBtn").addEventListener("click",()=>{
- if(requiredFields.some(el=>!isComplete(el)))return;
- const r=showPreview();
- $("printReceipt").innerHTML="<h1>Comprobante de finalización</h1><p><strong>Colegio de Informática Justo Rufino Bautista</strong></p>"+
- "<p><strong>Estudiante:</strong> "+r.student+"<br><strong>Curso:</strong> TAC / Computación — 1.º Básico<br>"+
- "<strong>Actividad:</strong> Nuestro reglamento digital del laboratorio<br><strong>Código:</strong> "+r.code+
- "<br><strong>Documento:</strong> "+r.docs+"</p><p><em>La calificación final corresponde al docente.</em></p>";
- $("printReceipt").classList.remove("hidden");window.print();setTimeout(()=>$("printReceipt").classList.add("hidden"),500);
-});
-$("downloadBackup").addEventListener("click",()=>{
- const txt=JSON.stringify({guide:GUIDE_KEY,version:1,data:collectData()},null,2);
+$("downloadBackup").addEventListener("click",async()=>{
+ await saveAll();
+ const txt=JSON.stringify({guide:GUIDE_KEY,version:2,data:collectData()},null,2);
  downloadBlob(new TextEncoder().encode(txt),"Respaldo_1ro_Basico_TAC_Guia_01.json","application/json");
 });
 $("loadBackup").addEventListener("click",()=>$("backupFile").click());
 $("backupFile").addEventListener("change",()=>{
  const f=$("backupFile").files&&$("backupFile").files[0];if(!f)return;
- const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(String(rd.result));restoreData(o.data||o);saveAll();alert("Respaldo cargado correctamente.")}
- catch(e){alert("El archivo no es un respaldo válido.")}$("backupFile").value=""};rd.readAsText(f);
+ const rd=new FileReader();
+ rd.onload=async()=>{
+   try{
+     const o=JSON.parse(String(rd.result));
+     restoreData(o.data||o);
+     await saveAll();
+     alert("Respaldo cargado correctamente.");
+   }catch(e){alert("El archivo no es un respaldo válido.")}
+   $("backupFile").value="";
+ };
+ rd.readAsText(f);
 });
+
+$("photoNotebookInput").addEventListener("change",async e=>{await addPhotos(e.target.files,"notebook");e.target.value=""});
+$("photoDocsInput").addEventListener("change",async e=>{await addPhotos(e.target.files,"docs");e.target.value=""});
+
+$("downloadReceipt").addEventListener("click",printFullReport);
+$("printReceiptBtn").addEventListener("click",printFullReport);
+
 $("clearData").addEventListener("click",async()=>{
- if(!confirm("¿Deseas borrar todas tus respuestas guardadas en esta guía?"))return;
- saveFields.forEach(el=>{if(el.type==="checkbox")el.checked=false;else if(el.tagName==="SELECT")el.selectedIndex=0;else el.value=""});
+ if(!confirm("¿Deseas borrar todas tus respuestas y evidencias guardadas en esta guía?"))return;
+ saveFields.forEach(el=>{
+   if(el.type==="checkbox")el.checked=false;
+   else if(el.tagName==="SELECT")el.selectedIndex=0;
+   else el.value="";
+ });
+ photos={notebook:[],docs:[]};
+ renderPhotos();
  window.__receiptCode="";
- try{const db=await openDB(),tx=db.transaction("guias","readwrite");tx.objectStore("guias").delete(GUIDE_KEY);tx.oncomplete=()=>db.close()}catch(e){}
+ try{
+   const db=await openDB(),tx=db.transaction("guias","readwrite");
+   tx.objectStore("guias").delete(GUIDE_KEY);
+   tx.oncomplete=()=>db.close();
+ }catch(e){}
  try{localStorage.removeItem(GUIDE_KEY)}catch(e){}
- updateProgress();$("receiptPreview").classList.add("hidden");$("saveStatus").textContent="Datos borrados";$("saveDot").classList.remove("saved");
+ updateProgress();
+ $("saveStatus").textContent="Datos borrados";
+ $("saveDot").classList.remove("saved");
 });
+
+renderPhotos();
 initialLoad();
 })();
 </script>

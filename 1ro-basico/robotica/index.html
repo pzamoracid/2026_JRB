@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guía No. 1 — Robótica — 1.º Básico — V Unidad</title>
+<style>
+:root{--a:#123f7a;--a2:#0b2f5e;--bg:#f4f7fb;--card:#fff;--bd:#cbd9e8;--tx:#172231;--mut:#617083;--ok:#197148;--warn:#8a6412;--bad:#9f2f2f}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5}.top{background:linear-gradient(135deg,var(--a2),var(--a));color:#fff;padding:18px}.topin{max-width:1100px;margin:auto;display:flex;gap:14px;align-items:center}.logo{width:68px;height:68px;object-fit:contain;background:#fff;border-radius:12px;padding:6px}.inst{font-weight:800;font-size:13px;letter-spacing:.25px}.top h1{margin:3px 0;font-size:24px}.sub{font-size:14px;opacity:.96}.status{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--bd);box-shadow:0 3px 10px #0000000d}.statusin{max-width:1100px;margin:auto;padding:9px 14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.bar{height:10px;background:#e5ebf3;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#2c64a3,#4d8ed0)}.small{font-size:12px;color:var(--mut);margin-top:4px}.badge{padding:7px 11px;border:1px solid var(--bd);border-radius:99px;font-weight:800;font-size:13px}.pend{color:var(--warn);background:#fff7df}.done{color:var(--ok);background:#eaf7f1;border-color:#b9decf}main{max-width:1100px;margin:16px auto 86px;padding:0 14px}.card{background:var(--card);border:1px solid var(--bd);border-radius:15px;padding:17px;margin-bottom:15px;box-shadow:0 5px 17px #14325a0d}.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}.meta div{border:1px solid var(--bd);border-radius:10px;padding:9px 10px;background:#fbfdff}.meta b{display:block;color:var(--a2);font-size:11px;text-transform:uppercase}.note{background:#eef6ff;border:1px solid #cadaef;border-radius:10px;padding:10px 12px;margin:11px 0}.warn{background:#fff7df;border-left:5px solid #d79c1d;padding:10px 12px;border-radius:8px;margin:11px 0}.pts{float:right;background:var(--a);color:#fff;border-radius:99px;padding:5px 9px;font-weight:800;font-size:13px}h2{margin:0 0 8px;color:var(--a2);font-size:20px}h3{color:var(--a);font-size:16px;margin:14px 0 6px}.q{margin:13px 0}label{font-weight:700;font-size:14px}textarea,input[type=text]{width:100%;padding:10px 11px;border:1px solid #bccbdd;border-radius:9px;font:inherit;background:#fff}textarea{min-height:90px;resize:vertical}.steps{counter-reset:s;display:grid;gap:9px;margin:11px 0}.step{counter-increment:s;position:relative;padding:11px 11px 11px 48px;border:1px solid var(--bd);border-radius:10px;background:#fbfdff}.step:before{content:counter(s);position:absolute;left:11px;top:11px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--a);color:#fff;font-weight:800}.code{background:#17202c;color:#f5f8fb;border-radius:10px;padding:12px 14px;white-space:pre-wrap;font:13px Consolas,monospace}.check{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--bd);border-radius:9px;padding:10px;margin:8px 0}.check input{margin-top:4px;transform:scale(1.15)}table{width:100%;border-collapse:collapse;font-size:14px}th,td{border:1px solid #c8d4e1;padding:8px}th{background:#eaf2fb;color:var(--a2);text-align:left}.ev th:not(:first-child),.ev td:not(:first-child){text-align:center}.photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-top:9px}.photo{border:1px solid var(--bd);border-radius:9px;padding:7px;background:#fff}.photo img{width:100%;height:115px;object-fit:cover;border-radius:7px}.review{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}.review div{border:1px solid var(--bd);border-radius:9px;padding:9px;background:#fbfdff;font-size:13px}.ok{color:var(--ok);font-weight:800}.no{color:var(--bad);font-weight:800}.actions{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#fffffff7;border-top:1px solid var(--bd);box-shadow:0 -3px 13px #00000012;padding:9px 14px}.actionsin{max-width:1100px;margin:auto;display:flex;flex-wrap:wrap;gap:8px}button,.flabel{border:0;border-radius:9px;padding:10px 12px;background:var(--a);color:#fff;font-weight:700;font-size:14px;cursor:pointer;display:inline-block}.secondary{background:#5d6a79!important}.light{background:#eef3f8!important;color:var(--a2)!important;border:1px solid var(--bd)!important}.danger{background:var(--bad)!important}.modal{position:fixed;inset:0;z-index:99;background:#0a182ab8;display:grid;place-items:center;padding:15px}.modalbox{width:min(610px,100%);background:#fff;border-radius:15px;padding:19px}.hidden{display:none!important}@media(max-width:620px){.top h1{font-size:20px}.topin{align-items:flex-start}.logo{width:54px;height:54px}.statusin{grid-template-columns:1fr}.pts{float:none;display:inline-block;margin-bottom:6px}}
+#printReport{display:none}
+#printReport .pr-head{display:flex;align-items:center;gap:14px;border-bottom:2px solid #123f7a;padding-bottom:10px;margin-bottom:12px}
+#printReport .pr-logo{width:62px;height:62px;object-fit:contain}
+#printReport .pr-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;font-size:12px;margin:10px 0 16px}
+#printReport h1{font-size:20px;margin:0;color:#123f7a}
+#printReport h2{font-size:15px;border-bottom:1px solid #9fb0bf;padding-bottom:4px;margin-top:18px;color:#123f7a}
+#printReport h3{font-size:13px;margin:14px 0 6px}
+#printReport .pr-box{border:1px solid #b9c5d0;padding:7px;white-space:pre-wrap;margin:5px 0;overflow-wrap:anywhere}
+#printReport .pr-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#printReport figure{margin:0;border:1px solid #c8d2dc;padding:6px;break-inside:avoid}
+#printReport figure img{width:100%;max-height:330px;object-fit:contain;display:block}
+#printReport figcaption{font-size:10px;color:#455565;margin-top:4px;overflow-wrap:anywhere}
+@media print{body *{visibility:hidden!important}#printReport,#printReport *{visibility:visible!important}#printReport{display:block!important;position:absolute;left:0;top:0;width:100%;padding:18px;color:#000;background:#fff}#printReport .pr-photos{grid-template-columns:repeat(2,minmax(0,1fr))}#printReport figure{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div id="modal" class="modal"><div class="modalbox"><h2>Guía No. 1 — Robótica</h2><p><b>1.º Básico · V Unidad · JRB</b></p><div id="resume" class="hidden"><div class="warn">Se encontró un avance guardado. Puedes continuar, iniciar de nuevo o cancelar.</div><p><button id="continue">Continuar</button> <button id="new" class="secondary">Iniciar de nuevo</button> <button id="cancel" class="light">Cancelar</button></p></div><div id="identity"><div class="q"><label>Nombre completo</label><input id="studentName" type="text"></div><div class="q"><label>Carné o clave</label><input id="studentCode" type="text"></div><div class="warn">No dependas únicamente del autoguardado del navegador. Antes de cerrar, descarga el respaldo JSON.</div><button id="start">Entrar a la guía</button></div></div></div>
+<header class="top"><div class="topin"><img class="logo" src="data:image/png;base64,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" alt="Logotipo JRB"><div><div class="inst">COLEGIO DE INFORMÁTICA JUSTO RUFINO BAUTISTA</div><h1>Guía No. 1 — Robótica — El sensor de ultrasonidos</h1><div class="sub">1.º Básico · V Unidad · Entrega: 28/08/2026 a las 18:00 · Valor: 10 puntos</div></div></div></header>
+<div class="status"><div class="statusin"><div><div class="bar"><span id="fill"></span></div><div id="ptext" class="small">Progreso: 0%</div></div><div id="badge" class="badge pend">PENDIENTE</div></div></div>
+<main>
+<section class="card"><div class="meta"><div><b>Curso</b>Robótica</div><div><b>Grado</b>1.º Básico</div><div><b>Unidad</b>V Unidad</div><div><b>Tema</b>El sensor de ultrasonidos</div><div><b>Valor</b>10 puntos</div><div><b>Entrega</b>28/08/2026 — 18:00</div></div><h3>Propósito</h3><p>Comprender cómo funciona el sensor de ultrasonidos del mBot2, reconocer sus partes y aplicaciones, y construir en mBlock el programa del material para que el robot detecte un objeto cercano y cambie su movimiento.</p><div class="note"><b>Idea clave:</b> el sensor posee un <b>emisor</b> y un <b>receptor</b>. Las ondas rebotan en un objeto y regresan al sensor, permitiendo calcular la distancia.</div><div class="warn"><b>Importante:</b> las fotografías son opcionales y no afectan la condición COMPLETO/PENDIENTE. Las confirmaciones de práctica son declaraciones del estudiante, no una verificación automática del funcionamiento del robot.</div></section>
+<section class="card"><span class="pts">2 pts</span><h2>Actividad 1 — Aplico mis conocimientos</h2><p>Responde a partir del material de las páginas 122–126.</p><div class="q"><label>1. ¿Qué secciones principales componen el sensor de ultrasonidos del mBot2 y cómo funcionan juntas para medir la distancia?</label><textarea data-f="q1"></textarea></div><div class="q"><label>2. Menciona cuatro ejemplos de artefactos o sistemas que utilicen sensores de ultrasonidos en la vida cotidiana.</label><textarea data-f="q2" placeholder="a) ...\nb) ...\nc) ...\nd) ..."></textarea></div><div class="q"><label>3. ¿Cómo evita los obstáculos el mBot2 a través del sensor de ultrasonidos?</label><textarea data-f="q3"></textarea></div><div class="q"><label>4. Describe una situación cotidiana en la cual un sensor de ultrasonidos sea útil y explica su funcionamiento en ese contexto.</label><textarea data-f="q4"></textarea></div><div class="q"><label>5. Investiga cuánta distancia puede detectar el sensor de ultrasonidos del mBot2. Escribe el resultado y la fuente que consultaste.</label><textarea data-f="q5"></textarea><div class="small">Esta investigación aparece solicitada en el material fuente.</div></div></section>
+<section class="card"><span class="pts">2 pts</span><h2>Actividad 2 — Comprendo la lógica del programa</h2><div class="note">El ejemplo del material usa una distancia de <b>10 cm</b> como condición para reaccionar ante un obstáculo.</div><div class="q"><label>1. ¿Qué debe hacer el mBot2 cuando el sensor detecta un objeto a menos de 10 cm?</label><textarea data-f="q6"></textarea></div><div class="q"><label>2. ¿Qué hace el mBot2 cuando no hay un objeto a menos de 10 cm?</label><textarea data-f="q7"></textarea></div><div class="q"><label>3. ¿Para qué se utiliza el bloque “para siempre” en este programa?</label><textarea data-f="q8"></textarea></div></section>
+<section class="card"><span class="pts">4 pts</span><h2>Actividad 3 — Laboratorio 14: evitar una colisión</h2><p>Construye en <b>mBlock</b> el programa mostrado en el documento.</p><div class="steps"><div class="step">Al pulsar el botón <b>A</b>, inicia el comportamiento del robot.</div><div class="step">Coloca la condición dentro de un bloque <b>para siempre</b>.</div><div class="step">Comprueba la <b>distancia del sensor de ultrasonidos 2 a un objeto (cm)</b>.</div><div class="step">Si la distancia es <b>menor que 10 cm</b>, haz que el mBot2 <b>gire a la izquierda 90°</b>.</div><div class="step">Si no hay un objeto cercano, haz que el mBot2 <b>avance a 50 rpm</b>.</div><div class="step">Al pulsar el botón <b>B</b>, utiliza la acción indicada para <b>reiniciar CyberPi</b> y detener el robot.</div></div><div class="code">AL PULSAR BOTÓN A
+PARA SIEMPRE
+    SI distancia del sensor de ultrasonidos 2 a un objeto (cm) &lt; 10
+        girar a la izquierda 90°
+    SI NO
+        avanzar a 50 rpm
+
+AL PULSAR BOTÓN B
+    reiniciar CyberPi</div><h3>Confirmaciones del estudiante</h3><label class="check"><input type="checkbox" data-f="mblock"><span>Confirmo que construí el programa en <b>mBlock</b> siguiendo la lógica del Laboratorio 14.</span></label><label class="check"><input type="checkbox" data-f="mbot"><span>Confirmo que realicé la ejecución práctica en <b>mBot2/CyberPi</b> y observé la reacción del robot ante un obstáculo.</span></label><div class="q"><label>Describe brevemente qué observaste durante la prueba.</label><textarea data-f="q9"></textarea></div><div class="note"><b>Registro fotográfico para el PDF final:</b> agrega fotografías claras del trabajo realizado en el cuaderno, del libro y, si deseas, de la práctica con mBlock/mBot2. Estas imágenes se guardan con el avance y se incorporan automáticamente al mismo documento al usar <b>Generar / Guardar PDF</b>.</div>
+<h3>Fotografías del cuaderno</h3>
+<p class="small">Toma fotografías donde se observen con claridad tus respuestas, apuntes o actividad realizada en el cuaderno. Puedes agregar hasta 4 imágenes.</p>
+<label class="flabel secondary">Agregar fotos del cuaderno<input id="photoNotebookInput" type="file" accept="image/*" multiple hidden></label><div id="photosNotebook" class="photos"></div>
+<h3>Fotografías del libro</h3>
+<p class="small">Agrega fotografías de las páginas o ejercicios del libro que trabajaste como parte de esta guía. Puedes agregar hasta 4 imágenes.</p>
+<label class="flabel secondary">Agregar fotos del libro<input id="photoBookInput" type="file" accept="image/*" multiple hidden></label><div id="photosBook" class="photos"></div>
+<h3>Fotografías o capturas de la práctica</h3>
+<p class="small">Puedes agregar hasta 3 fotografías o capturas de mBlock, mBot2 o CyberPi.</p>
+<label class="flabel secondary">Agregar evidencias de la práctica<input id="photoPracticeInput" type="file" accept="image/*" multiple hidden></label><div id="photosPractice" class="photos"></div></section>
+<section class="card"><span class="pts">1 pt</span><h2>Actividad 4 — Autoevaluación</h2><table class="ev"><thead><tr><th>Criterio</th><th>Sí</th><th>En proceso</th></tr></thead><tbody><tr><td>Identifico el emisor y el receptor del sensor.</td><td><input type="radio" name="e1" value="Sí"></td><td><input type="radio" name="e1" value="En proceso"></td></tr><tr><td>Comprendo cómo el sensor ayuda a medir distancias.</td><td><input type="radio" name="e2" value="Sí"></td><td><input type="radio" name="e2" value="En proceso"></td></tr><tr><td>Comprendo la condición de distancia menor que 10 cm.</td><td><input type="radio" name="e3" value="Sí"></td><td><input type="radio" name="e3" value="En proceso"></td></tr><tr><td>Pude construir y probar el programa del laboratorio.</td><td><input type="radio" name="e4" value="Sí"></td><td><input type="radio" name="e4" value="En proceso"></td></tr></tbody></table></section>
+<section class="card"><span class="pts">1 pt</span><h2>Actividad 5 — Reflexión final</h2><div class="q"><label>¿Por qué es útil que un robot pueda detectar un objeto antes de chocarlo?</label><textarea data-f="reflection" placeholder="Escribe de 3 a 5 líneas."></textarea></div></section>
+<section class="card"><h2>Distribución de los 10 puntos</h2><table><thead><tr><th>Actividad</th><th>Valor</th></tr></thead><tbody><tr><td>1. Aplico mis conocimientos</td><td>2 pts</td></tr><tr><td>2. Comprendo la lógica</td><td>2 pts</td></tr><tr><td>3. Laboratorio en mBlock y mBot2</td><td>4 pts</td></tr><tr><td>4. Autoevaluación</td><td>1 pt</td></tr><tr><td>5. Reflexión final</td><td>1 pt</td></tr><tr><th>Total</th><th>10 pts</th></tr></tbody></table></section>
+<section class="card"><h2>Revisión de completitud</h2><p>La revisión solo comprueba que los campos y confirmaciones obligatorios estén registrados. <b>No asigna una calificación automática.</b></p><div id="review" class="review"></div></section>
+<section class="card"><h2>Fuente académica</h2><p><b>Guía No. 1 — V Unidad — Primero Básico.</b> Tema 2: “El sensor de ultrasonidos”, páginas 122–126. Incluye características, aplicaciones cotidianas, Laboratorio 14 y actividades de aplicación.</p></section>
+</main>
+<div class="actions"><div class="actionsin"><button id="save">Guardar ahora</button><button id="json" class="secondary">Descargar respaldo JSON</button><label class="flabel secondary">Cargar respaldo JSON<input id="jsonFile" type="file" accept=".json,application/json" hidden></label><button id="pdf" class="light">Generar / Guardar PDF</button><button id="clear" class="danger">Borrar avance</button></div></div>
+<div id="printReport" class="hidden"></div>
+<script>
+(()=>{
+"use strict";
+const DB='JRB_Robotica_1B_V_2026_G01',STORE='guide',KEY='state',LIMITS={notebook:4,book:4,practice:3};
+const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
+let state={student:{name:'',code:''},fields:{},radios:{},photos:{notebook:[],book:[],practice:[]},updatedAt:null};
+const trim=v=>String(v||'').trim();
+
+function openDB(){
+ return new Promise((res,rej)=>{
+   if(!('indexedDB' in window))return rej(new Error('IndexedDB no disponible'));
+   const r=indexedDB.open(DB,1);
+   r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE)};
+   r.onsuccess=()=>res(r.result);
+   r.onerror=()=>rej(r.error);
+ });
+}
+async function idbLoad(){
+ const db=await openDB();
+ return await new Promise((res,rej)=>{
+   const t=db.transaction(STORE,'readonly'),r=t.objectStore(STORE).get(KEY);
+   r.onsuccess=()=>{const v=r.result||null;db.close();res(v)};
+   r.onerror=()=>{db.close();rej(r.error)};
+ });
+}
+async function load(){
+ let value=null;
+ try{value=await idbLoad()}catch(e){}
+ if(!value){
+   try{const x=localStorage.getItem(DB);value=x?JSON.parse(x):null}catch(e){}
+ }
+ return value;
+}
+function localTextState(){
+ return {
+   student:state.student,
+   fields:state.fields,
+   radios:state.radios,
+   photos:{notebook:[],book:[],practice:[]},
+   updatedAt:state.updatedAt,
+   _localTextOnly:true
+ };
+}
+async function saveState(){
+ capture();state.updatedAt=new Date().toISOString();
+ let full=false;
+ try{
+   const db=await openDB();
+   await new Promise((res,rej)=>{
+     const t=db.transaction(STORE,'readwrite');
+     t.objectStore(STORE).put(state,KEY);
+     t.oncomplete=()=>{db.close();res()};
+     t.onerror=()=>{db.close();rej(t.error)};
+   });
+   full=true;
+ }catch(e){}
+ try{localStorage.setItem(DB,JSON.stringify(full?localTextState():localTextState()))}catch(e){}
+ return full;
+}
+async function clearState(){
+ try{
+   const db=await openDB();
+   await new Promise((res,rej)=>{
+     const t=db.transaction(STORE,'readwrite');
+     t.objectStore(STORE).delete(KEY);
+     t.oncomplete=()=>{db.close();res()};
+     t.onerror=()=>{db.close();rej(t.error)};
+   });
+ }catch(e){}
+ try{localStorage.removeItem(DB)}catch(e){}
+}
+function normalizePhotos(){
+ if(Array.isArray(state.photos)){
+   state.photos={notebook:[],book:[],practice:state.photos}
+ }else{
+   state.photos=state.photos||{};
+   state.photos.notebook=state.photos.notebook||[];
+   state.photos.book=state.photos.book||[];
+   state.photos.practice=state.photos.practice||[];
+ }
+}
+function capture(){
+ $$('[data-f]').forEach(el=>state.fields[el.dataset.f]=el.type==='checkbox'?el.checked:el.value);
+ $$('input[type=radio]').forEach(r=>{if(r.checked)state.radios[r.name]=r.value});
+ state.student.name=$('#studentName').value||state.student.name;
+ state.student.code=$('#studentCode').value||state.student.code;
+}
+function apply(){
+ normalizePhotos();
+ $('#studentName').value=state.student.name||'';
+ $('#studentCode').value=state.student.code||'';
+ $$('[data-f]').forEach(el=>{
+   const k=el.dataset.f;
+   if(k in state.fields){
+     if(el.type==='checkbox')el.checked=!!state.fields[k];
+     else el.value=state.fields[k]||'';
+   }
+ });
+ Object.entries(state.radios||{}).forEach(([n,v])=>{
+   const r=Array.from(document.getElementsByName(n)).find(x=>x.value===v);
+   if(r)r.checked=true;
+ });
+ renderPhotos();update();
+}
+
+const req=[
+ ['Actividad 1 — 5 respuestas',()=>['q1','q2','q3','q4','q5'].every(k=>trim(state.fields[k]))],
+ ['Actividad 2 — 3 respuestas',()=>['q6','q7','q8'].every(k=>trim(state.fields[k]))],
+ ['Actividad 3 — programa en mBlock',()=>state.fields.mblock===true],
+ ['Actividad 3 — ejecución mBot2/CyberPi',()=>state.fields.mbot===true],
+ ['Actividad 3 — observación de la prueba',()=>!!trim(state.fields.q9)],
+ ['Actividad 4 — autoevaluación',()=>['e1','e2','e3','e4'].every(k=>state.radios[k])],
+ ['Actividad 5 — reflexión',()=>!!trim(state.fields.reflection)]
+];
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function update(){
+ capture();
+ const n=req.filter(x=>x[1]()).length,p=Math.round(n/req.length*100);
+ $('#fill').style.width=p+'%';
+ $('#ptext').textContent=`Progreso: ${p}% (${n} de ${req.length} requisitos)`;
+ const b=$('#badge');b.textContent=n===req.length?'COMPLETO':'PENDIENTE';b.className='badge '+(n===req.length?'done':'pend');
+ $('#review').innerHTML=req.map(x=>`<div><b>${esc(x[0])}</b><br><span class="${x[1]()?'ok':'no'}">${x[1]()?'COMPLETO':'PENDIENTE'}</span></div>`).join('');
+}
+let timer;
+function autosave(){clearTimeout(timer);timer=setTimeout(async()=>{await saveState();update()},350)}
+
+async function compress(f){
+ return new Promise((res,rej)=>{
+   const rd=new FileReader(),im=new Image();
+   rd.onload=()=>{
+     im.onload=()=>{
+       const m=1200,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');
+       c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));
+       c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+       res(c.toDataURL('image/jpeg',.8));
+     };
+     im.onerror=rej;im.src=rd.result;
+   };
+   rd.onerror=rej;rd.readAsDataURL(f);
+ });
+}
+async function addPhotos(files,bucket){
+ normalizePhotos();
+ const list=state.photos[bucket],limit=LIMITS[bucket]||3,slots=Math.max(0,limit-list.length);
+ for(const f of Array.from(files).slice(0,slots)){
+   try{list.push({name:f.name,data:await compress(f)})}catch(e){}
+ }
+ renderPhotos();await saveState();
+}
+function renderBucket(bucket,selector,label){
+ const box=$(selector),list=(state.photos&&state.photos[bucket])||[];
+ box.innerHTML=list.map((p,i)=>`<div class="photo"><img src="${p.data}" alt="${esc(label)}"><div class="small">${esc(p.name)}</div><button type="button" class="danger" data-del-bucket="${bucket}" data-del-index="${i}" style="width:100%;margin-top:5px">Eliminar</button></div>`).join('');
+}
+function renderPhotos(){
+ normalizePhotos();
+ renderBucket('notebook','#photosNotebook','Fotografía del cuaderno');
+ renderBucket('book','#photosBook','Fotografía del libro');
+ renderBucket('practice','#photosPractice','Evidencia de la práctica');
+ $$('[data-del-bucket]').forEach(b=>b.onclick=async()=>{
+   if(confirm('¿Eliminar esta fotografía?')){
+     const bucket=b.dataset.delBucket,index=+b.dataset.delIndex;
+     state.photos[bucket].splice(index,1);renderPhotos();await saveState();
+   }
+ });
+}
+function blob(name,text,type){
+ const a=document.createElement('a'),u=URL.createObjectURL(new Blob([text],{type}));
+ a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(u),1000);
+}
+function safeName(){
+ return (state.student.name||'estudiante').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'_');
+}
+async function exportJSON(){
+ await saveState();
+ blob(`Respaldo_Robotica_1ro_Basico_${safeName()}.json`,JSON.stringify({guide:DB,exportedAt:new Date().toISOString(),data:state},null,2),'application/json');
+}
+async function importJSON(f){
+ try{
+   const o=JSON.parse(await f.text());
+   state=o.data||o;
+   state.student=state.student||{name:'',code:''};
+   state.fields=state.fields||{};
+   state.radios=state.radios||{};
+   normalizePhotos();
+   apply();await saveState();alert('Respaldo cargado correctamente.');
+ }catch(e){alert('El archivo no es un respaldo válido.')}
+}
+
+function box(label,value){return `<p><b>${esc(label)}</b></p><div class="pr-box">${esc(value||'Sin respuesta')}</div>`}
+function photoGroup(title,list){
+ if(!list||!list.length)return `<h3>${esc(title)}</h3><p>No se agregaron fotografías.</p>`;
+ return `<h3>${esc(title)}</h3><div class="pr-photos">${list.map((p,i)=>`<figure><img src="${p.data}" alt="${esc(title)} ${i+1}"><figcaption>${esc(p.name||('Fotografía '+(i+1)))}</figcaption></figure>`).join('')}</div>`;
+}
+function buildReport(){
+ capture();normalizePhotos();
+ const report=$('#printReport');
+ const logo=$('.logo')?.src||'';
+ const r=k=>esc(state.radios[k]||'Sin respuesta');
+ const complete=req.every(x=>x[1]());
+ report.innerHTML=`
+ <div class="pr-head">${logo?`<img class="pr-logo" src="${logo}" alt="Logotipo JRB">`:''}
+ <div><h1>Colegio de Informática Justo Rufino Bautista</h1><div><b>Guía No. 1 — Robótica — El sensor de ultrasonidos</b></div><div>1.º Básico — V Unidad</div></div></div>
+ <div class="pr-meta">
+ <div><b>Estudiante:</b> ${esc(state.student.name)}</div>
+ <div><b>Carné/Clave:</b> ${esc(state.student.code)}</div>
+ <div><b>Entrega:</b> 28/08/2026 — 18:00</div>
+ <div><b>Valor:</b> 10 puntos</div>
+ </div>
+ <h2>Actividad 1 — Aplico mis conocimientos</h2>
+ ${box('1. Secciones del sensor y medición de distancia',state.fields.q1)}
+ ${box('2. Cuatro ejemplos de uso cotidiano',state.fields.q2)}
+ ${box('3. Cómo evita obstáculos el mBot2',state.fields.q3)}
+ ${box('4. Situación cotidiana y funcionamiento',state.fields.q4)}
+ ${box('5. Distancia investigada y fuente',state.fields.q5)}
+ <h2>Actividad 2 — Comprendo la lógica del programa</h2>
+ ${box('1. Acción cuando detecta un objeto a menos de 10 cm',state.fields.q6)}
+ ${box('2. Acción cuando no hay un objeto a menos de 10 cm',state.fields.q7)}
+ ${box('3. Función del bloque para siempre',state.fields.q8)}
+ <h2>Actividad 3 — Laboratorio 14</h2>
+ <div class="pr-box">Programa en mBlock confirmado: ${state.fields.mblock?'Sí':'No'}<br>Ejecución mBot2/CyberPi confirmada: ${state.fields.mbot?'Sí':'No'}</div>
+ ${box('Observación de la prueba',state.fields.q9)}
+ <h2>Registro fotográfico</h2>
+ ${photoGroup('Fotografías del cuaderno',state.photos.notebook)}
+ ${photoGroup('Fotografías del libro',state.photos.book)}
+ ${photoGroup('Evidencias de la práctica',state.photos.practice)}
+ <h2>Actividad 4 — Autoevaluación</h2>
+ <table><tr><th>Criterio</th><th>Respuesta</th></tr>
+ <tr><td>Identifico el emisor y el receptor</td><td>${r('e1')}</td></tr>
+ <tr><td>Comprendo cómo se mide la distancia</td><td>${r('e2')}</td></tr>
+ <tr><td>Comprendo la condición &lt; 10 cm</td><td>${r('e3')}</td></tr>
+ <tr><td>Pude construir y probar el programa</td><td>${r('e4')}</td></tr></table>
+ <h2>Actividad 5 — Reflexión final</h2>
+ ${box('¿Por qué es útil detectar un objeto antes de chocarlo?',state.fields.reflection)}
+ <h2>Estado de completitud</h2>
+ <p><b>${complete?'COMPLETO':'PENDIENTE'}</b></p>
+ <p style="font-size:11px">La completitud no representa una calificación automática. Este documento integra las respuestas y las fotografías agregadas por el estudiante para generar un solo PDF que pueda adjuntarse en Classroom.</p>`;
+ report.classList.remove('hidden');
+ return report;
+}
+function waitForImages(root,timeout=4500){
+ const imgs=Array.from(root.querySelectorAll('img'));
+ if(!imgs.length)return Promise.resolve();
+ return Promise.race([
+   Promise.all(imgs.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{
+     img.addEventListener('load',resolve,{once:true});
+     img.addEventListener('error',resolve,{once:true});
+   }))),
+   new Promise(resolve=>setTimeout(resolve,timeout))
+ ]);
+}
+async function printPDF(){
+ await saveState();
+ const report=buildReport();
+ await waitForImages(report);
+ const cleanup=()=>{report.classList.add('hidden');window.removeEventListener('afterprint',cleanup)};
+ window.addEventListener('afterprint',cleanup);
+ requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()));
+ setTimeout(()=>report.classList.add('hidden'),8000);
+}
+
+async function init(){
+ const s=await load();
+ if(s){
+   state=s;
+   state.student=state.student||{name:'',code:''};
+   state.fields=state.fields||{};
+   state.radios=state.radios||{};
+   normalizePhotos();
+   $('#resume').classList.remove('hidden');
+   $('#identity').classList.add('hidden');
+ }
+ $('#continue').onclick=()=>{apply();$('#modal').classList.add('hidden')};
+ $('#new').onclick=async()=>{if(confirm('¿Iniciar de nuevo y borrar el avance guardado?')){await clearState();location.reload()}};
+ $('#cancel').onclick=()=>$('#modal').classList.add('hidden');
+ $('#start').onclick=async()=>{
+   const n=trim($('#studentName').value),c=trim($('#studentCode').value);
+   if(!n||!c){alert('Completa nombre y carné/clave.');return}
+   state.student={name:n,code:c};await saveState();$('#modal').classList.add('hidden');update();
+ };
+ $$('textarea,input[type=text],input[type=checkbox],input[type=radio]').forEach(el=>{
+   el.addEventListener('input',()=>{update();autosave()});
+   el.addEventListener('change',()=>{update();autosave()});
+ });
+ $('#photoNotebookInput').onchange=async e=>{await addPhotos(e.target.files,'notebook');e.target.value=''};
+ $('#photoBookInput').onchange=async e=>{await addPhotos(e.target.files,'book');e.target.value=''};
+ $('#photoPracticeInput').onchange=async e=>{await addPhotos(e.target.files,'practice');e.target.value=''};
+ $('#save').onclick=async()=>{await saveState();update();alert('Avance guardado en este navegador.')};
+ $('#json').onclick=exportJSON;
+ $('#jsonFile').onchange=async e=>{if(e.target.files[0])await importJSON(e.target.files[0]);e.target.value=''};
+ $('#pdf').onclick=printPDF;
+ $('#clear').onclick=async()=>{if(confirm('¿Borrar todo el avance guardado de esta guía?')){await clearState();location.reload()}};
+ renderPhotos();update();
+}
+init();
+})();
+</script>
+</body></html>
