@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#173f7d">
+<title>JRB 2026 · Preprimaria · Computación · Guía interactiva</title>
+<style>
+:root{
+  --azul:#173f7d;
+  --azul-2:#0d356f;
+  --azul-suave:#eaf1fb;
+  --verde:#16803a;
+  --verde-suave:#e9f7ee;
+  --rojo:#b42318;
+  --rojo-suave:#fff0ee;
+  --amarillo:#8a6200;
+  --amarillo-suave:#fff8df;
+  --texto:#20262e;
+  --muted:#5d6673;
+  --borde:#d7dde5;
+  --fondo:#eef2f7;
+  --blanco:#fff;
+  --sombra:0 8px 24px rgba(23,63,125,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--fondo);color:var(--texto);line-height:1.45}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.header{background:linear-gradient(135deg,var(--azul),var(--azul-2));color:#fff}
+.header-inner{max-width:1180px;margin:auto;padding:22px 18px;display:flex;gap:16px;align-items:center}
+.brand-mark{width:74px;height:74px;flex:0 0 74px;border-radius:18px;background:#fff;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.brand-mark svg{width:60px;height:60px}
+.header h1{font-size:clamp(23px,3vw,34px);margin:0 0 5px;line-height:1.12}
+.header p{margin:0;opacity:.92}
+.toolbar{background:#fff;border-bottom:1px solid var(--borde)}
+.toolbar-inner{max-width:1180px;margin:auto;padding:10px 18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:700;background:var(--azul);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.btn:hover{filter:brightness(.97)}
+.btn.secondary{background:#fff;color:var(--azul);border:1px solid #adc0dc;box-shadow:none}
+.btn.success{background:var(--verde)}
+.btn.danger{background:var(--rojo)}
+.btn.large{padding:14px 19px;font-size:17px}
+.status-pill{margin-left:auto;border-radius:999px;padding:9px 13px;font-weight:800;font-size:13px;background:var(--rojo-suave);color:var(--rojo);border:1px solid #fac7c1}
+.status-pill.complete{background:var(--verde-suave);color:var(--verde);border-color:#b9e4c8}
+.container{max-width:1180px;margin:22px auto;padding:0 18px 40px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:#fff;border:1px solid var(--borde);border-radius:16px;padding:20px;box-shadow:var(--sombra);margin-bottom:18px}
+.card h2{margin:0 0 8px;color:var(--azul);font-size:21px}
+.card h3{margin:0 0 8px;color:var(--azul);font-size:18px}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.notice{border-radius:12px;padding:13px 15px;margin:12px 0;background:var(--amarillo-suave);border:1px solid #f0dda1;color:#5f4a00}
+.notice.info{background:var(--azul-suave);border-color:#c8d8ef;color:#173f7d}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.field label{display:block;font-size:13px;font-weight:800;margin-bottom:6px;color:#38414d}
+.field input,.field select,.field textarea{width:100%;border:1px solid #bfc8d4;border-radius:10px;padding:11px 12px;background:#fff;color:#1f2933;outline:none}
+.field textarea{min-height:96px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#6f94c8;box-shadow:0 0 0 3px rgba(23,63,125,.09)}
+.required::after{content:" *";color:var(--rojo)}
+.progress-wrap{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.progress-track{height:12px;background:#e8ecf1;border-radius:999px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,#3b73b9,var(--verde));transition:width .2s ease}
+.progress-text{font-weight:800;color:var(--azul);min-width:75px;text-align:right}
+.activity{border-left:5px solid var(--azul);padding-left:16px}
+.activity-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.activity-number{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--azul);color:#fff;font-weight:900;flex:0 0 34px}
+.activity-title{display:flex;gap:10px;align-items:flex-start}
+.game-box{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;background:linear-gradient(135deg,#f5f9ff,#eef5ff);border:1px solid #c8d8ef;border-radius:14px;padding:16px;margin:14px 0}
+.confirm-list{display:grid;gap:10px;margin:14px 0}
+.confirm-item{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--borde);border-radius:11px;background:#fafbfd}
+.confirm-item input{width:20px;height:20px;margin-top:1px;accent-color:var(--azul)}
+.photo-area{border:2px dashed #b7c4d5;border-radius:14px;padding:16px;background:#fbfcfe}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:12px}
+.photo-card{border:1px solid var(--borde);border-radius:12px;padding:8px;background:#fff}
+.photo-card img{width:100%;height:120px;object-fit:cover;border-radius:9px;display:block}
+.photo-card .caption{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:6px 0}
+.photo-actions{display:flex;gap:6px}
+.photo-actions button{flex:1;border:0;border-radius:8px;padding:7px 8px;font-size:12px;background:#eef2f7;color:#263443;font-weight:700}
+.photo-actions .remove{background:#fff0ee;color:var(--rojo)}
+.review-list{display:grid;gap:8px;margin-top:12px}
+.review-row{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid #edf0f4;padding:8px 0}
+.review-row:last-child{border-bottom:0}
+.review-row strong{color:#354052}
+.badge{font-size:12px;font-weight:900;padding:5px 9px;border-radius:999px;background:#eef2f7;color:#475569;white-space:nowrap}
+.badge.ok{background:var(--verde-suave);color:var(--verde)}
+.badge.pending{background:var(--rojo-suave);color:var(--rojo)}
+.save-indicator{font-size:12px;color:var(--muted);margin-left:4px}
+.footer-note{font-size:12px;color:#66717e;text-align:center;margin-top:18px}
+.hidden{display:none!important}
+#printReport{display:none}
+@media(max-width:820px){
+  .grid-2,.fields{grid-template-columns:1fr}
+  .game-box{grid-template-columns:1fr}
+  .toolbar-inner{align-items:stretch}
+  .status-pill{margin-left:0}
+}
+@media print{
+  @page{size:A4;margin:13mm}
+  body{background:#fff}
+  body > *:not(#printReport){display:none!important}
+  #printReport{display:block!important;color:#000;font-family:Arial,Helvetica,sans-serif}
+  .print-header{display:flex;gap:14px;align-items:center;border-bottom:3px solid #173f7d;padding-bottom:10px;margin-bottom:14px}
+  .print-header svg{width:52px;height:52px}
+  .print-header h1{font-size:19px;margin:0;color:#173f7d}
+  .print-header p{margin:3px 0 0;font-size:11px;color:#444}
+  .print-section{border:1px solid #cfd6df;border-radius:8px;padding:10px 12px;margin-bottom:10px;break-inside:avoid}
+  .print-section h2{font-size:14px;color:#173f7d;margin:0 0 7px}
+  .print-table{width:100%;border-collapse:collapse;font-size:11px}
+  .print-table td{border-bottom:1px solid #e4e7eb;padding:5px 4px;vertical-align:top}
+  .print-table td:first-child{width:34%;font-weight:700;color:#333}
+  .print-photos{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .print-photos img{width:100%;max-height:210px;object-fit:contain;border:1px solid #ddd;border-radius:6px}
+  .print-status{font-size:14px;font-weight:900;color:#173f7d}
+  .print-foot{font-size:9px;color:#666;margin-top:12px;text-align:center}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div class="brand-mark" aria-label="Identificación JRB">
+      <!-- Emblema JRB temporal. Puede sustituirse por el logo oficial embebido del portal. -->
+      <img data-jrb-logo="official" src="data:image/png;base64,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" alt="Logo JRB" style="width:60px;height:60px;object-fit:contain;display:block;">
+    </div>
+    <div>
+      <h1>Computación · Preprimaria</h1>
+      <p>JRB 2026 · Guía interactiva · Kínder y Párvulos</p>
+    </div>
+  </div>
+</header>
+
+<nav class="toolbar" aria-label="Herramientas de la guía">
+  <div class="toolbar-inner">
+    <button class="btn secondary" id="btnPortal" type="button">← Volver al portal</button>
+    <button class="btn secondary" id="btnGuardar" type="button">Guardar</button>
+    <button class="btn secondary" id="btnExportar" type="button">Respaldar JSON</button>
+    <button class="btn secondary" id="btnImportar" type="button">Cargar JSON</button>
+    <button class="btn success" id="btnPDF" type="button">Generar PDF</button>
+    <span class="save-indicator" id="saveIndicator">Sin cambios pendientes</span>
+    <span class="status-pill" id="statusPill">PENDIENTE</span>
+    <input class="hidden" type="file" id="importFile" accept="application/json,.json">
+  </div>
+</nav>
+
+<main class="container">
+  <section class="card">
+    <h2>Guía de aprendizaje</h2>
+    <p class="muted">El estudiante practica el reconocimiento del alfabeto mediante un juego interactivo. El docente acompaña la actividad y registra observaciones sencillas sobre el desempeño.</p>
+    <div class="notice info"><strong>Importante:</strong> esta guía no asigna calificación automática. El estado <strong>COMPLETO / PENDIENTE</strong> solo indica si fueron registrados los datos y confirmaciones requeridos.</div>
+    <div class="progress-wrap" aria-label="Progreso de la guía">
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-text" id="progressText">0 / 8</div>
+    </div>
+  </section>
+
+  <section class="card" id="datosSection">
+    <h2>1. Datos del estudiante</h2>
+    <div class="fields">
+      <div class="field">
+        <label class="required" for="nombre">Nombre completo</label>
+        <input id="nombre" type="text" autocomplete="name" placeholder="Nombre del estudiante">
+      </div>
+      <div class="field">
+        <label class="required" for="clave">Clave / carné</label>
+        <input id="clave" type="text" placeholder="Clave o carné">
+      </div>
+      <div class="field">
+        <label class="required" for="grado">Grado</label>
+        <select id="grado">
+          <option value="">Seleccione</option>
+          <option value="Kínder">Kínder</option>
+          <option value="Párvulos">Párvulos</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="required" for="fecha">Fecha</label>
+        <input id="fecha" type="date">
+      </div>
+    </div>
+  </section>
+
+  <section class="card activity" id="actividad1">
+    <div class="activity-head">
+      <div class="activity-title"><span class="activity-number">2</span><div><h2>Bingo del alfabeto</h2><p class="muted small">Juego interactivo externo utilizado durante la clase.</p></div></div>
+      <span class="badge pending" id="badgeActividad">PENDIENTE</span>
+    </div>
+
+    <div class="game-box">
+      <div>
+        <h3>Árbol ABC · Bingo del alfabeto</h3>
+        <p class="muted">Abre el juego en una pestaña nueva. Al finalizar, regresa a esta guía para registrar cómo se desarrolló la actividad.</p>
+      </div>
+      <button class="btn large" id="btnJuego" type="button">Abrir juego interactivo</button>
+    </div>
+
+    <div class="fields">
+      <div class="field">
+        <label class="required" for="ingresoJuego">¿Se logró ingresar al juego?</label>
+        <select id="ingresoJuego">
+          <option value="">Seleccione</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="required" for="apoyo">Apoyo utilizado</label>
+        <select id="apoyo">
+          <option value="">Seleccione</option>
+          <option value="Lo realizó de forma independiente">Lo realizó de forma independiente</option>
+          <option value="Necesitó apoyo parcial del docente">Necesitó apoyo parcial del docente</option>
+          <option value="Necesitó acompañamiento constante">Necesitó acompañamiento constante</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="letras">Letras que reconoció con mayor facilidad</label>
+        <input id="letras" type="text" placeholder="Ejemplo: A, M, P">
+      </div>
+      <div class="field">
+        <label class="required" for="resultado">Resultado de la actividad</label>
+        <select id="resultado">
+          <option value="">Seleccione</option>
+          <option value="Finalizó la actividad">Finalizó la actividad</option>
+          <option value="La realizó parcialmente">La realizó parcialmente</option>
+          <option value="No logró finalizarla">No logró finalizarla</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="confirm-list">
+      <label class="confirm-item"><input type="checkbox" id="confirmJuego"><span><strong class="required">Confirmación de práctica.</strong><br><span class="small muted">Confirmo que el estudiante realizó la actividad del Bingo del alfabeto durante la clase.</span></span></label>
+    </div>
+  </section>
+
+  <section class="card activity" id="actividad2">
+    <div class="activity-head">
+      <div class="activity-title"><span class="activity-number">3</span><div><h2>Observación del docente</h2><p class="muted small">Registro descriptivo. No genera puntos ni nota automática.</p></div></div>
+    </div>
+    <div class="grid-2">
+      <div>
+        <div class="confirm-list">
+          <label class="confirm-item"><input type="checkbox" id="obsReconoce"><span>Reconoce algunas letras del alfabeto.</span></label>
+          <label class="confirm-item"><input type="checkbox" id="obsInstrucciones"><span>Sigue instrucciones básicas al utilizar la computadora.</span></label>
+          <label class="confirm-item"><input type="checkbox" id="obsInteres"><span>Participa con interés en la actividad.</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="comentario">Comentario breve del docente</label>
+        <textarea id="comentario" placeholder="Observación breve sobre el desempeño, apoyo requerido o avances observados."></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="card activity" id="actividad3">
+    <div class="activity-head">
+      <div class="activity-title"><span class="activity-number">4</span><div><h2>Fotografías opcionales</h2><p class="muted small">Las fotografías se guardan junto con la guía y pueden aparecer en el PDF.</p></div></div>
+      <span class="badge">OPCIONAL</span>
+    </div>
+    <div class="photo-area">
+      <input id="photoInput" type="file" accept="image/*" multiple>
+      <p class="small muted">Puedes agregar, reemplazar o eliminar fotografías. No afectan el estado COMPLETO / PENDIENTE.</p>
+      <div class="photo-grid" id="photoGrid"></div>
+    </div>
+  </section>
+
+  <section class="card" id="revisionSection">
+    <h2>5. Revisión final</h2>
+    <p class="muted">Antes de generar el PDF, revisa que los campos requeridos estén completos.</p>
+    <div class="review-list" id="reviewList"></div>
+    <div class="notice" id="finalNotice">La guía todavía tiene información pendiente.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+      <button class="btn" id="btnRevisar" type="button">Revisar ahora</button>
+      <button class="btn success" id="btnPDFFinal" type="button">Generar PDF completo</button>
+      <button class="btn danger" id="btnLimpiar" type="button">Borrar datos de esta guía</button>
+    </div>
+  </section>
+
+  <p class="footer-note">JRB 2026 · Computación · Preprimaria · Los datos permanecen en este navegador mientras no se eliminen. Se recomienda descargar el respaldo JSON.</p>
+</main>
+
+<section id="printReport" aria-hidden="true"></section>
+
+<script>
+(() => {
+  'use strict';
+
+  const CONFIG = {
+    schemaVersion: 2,
+    guideId: 'jrb-2026-preprimaria-computacion-v2',
+    dbName: 'JRB2026_Guias',
+    storeName: 'guias',
+    portalRelative: '../../index.html',
+    gameUrl: 'https://arbolabc.com/juegos-del-abecedario/bingo-alfabeto',
+    localStorageKey: 'JRB2026_PREPRIMARIA_COMPUTACION_V2'
+  };
+
+  const requiredRules = [
+    {id:'nombre', label:'Nombre completo', type:'value'},
+    {id:'clave', label:'Clave / carné', type:'value'},
+    {id:'grado', label:'Grado', type:'value'},
+    {id:'fecha', label:'Fecha', type:'value'},
+    {id:'ingresoJuego', label:'Ingreso al juego', type:'value'},
+    {id:'apoyo', label:'Apoyo utilizado', type:'value'},
+    {id:'resultado', label:'Resultado de la actividad', type:'value'},
+    {id:'confirmJuego', label:'Confirmación de práctica', type:'checked'}
+  ];
+
+  const $ = id => document.getElementById(id);
+  const formIds = ['nombre','clave','grado','fecha','ingresoJuego','apoyo','letras','resultado','confirmJuego','obsReconoce','obsInstrucciones','obsInteres','comentario'];
+  let photos = [];
+  let saveTimer = null;
+  let storageMode = 'indexeddb';
+
+  function getFormData(){
+    const data = {};
+    formIds.forEach(id => {
+      const el = $(id);
+      data[id] = el.type === 'checkbox' ? el.checked : el.value;
+    });
+    return data;
+  }
+
+  function buildPayload(){
+    return {
+      schemaVersion: CONFIG.schemaVersion,
+      guideId: CONFIG.guideId,
+      updatedAt: new Date().toISOString(),
+      resource: {
+        name: 'Árbol ABC · Bingo del alfabeto',
+        url: CONFIG.gameUrl
+      },
+      data: getFormData(),
+      photos
+    };
+  }
+
+  function applyPayload(payload){
+    if(!payload || !payload.data) throw new Error('Formato de respaldo no válido.');
+    formIds.forEach(id => {
+      const el = $(id);
+      if(!el) return;
+      const value = payload.data[id];
+      if(el.type === 'checkbox') el.checked = Boolean(value);
+      else el.value = value ?? '';
+    });
+    photos = Array.isArray(payload.photos) ? payload.photos : [];
+    renderPhotos();
+    updateProgress();
+  }
+
+  function openDB(){
+    return new Promise((resolve,reject) => {
+      if(!('indexedDB' in window)) return reject(new Error('IndexedDB no disponible'));
+      const req = indexedDB.open(CONFIG.dbName,1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if(!db.objectStoreNames.contains(CONFIG.storeName)) db.createObjectStore(CONFIG.storeName,{keyPath:'guideId'});
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error || new Error('No se pudo abrir IndexedDB'));
+    });
+  }
+
+  async function saveIndexedDB(payload){
+    const db = await openDB();
+    await new Promise((resolve,reject) => {
+      const tx = db.transaction(CONFIG.storeName,'readwrite');
+      tx.objectStore(CONFIG.storeName).put(payload);
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error || new Error('Error al guardar'));
+    });
+    db.close();
+  }
+
+  async function loadIndexedDB(){
+    const db = await openDB();
+    const result = await new Promise((resolve,reject) => {
+      const tx = db.transaction(CONFIG.storeName,'readonly');
+      const req = tx.objectStore(CONFIG.storeName).get(CONFIG.guideId);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error || new Error('Error al leer'));
+    });
+    db.close();
+    return result;
+  }
+
+  async function deleteIndexedDB(){
+    const db = await openDB();
+    await new Promise((resolve,reject) => {
+      const tx = db.transaction(CONFIG.storeName,'readwrite');
+      tx.objectStore(CONFIG.storeName).delete(CONFIG.guideId);
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error || new Error('Error al eliminar'));
+    });
+    db.close();
+  }
+
+  function saveLocalStorage(payload){
+    localStorage.setItem(CONFIG.localStorageKey,JSON.stringify(payload));
+  }
+  function loadLocalStorage(){
+    const raw = localStorage.getItem(CONFIG.localStorageKey);
+    return raw ? JSON.parse(raw) : null;
+  }
+  function deleteLocalStorage(){ localStorage.removeItem(CONFIG.localStorageKey); }
+
+  async function saveAll(showMessage=false){
+    const payload = buildPayload();
+    try{
+      await saveIndexedDB(payload);
+      storageMode = 'indexeddb';
+      try{ saveLocalStorage(payload); }catch(_e){}
+      $('saveIndicator').textContent = 'Guardado automáticamente';
+    }catch(err){
+      storageMode = 'localStorage';
+      try{
+        saveLocalStorage(payload);
+        $('saveIndicator').textContent = 'Guardado local de respaldo';
+      }catch(e){
+        $('saveIndicator').textContent = 'No se pudo guardar';
+        if(showMessage) alert('No se pudo guardar la información en este navegador. Descarga un respaldo JSON.');
+        return;
+      }
+    }
+    if(showMessage) alert('Información guardada correctamente.');
+  }
+
+  async function loadSaved(){
+    let payload = null;
+    try{ payload = await loadIndexedDB(); }
+    catch(_e){ storageMode = 'localStorage'; }
+    if(!payload){
+      try{ payload = loadLocalStorage(); }catch(_e){}
+    }
+    if(payload){
+      try{ applyPayload(payload); }
+      catch(e){ console.warn(e); }
+    }
+  }
+
+  function scheduleSave(){
+    $('saveIndicator').textContent = 'Guardando…';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => saveAll(false), 350);
+    updateProgress();
+  }
+
+  function isRuleComplete(rule){
+    const el = $(rule.id);
+    if(rule.type === 'checked') return el.checked === true;
+    return String(el.value || '').trim() !== '';
+  }
+
+  function getProgress(){
+    const total = requiredRules.length;
+    const complete = requiredRules.filter(isRuleComplete).length;
+    return {total, complete, isComplete: complete === total};
+  }
+
+  function updateProgress(){
+    const p = getProgress();
+    const pct = Math.round((p.complete/p.total)*100);
+    $('progressBar').style.width = pct + '%';
+    $('progressText').textContent = `${p.complete} / ${p.total}`;
+    $('statusPill').textContent = p.isComplete ? 'COMPLETO' : 'PENDIENTE';
+    $('statusPill').classList.toggle('complete',p.isComplete);
+    const actOk = ['ingresoJuego','apoyo','resultado','confirmJuego'].every(id => {
+      const rule = requiredRules.find(r => r.id === id);
+      return isRuleComplete(rule);
+    });
+    $('badgeActividad').textContent = actOk ? 'COMPLETO' : 'PENDIENTE';
+    $('badgeActividad').className = `badge ${actOk ? 'ok' : 'pending'}`;
+    renderReview();
+  }
+
+  function renderReview(){
+    const list = $('reviewList');
+    list.innerHTML = '';
+    requiredRules.forEach(rule => {
+      const ok = isRuleComplete(rule);
+      const row = document.createElement('div');
+      row.className = 'review-row';
+      row.innerHTML = `<strong>${escapeHtml(rule.label)}</strong><span class="badge ${ok?'ok':'pending'}">${ok?'COMPLETO':'PENDIENTE'}</span>`;
+      list.appendChild(row);
+    });
+    const p = getProgress();
+    const notice = $('finalNotice');
+    if(p.isComplete){
+      notice.className = 'notice info';
+      notice.innerHTML = '<strong>Guía completa.</strong> Ya puedes generar el PDF con toda la información registrada.';
+    }else{
+      notice.className = 'notice';
+      notice.innerHTML = `<strong>Pendiente:</strong> faltan ${p.total-p.complete} requisito(s) por completar.`;
+    }
+  }
+
+  function escapeHtml(value){
+    return String(value ?? '').replace(/[&<>'"]/g,ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+  }
+
+  async function compressImage(file){
+    const dataUrl = await new Promise((resolve,reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    });
+    const img = await new Promise((resolve,reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = dataUrl;
+    });
+    const max = 1400;
+    const scale = Math.min(1,max/Math.max(img.width,img.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1,Math.round(img.width*scale));
+    canvas.height = Math.max(1,Math.round(img.height*scale));
+    canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+    return canvas.toDataURL('image/jpeg',0.8);
+  }
+
+  async function addPhotos(files){
+    for(const file of Array.from(files || [])){
+      if(!file.type.startsWith('image/')) continue;
+      try{
+        const dataUrl = await compressImage(file);
+        photos.push({id:crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,name:file.name,dataUrl,addedAt:new Date().toISOString()});
+      }catch(e){
+        alert(`No se pudo procesar la fotografía: ${file.name}`);
+      }
+    }
+    renderPhotos();
+    await saveAll(false);
+  }
+
+  function renderPhotos(){
+    const grid = $('photoGrid');
+    grid.innerHTML = '';
+    if(!photos.length){
+      grid.innerHTML = '<p class="small muted">No se han agregado fotografías.</p>';
+      return;
+    }
+    photos.forEach((photo,index) => {
+      const card = document.createElement('div');
+      card.className = 'photo-card';
+      card.innerHTML = `
+        <img src="${photo.dataUrl}" alt="Fotografía ${index+1}">
+        <div class="caption" title="${escapeHtml(photo.name)}">${escapeHtml(photo.name)}</div>
+        <div class="photo-actions">
+          <button type="button" data-action="replace" data-index="${index}">Reemplazar</button>
+          <button type="button" class="remove" data-action="remove" data-index="${index}">Eliminar</button>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  async function replacePhoto(index,file){
+    if(!file || !file.type.startsWith('image/')) return;
+    const dataUrl = await compressImage(file);
+    photos[index] = {id:photos[index].id,name:file.name,dataUrl,addedAt:new Date().toISOString()};
+    renderPhotos();
+    await saveAll(false);
+  }
+
+  function exportJSON(){
+    const payload = buildPayload();
+    const name = (payload.data.nombre || 'estudiante').replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ_-]+/g,'_');
+    const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `JRB_2026_Preprimaria_Computacion_${name}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function importJSON(file){
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try{
+        const payload = JSON.parse(reader.result);
+        if(payload.guideId && payload.guideId !== CONFIG.guideId){
+          const ok = confirm('Este respaldo pertenece a otra guía. ¿Deseas intentar cargarlo de todas formas?');
+          if(!ok) return;
+        }
+        applyPayload(payload);
+        await saveAll(false);
+        alert('Respaldo cargado correctamente.');
+      }catch(e){ alert('No se pudo cargar el archivo JSON.'); }
+    };
+    reader.readAsText(file);
+  }
+
+  function buildPrintReport(){
+    const d = getFormData();
+    const p = getProgress();
+    const yesNo = v => v ? 'Sí' : 'No';
+    const photoHtml = photos.length
+      ? `<div class="print-photos">${photos.map((ph,i)=>`<div><img src="${ph.dataUrl}" alt="Foto ${i+1}"><div style="font-size:9px;margin-top:3px">Foto ${i+1}</div></div>`).join('')}</div>`
+      : '<p style="font-size:11px">Sin fotografías registradas.</p>';
+
+    $('printReport').innerHTML = `
+      <div class="print-header">
+        <img data-jrb-logo="official" src="data:image/png;base64,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" alt="Logo JRB" style="width:52px;height:52px;object-fit:contain;display:block;">
+        <div><h1>JRB 2026 · Computación · Preprimaria</h1><p>Guía interactiva · Bingo del alfabeto · Kínder y Párvulos</p></div>
+      </div>
+      <div class="print-section"><h2>Datos del estudiante</h2><table class="print-table">
+        <tr><td>Nombre completo</td><td>${escapeHtml(d.nombre)}</td></tr>
+        <tr><td>Clave / carné</td><td>${escapeHtml(d.clave)}</td></tr>
+        <tr><td>Grado</td><td>${escapeHtml(d.grado)}</td></tr>
+        <tr><td>Fecha</td><td>${escapeHtml(d.fecha)}</td></tr>
+      </table></div>
+      <div class="print-section"><h2>Actividad · Bingo del alfabeto</h2><table class="print-table">
+        <tr><td>Recurso</td><td>Árbol ABC · Bingo del alfabeto</td></tr>
+        <tr><td>Ingreso al juego</td><td>${escapeHtml(d.ingresoJuego)}</td></tr>
+        <tr><td>Apoyo utilizado</td><td>${escapeHtml(d.apoyo)}</td></tr>
+        <tr><td>Letras reconocidas</td><td>${escapeHtml(d.letras || 'Sin registro')}</td></tr>
+        <tr><td>Resultado</td><td>${escapeHtml(d.resultado)}</td></tr>
+        <tr><td>Práctica confirmada</td><td>${yesNo(d.confirmJuego)}</td></tr>
+      </table></div>
+      <div class="print-section"><h2>Observación del docente</h2><table class="print-table">
+        <tr><td>Reconoce algunas letras</td><td>${yesNo(d.obsReconoce)}</td></tr>
+        <tr><td>Sigue instrucciones básicas</td><td>${yesNo(d.obsInstrucciones)}</td></tr>
+        <tr><td>Participa con interés</td><td>${yesNo(d.obsInteres)}</td></tr>
+        <tr><td>Comentario</td><td>${escapeHtml(d.comentario || 'Sin comentario registrado.')}</td></tr>
+      </table></div>
+      <div class="print-section"><h2>Estado de la guía</h2><div class="print-status">${p.isComplete?'COMPLETO':'PENDIENTE'} · ${p.complete} de ${p.total} requisitos</div><p style="font-size:10px">Este estado corresponde a completitud de registro. No constituye una calificación automática.</p></div>
+      <div class="print-section"><h2>Fotografías opcionales</h2>${photoHtml}</div>
+      <div class="print-foot">Documento generado desde la guía JRB 2026. Recurso externo utilizado: Árbol ABC · Bingo del alfabeto.</div>`;
+  }
+
+  async function generatePDF(){
+    await saveAll(false);
+    const p = getProgress();
+    if(!p.isComplete){
+      const ok = confirm(`La guía está PENDIENTE (${p.complete}/${p.total}). El PDF mostrará ese estado. ¿Deseas continuar?`);
+      if(!ok) return;
+    }
+    buildPrintReport();
+    requestAnimationFrame(() => window.print());
+  }
+
+  async function clearGuide(){
+    const ok = confirm('¿Deseas borrar los datos guardados de esta guía en este navegador? Esta acción no se puede deshacer salvo que tengas un respaldo JSON.');
+    if(!ok) return;
+    try{ await deleteIndexedDB(); }catch(_e){}
+    try{ deleteLocalStorage(); }catch(_e){}
+    formIds.forEach(id => {
+      const el = $(id);
+      if(el.type === 'checkbox') el.checked = false;
+      else el.value = '';
+    });
+    photos = [];
+    $('fecha').value = new Date().toISOString().slice(0,10);
+    renderPhotos();
+    updateProgress();
+    $('saveIndicator').textContent = 'Datos borrados';
+  }
+
+  function initEvents(){
+    formIds.forEach(id => {
+      const el = $(id);
+      el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', scheduleSave);
+      if(el.tagName === 'SELECT') el.addEventListener('change', scheduleSave);
+    });
+    $('btnGuardar').addEventListener('click',()=>saveAll(true));
+    $('btnExportar').addEventListener('click',exportJSON);
+    $('btnImportar').addEventListener('click',()=>$('importFile').click());
+    $('importFile').addEventListener('change',e=>{ if(e.target.files[0]) importJSON(e.target.files[0]); e.target.value=''; });
+    $('btnJuego').addEventListener('click',()=>window.open(CONFIG.gameUrl,'_blank','noopener,noreferrer'));
+    $('btnPortal').addEventListener('click',()=>{ window.location.href = CONFIG.portalRelative; });
+    $('photoInput').addEventListener('change',async e=>{ await addPhotos(e.target.files); e.target.value=''; });
+    $('photoGrid').addEventListener('click',async e=>{
+      const btn = e.target.closest('button[data-action]');
+      if(!btn) return;
+      const index = Number(btn.dataset.index);
+      if(btn.dataset.action === 'remove'){
+        if(confirm('¿Eliminar esta fotografía?')){ photos.splice(index,1); renderPhotos(); await saveAll(false); }
+      }else if(btn.dataset.action === 'replace'){
+        const input = document.createElement('input');
+        input.type='file'; input.accept='image/*';
+        input.onchange = async () => { if(input.files[0]) await replacePhoto(index,input.files[0]); };
+        input.click();
+      }
+    });
+    $('btnPDF').addEventListener('click',generatePDF);
+    $('btnPDFFinal').addEventListener('click',generatePDF);
+    $('btnRevisar').addEventListener('click',()=>{ updateProgress(); $('revisionSection').scrollIntoView({behavior:'smooth',block:'start'}); });
+    $('btnLimpiar').addEventListener('click',clearGuide);
+  }
+
+  async function init(){
+    initEvents();
+    if(!$('fecha').value) $('fecha').value = new Date().toISOString().slice(0,10);
+    await loadSaved();
+    if(!$('fecha').value) $('fecha').value = new Date().toISOString().slice(0,10);
+    renderPhotos();
+    updateProgress();
+    $('saveIndicator').textContent = storageMode === 'indexeddb' ? 'Guardado local listo' : 'Modo de respaldo local';
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
