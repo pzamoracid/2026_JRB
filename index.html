@@ -743,27 +743,6 @@ async function copyText(text){
 }
 
 function classroomText(item, guide){
-function guideChoices(guideKey){
-  if(!guideKey || !GUIDES[guideKey]) return guideKey ? [guideKey] : [];
-  const out = [];
-  const seen = new Set();
-  const add = key => {
-    if(key && GUIDES[key] && !seen.has(key)){
-      seen.add(key);
-      out.push(key);
-    }
-  };
-  if(/_g\d+$/.test(guideKey)){
-    const base = guideKey.replace(/_g\d+$/,'');
-    add(base);
-    add(guideKey);
-  }else{
-    add(guideKey);
-    add(guideKey + "_g2");
-  }
-  return out;
-}
-
   const grade = guide ? guide.grade : item.grade;
   const course = guide ? guide.course : item.course;
   let text = grade + " — " + course + "\n\nTrabajo de hoy:\n" + item.work;
@@ -774,6 +753,31 @@ function guideChoices(guideKey){
   }
   return text;
 }
+
+function guideChoices(guideKey){
+  if(!guideKey || !GUIDES[guideKey]) return guideKey ? [guideKey] : [];
+  const out = [];
+  const seen = new Set();
+
+  const add = key => {
+    if(key && GUIDES[key] && !seen.has(key)){
+      seen.add(key);
+      out.push(key);
+    }
+  };
+
+  if(/_g\d+$/.test(guideKey)){
+    const base = guideKey.replace(/_g\d+$/,'');
+    add(base);
+    add(guideKey);
+  } else {
+    add(guideKey);
+    add(guideKey + "_g2");
+  }
+
+  return out;
+}
+
 
 function renderDay(day, contextDate=null, mode="manual"){
   document.querySelectorAll("#dayTabs button").forEach(b => b.classList.toggle("active", b.dataset.day === day));
