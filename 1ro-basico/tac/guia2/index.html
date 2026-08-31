@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TAC - 1.º Básico - Guía 2</title>
+<style>
+:root{--a:#123f7a;--a2:#1f5fa8;--bg:#eef2f6;--b:#cbd5e1;--t:#1f2937;--g:#198754;--r:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--t);line-height:1.45}
+header{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;padding:24px 18px}header>div,main,.toolbar,.note{max-width:1050px;margin:auto}
+h1{margin:0 0 5px}.sub{opacity:.95}main{background:#fff;margin:20px auto;padding:24px;border-radius:14px;box-shadow:0 3px 18px #0001}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}label{font-weight:700;display:block;margin-bottom:6px}
+input[type=text],textarea,select{width:100%;padding:10px;border:1px solid var(--b);border-radius:8px;font:inherit}textarea{min-height:95px;resize:vertical}
+.card{border:1px solid var(--b);border-radius:12px;padding:18px;margin:18px 0}.card h2{margin-top:0;color:var(--a)}
+.info{background:#eef6ff;border-left:5px solid var(--a2);padding:14px 16px;border-radius:8px;margin:16px 0}.q{margin:14px 0}
+.case{background:#f8fafc;border:1px solid #e2e8f0;border-radius:9px;padding:13px;margin:12px 0}
+.evidence{border-top:1px dashed var(--b);padding-top:14px;margin-top:16px}.previews{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.preview{border:1px solid var(--b);background:#f8fafc;padding:10px;border-radius:10px}.preview img{width:100%;max-height:280px;object-fit:contain;background:#fff;border-radius:7px}.preview textarea{min-height:70px;margin-top:8px}
+button,.import{border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}.primary{background:var(--a);color:#fff}.secondary{background:#e2e8f0;color:#111827}.danger{background:#fee2e2;color:#991b1b}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;padding:0 18px 25px}.note{padding:0 18px 10px;font-size:13px;color:#475569}
+.status{padding:7px 12px;border-radius:999px;background:#fff1f2;color:var(--r);font-weight:700}.status.ok{background:#eaf8ef;color:var(--g)}
+.check label{font-weight:400;display:flex;gap:8px;margin:8px 0}.small{font-size:13px;color:#64748b}
+@media(max-width:760px){.meta{grid-template-columns:1fr}main{margin:10px;padding:16px;border-radius:0}}
+@media print{body{background:#fff}header{background:#fff!important;color:#000;border-bottom:2px solid #000}main{box-shadow:none;margin:0}.toolbar,.note,.upload,.remove{display:none!important}}
+</style></head>
+<body>
+<header><div>
+<h1>Guía de trabajo No. 2</h1>
+<div class="sub">Computación / TAC · 1.º Básico · V Unidad</div>
+<div><strong>Tema:</strong> Del reglamento a la práctica: decisiones responsables en el laboratorio digital</div>
+</div></header>
+
+<main>
+<section class="meta">
+<div><label>Nombre completo</label><input id="nombre" type="text" data-save></div>
+<div><label>Clave / Carné</label><input id="carne" type="text" data-save></div>
+<div><label>Sección</label><input id="seccion" type="text" data-save></div>
+</section>
+
+<div class="info">
+En la Guía No. 1 elaboraste y analizaste nuestro reglamento digital del laboratorio. Ahora utilizarás esas normas para resolver situaciones que pueden ocurrir cuando trabajamos con computadoras, archivos, Internet y cuentas digitales. La meta es aprender a tomar decisiones responsables, no solamente recordar las reglas.
+</div>
+
+<section class="card">
+<h2>Actividad 1. Recuperamos nuestro reglamento</h2>
+<div class="q"><label>1. Escribe una norma de la Guía No. 1 relacionada con el cuidado del equipo.</label><textarea id="normaEquipo" data-save></textarea></div>
+<div class="q"><label>2. Escribe una norma relacionada con el uso responsable de Internet, archivos o cuentas.</label><textarea id="normaDigital" data-save></textarea></div>
+<div class="q"><label>3. ¿Por qué consideras necesarias estas normas dentro del laboratorio?</label><textarea id="porqueNormas" data-save></textarea></div>
+</section>
+
+<section class="card">
+<h2>Actividad 2. ¿Qué harías en esta situación?</h2>
+<div class="case"><strong>Situación A:</strong> Al iniciar la clase observas que la computadora asignada tiene un cable flojo y el equipo no enciende correctamente. Un compañero propone mover varios cables para intentar arreglarla.</div>
+<div class="q"><label>¿Qué harías?</label><textarea id="casoA" data-save></textarea></div>
+<div class="q"><label>¿Qué norma del laboratorio se relaciona con tu decisión?</label><textarea id="reglaA" data-save></textarea></div>
+
+<div class="case"><strong>Situación B:</strong> Encuentras en la computadora un archivo que pertenece a otro estudiante. Tu compañero quiere abrirlo para ver qué contiene.</div>
+<div class="q"><label>¿Qué decisión tomarías y por qué?</label><textarea id="casoB" data-save></textarea></div>
+<div class="q"><label>¿Qué conducta responsable debería seguirse?</label><textarea id="reglaB" data-save></textarea></div>
+
+<div class="case"><strong>Situación C:</strong> Mientras trabajas aparece una página o ventana que no necesitas y te pide descargar un archivo.</div>
+<div class="q"><label>¿Qué harías antes de presionar algún botón?</label><textarea id="casoC" data-save></textarea></div>
+<div class="q"><label>¿A quién informarías si no sabes qué hacer?</label><textarea id="reglaC" data-save></textarea></div>
+</section>
+
+<section class="card">
+<h2>Actividad 3. Organizamos buenas prácticas</h2>
+<p>Convierte las normas del reglamento en acciones concretas que puedas aplicar durante una clase.</p>
+<div class="q"><label>Antes de usar la computadora: ¿qué debes revisar o hacer?</label><textarea id="antes" data-save></textarea></div>
+<div class="q"><label>Mientras trabajas: ¿qué acciones ayudan a cuidar el equipo y tu trabajo digital?</label><textarea id="durante" data-save></textarea></div>
+<div class="q"><label>Al finalizar la clase: ¿qué debes hacer antes de retirarte?</label><textarea id="despues" data-save></textarea></div>
+</section>
+
+<section class="card">
+<h2>Actividad 4. Creamos una recomendación digital</h2>
+<p>Elabora en la herramienta indicada por el docente una pequeña tarjeta, diapositiva, afiche o aviso digital que explique <strong>una buena práctica del laboratorio</strong>. Debe incluir una recomendación clara y una imagen, ícono o elemento visual relacionado.</p>
+<div class="q"><label>¿Qué buena práctica elegiste?</label><textarea id="practicaElegida" data-save></textarea></div>
+<div class="q"><label>Escribe el mensaje principal de tu producto digital.</label><textarea id="mensaje" data-save></textarea></div>
+<div class="q"><label>¿Qué herramienta utilizaste?</label><input id="herramienta" type="text" data-save></div>
+<div class="evidence" data-evidence="proceso"><label>Capturas del proceso</label><div class="upload"><input class="shot" type="file" accept="image/*" multiple><div class="small">Agrega una o más capturas mientras elaboras tu producto. Escribe debajo de cada captura qué estabas realizando.</div></div><div class="previews"></div></div>
+</section>
+
+<section class="card">
+<h2>Actividad 5. Presentamos el resultado</h2>
+<div class="evidence" data-evidence="final"><label>Captura del producto terminado</label><div class="upload"><input class="shot" type="file" accept="image/*" multiple><div class="small">Agrega una captura clara de tu recomendación digital terminada y explica qué mensaje comunica.</div></div><div class="previews"></div></div>
+<div class="q"><label>¿Cómo ayuda tu recomendación a trabajar mejor o de forma más segura en el laboratorio?</label><textarea id="utilidad" data-save></textarea></div>
+<div class="q"><label>Después de realizar esta guía, ¿qué norma consideras que debes aplicar con mayor cuidado?</label><textarea id="reflexion" data-save></textarea></div>
+</section>
+
+<section class="card check">
+<h2>Revisión antes de entregar</h2>
+<label><input id="ck1" type="checkbox" data-save> Relacioné mis respuestas con el reglamento trabajado en la Guía No. 1.</label>
+<label><input id="ck2" type="checkbox" data-save> Resolví las situaciones explicando qué decisión tomaría.</label>
+<label><input id="ck3" type="checkbox" data-save> Organicé buenas prácticas para antes, durante y después de usar la computadora.</label>
+<label><input id="ck4" type="checkbox" data-save> Elaboré una recomendación digital.</label>
+<label><input id="ck5" type="checkbox" data-save> Agregué capturas y comentarios de mi trabajo.</label>
+<p>Estado: <span id="estado" class="status">PENDIENTE</span></p>
+</section>
+</main>
+
+<div class="note"><strong>Archivo principal:</strong> HTML editable · <strong>Respaldo:</strong> JSON · <strong>Entrega opcional:</strong> PDF</div>
+<div class="toolbar">
+<button id="save" class="secondary">Guardar en este navegador</button>
+<button id="download" class="primary">Guardar copia HTML editable</button>
+<button id="exportJson" class="secondary">Crear respaldo JSON</button>
+<label class="import secondary">Importar respaldo JSON<input id="importJson" type="file" accept=".json,application/json" style="display:none"></label>
+<button id="print" class="secondary">Imprimir / Guardar PDF</button>
+<button id="clear" class="danger">Borrar datos guardados</button>
+</div>
+
+<script id="embedded-state" type="application/json">{}</script>
+<script>
+const DB='tac_1ro_basico_guia2',STORE='state',KEY='g2';let shots={proceso:[],final:[]};
+function collect(){let fields={};document.querySelectorAll('[data-save]').forEach(e=>fields[e.id]=e.type==='checkbox'?e.checked:e.value);return{fields,shots}}
+function esc(o){return JSON.stringify(o).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026')}
+function odb(){return new Promise((ok,no)=>{let r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
+async function save(){try{let d=await odb();await new Promise((ok,no)=>{let t=d.transaction(STORE,'readwrite');t.objectStore(STORE).put(collect(),KEY);t.oncomplete=ok;t.onerror=()=>no(t.error)})}catch(e){}}
+function apply(s){if(!s)return;Object.entries(s.fields||{}).forEach(([id,v])=>{let e=document.getElementById(id);if(e)e.type==='checkbox'?e.checked=!!v:e.value=v??''});if(s.shots)shots=s.shots;render();status()}
+async function load(){let e={};try{e=JSON.parse(document.getElementById('embedded-state').textContent||'{}')}catch(x){}if(Object.keys(e).length){apply(e);await save();return}try{let d=await odb(),s=await new Promise((ok,no)=>{let r=d.transaction(STORE).objectStore(STORE).get(KEY);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});apply(s)}catch(x){}}
+function dataurl(f){return new Promise((ok,no)=>{let r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsDataURL(f)})}
+function render(){document.querySelectorAll('[data-evidence]').forEach(sec=>{let k=sec.dataset.evidence,g=sec.querySelector('.previews');g.innerHTML='';(shots[k]||[]).forEach((x,i)=>{let c=document.createElement('div');c.className='preview';let im=document.createElement('img');im.src=x.dataUrl;im.alt='Evidencia';let ta=document.createElement('textarea');ta.placeholder='Comentario sobre esta evidencia...';ta.value=x.comment||'';ta.oninput=async()=>{shots[k][i].comment=ta.value;await save()};let b=document.createElement('button');b.className='danger remove';b.textContent='Eliminar captura';b.style.marginTop='8px';b.onclick=async()=>{if(confirm('¿Eliminar esta captura?')){shots[k].splice(i,1);render();await save();status()}};c.append(im,ta,b);g.append(c)})})}
+document.querySelectorAll('.shot').forEach(inp=>inp.onchange=async()=>{let k=inp.closest('[data-evidence]').dataset.evidence;for(let f of [...inp.files])if(f.type.startsWith('image/'))shots[k].push({dataUrl:await dataurl(f),comment:''});inp.value='';render();await save();status()});
+function status(){let req=['nombre','carne','normaEquipo','normaDigital','porqueNormas','casoA','reglaA','casoB','reglaB','casoC','reglaC','antes','durante','despues','practicaElegida','mensaje','herramienta','utilidad','reflexion'];let ok=req.every(id=>document.getElementById(id).value.trim())&&['ck1','ck2','ck3','ck4','ck5'].every(id=>document.getElementById(id).checked)&&shots.proceso.length&&shots.final.length;let e=document.getElementById('estado');e.textContent=ok?'COMPLETO':'PENDIENTE';e.classList.toggle('ok',!!ok)}
+document.querySelectorAll('[data-save]').forEach(e=>{e.oninput=e.onchange=()=>{save();status()}});
+function stamp(){let n=new Date();return n.getFullYear().toString()+String(n.getMonth()+1).padStart(2,'0')+String(n.getDate()).padStart(2,'0')+'-'+String(n.getHours()).padStart(2,'0')+String(n.getMinutes()).padStart(2,'0')}
+function student(){return(document.getElementById('nombre').value||'Estudiante').trim().replace(/[^\p{L}\p{N}_-]+/gu,'_')}
+document.getElementById('save').onclick=async()=>{await save();alert('Trabajo guardado en este navegador.')};
+document.getElementById('exportJson').onclick=async()=>{await save();let blob=new Blob([JSON.stringify(collect(),null,2)],{type:'application/json;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`TAC_1ro_Basico_Guia2_${student()}_respaldo_${stamp()}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)};
+document.getElementById('importJson').onchange=async e=>{let f=e.target.files&&e.target.files[0];if(!f)return;try{let s=JSON.parse(await f.text());if(!s||!s.fields||!s.shots)throw Error();apply(s);await save();alert('Respaldo JSON importado correctamente.')}catch(x){alert('No se pudo importar el archivo. Verifica que corresponda a esta guía.')}e.target.value=''};
+document.getElementById('print').onclick=()=>print();
+document.getElementById('clear').onclick=async()=>{if(!confirm('¿Borrar todas las respuestas y capturas?'))return;try{let d=await odb();await new Promise(ok=>{let t=d.transaction(STORE,'readwrite');t.objectStore(STORE).delete(KEY);t.oncomplete=ok})}catch(e){}location.reload()};
+document.getElementById('download').onclick=async()=>{await save();let s=collect(),cl=document.documentElement.cloneNode(true);document.querySelectorAll('[data-save]').forEach(e=>{let c=cl.querySelector('#'+CSS.escape(e.id));if(e.type==='checkbox'){e.checked?c.setAttribute('checked','checked'):c.removeAttribute('checked')}else if(e.tagName==='TEXTAREA')c.textContent=e.value;else c.setAttribute('value',e.value)});cl.querySelector('#embedded-state').textContent=esc(s);let blob=new Blob(['<!DOCTYPE html>\n'+cl.outerHTML],{type:'text/html;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`TAC_1ro_Basico_Guia2_${student()}_${stamp()}.html`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)};
+load().then(status);
+</script>
+</body></html>

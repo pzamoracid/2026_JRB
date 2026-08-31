@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TIC - 4.º Bachillerato Biología - Guía 2</title>
+<style>
+:root{--a:#123f7a;--a2:#1f5fa8;--bg:#eef2f6;--b:#cbd5e1;--t:#1f2937;--g:#198754;--r:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--t);line-height:1.45}
+header{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;padding:24px 18px}header>div,main,.toolbar,.note{max-width:1050px;margin:auto}
+h1{margin:0 0 5px}.sub{opacity:.95}main{background:#fff;margin:20px auto;padding:24px;border-radius:14px;box-shadow:0 3px 18px #0001}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}label{font-weight:700;display:block;margin-bottom:6px}
+input[type=text],textarea{width:100%;padding:10px;border:1px solid var(--b);border-radius:8px;font:inherit}textarea{min-height:95px;resize:vertical}
+.card{border:1px solid var(--b);border-radius:12px;padding:18px;margin:18px 0}.card h2{margin-top:0;color:var(--a)}
+.info{background:#eef6ff;border-left:5px solid var(--a2);padding:14px 16px;border-radius:8px;margin:16px 0}.q{margin:14px 0}
+.evidence{border-top:1px dashed var(--b);padding-top:14px;margin-top:16px}.previews{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.preview{border:1px solid var(--b);background:#f8fafc;padding:10px;border-radius:10px}.preview img{width:100%;max-height:280px;object-fit:contain;background:#fff;border-radius:7px}.preview textarea{min-height:70px;margin-top:8px}
+button,.import{border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}.primary{background:var(--a);color:#fff}.secondary{background:#e2e8f0;color:#111827}.danger{background:#fee2e2;color:#991b1b}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;padding:0 18px 25px}.note{padding:0 18px 10px;font-size:13px;color:#475569}
+.status{padding:7px 12px;border-radius:999px;background:#fff1f2;color:var(--r);font-weight:700}.status.ok{background:#eaf8ef;color:var(--g)}
+.check label{font-weight:400;display:flex;gap:8px;margin:8px 0}.small{font-size:13px;color:#64748b}
+@media(max-width:760px){.meta{grid-template-columns:1fr}main{margin:10px;padding:16px;border-radius:0}}
+@media print{body{background:#fff}header{background:#fff!important;color:#000;border-bottom:2px solid #000}main{box-shadow:none;margin:0}.toolbar,.note,.upload,.remove{display:none!important}}
+</style></head>
+<body>
+<header><div>
+<h1>Guía de trabajo No. 2</h1>
+<div class="sub">TIC · 4.º Bachillerato en Ciencias y Letras con Orientación en Biología · V Unidad</div>
+<div><strong>Tema:</strong> Rediseño de una propuesta gráfica para comunicar información biológica</div>
+</div></header>
+<main>
+<section class="meta">
+<div><label>Nombre completo</label><input id="nombre" type="text" data-save></div>
+<div><label>Clave / Carné</label><input id="carne" type="text" data-save></div>
+<div><label>Sección</label><input id="seccion" type="text" data-save></div>
+</section>
+
+<div class="info">En la Guía No. 1 analizaste y evaluaste una propuesta gráfica orientada a Biología. Ahora utilizarás esa evaluación para mejorar la forma en que se comunica un contenido biológico. Debes conservar la exactitud de la información y hacer que el producto sea más claro, ordenado y comprensible.</div>
+
+<section class="card">
+<h2>Actividad 1. Recuperamos la propuesta evaluada</h2>
+<div class="q"><label>1. ¿Qué tema de Biología presenta la propuesta gráfica?</label><textarea id="temaBio" data-save></textarea></div>
+<div class="q"><label>2. ¿Qué información o mensaje debía comunicar?</label><textarea id="mensaje" data-save></textarea></div>
+<div class="q"><label>3. ¿Qué elemento de la propuesta funcionaba bien?</label><textarea id="fortaleza" data-save></textarea></div>
+<div class="q"><label>4. ¿Qué elemento debía mejorarse?</label><textarea id="debilidad" data-save></textarea></div>
+<div class="evidence" data-evidence="original"><label>Captura de la propuesta original</label><div class="upload"><input class="shot" type="file" accept="image/*" multiple><div class="small">Agrega la versión evaluada en la Guía No. 1 y comenta qué aspecto deseas mejorar.</div></div><div class="previews"></div></div>
+</section>
+
+<section class="card">
+<h2>Actividad 2. Revisamos contenido y comunicación</h2>
+<p>Antes del rediseño, separa el contenido científico de la forma visual en que se presenta.</p>
+<div class="q"><label>¿Cuáles son las ideas o datos biológicos que deben conservarse?</label><textarea id="datosBio" data-save></textarea></div>
+<div class="q"><label>¿Hay información que deba aclararse, reducirse o reorganizarse? Explica.</label><textarea id="organizar" data-save></textarea></div>
+<div class="q"><label>¿Qué imagen, esquema, gráfico o elemento visual ayudaría a comprender mejor el contenido?</label><textarea id="visual" data-save></textarea></div>
+<div class="q"><label>¿Cómo evitarás que el diseño haga confusa o incorrecta la información biológica?</label><textarea id="exactitud" data-save></textarea></div>
+</section>
+
+<section class="card">
+<h2>Actividad 3. Planificamos la mejora</h2>
+<div class="q"><label>Cambio 1 que realizarás</label><textarea id="cambio1" data-save></textarea></div>
+<div class="q"><label>Cambio 2 que realizarás</label><textarea id="cambio2" data-save></textarea></div>
+<div class="q"><label>Cambio 3 que realizarás</label><textarea id="cambio3" data-save></textarea></div>
+<div class="q"><label>¿Qué herramienta digital utilizarás?</label><input id="herramienta" type="text" data-save></div>
+<div class="q"><label>¿Qué fuente utilizarás para comprobar la información biológica si necesitas verificar algún dato?</label><textarea id="fuente" data-save></textarea></div>
+</section>
+
+<section class="card">
+<h2>Actividad 4. Elaboramos el producto mejorado</h2>
+<p>Realiza el rediseño. El producto debe comunicar el contenido de Biología con claridad y mantener la información correcta.</p>
+<div class="evidence" data-evidence="proceso"><label>Capturas del proceso</label><div class="upload"><input class="shot" type="file" accept="image/*" multiple><div class="small">Agrega capturas mientras trabajas. Escribe debajo de cada una qué modificación realizaste.</div></div><div class="previews"></div></div>
+<div class="q"><label>¿Tuviste que modificar alguna decisión del plan? ¿Por qué?</label><textarea id="ajuste" data-save></textarea></div>
+</section>
+
+<section class="card">
+<h2>Actividad 5. Comparamos y justificamos</h2>
+<div class="evidence" data-evidence="final"><label>Captura de la versión final</label><div class="upload"><input class="shot" type="file" accept="image/*" multiple><div class="small">Agrega la propuesta terminada para compararla con la versión original.</div></div><div class="previews"></div></div>
+<div class="q"><label>1. ¿Qué cambio hizo más comprensible la información biológica?</label><textarea id="comprensible" data-save></textarea></div>
+<div class="q"><label>2. ¿Cómo comprobaste que el contenido científico se mantuvo correcto?</label><textarea id="comprobacion" data-save></textarea></div>
+<div class="q"><label>3. ¿Qué diferencia observas entre comunicar un tema de Biología solo con texto y hacerlo mediante un producto gráfico?</label><textarea id="reflexion" data-save></textarea></div>
+</section>
+
+<section class="card check">
+<h2>Revisión antes de entregar</h2>
+<label><input id="ck1" type="checkbox" data-save> Utilicé la evaluación realizada en la Guía No. 1.</label>
+<label><input id="ck2" type="checkbox" data-save> Conservé la información biológica necesaria y revisé su claridad.</label>
+<label><input id="ck3" type="checkbox" data-save> Planifiqué los cambios antes de realizar el rediseño.</label>
+<label><input id="ck4" type="checkbox" data-save> Agregué capturas de la propuesta original, del proceso y del resultado final.</label>
+<label><input id="ck5" type="checkbox" data-save> Expliqué cómo el rediseño mejora la comunicación del contenido.</label>
+<p>Estado: <span id="estado" class="status">PENDIENTE</span></p>
+</section>
+</main>
+
+<div class="note"><strong>Archivo principal:</strong> HTML editable · <strong>Respaldo:</strong> JSON · <strong>Entrega opcional:</strong> PDF</div>
+<div class="toolbar">
+<button id="save" class="secondary">Guardar en este navegador</button>
+<button id="download" class="primary">Guardar copia HTML editable</button>
+<button id="exportJson" class="secondary">Crear respaldo JSON</button>
+<label class="import secondary">Importar respaldo JSON<input id="importJson" type="file" accept=".json,application/json" style="display:none"></label>
+<button id="print" class="secondary">Imprimir / Guardar PDF</button>
+<button id="clear" class="danger">Borrar datos guardados</button>
+</div>
+
+<script id="embedded-state" type="application/json">{}</script>
+<script>
+const DB='tic_4to_biologia_guia2',STORE='state',KEY='g2';let shots={original:[],proceso:[],final:[]};
+function collect(){let fields={};document.querySelectorAll('[data-save]').forEach(e=>fields[e.id]=e.type==='checkbox'?e.checked:e.value);return{fields,shots}}
+function esc(o){return JSON.stringify(o).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026')}
+function odb(){return new Promise((ok,no)=>{let r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
+async function save(){try{let d=await odb();await new Promise((ok,no)=>{let t=d.transaction(STORE,'readwrite');t.objectStore(STORE).put(collect(),KEY);t.oncomplete=ok;t.onerror=()=>no(t.error)})}catch(e){}}
+function apply(s){if(!s)return;Object.entries(s.fields||{}).forEach(([id,v])=>{let e=document.getElementById(id);if(e)e.type==='checkbox'?e.checked=!!v:e.value=v??''});if(s.shots)shots=s.shots;render();status()}
+async function load(){let e={};try{e=JSON.parse(document.getElementById('embedded-state').textContent||'{}')}catch(x){}if(Object.keys(e).length){apply(e);await save();return}try{let d=await odb(),s=await new Promise((ok,no)=>{let r=d.transaction(STORE).objectStore(STORE).get(KEY);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});apply(s)}catch(x){}}
+function dataurl(f){return new Promise((ok,no)=>{let r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsDataURL(f)})}
+function render(){document.querySelectorAll('[data-evidence]').forEach(sec=>{let k=sec.dataset.evidence,g=sec.querySelector('.previews');g.innerHTML='';(shots[k]||[]).forEach((x,i)=>{let c=document.createElement('div');c.className='preview';let im=document.createElement('img');im.src=x.dataUrl;let ta=document.createElement('textarea');ta.placeholder='Comentario sobre esta evidencia...';ta.value=x.comment||'';ta.oninput=async()=>{shots[k][i].comment=ta.value;await save()};let b=document.createElement('button');b.className='danger remove';b.textContent='Eliminar captura';b.style.marginTop='8px';b.onclick=async()=>{if(confirm('¿Eliminar esta captura?')){shots[k].splice(i,1);render();await save();status()}};c.append(im,ta,b);g.append(c)})})}
+document.querySelectorAll('.shot').forEach(inp=>inp.onchange=async()=>{let k=inp.closest('[data-evidence]').dataset.evidence;for(let f of [...inp.files])if(f.type.startsWith('image/'))shots[k].push({dataUrl:await dataurl(f),comment:''});inp.value='';render();await save();status()});
+function status(){let req=['nombre','carne','temaBio','mensaje','fortaleza','debilidad','datosBio','organizar','visual','exactitud','cambio1','cambio2','cambio3','herramienta','fuente','ajuste','comprensible','comprobacion','reflexion'];let ok=req.every(id=>document.getElementById(id).value.trim())&&['ck1','ck2','ck3','ck4','ck5'].every(id=>document.getElementById(id).checked)&&shots.original.length&&shots.proceso.length&&shots.final.length;let e=document.getElementById('estado');e.textContent=ok?'COMPLETO':'PENDIENTE';e.classList.toggle('ok',!!ok)}
+document.querySelectorAll('[data-save]').forEach(e=>{e.oninput=e.onchange=()=>{save();status()}});
+function stamp(){let n=new Date();return n.getFullYear().toString()+String(n.getMonth()+1).padStart(2,'0')+String(n.getDate()).padStart(2,'0')+'-'+String(n.getHours()).padStart(2,'0')+String(n.getMinutes()).padStart(2,'0')}
+function student(){return(document.getElementById('nombre').value||'Estudiante').trim().replace(/[^\p{L}\p{N}_-]+/gu,'_')}
+document.getElementById('save').onclick=async()=>{await save();alert('Trabajo guardado en este navegador.')};
+document.getElementById('exportJson').onclick=async()=>{await save();let blob=new Blob([JSON.stringify(collect(),null,2)],{type:'application/json;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`TIC_4to_Biologia_Guia2_${student()}_respaldo_${stamp()}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)};
+document.getElementById('importJson').onchange=async e=>{let f=e.target.files&&e.target.files[0];if(!f)return;try{let s=JSON.parse(await f.text());if(!s||!s.fields||!s.shots)throw Error();apply(s);await save();alert('Respaldo JSON importado correctamente.')}catch(x){alert('No se pudo importar el archivo. Verifica que corresponda a esta guía.')}e.target.value=''};
+document.getElementById('print').onclick=()=>print();
+document.getElementById('clear').onclick=async()=>{if(!confirm('¿Borrar todas las respuestas y capturas?'))return;try{let d=await odb();await new Promise(ok=>{let t=d.transaction(STORE,'readwrite');t.objectStore(STORE).delete(KEY);t.oncomplete=ok})}catch(e){}location.reload()};
+document.getElementById('download').onclick=async()=>{await save();let s=collect(),cl=document.documentElement.cloneNode(true);document.querySelectorAll('[data-save]').forEach(e=>{let c=cl.querySelector('#'+CSS.escape(e.id));if(e.type==='checkbox'){e.checked?c.setAttribute('checked','checked'):c.removeAttribute('checked')}else if(e.tagName==='TEXTAREA')c.textContent=e.value;else c.setAttribute('value',e.value)});cl.querySelector('#embedded-state').textContent=esc(s);let blob=new Blob(['<!DOCTYPE html>\n'+cl.outerHTML],{type:'text/html;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`TIC_4to_Biologia_Guia2_${student()}_${stamp()}.html`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)};
+load().then(status);
+</script>
+</body></html>

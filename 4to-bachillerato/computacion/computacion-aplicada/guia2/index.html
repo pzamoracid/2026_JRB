@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Computación Aplicada - 4.º Bachillerato - Guía 2</title>
+<style>
+:root{--a:#123f7a;--a2:#1f5fa8;--bg:#eef2f6;--b:#cbd5e1;--t:#1f2937;--g:#198754;--r:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--t);line-height:1.45}
+header{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;padding:24px 18px}header>div,main,.toolbar{max-width:1050px;margin:auto}
+h1{margin:0 0 5px}.sub{opacity:.95}main{background:#fff;margin:20px auto;padding:24px;border-radius:14px;box-shadow:0 3px 18px #0001}
+.meta,.grid2{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid2{grid-template-columns:1fr 1fr}
+label{font-weight:700;display:block;margin:0 0 6px}input[type=text],textarea,select{width:100%;padding:10px;border:1px solid var(--b);border-radius:8px;font:inherit}
+textarea{min-height:95px;resize:vertical}.card{border:1px solid var(--b);border-radius:12px;padding:18px;margin:18px 0}.card h2{margin-top:0;color:var(--a)}
+.info{background:#eef6ff;border-left:5px solid var(--a2);padding:14px 16px;border-radius:8px;margin:16px 0}.q{margin:14px 0}
+.evidence{border-top:1px dashed var(--b);padding-top:14px;margin-top:16px}.previews{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.preview{border:1px solid var(--b);background:#f8fafc;padding:10px;border-radius:10px}.preview img{width:100%;max-height:270px;object-fit:contain;background:#fff;border-radius:7px}.preview textarea{min-height:70px;margin-top:8px}
+button{border:0;border-radius:8px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}.primary{background:var(--a);color:#fff}.secondary{background:#e2e8f0}.danger{background:#fee2e2;color:#991b1b}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;padding:0 18px 25px}.status{padding:7px 12px;border-radius:999px;background:#fff1f2;color:var(--r);font-weight:700}.status.ok{background:#eaf8ef;color:var(--g)}
+.check label{font-weight:400;display:flex;gap:8px;margin:8px 0}.small{font-size:13px;color:#64748b}
+@media(max-width:760px){.meta,.grid2{grid-template-columns:1fr}main{margin:10px;padding:16px;border-radius:0}}
+@media print{body{background:#fff}header{background:#fff!important;color:#000;border-bottom:2px solid #000}main{box-shadow:none;margin:0}.toolbar,.upload,.remove{display:none!important}}
+</style>
+</head>
+<body>
+<header><div>
+<h1>Guía de trabajo No. 2</h1>
+<div class="sub">Computación Aplicada · 4.º Bachillerato en Ciencias y Letras con Orientación en Computación · V Unidad</div>
+<div><strong>Tema:</strong> Diagnóstico técnico: de la incidencia a la causa probable y propuesta de solución</div>
+</div></header>
+
+<main>
+<section class="meta">
+<div><label>Nombre completo</label><input id="nombre" type="text" data-save></div>
+<div><label>Clave / Carné</label><input id="carne" type="text" data-save></div>
+<div><label>Sección</label><input id="seccion" type="text" data-save></div>
+</section>
+
+<div class="info">
+En la Guía No. 1 analizaste incidencias técnicas del laboratorio. Ahora darás el siguiente paso: seleccionar una incidencia, identificar sus síntomas, formular causas probables y proponer un procedimiento de diagnóstico antes de decidir una solución. No debes realizar cambios físicos ni instalar o desinstalar programas sin autorización del docente.
+</div>
+
+<div class="info" style="background:#f8fafc;border-left-color:#475569">
+<strong>Cómo guardar y continuar tu trabajo:</strong> el botón <strong>Descargar mi guía HTML</strong> crea una copia completa y editable con tus respuestas, capturas y comentarios. Puedes abrir ese mismo archivo en otra computadora, continuar trabajando y volver a descargar una nueva versión. El archivo JSON funciona como respaldo adicional por si necesitas recuperar o trasladar tu progreso.
+</div>
+
+<section class="card">
+<h2>Actividad 1. Recuperamos una incidencia</h2>
+<div class="q"><label>1. Describe una incidencia técnica identificada en la Guía No. 1.</label><textarea id="incidencia" data-save></textarea></div>
+<div class="q"><label>2. ¿Qué equipo, dispositivo, programa o servicio presenta el problema?</label><textarea id="afectado" data-save></textarea></div>
+<div class="q"><label>3. Escribe los síntomas observables. Describe lo que ocurre, sin afirmar todavía cuál es la causa.</label><textarea id="sintomas" data-save></textarea></div>
+<div class="evidence" data-evidence="act1"><label>Evidencia de la incidencia</label><div class="upload"><input class="shot" type="file" accept="image/*" multiple><div class="small">Agrega una captura o fotografía si la incidencia puede documentarse visualmente.</div></div><div class="previews"></div></div>
+</section>
+
+<section class="card">
+<h2>Actividad 2. Formulamos causas probables</h2>
+<p>Un mismo síntoma puede tener diferentes causas. Escribe posibilidades que puedan comprobarse mediante observación o herramientas del sistema.</p>
+<div class="q"><label>Causa probable 1</label><textarea id="causa1" data-save></textarea></div>
+<div class="q"><label>Causa probable 2</label><textarea id="causa2" data-save></textarea></div>
+<div class="q"><label>Causa probable 3</label><textarea id="causa3" data-save></textarea></div>
+<div class="q"><label>¿Cuál revisarías primero y por qué?</label><textarea id="prioridad" data-save></textarea></div>
+</section>
+
+<section class="card">
+<h2>Actividad 3. Diseñamos el procedimiento de diagnóstico</h2>
+<p>Planifica las comprobaciones desde las más sencillas y seguras. No cambies configuraciones que no sean necesarias.</p>
+<div class="q"><label>Paso 1. ¿Qué revisarás?</label><textarea id="paso1" data-save></textarea></div>
+<div class="q"><label>Paso 2. ¿Qué revisarás después?</label><textarea id="paso2" data-save></textarea></div>
+<div class="q"><label>Paso 3. ¿Qué otra comprobación realizarás?</label><textarea id="paso3" data-save></textarea></div>
+<div class="q"><label>¿Qué herramienta del sistema operativo o recurso utilizarás para obtener información?</label><textarea id="herramienta" data-save></textarea></div>
+<div class="evidence" data-evidence="act3"><label>Capturas del proceso de diagnóstico</label><div class="upload"><input class="shot" type="file" accept="image/*" multiple><div class="small">Agrega las capturas obtenidas durante las comprobaciones y comenta qué observaste en cada una.</div></div><div class="previews"></div></div>
+</section>
+
+<section class="card">
+<h2>Actividad 4. Registramos los resultados</h2>
+<div class="q"><label>¿Qué comprobaciones realizaste?</label><textarea id="comprobaciones" data-save></textarea></div>
+<div class="q"><label>¿Qué resultados obtuviste?</label><textarea id="resultados" data-save></textarea></div>
+<div class="q"><label>Después de revisar la evidencia, ¿cuál consideras que es la causa más probable?</label><textarea id="causaFinal" data-save></textarea></div>
+<div class="q"><label>¿Qué evidencia respalda esa conclusión?</label><textarea id="evidenciaConclusion" data-save></textarea></div>
+</section>
+
+<section class="card">
+<h2>Actividad 5. Proponemos una solución</h2>
+<div class="q"><label>Escribe una solución posible para la incidencia diagnosticada.</label><textarea id="solucion" data-save></textarea></div>
+<div class="q"><label>¿Qué precauciones deben tomarse antes de aplicarla?</label><textarea id="precauciones" data-save></textarea></div>
+<div class="q"><label>¿La solución puede realizarla el estudiante con autorización o requiere intervención del docente/técnico? Explica.</label><textarea id="responsable" data-save></textarea></div>
+<div class="q"><label>¿Cómo comprobarías que la incidencia quedó resuelta?</label><textarea id="verificacion" data-save></textarea></div>
+<div class="evidence" data-evidence="act5"><label>Evidencia final (si el docente autorizó la aplicación de la solución)</label><div class="upload"><input class="shot" type="file" accept="image/*" multiple><div class="small">Esta evidencia es opcional. No realices cambios sin autorización.</div></div><div class="previews"></div></div>
+</section>
+
+<section class="card check">
+<h2>Revisión antes de entregar</h2>
+<label><input id="ck1" type="checkbox" data-save> Diferencié los síntomas de las posibles causas.</label>
+<label><input id="ck2" type="checkbox" data-save> Propuse varias causas antes de llegar a una conclusión.</label>
+<label><input id="ck3" type="checkbox" data-save> Organicé un procedimiento de diagnóstico.</label>
+<label><input id="ck4" type="checkbox" data-save> Registré resultados y evidencias de las comprobaciones.</label>
+<label><input id="ck5" type="checkbox" data-save> Propuse una solución y una forma de verificarla.</label>
+<p>Estado: <span id="estado" class="status">PENDIENTE</span></p>
+</section>
+</main>
+
+<div style="max-width:1050px;margin:0 auto 10px;padding:0 18px;font-size:13px;color:#475569">
+<strong>Archivo principal:</strong> HTML editable · <strong>Respaldo:</strong> JSON · <strong>Entrega opcional:</strong> PDF
+</div>
+<div class="toolbar">
+<button id="save" class="secondary">Guardar en este navegador</button>
+<button id="download" class="primary">Guardar copia HTML editable</button>
+<button id="exportJson" class="secondary">Crear respaldo JSON</button>
+<label class="secondary" style="display:inline-flex;align-items:center;cursor:pointer;padding:10px 14px;border-radius:8px;font-weight:700;background:#e2e8f0">
+Importar respaldo JSON<input id="importJson" type="file" accept=".json,application/json" style="display:none">
+</label>
+<button id="print" class="secondary">Imprimir / Guardar PDF</button>
+<button id="clear" class="danger">Borrar datos guardados</button>
+</div>
+
+<script id="embedded-state" type="application/json">{}</script>
+<script>
+const DB='comp_aplicada_4to_guia2',STORE='state',KEY='g2';
+let shots={act1:[],act3:[],act5:[]};
+const state=()=>{let fields={};document.querySelectorAll('[data-save]').forEach(e=>fields[e.id]=e.type==='checkbox'?e.checked:e.value);return{fields,shots}};
+function esc(o){return JSON.stringify(o).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026')}
+function db(){return new Promise((ok,no)=>{let r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
+async function save(){try{let d=await db();await new Promise((ok,no)=>{let t=d.transaction(STORE,'readwrite');t.objectStore(STORE).put(state(),KEY);t.oncomplete=ok;t.onerror=()=>no(t.error)})}catch(e){}}
+function apply(s){if(!s)return;Object.entries(s.fields||{}).forEach(([id,v])=>{let e=document.getElementById(id);if(e)e.type==='checkbox'?e.checked=!!v:e.value=v??''});if(s.shots)shots=s.shots;render();status()}
+async function load(){let e={};try{e=JSON.parse(document.getElementById('embedded-state').textContent||'{}')}catch(x){}if(Object.keys(e).length){apply(e);await save();return}try{let d=await db(),s=await new Promise((ok,no)=>{let r=d.transaction(STORE).objectStore(STORE).get(KEY);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});apply(s)}catch(x){}}
+function dataurl(f){return new Promise((ok,no)=>{let r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsDataURL(f)})}
+function render(){document.querySelectorAll('[data-evidence]').forEach(sec=>{let k=sec.dataset.evidence,g=sec.querySelector('.previews');g.innerHTML='';(shots[k]||[]).forEach((x,i)=>{let c=document.createElement('div');c.className='preview';let im=document.createElement('img');im.src=x.dataUrl;let ta=document.createElement('textarea');ta.placeholder='Comentario sobre esta evidencia...';ta.value=x.comment||'';ta.oninput=async()=>{shots[k][i].comment=ta.value;await save()};let b=document.createElement('button');b.className='danger remove';b.textContent='Eliminar captura';b.style.marginTop='8px';b.onclick=async()=>{if(confirm('¿Eliminar esta captura?')){shots[k].splice(i,1);render();await save();status()}};c.append(im,ta,b);g.append(c)})})}
+document.querySelectorAll('.shot').forEach(inp=>inp.onchange=async()=>{let k=inp.closest('[data-evidence]').dataset.evidence;for(let f of [...inp.files])if(f.type.startsWith('image/'))shots[k].push({dataUrl:await dataurl(f),comment:''});inp.value='';render();await save();status()});
+function status(){let req=['nombre','carne','incidencia','afectado','sintomas','causa1','causa2','causa3','prioridad','paso1','paso2','paso3','herramienta','comprobaciones','resultados','causaFinal','evidenciaConclusion','solucion','precauciones','responsable','verificacion'];let ok=req.every(id=>document.getElementById(id).value.trim())&&['ck1','ck2','ck3','ck4','ck5'].every(id=>document.getElementById(id).checked)&&shots.act3.length>0;let e=document.getElementById('estado');e.textContent=ok?'COMPLETO':'PENDIENTE';e.classList.toggle('ok',ok)}
+document.querySelectorAll('[data-save]').forEach(e=>{e.oninput=e.onchange=()=>{save();status()}});
+document.getElementById('save').onclick=async()=>{await save();alert('Trabajo guardado en este navegador.')};
+
+document.getElementById('exportJson').onclick=async()=>{
+  await save();
+  const s=state();
+  const n=(document.getElementById('nombre').value||'Estudiante').trim().replace(/[^\p{L}\p{N}_-]+/gu,'_');
+  const now=new Date(), stamp=now.getFullYear().toString()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(now.getHours()).padStart(2,'0')+String(now.getMinutes()).padStart(2,'0');
+  const blob=new Blob([JSON.stringify(s,null,2)],{type:'application/json;charset=utf-8'});
+  const u=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=u;
+  a.download=`Computacion_Aplicada_Guia2_${n}_respaldo_${stamp}.json`;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),1500);
+};
+
+document.getElementById('importJson').onchange=async(e)=>{
+  const f=e.target.files&&e.target.files[0];
+  if(!f)return;
+  try{
+    const text=await f.text();
+    const s=JSON.parse(text);
+    if(!s || typeof s!=='object' || !s.fields || !s.shots){
+      throw new Error('Formato no válido');
+    }
+    apply(s);
+    await save();
+    alert('Respaldo JSON importado correctamente.');
+  }catch(err){
+    alert('No se pudo importar el archivo JSON. Verifica que corresponda a esta guía.');
+  }
+  e.target.value='';
+};
+
+document.getElementById('print').onclick=()=>print();
+document.getElementById('clear').onclick=async()=>{if(!confirm('¿Borrar todas las respuestas y capturas?'))return;try{let d=await db();await new Promise(ok=>{let t=d.transaction(STORE,'readwrite');t.objectStore(STORE).delete(KEY);t.oncomplete=ok})}catch(e){}location.reload()};
+document.getElementById('download').onclick=async()=>{await save();let s=state(),cl=document.documentElement.cloneNode(true);document.querySelectorAll('[data-save]').forEach(e=>{let c=cl.querySelector('#'+CSS.escape(e.id));if(e.type==='checkbox'){e.checked?c.setAttribute('checked','checked'):c.removeAttribute('checked')}else if(e.tagName==='TEXTAREA')c.textContent=e.value;else c.setAttribute('value',e.value)});cl.querySelector('#embedded-state').textContent=esc(s);let n=(document.getElementById('nombre').value||'Estudiante').trim().replace(/[^\p{L}\p{N}_-]+/gu,'_');
+let now=new Date(),stamp=now.getFullYear().toString()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(now.getHours()).padStart(2,'0')+String(now.getMinutes()).padStart(2,'0');
+let blob=new Blob(['<!DOCTYPE html>\n'+cl.outerHTML],{type:'text/html;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');
+a.href=u;a.download=`Computacion_Aplicada_Guia2_${n}_${stamp}.html`;
+document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)};
+load().then(status);
+</script>
+</body></html>

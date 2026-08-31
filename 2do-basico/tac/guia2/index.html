@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computación/TAC - 2.º Básico - Guía 2</title>
+<style>
+:root{
+  --azul:#123f7a; --azul2:#1f5fa8; --celeste:#eef6ff; --gris:#f4f6f8;
+  --texto:#1f2937; --borde:#cbd5e1; --verde:#198754; --rojo:#b42318;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef2f6;color:var(--texto);line-height:1.45}
+header{background:linear-gradient(135deg,var(--azul),var(--azul2));color:#fff;padding:24px 18px}
+header .wrap,main,.toolbar{max-width:1000px;margin:auto}
+h1{margin:0 0 6px;font-size:28px}
+.subtitle{opacity:.95}
+main{background:#fff;margin:20px auto;padding:24px;border-radius:14px;box-shadow:0 3px 18px rgba(0,0,0,.08)}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+label{font-weight:700;display:block;margin-bottom:6px}
+input[type=text],textarea,select{width:100%;padding:10px;border:1px solid var(--borde);border-radius:8px;font:inherit;background:#fff}
+textarea{min-height:95px;resize:vertical}
+.card{border:1px solid var(--borde);border-radius:12px;padding:18px;margin:18px 0}
+.card h2{margin-top:0;color:var(--azul);font-size:21px}
+.info{background:var(--celeste);border-left:5px solid var(--azul2);padding:14px 16px;border-radius:8px;margin:14px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.question{margin:14px 0}
+.evidence{margin-top:16px;padding-top:14px;border-top:1px dashed var(--borde)}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}
+.preview{border:1px solid var(--borde);border-radius:10px;padding:10px;background:var(--gris)}
+.preview img{display:block;width:100%;max-height:260px;object-fit:contain;border-radius:7px;background:#fff}
+.preview textarea{min-height:70px;margin-top:8px}
+button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;font:inherit}
+.btn-primary{background:var(--azul);color:#fff}
+.btn-secondary{background:#e2e8f0;color:#111827}
+.btn-danger{background:#fee2e2;color:#991b1b}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;padding:0 18px 24px}
+.status{display:inline-block;padding:7px 12px;border-radius:999px;font-weight:700;background:#fff1f2;color:var(--rojo)}
+.status.complete{background:#eaf8ef;color:var(--verde)}
+.small{font-size:13px;color:#64748b}
+.checklist label{font-weight:400;display:flex;gap:8px;align-items:flex-start;margin:8px 0}
+footer{max-width:1000px;margin:0 auto 30px;padding:0 18px;color:#64748b;font-size:13px}
+@media(max-width:760px){.meta,.grid2{grid-template-columns:1fr}main{margin:10px;padding:16px;border-radius:0}}
+@media print{
+  body{background:#fff}header{background:#fff!important;color:#000;border-bottom:2px solid #000}
+  main{box-shadow:none;margin:0;max-width:none}.toolbar,.upload-controls,.remove-shot{display:none!important}
+  textarea,input,select{border:0;border-bottom:1px solid #bbb}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Guía de trabajo No. 2</h1>
+    <div class="subtitle">Computación / TAC · 2.º Básico · V Unidad</div>
+    <div style="margin-top:6px"><strong>Tema:</strong> Organizar, resumir y comunicar información investigada</div>
+  </div>
+</header>
+
+<main>
+  <section class="meta">
+    <div><label for="nombre">Nombre completo</label><input id="nombre" type="text" data-save></div>
+    <div><label for="carne">Clave / Carné</label><input id="carne" type="text" data-save></div>
+    <div><label for="seccion">Sección</label><input id="seccion" type="text" data-save></div>
+  </section>
+
+  <div class="info">
+    En la Guía No. 1 aprendiste a investigar en Internet: encontrar, comprobar y usar información.
+    Ahora utilizarás información confiable para organizar ideas, escribir un resumen con tus propias palabras
+    y crear un producto digital sencillo que comunique lo aprendido.
+  </div>
+
+  <section class="card">
+    <h2>Actividad 1. Recuperamos la investigación</h2>
+    <div class="question">
+      <label for="tema">1. ¿Qué tema investigaste o qué tema investigarás para esta guía?</label>
+      <textarea id="tema" data-save></textarea>
+    </div>
+    <div class="question">
+      <label for="fuente">2. Escribe el nombre de una fuente confiable que utilizarás.</label>
+      <textarea id="fuente" data-save></textarea>
+    </div>
+    <div class="question">
+      <label for="url">3. Copia la dirección web de la fuente.</label>
+      <textarea id="url" data-save></textarea>
+    </div>
+    <div class="evidence" data-evidence="act1">
+      <label>Captura de la fuente consultada</label>
+      <div class="upload-controls">
+        <input class="shot-input" type="file" accept="image/*" multiple>
+        <div class="small">Agrega una captura donde se observe la página utilizada.</div>
+      </div>
+      <div class="preview-grid"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Actividad 2. Seleccionamos las ideas principales</h2>
+    <p>Lee la información y selecciona únicamente lo necesario para comprender el tema.</p>
+    <div class="question">
+      <label for="idea1">Idea principal 1</label>
+      <textarea id="idea1" data-save></textarea>
+    </div>
+    <div class="question">
+      <label for="idea2">Idea principal 2</label>
+      <textarea id="idea2" data-save></textarea>
+    </div>
+    <div class="question">
+      <label for="idea3">Idea principal 3</label>
+      <textarea id="idea3" data-save></textarea>
+    </div>
+    <div class="question">
+      <label for="datoImportante">Escribe un dato o ejemplo que consideres útil para explicar el tema.</label>
+      <textarea id="datoImportante" data-save></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Actividad 3. Escribimos con nuestras propias palabras</h2>
+    <p>Con las ideas anteriores, redacta un resumen breve. No copies párrafos completos de Internet.</p>
+    <div class="question">
+      <label for="resumen">Resumen del tema</label>
+      <textarea id="resumen" data-save style="min-height:160px"></textarea>
+    </div>
+    <div class="question">
+      <label for="aprendi">¿Qué aprendiste al resumir la información?</label>
+      <textarea id="aprendi" data-save></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Actividad 4. Creamos un producto digital</h2>
+    <p>
+      Utiliza Google Docs, Presentaciones de Google, Canva u otra herramienta indicada por el docente.
+      Tu producto debe presentar el tema, las ideas principales, al menos una imagen relacionada y la fuente consultada.
+    </p>
+    <div class="question">
+      <label for="herramienta">¿Qué herramienta utilizaste?</label>
+      <input id="herramienta" type="text" data-save>
+    </div>
+    <div class="question">
+      <label for="descripcion">Explica brevemente cómo organizaste tu producto digital.</label>
+      <textarea id="descripcion" data-save></textarea>
+    </div>
+    <div class="evidence" data-evidence="act4">
+      <label>Capturas de pantalla del producto digital</label>
+      <div class="upload-controls">
+        <input class="shot-input" type="file" accept="image/*" multiple>
+        <div class="small">Agrega una o varias capturas. Escribe un comentario debajo de cada una para explicar qué muestra.</div>
+      </div>
+      <div class="preview-grid"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Actividad 5. Registramos la fuente utilizada</h2>
+    <div class="grid2">
+      <div class="question">
+        <label for="tituloFuente">Título de la página o recurso</label>
+        <textarea id="tituloFuente" data-save></textarea>
+      </div>
+      <div class="question">
+        <label for="responsable">Autor, institución o responsable, si aparece</label>
+        <textarea id="responsable" data-save></textarea>
+      </div>
+    </div>
+    <div class="question">
+      <label for="direccionFinal">Dirección web</label>
+      <textarea id="direccionFinal" data-save></textarea>
+    </div>
+    <div class="question">
+      <label for="usoInfo">¿Qué información de esa fuente utilizaste en tu producto?</label>
+      <textarea id="usoInfo" data-save></textarea>
+    </div>
+  </section>
+
+  <section class="card checklist">
+    <h2>Revisión antes de entregar</h2>
+    <label><input type="checkbox" id="ck1" data-save> Utilicé una fuente que revisé antes de usarla.</label>
+    <label><input type="checkbox" id="ck2" data-save> Seleccioné ideas principales y evité copiar párrafos completos.</label>
+    <label><input type="checkbox" id="ck3" data-save> Escribí un resumen con mis propias palabras.</label>
+    <label><input type="checkbox" id="ck4" data-save> Elaboré un producto digital con la información organizada.</label>
+    <label><input type="checkbox" id="ck5" data-save> Agregué capturas de mi trabajo y registré la fuente utilizada.</label>
+    <p>Estado: <span id="estado" class="status">PENDIENTE</span></p>
+  </section>
+</main>
+
+<div style="max-width:1000px;margin:0 auto 10px;padding:0 18px;font-size:13px;color:#475569"><strong>Archivo principal:</strong> HTML editable · <strong>Respaldo:</strong> JSON · <strong>Entrega opcional:</strong> PDF</div>
+<div class="toolbar">
+  <button class="btn-secondary" id="guardarBtn">Guardar en este navegador</button>
+  <button class="btn-primary" id="descargarBtn">Guardar copia HTML editable</button>
+  <button class="btn-secondary" id="exportJson">Crear respaldo JSON</button>
+  <label class="btn-secondary" style="display:inline-flex;align-items:center;cursor:pointer">
+    Importar respaldo JSON<input id="importJson" type="file" accept=".json,application/json" style="display:none">
+  </label>
+  <button class="btn-secondary" id="imprimirBtn">Imprimir / Guardar PDF</button>
+  <button class="btn-danger" id="borrarBtn">Borrar datos guardados</button>
+</div>
+
+<footer>El HTML es tu archivo principal: puedes abrirlo en otra computadora, continuar trabajando y guardar una nueva copia. El JSON funciona como respaldo adicional y el PDF como evidencia o entrega.</footer>
+
+<script id="embedded-state" type="application/json">{}</script>
+<script>
+const DB_NAME='tac_2do_guia2_continuacion_db', STORE='state', KEY='guia2';
+let screenshots={act1:[],act4:[]};
+
+function escapeJsonForHtml(obj){
+  return JSON.stringify(obj).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026');
+}
+function collectState(){
+  const fields={};
+  document.querySelectorAll('[data-save]').forEach(el=>{
+    fields[el.id]=el.type==='checkbox'?el.checked:el.value;
+  });
+  return {fields,screenshots};
+}
+function applyState(state){
+  if(!state)return;
+  if(state.fields){
+    Object.entries(state.fields).forEach(([id,val])=>{
+      const el=document.getElementById(id); if(!el)return;
+      if(el.type==='checkbox')el.checked=!!val; else el.value=val??'';
+    });
+  }
+  if(state.screenshots)screenshots=state.screenshots;
+  renderAllEvidence(); updateStatus();
+}
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(DB_NAME,1);
+    req.onupgradeneeded=()=>req.result.createObjectStore(STORE);
+    req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error);
+  });
+}
+async function saveState(){
+  try{
+    const db=await openDB();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction(STORE,'readwrite');
+      tx.objectStore(STORE).put(collectState(),KEY);
+      tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error);
+    });
+  }catch(e){console.warn(e)}
+}
+async function loadState(){
+  let embedded=null;
+  try{embedded=JSON.parse(document.getElementById('embedded-state').textContent||'{}')}catch(e){}
+  if(embedded&&Object.keys(embedded).length){applyState(embedded);await saveState();return}
+  try{
+    const db=await openDB();
+    const state=await new Promise((resolve,reject)=>{
+      const tx=db.transaction(STORE,'readonly');
+      const req=tx.objectStore(STORE).get(KEY);
+      req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+    });
+    if(state)applyState(state);
+  }catch(e){console.warn(e)}
+}
+function fileToDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(file);
+  });
+}
+function renderAllEvidence(){
+  document.querySelectorAll('[data-evidence]').forEach(section=>{
+    const key=section.dataset.evidence,grid=section.querySelector('.preview-grid');grid.innerHTML='';
+    (screenshots[key]||[]).forEach((item,index)=>{
+      const card=document.createElement('div');card.className='preview';
+      const img=document.createElement('img');img.src=item.dataUrl;img.alt='Captura agregada por el estudiante';
+      const ta=document.createElement('textarea');ta.placeholder='Comentario sobre esta captura...';ta.value=item.comment||'';
+      ta.addEventListener('input',async()=>{screenshots[key][index].comment=ta.value;await saveState()});
+      const del=document.createElement('button');del.className='btn-danger remove-shot';del.textContent='Eliminar captura';del.style.marginTop='8px';
+      del.addEventListener('click',async()=>{if(confirm('¿Eliminar esta captura?')){screenshots[key].splice(index,1);renderAllEvidence();await saveState();updateStatus()}});
+      card.append(img,ta,del);grid.appendChild(card);
+    });
+  });
+}
+document.querySelectorAll('.shot-input').forEach(input=>{
+  input.addEventListener('change',async()=>{
+    const key=input.closest('[data-evidence]').dataset.evidence;
+    for(const file of [...input.files]){
+      if(!file.type.startsWith('image/'))continue;
+      screenshots[key].push({dataUrl:await fileToDataURL(file),comment:''});
+    }
+    input.value='';renderAllEvidence();await saveState();updateStatus();
+  });
+});
+function updateStatus(){
+  const required=['nombre','carne','tema','fuente','url','idea1','idea2','idea3','datoImportante','resumen','aprendi','herramienta','descripcion','tituloFuente','direccionFinal','usoInfo'];
+  const textsOk=required.every(id=>document.getElementById(id).value.trim().length>0);
+  const checksOk=['ck1','ck2','ck3','ck4','ck5'].every(id=>document.getElementById(id).checked);
+  const evidenceOk=(screenshots.act1?.length>=1)&&(screenshots.act4?.length>=1);
+  const ok=textsOk&&checksOk&&evidenceOk;
+  const badge=document.getElementById('estado');badge.textContent=ok?'COMPLETO':'PENDIENTE';badge.classList.toggle('complete',ok);
+}
+document.querySelectorAll('[data-save]').forEach(el=>{
+  el.addEventListener('input',()=>{saveState();updateStatus()});
+  el.addEventListener('change',()=>{saveState();updateStatus()});
+});
+document.getElementById('guardarBtn').addEventListener('click',async()=>{await saveState();alert('Trabajo guardado en este navegador.')});
+
+document.getElementById('exportJson').addEventListener('click',async()=>{
+  await saveState();
+  const state=collectState();
+  const nombre=(document.getElementById('nombre').value||'Estudiante').trim()
+    .replace(/[^\p{L}\p{N}_-]+/gu,'_');
+  const now=new Date();
+  const stamp=now.getFullYear().toString()
+    +String(now.getMonth()+1).padStart(2,'0')
+    +String(now.getDate()).padStart(2,'0')
+    +'-'
+    +String(now.getHours()).padStart(2,'0')
+    +String(now.getMinutes()).padStart(2,'0');
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`TAC_2do_Guia2_${nombre}_respaldo_${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+});
+
+document.getElementById('importJson').addEventListener('change',async(e)=>{
+  const file=e.target.files&&e.target.files[0];
+  if(!file)return;
+  try{
+    const text=await file.text();
+    const state=JSON.parse(text);
+    if(!state || typeof state!=='object' || !state.fields || !state.screenshots){
+      throw new Error('Formato no válido');
+    }
+    applyState(state);
+    await saveState();
+    alert('Respaldo JSON importado correctamente.');
+  }catch(err){
+    alert('No se pudo importar el archivo JSON. Verifica que corresponda a esta guía.');
+  }
+  e.target.value='';
+});
+
+
+document.getElementById('imprimirBtn').addEventListener('click',()=>window.print());
+document.getElementById('borrarBtn').addEventListener('click',async()=>{
+  if(!confirm('¿Deseas borrar todas las respuestas y capturas guardadas de esta guía?'))return;
+  try{
+    const db=await openDB();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(KEY);
+      tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);
+    });
+  }catch(e){}
+  location.reload();
+});
+document.getElementById('descargarBtn').addEventListener('click',async()=>{
+  await saveState();
+  const state=collectState(), clone=document.documentElement.cloneNode(true);
+  document.querySelectorAll('[data-save]').forEach(el=>{
+    const c=clone.querySelector('#'+CSS.escape(el.id));if(!c)return;
+    if(el.type==='checkbox'){if(el.checked)c.setAttribute('checked','checked');else c.removeAttribute('checked')}
+    else if(el.tagName==='TEXTAREA')c.textContent=el.value;
+    else c.setAttribute('value',el.value);
+  });
+  clone.querySelector('#embedded-state').textContent=escapeJsonForHtml(state);
+  const nombre=(document.getElementById('nombre').value||'Estudiante').trim().replace(/[^\p{L}\p{N}_-]+/gu,'_');
+  const blob=new Blob(['<!DOCTYPE html>\n'+clone.outerHTML],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;const now=new Date();
+  const stamp=now.getFullYear().toString()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(now.getHours()).padStart(2,'0')+String(now.getMinutes()).padStart(2,'0');
+  a.download=`TAC_2do_Guia2_${nombre}_${stamp}.html`;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+});
+loadState().then(updateStatus);
+</script>
+</body>
+</html>

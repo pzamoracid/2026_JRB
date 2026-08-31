@@ -3,322 +3,817 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JRB 2026 — Panel semanal de guías</title>
+<meta name="theme-color" content="#173f6d">
+<title>JRB 2026 — Panel de guías</title>
 <style>
-:root{--azul:#183b66;--azul2:#24598f;--verde:#2f6f5e;--fondo:#eef3f7;--panel:#fff;--texto:#1f2933;--muted:#66788a;--borde:#d7e1e9;--amarillo:#fff4c7;--amarillo2:#c18a17;--violeta:#5b4a88}
-*{box-sizing:border-box}body{margin:0;background:var(--fondo);font-family:Arial,Helvetica,sans-serif;color:var(--texto);line-height:1.5}
-header{background:linear-gradient(135deg,#102d4d,#24598f);color:#fff;padding:25px 18px}
-.wrap,main{max-width:1180px;margin:auto}.brand{display:flex;gap:20px;align-items:center}.logo{width:105px;height:105px;object-fit:contain}
-h1{margin:0 0 5px;font-size:clamp(1.65rem,4vw,2.45rem)}.subtitle{margin:0;opacity:.94}.today-label{margin-top:9px;font-weight:700}
-main{padding:18px 18px 38px}
-.alert{background:var(--amarillo);border:1px solid #dec263;border-left:7px solid var(--amarillo2);border-radius:14px;padding:15px 17px;margin-bottom:18px}.alert h2{font-size:1.18rem;color:#684d12;margin:0 0 6px}
-.day-panel{background:#fff;border:1px solid var(--borde);border-radius:15px;padding:17px;margin-bottom:20px}
-.day-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.day-head h2{margin:0;color:var(--azul)}.detected{background:#e8f0f8;color:var(--azul);padding:5px 9px;border-radius:999px;font-weight:700;font-size:.82rem}
-.day-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}.day-tabs button{background:#eaf0f5;color:var(--azul);border:1px solid var(--borde)}.day-tabs button.active{background:var(--azul);color:#fff;border-color:var(--azul)}
-button,.buttons a{font:inherit;font-weight:700;border:0;border-radius:9px;padding:10px 13px;cursor:pointer;background:var(--azul);color:#fff;text-decoration:none;display:inline-flex;justify-content:center;align-items:center}button.secondary{background:#52697c}button:disabled{opacity:.5;cursor:not-allowed}
-.schedule{display:grid;gap:12px}.class-card{border:1px solid var(--borde);border-radius:13px;padding:14px;background:#fbfcfd;display:grid;grid-template-columns:115px minmax(0,1fr);gap:14px}
-.time{font-weight:800;color:var(--azul);font-size:1rem}.class-main h3{margin:0 0 2px;color:var(--azul);font-size:1.08rem}.course{font-weight:700;color:var(--muted);margin-bottom:8px}.work{margin:6px 0 10px}
-.status-published,.status-pending{display:inline-block;border-radius:999px;font-size:.78rem;font-weight:700;padding:4px 8px;margin-bottom:7px}.status-published{background:#e6f5ed;color:#276248}.status-pending{background:#fff0d6;color:#8a5e0b}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.actions a{background:var(--verde);color:#fff;text-decoration:none;font-weight:700;border-radius:9px;padding:9px 12px}.actions button{padding:9px 12px}.actions .secondary{background:#596d7e}
-.comment{margin-top:10px;display:none}.comment.open{display:block}textarea,input[type=text]{width:100%;font:inherit;border:1px solid #b8c7d3;border-radius:9px;padding:10px 11px;color:var(--texto);background:#fff}textarea{min-height:185px;resize:vertical}
-.section-title{color:var(--azul);margin:27px 0 11px}.search{background:#fff;border:1px solid var(--borde);border-radius:13px;padding:14px;margin-bottom:13px}label{display:block;font-weight:700;margin:0 0 5px}
-.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.library-card{background:#fff;border:1px solid var(--borde);border-radius:14px;padding:15px;min-width:0}.library-card h3{color:var(--azul);margin:8px 0 3px}.library-card h4{margin:5px 0 8px}.lib-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.tag{background:#e7f5ee;color:#276248;border-radius:999px;padding:4px 8px;font-size:.78rem;font-weight:700}.course-label{font-size:.85rem;color:var(--muted);font-weight:700}
-.copy-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px}.copy-row input{font-family:Consolas,monospace;font-size:.84rem;min-width:0}.buttons{margin-top:9px;display:flex;gap:8px}
+:root{
+  --azul:#173f6d;--azul2:#255f9b;--azul-suave:#eaf2f9;
+  --verde:#2d705c;--verde-suave:#e8f5ef;
+  --amarillo:#fff5cf;--amarillo-borde:#e0c76b;
+  --rojo:#9b3f3f;--rojo-suave:#faeaea;
+  --fondo:#edf3f7;--panel:#fff;--texto:#1f2933;--muted:#647687;
+  --borde:#d6e0e8;--sombra:0 10px 28px rgba(20,49,77,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fondo);font-family:Arial,Helvetica,sans-serif;color:var(--texto);line-height:1.5}
+button,input,select,textarea{font:inherit}
+a{color:inherit}
+.wrap,main{max-width:1180px;margin:auto}
+header{background:linear-gradient(135deg,#102d4d,#255f9b);color:#fff;padding:24px 18px 22px}
+.brand{display:flex;gap:18px;align-items:center}
+.logo{width:96px;height:96px;object-fit:contain;flex:0 0 auto}
+h1{margin:0 0 4px;font-size:clamp(1.6rem,4vw,2.35rem)}
+.subtitle{margin:0;opacity:.95}
+.today-label{margin-top:8px;font-weight:700}
+.quick-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.quick-nav a{text-decoration:none;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);padding:7px 10px;border-radius:999px;font-weight:700;font-size:.88rem}
+main{padding:18px 18px 40px}
+.notice{background:var(--amarillo);border:1px solid var(--amarillo-borde);border-left:6px solid #b98213;border-radius:14px;padding:14px 16px;margin-bottom:18px}
+.notice strong{color:#684d12}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.stat{background:#fff;border:1px solid var(--borde);border-radius:13px;padding:13px 15px;box-shadow:var(--sombra)}
+.stat-value{font-size:1.55rem;font-weight:800;color:var(--azul)}
+.stat-label{font-size:.86rem;color:var(--muted);font-weight:700}
+.panel{background:#fff;border:1px solid var(--borde);border-radius:16px;padding:17px;margin-bottom:20px;box-shadow:var(--sombra)}
+.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.panel-head h2,.section-title{margin:0;color:var(--azul)}
+.detected{background:var(--azul-suave);color:var(--azul);padding:5px 9px;border-radius:999px;font-weight:700;font-size:.8rem}
+.day-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}
+button,.button{border:0;border-radius:9px;padding:9px 12px;cursor:pointer;background:var(--azul);color:#fff;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;font-weight:700}
+button.secondary,.button.secondary{background:#586d7f}
+button.ghost,.button.ghost{background:#eef3f6;color:var(--azul);border:1px solid var(--borde)}
+.day-tabs button{background:#edf2f6;color:var(--azul);border:1px solid var(--borde)}
+.day-tabs button.active{background:var(--azul);color:#fff;border-color:var(--azul)}
+.schedule{display:grid;gap:11px}
+.class-card{display:grid;grid-template-columns:112px minmax(0,1fr);gap:14px;border:1px solid var(--borde);border-radius:13px;padding:14px;background:#fbfcfd}
+.time{font-weight:800;color:var(--azul)}
+.class-main h3{margin:0 0 2px;color:var(--azul);font-size:1.07rem}
+.course{font-weight:700;color:var(--muted);margin-bottom:7px}
+.status{display:inline-block;border-radius:999px;padding:4px 8px;font-size:.76rem;font-weight:800;margin-bottom:7px}
+.status.published{background:var(--verde-suave);color:#276248}
+.status.pending{background:#fff0d6;color:#875d0d}
+.work{margin:7px 0 10px}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.comment{display:none;margin-top:10px}
+.comment.open{display:block}
+textarea{width:100%;min-height:190px;resize:vertical;border:1px solid #b8c7d3;border-radius:9px;padding:10px;background:#fff;color:var(--texto)}
+.section-title{margin:28px 0 11px}
+.tools{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:10px;background:#fff;border:1px solid var(--borde);border-radius:13px;padding:13px;margin-bottom:13px}
+label{display:block;font-weight:700;margin-bottom:5px}
+input[type=text],select{width:100%;border:1px solid #b8c7d3;border-radius:9px;padding:9px 10px;background:#fff;color:var(--texto)}
+.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.guide-card{background:#fff;border:1px solid var(--borde);border-radius:14px;padding:15px;box-shadow:0 5px 18px rgba(20,49,77,.045);min-width:0}
+.guide-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.tag{background:var(--verde-suave);color:#276248;border-radius:999px;padding:4px 8px;font-size:.76rem;font-weight:800}
+.course-label{font-size:.84rem;color:var(--muted);font-weight:700;text-align:right}
+.guide-card h3{color:var(--azul);margin:8px 0 2px}
+.guide-card h4{margin:4px 0 7px}
+.guide-card p{margin:6px 0 11px}
+.path-box{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px}
+.path-box code{overflow:auto;white-space:nowrap;background:#f4f7f9;border:1px solid var(--borde);border-radius:8px;padding:8px 9px;font-size:.79rem;color:#394b59}
+.repo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.repo-group{background:#fff;border:1px solid var(--borde);border-radius:14px;padding:14px}
+.repo-group h3{margin:0 0 9px;color:var(--azul)}
+.repo-item{border-top:1px solid #edf1f4;padding:9px 0}
+.repo-item:first-of-type{border-top:0;padding-top:0}
+.repo-name{font-weight:700}
+.repo-path{font-family:Consolas,monospace;font-size:.78rem;color:var(--muted);word-break:break-all;margin:2px 0 6px}
 .empty{padding:20px;text-align:center;color:var(--muted);border:1px dashed var(--borde);border-radius:12px;background:#fff}
-.toast{position:fixed;right:18px;bottom:18px;background:#183b66;color:#fff;padding:10px 14px;border-radius:9px;opacity:0;pointer-events:none;transition:opacity .18s;box-shadow:0 5px 18px rgba(0,0,0,.2)}.toast.show{opacity:1}
-footer{text-align:center;color:var(--muted);font-size:.88rem;padding:0 18px 28px}
-@media(max-width:760px){.library{grid-template-columns:1fr}.class-card{grid-template-columns:1fr}}
-@media(max-width:560px){.brand{flex-direction:column;text-align:center}.logo{width:85px;height:85px}.copy-row{grid-template-columns:1fr}}
+.toast{position:fixed;right:18px;bottom:18px;background:#173f6d;color:#fff;padding:10px 14px;border-radius:9px;opacity:0;pointer-events:none;transition:opacity .18s;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:20}
+.toast.show{opacity:1}
+footer{text-align:center;color:var(--muted);font-size:.87rem;padding:0 18px 28px}
+@media(max-width:800px){
+  .stats{grid-template-columns:1fr 1fr}
+  .library,.repo-grid{grid-template-columns:1fr}
+}
+@media(max-width:650px){
+  .brand{align-items:flex-start} .logo{width:75px;height:75px}
+  .class-card{grid-template-columns:1fr}
+  .tools{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .brand{flex-direction:column;text-align:center;align-items:center}
+  .quick-nav{justify-content:center}
+  .path-box{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 <header>
-<div class="wrap brand">
-<img class="logo" src="data:image/png;base64,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" alt="Logotipo JRB">
-<div><h1>Panel semanal de guías 2026</h1><p class="subtitle">Colegio de Informática Justo Rufino Bautista — Computación, TAC y subáreas tecnológicas</p><div class="today-label" id="todayLabel"></div></div>
-</div>
+  <div class="wrap">
+    <div class="brand">
+      <img class="logo" src="data:image/png;base64,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" alt="Logotipo JRB">
+      <div>
+        <h1>Panel de guías 2026</h1>
+        <p class="subtitle">Colegio de Informática Justo Rufino Bautista — Computación, TAC, Robótica y subáreas tecnológicas</p>
+        <div class="today-label" id="todayLabel"></div>
+      </div>
+    </div>
+    <nav class="quick-nav" aria-label="Navegación rápida">
+      <a href="#horario">Horario</a>
+      <a href="#biblioteca">Guías</a>
+      <a href="#estructura">Estructura de carpetas</a>
+    </nav>
+  </div>
 </header>
 
 <main>
-<section class="alert">
-<h2>Regla de respaldo para todas las guías</h2>
-<p>El autoguardado trabaja localmente en el navegador, pero <strong>no debes depender únicamente de él para continuar otro día</strong>. Antes de cerrar una guía, descarga el archivo <strong>.json</strong>, guárdalo en un lugar seguro y en la siguiente clase utiliza <strong>Cargar respaldo JSON</strong>.</p>
-</section>
+  <section class="notice">
+    <strong>Respaldo de las guías:</strong>
+    el autoguardado funciona en el navegador, pero antes de cerrar una guía conviene descargar el archivo JSON.
+    Para continuar en otra computadora o navegador, utiliza la opción de cargar ese respaldo.
+  </section>
 
-<section class="day-panel">
-<div class="day-head"><div><h2 id="panelTitle">Clases del día</h2><div id="panelDate"></div></div><span class="detected" id="detectedLabel"></span></div>
-<div class="day-tabs" id="dayTabs">
-<button data-day="lunes">Lunes</button><button data-day="martes">Martes</button><button data-day="miércoles">Miércoles</button><button data-day="jueves">Jueves</button><button data-day="viernes">Viernes</button>
-</div>
-<div class="schedule" id="schedule"></div>
-</section>
+  <section class="stats" aria-label="Resumen">
+    <div class="stat"><div class="stat-value" id="statGuides">0</div><div class="stat-label">Guías en el catálogo</div></div>
+    <div class="stat"><div class="stat-value" id="statToday">0</div><div class="stat-label">Períodos en la vista actual</div></div>
+    <div class="stat"><div class="stat-value" id="statPending">0</div><div class="stat-label">Períodos pendientes</div></div>
+  </section>
 
-<h2 class="section-title">Biblioteca de guías publicadas</h2>
-<div class="search"><label for="guideSearch">Buscar guía</label><input id="guideSearch" type="text" placeholder="Ej. Laboratorio I, 2.º Básico, Biológicas..."></div>
-<div class="library" id="library">
+  <section class="panel" id="horario">
+    <div class="panel-head">
+      <div>
+        <h2 id="panelTitle">Clases del día</h2>
+        <div id="panelDate"></div>
+      </div>
+      <span class="detected" id="detectedLabel"></span>
+    </div>
+    <div class="day-tabs" id="dayTabs">
+      <button data-day="lunes">Lunes</button>
+      <button data-day="martes">Martes</button>
+      <button data-day="miércoles">Miércoles</button>
+      <button data-day="jueves">Jueves</button>
+      <button data-day="viernes">Viernes</button>
+    </div>
+    <div class="schedule" id="schedule"></div>
+  </section>
 
-    <article class="library-card" data-search="1.º básico tac / computación guía no. 1 — nuestro reglamento digital del laboratorio documento colaborativo en google docs, normas del laboratorio, comentarios, presentación y fuentes.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">TAC / Computación</span></div>
-      <h3>1.º Básico</h3>
-      <h4>Guía No. 1 — Nuestro reglamento digital del laboratorio</h4>
-      <p>Documento colaborativo en Google Docs, normas del laboratorio, comentarios, presentación y fuentes.</p>
-      <label for="lib_1ro">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_1ro" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/1ro-basico/tac/">
-        <button type="button" class="copy" data-copy="lib_1ro">Copiar</button>
+  <section id="biblioteca">
+    <h2 class="section-title">Biblioteca de guías actuales</h2>
+    <div class="tools">
+      <div>
+        <label for="guideSearch">Buscar</label>
+        <input id="guideSearch" type="text" placeholder="Ej. Laboratorio I, Robótica, 2.º Básico...">
       </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/1ro-basico/tac/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="2.º básico tac / computación guía no. 1 — investigación segura en internet búsqueda eficiente, evaluación de fuentes, parafraseo y miniinforme.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">TAC / Computación</span></div>
-      <h3>2.º Básico</h3>
-      <h4>Guía No. 1 — Investigación segura en Internet</h4>
-      <p>Búsqueda eficiente, evaluación de fuentes, parafraseo y miniinforme.</p>
-      <label for="lib_2do">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_2do" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/2do-basico/tac/">
-        <button type="button" class="copy" data-copy="lib_2do">Copiar</button>
+      <div>
+        <label for="levelFilter">Nivel</label>
+        <select id="levelFilter">
+          <option value="">Todos</option>
+          <option value="Preprimaria">Preprimaria</option>
+          <option value="Básico">Básicos</option>
+          <option value="Bachillerato">4.º Bachillerato</option>
+        </select>
       </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/2do-basico/tac/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="3.º básico tac / computación guía no. 1 — un problema escolar convertido en datos encuesta en forms, recolección de respuestas, análisis en sheets, gráfica y conclusión.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">TAC / Computación</span></div>
-      <h3>3.º Básico</h3>
-      <h4>Guía No. 1 — Un problema escolar convertido en datos</h4>
-      <p>Encuesta en Forms, recolección de respuestas, análisis en Sheets, gráfica y conclusión.</p>
-      <label for="lib_3ro">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_3ro" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/3ro-basico/tac/guia-01-datos/">
-        <button type="button" class="copy" data-copy="lib_3ro">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/3ro-basico/tac/guia-01-datos/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="4.º bachillerato — computación computación aplicada guía no. 1 — análisis de incidencias técnicas del laboratorio incidencias técnicas, fórmulas, funciones, gráfica y decisión de mantenimiento.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Computación Aplicada</span></div>
-      <h3>4.º Bachillerato — Computación</h3>
-      <h4>Guía No. 1 — Análisis de incidencias técnicas del laboratorio</h4>
-      <p>Incidencias técnicas, fórmulas, funciones, gráfica y decisión de mantenimiento.</p>
-      <label for="lib_ca_comp">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_ca_comp" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/computacion-aplicada/">
-        <button type="button" class="copy" data-copy="lib_ca_comp">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/computacion-aplicada/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="4.º bachillerato — diseño computación aplicada guía no. 1 — análisis de evaluación de propuestas gráficas evaluación de propuestas visuales, promedios, gráfica y recomendación basada en datos.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Computación Aplicada</span></div>
-      <h3>4.º Bachillerato — Diseño</h3>
-      <h4>Guía No. 1 — Análisis de evaluación de propuestas gráficas</h4>
-      <p>Evaluación de propuestas visuales, promedios, gráfica y recomendación basada en datos.</p>
-      <label for="lib_ca_dis">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_ca_dis" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/computacion-aplicada/">
-        <button type="button" class="copy" data-copy="lib_ca_dis">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/computacion-aplicada/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="4.º bachillerato — biológicas computación aplicada guía no. 1 — análisis de datos de crecimiento vegetal datos de crecimiento vegetal, promedios, comparación de tratamientos, gráfica y conclusión.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Computación Aplicada</span></div>
-      <h3>4.º Bachillerato — Biológicas</h3>
-      <h4>Guía No. 1 — Análisis de datos de crecimiento vegetal</h4>
-      <p>Datos de crecimiento vegetal, promedios, comparación de tratamientos, gráfica y conclusión.</p>
-      <label for="lib_ca_bio">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_ca_bio" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/biologicas/computacion-aplicada/">
-        <button type="button" class="copy" data-copy="lib_ca_bio">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/biologicas/computacion-aplicada/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="4.º bachillerato — computación laboratorio i guía no. 1 — de un problema a un programa entrada-proceso-salida, algoritmo, pseudocódigo, python, pruebas y depuración.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Laboratorio I</span></div>
-      <h3>4.º Bachillerato — Computación</h3>
-      <h4>Guía No. 1 — De un problema a un programa</h4>
-      <p>Entrada-proceso-salida, algoritmo, pseudocódigo, Python, pruebas y depuración.</p>
-      <label for="lib_lab1">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_lab1" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/laboratorio-i/">
-        <button type="button" class="copy" data-copy="lib_lab1">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/laboratorio-i/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="4.º bachillerato — diseño diseño computarizado i guía no. 1 — codificación digital del color color digital, inkscape, photopea, rgb y hexadecimal.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Diseño Computarizado I</span></div>
-      <h3>4.º Bachillerato — Diseño</h3>
-      <h4>Guía No. 1 — Codificación digital del color</h4>
-      <p>Exploración del color digital, construcción de una paleta en Inkscape y aplicación en una composición de Photopea.</p>
-      <label for="lib_diseno_color">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_diseno_color" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/diseno-computarizado-i/">
-        <button type="button" class="copy" data-copy="lib_diseno_color">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/diseno-computarizado-i/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="4.º bachillerato — computación sistemas e instalación de software guía no. 1 — t568a y t568b cable utp rj45 tester de red.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Sistemas e Instalación de Software</span></div>
-      <h3>4.º Bachillerato — Computación</h3>
-      <h4>Guía No. 1 — T568A y T568B</h4>
-      <p>Elaboración de cables UTP RJ45 con T568A y T568B y comprobación mediante tester de red.</p>
-      <label for="lib_sis_t568">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_sis_t568" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/sistemas-instalacion-software/">
-        <button type="button" class="copy" data-copy="lib_sis_t568">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/sistemas-instalacion-software/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="1.º básico robótica guía no. 1 — el sensor de ultrasonidos mbot2 mblock cyberpi emisor receptor obstáculos colisión.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Robótica</span></div>
-      <h3>1.º Básico</h3>
-      <h4>Guía No. 1 — El sensor de ultrasonidos</h4>
-      <p>Sensor de ultrasonidos del mBot2, emisor y receptor, aplicaciones cotidianas y Laboratorio 14 para evitar una colisión en mBlock.</p>
-      <label for="lib_robotica_1ro">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_robotica_1ro" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/1ro-basico/robotica/">
-        <button type="button" class="copy" data-copy="lib_robotica_1ro">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/1ro-basico/robotica/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-    <article class="library-card" data-search="2.º básico robótica guía no. 1 — el sonido y las notas musicales mblock mbot2 cyberpi tocar nota melodía.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Robótica</span></div>
-      <h3>2.º Básico</h3>
-      <h4>Guía No. 1 — El sonido y las notas musicales</h4>
-      <p>Sonido, notas musicales, exploración del bloque &quot;tocar nota&quot; en mBlock y programación de una melodía con mBot2/CyberPi.</p>
-      <label for="lib_robotica_2do">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_robotica_2do" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/2do-basico/robotica/">
-        <button type="button" class="copy" data-copy="lib_robotica_2do">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/2do-basico/robotica/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
+    </div>
+    <div class="library" id="library"></div>
+    <div class="empty" id="libEmpty" hidden>No se encontraron guías con ese criterio.</div>
+  </section>
 
-    <article class="library-card" data-search="preprimaria computación guía interactiva bingo del alfabeto árbol abc kínder párvulos letras alfabeto.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Computación</span></div>
-      <h3>Preprimaria</h3>
-      <h4>Guía interactiva — Bingo del alfabeto</h4>
-      <p>Actividad interactiva para reconocer letras del alfabeto y registrar el trabajo realizado con apoyo del docente.</p>
-      <label for="lib_preprimaria_comp">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_preprimaria_comp" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/preprimaria/computacion/">
-        <button type="button" class="copy" data-copy="lib_preprimaria_comp">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/preprimaria/computacion/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-
-    <article class="library-card" data-search="3.º básico robótica guía no. 1 v unidad la edición de la fotografía photopea fotomontaje ajustes de color laboratorio 14 mbot2 autoevaluación.">
-      <div class="lib-top"><span class="tag">Publicada</span><span class="course-label">Robótica</span></div>
-      <h3>3.º Básico</h3>
-      <h4>Guía No. 1 — La edición de la fotografía</h4>
-      <p>Edición fotográfica, fotomontaje, ajustes de color, Laboratorio 14 en Photopea y autoevaluación.</p>
-      <label for="lib_robotica_3ro">Dirección</label>
-      <div class="copy-row">
-        <input id="lib_robotica_3ro" type="text" readonly value="https://pzamoracid.github.io/2026_JRB/3ro-basico/robotica/">
-        <button type="button" class="copy" data-copy="lib_robotica_3ro">Copiar</button>
-      </div>
-      <div class="buttons"><a href="https://pzamoracid.github.io/2026_JRB/3ro-basico/robotica/" target="_blank" rel="noopener noreferrer">Abrir guía</a></div>
-    </article>
-</div>
-<div class="empty" id="libEmpty" hidden>No se encontraron guías con ese criterio.</div>
+  <section id="estructura">
+    <h2 class="section-title">Estructura de carpetas 2026_JRB</h2>
+    <div class="repo-grid" id="repoGrid"></div>
+  </section>
 </main>
 
 <div class="toast" id="toast">Copiado</div>
-<footer>Portal JRB 2026 — El panel selecciona automáticamente el día según la fecha del dispositivo.</footer>
+<footer>Portal JRB 2026 — Las rutas se generan desde una sola configuración para evitar enlaces duplicados o desactualizados.</footer>
 
 <script>
 (function(){
 "use strict";
-const scheduleData = {"lunes":[{"time":"7:00–7:40","grade":"3.º Básico","course":"TAC / Computación","work":"Inicia la guía: responde saberes previos, define el problema escolar, diseña la encuesta de 5 preguntas en Google Forms, pruébala con un compañero y comienza la recolección de respuestas.","guideKey":"3ro","url":"https://pzamoracid.github.io/2026_JRB/3ro-basico/tac/guia-01-datos/","guideTitle":"Guía No. 1 — Un problema escolar convertido en datos","status":"published","classroom":"3.º Básico — TAC / Computación\n\nTrabajo de hoy:\nInicia la guía: responde saberes previos, define el problema escolar, diseña la encuesta de 5 preguntas en Google Forms, pruébala con un compañero y comienza la recolección de respuestas.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/3ro-basico/tac/guia-01-datos/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"7:40–8:20","grade":"2.º Básico","course":"TAC / Computación","work":"Inicia la investigación: responde saberes previos, elige el tema, formula la pregunta de investigación, define palabras clave y comienza a evaluar tres fuentes.","guideKey":"2do","url":"https://pzamoracid.github.io/2026_JRB/2do-basico/tac/","guideTitle":"Guía No. 1 — Investigación segura en Internet","status":"published","classroom":"2.º Básico — TAC / Computación\n\nTrabajo de hoy:\nInicia la investigación: responde saberes previos, elige el tema, formula la pregunta de investigación, define palabras clave y comienza a evaluar tres fuentes.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/2do-basico/tac/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"8:20–9:00","grade":"4.º Bachillerato — Computación","course":"Computación Aplicada","work":"Crea la hoja de Google Sheets, transcribe el registro de incidencias y empieza a aplicar las fórmulas y funciones solicitadas.","guideKey":"ca_comp","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/computacion-aplicada/","guideTitle":"Guía No. 1 — Análisis de incidencias técnicas del laboratorio","status":"published","classroom":"4.º Bachillerato — Computación — Computación Aplicada\n\nTrabajo de hoy:\nCrea la hoja de Google Sheets, transcribe el registro de incidencias y empieza a aplicar las fórmulas y funciones solicitadas.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/computacion-aplicada/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"9:00–9:40","grade":"4.º Bachillerato — Diseño","course":"Computación Aplicada","work":"Crea la hoja de Google Sheets, registra los datos de evaluación de propuestas gráficas y comienza el análisis de legibilidad y atractivo.","guideKey":"ca_dis","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/computacion-aplicada/","guideTitle":"Guía No. 1 — Análisis de evaluación de propuestas gráficas","status":"published","classroom":"4.º Bachillerato — Diseño — Computación Aplicada\n\nTrabajo de hoy:\nCrea la hoja de Google Sheets, registra los datos de evaluación de propuestas gráficas y comienza el análisis de legibilidad y atractivo.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/computacion-aplicada/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"9:00–9:40","grade":"4.º Bachillerato — Biológicas","course":"Computación Aplicada","work":"Crea la hoja de Google Sheets, registra los datos del ensayo de crecimiento vegetal y comienza los cálculos de crecimiento y promedios.","guideKey":"ca_bio","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/biologicas/computacion-aplicada/","guideTitle":"Guía No. 1 — Análisis de datos de crecimiento vegetal","status":"published","classroom":"4.º Bachillerato — Biológicas — Computación Aplicada\n\nTrabajo de hoy:\nCrea la hoja de Google Sheets, registra los datos del ensayo de crecimiento vegetal y comienza los cálculos de crecimiento y promedios.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/biologicas/computacion-aplicada/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"10:10–10:50","grade":"4.º Bachillerato — Computación","course":"Laboratorio I","work":"Trabaja problema → entrada → proceso → salida. Después escribe el algoritmo en lenguaje natural y construye el pseudocódigo del estimador de almacenamiento.","guideKey":"lab1","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/laboratorio-i/","guideTitle":"Guía No. 1 — De un problema a un programa","status":"published","classroom":"4.º Bachillerato — Computación — Laboratorio I\n\nTrabajo de hoy:\nTrabaja problema → entrada → proceso → salida. Después escribe el algoritmo en lenguaje natural y construye el pseudocódigo del estimador de almacenamiento.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/laboratorio-i/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"10:50–11:25","grade":"1.º Básico","course":"TAC / Computación","work":"Responde saberes previos, redacta cinco normas del laboratorio y crea en pareja el documento colaborativo de Google Docs con introducción y normas.","guideKey":"1ro","url":"https://pzamoracid.github.io/2026_JRB/1ro-basico/tac/","guideTitle":"Guía No. 1 — Nuestro reglamento digital del laboratorio","status":"published","classroom":"1.º Básico — TAC / Computación\n\nTrabajo de hoy:\nResponde saberes previos, redacta cinco normas del laboratorio y crea en pareja el documento colaborativo de Google Docs con introducción y normas.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/1ro-basico/tac/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."}],"martes":[{"time":"7:00–7:40","grade":"4.º Bachillerato — Diseño","course":"Diseño Computarizado I","work":"Abre la Guía No. 1, identifica tus datos y revisa la alineación curricular, los recursos y las instrucciones de las tres actividades. El trabajo práctico en Inkscape y Photopea se realizará el jueves 27 de agosto.","guideKey":"diseno_color","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/diseno-computarizado-i/","guideTitle":"Guía No. 1 — Codificación digital del color","status":"published","classroom":"4.º Bachillerato — Diseño — Diseño Computarizado I\n\nTrabajo de hoy:\nAbre la Guía No. 1, identifica tus datos y revisa la alineación curricular, los recursos y las instrucciones de las tres actividades. El trabajo práctico en Inkscape y Photopea se realizará el jueves 27 de agosto.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/diseno-computarizado-i/\n\nEntrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas.\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza \"Cargar respaldo JSON\" para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"7:40–8:20","grade":"4.º Bachillerato — Computación","course":"Sistemas e Instalación de Software","work":"Completa la Actividad 1 identificando el orden de colores T568A y T568B. Después inicia la Actividad 2 y comienza la elaboración del cable T568A–T568A.","guideKey":"sis_t568","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/sistemas-instalacion-software/","guideTitle":"Guía No. 1 — T568A y T568B","status":"published","classroom":"4.º Bachillerato — Computación — Sistemas e Instalación de Software\n\nTrabajo de hoy:\nCompleta la Actividad 1 identificando el orden de colores T568A y T568B. Después inicia la Actividad 2 y comienza la elaboración del cable T568A–T568A.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/sistemas-instalacion-software/\n\nEntrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas.\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza \"Cargar respaldo JSON\" para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"8:20–9:00","grade":"1.º, 2.º y 3.º Primaria","course":"Computación","work":"Período pendiente de actividad interactiva.","guideKey":"","url":"","guideTitle":"","status":"pending","classroom":"1.º, 2.º y 3.º Primaria — Computación\n\nTrabajo de hoy:\nPeríodo pendiente de actividad interactiva."},{"time":"9:00–9:40","grade":"4.º, 5.º y 6.º Primaria","course":"Computación","work":"Período pendiente de actividad interactiva.","guideKey":"","url":"","guideTitle":"","status":"pending","classroom":"4.º, 5.º y 6.º Primaria — Computación\n\nTrabajo de hoy:\nPeríodo pendiente de actividad interactiva."},{"time":"10:10–10:50","grade":"2.º Básico","course":"Robótica","work":"Inicia la guía: responde las 7 preguntas de la Actividad 1 y completa el registro de exploración del bloque 'tocar nota' en mBlock.","guideKey":"robotica_2do","url":"https://pzamoracid.github.io/2026_JRB/2do-basico/robotica/","guideTitle":"Guía No. 1 — El sonido y las notas musicales","status":"published","classroom":"2.º Básico — Robótica\n\nTrabajo de hoy:\nInicia la guía: responde las 7 preguntas de la Actividad 1 y completa el registro de exploración del bloque 'tocar nota' en mBlock.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/2do-basico/robotica/\n\nLa guía se trabajará martes 25 y jueves 27 de agosto de 2026.\n\nEntrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas.\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza \"Cargar respaldo JSON\" para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"10:50–11:25","grade":"Preprimaria","course":"Computación","work":"Realiza la guía interactiva de Computación con el juego Bingo del alfabeto. Registra tus datos, desarrolla la actividad con apoyo del docente y completa el registro de la guía.","guideKey":"preprimaria_comp","url":"https://pzamoracid.github.io/2026_JRB/preprimaria/computacion/","guideTitle":"Guía interactiva — Bingo del alfabeto","status":"published","classroom":"Preprimaria — Computación\n\nTrabajo de hoy:\nRealiza la guía interactiva de Computación con el juego Bingo del alfabeto. Registra tus datos, desarrolla la actividad con apoyo del docente y completa el registro de la guía.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/preprimaria/computacion/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro."}],"miércoles":[{"time":"8:20–9:00","grade":"1.º Básico","course":"Robótica","work":"Trabaja la Guía No. 1 sobre el sensor de ultrasonidos: responde las actividades de comprensión y desarrolla el Laboratorio 14 en mBlock para que el mBot2 detecte un obstáculo y reaccione antes de una colisión.","guideKey":"robotica_1ro","url":"https://pzamoracid.github.io/2026_JRB/1ro-basico/robotica/","guideTitle":"Guía No. 1 — El sensor de ultrasonidos","status":"published","classroom":"1.º Básico — Robótica\n\nTrabajo de hoy:\nTrabaja la Guía No. 1 sobre el sensor de ultrasonidos: responde las actividades de comprensión y desarrolla el Laboratorio 14 en mBlock para que el mBot2 detecte un obstáculo y reaccione antes de una colisión.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/1ro-basico/robotica/\n\nEntrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas.\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"9:00–9:40","grade":"3.º Básico","course":"Robótica","work":"Trabaja la Guía No. 1 de la V Unidad sobre edición fotográfica: responde los saberes previos, revisa fotomontaje y ajustes de color, desarrolla el Laboratorio 14 en Photopea y completa la autoevaluación.","guideKey":"robotica_3ro","url":"https://pzamoracid.github.io/2026_JRB/3ro-basico/robotica/","guideTitle":"Guía No. 1 — La edición de la fotografía","status":"published","classroom":"3.º Básico — Robótica\n\nTrabajo de hoy:\nTrabaja la Guía No. 1 de la V Unidad sobre edición fotográfica: responde los saberes previos, revisa fotomontaje y ajustes de color, desarrolla el Laboratorio 14 en Photopea y completa la autoevaluación.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/3ro-basico/robotica/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance."},{"time":"10:10–10:50","grade":"2.º Básico","course":"TAC / Computación","work":"Continúa la guía: selecciona una idea útil de cada fuente, practica el parafraseo, registra de qué fuente procede y completa en el cuaderno la tabla Fuente / Idea principal / Confiabilidad.","guideKey":"2do","url":"https://pzamoracid.github.io/2026_JRB/2do-basico/tac/","guideTitle":"Guía No. 1 — Investigación segura en Internet","status":"published","classroom":"2.º Básico — TAC / Computación\n\nTrabajo de hoy:\nContinúa la guía: selecciona una idea útil de cada fuente, practica el parafraseo, registra de qué fuente procede y completa en el cuaderno la tabla Fuente / Idea principal / Confiabilidad.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/2do-basico/tac/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"10:50–11:25","grade":"1.º Básico","course":"TAC / Computación","work":"Continúa el documento colaborativo: utiliza comentarios para revisar el trabajo de tu compañero, registra la observación recibida, realiza una mejora y completa el registro de convivencia digital.","guideKey":"1ro","url":"https://pzamoracid.github.io/2026_JRB/1ro-basico/tac/","guideTitle":"Guía No. 1 — Nuestro reglamento digital del laboratorio","status":"published","classroom":"1.º Básico — TAC / Computación\n\nTrabajo de hoy:\nContinúa el documento colaborativo: utiliza comentarios para revisar el trabajo de tu compañero, registra la observación recibida, realiza una mejora y completa el registro de convivencia digital.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/1ro-basico/tac/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."}],"jueves":[{"time":"7:00–7:40","grade":"4.º Bachillerato — Diseño","course":"Diseño Computarizado I","work":"Realiza las tres actividades de la guía: explora la codificación digital del color en Inkscape y Photopea, construye tu paleta digital en Inkscape y crea la composición gráfica en Photopea. Deja preparados los archivos editables y la exportación final.","guideKey":"diseno_color","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/diseno-computarizado-i/","guideTitle":"Guía No. 1 — Codificación digital del color","status":"published","classroom":"4.º Bachillerato — Diseño — Diseño Computarizado I\n\nTrabajo de hoy:\nRealiza las tres actividades de la guía: explora la codificación digital del color en Inkscape y Photopea, construye tu paleta digital en Inkscape y crea la composición gráfica en Photopea. Deja preparados los archivos editables y la exportación final.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/diseno-computarizado-i/\n\nEntrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas.\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza \"Cargar respaldo JSON\" para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"7:40–8:20","grade":"4.º Bachillerato — Computación","course":"Sistemas e Instalación de Software","work":"Continúa la Actividad 2 elaborando el cable T568B–T568B y completa la Actividad 3: comprueba ambos cables con el tester de red y registra los resultados observados.","guideKey":"sis_t568","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/sistemas-instalacion-software/","guideTitle":"Guía No. 1 — T568A y T568B","status":"published","classroom":"4.º Bachillerato — Computación — Sistemas e Instalación de Software\n\nTrabajo de hoy:\nContinúa la Actividad 2 elaborando el cable T568B–T568B y completa la Actividad 3: comprueba ambos cables con el tester de red y registra los resultados observados.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/sistemas-instalacion-software/\n\nEntrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas.\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza \"Cargar respaldo JSON\" para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"10:10–10:50","grade":"2.º Básico","course":"Robótica","work":"Continúa la guía: elabora el proyecto funcional en mBlock y realiza la ejecución práctica de la melodía con mBot2/CyberPi.","guideKey":"robotica_2do","url":"https://pzamoracid.github.io/2026_JRB/2do-basico/robotica/","guideTitle":"Guía No. 1 — El sonido y las notas musicales","status":"published","classroom":"2.º Básico — Robótica\n\nTrabajo de hoy:\nContinúa la guía: elabora el proyecto funcional en mBlock y realiza la ejecución práctica de la melodía con mBot2/CyberPi.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/2do-basico/robotica/\n\nEntrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas.\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza \"Cargar respaldo JSON\" para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"10:50–11:25","grade":"Preprimaria","course":"Computación","work":"Período pendiente de actividad interactiva.","guideKey":"","url":"","guideTitle":"","status":"pending","classroom":"Preprimaria — Computación\n\nTrabajo de hoy:\nPeríodo pendiente de actividad interactiva."}],"viernes":[{"time":"7:00–7:40","grade":"3.º Básico","course":"TAC / Computación","work":"Cierra la guía: verifica al menos 10 respuestas, analiza los datos en Google Sheets, crea la gráfica, identifica resultados relevantes y redacta la conclusión.","guideKey":"3ro","url":"https://pzamoracid.github.io/2026_JRB/3ro-basico/tac/guia-01-datos/","guideTitle":"Guía No. 1 — Un problema escolar convertido en datos","status":"published","classroom":"3.º Básico — TAC / Computación\n\nTrabajo de hoy:\nCierra la guía: verifica al menos 10 respuestas, analiza los datos en Google Sheets, crea la gráfica, identifica resultados relevantes y redacta la conclusión.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/3ro-basico/tac/guia-01-datos/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"7:40–8:20","grade":"2.º Básico","course":"TAC / Computación","work":"Cierra la guía: redacta el miniinforme de 120 a 180 palabras, responde la comprensión en el cuaderno, completa autoevaluación, reflexión y comprobante.","guideKey":"2do","url":"https://pzamoracid.github.io/2026_JRB/2do-basico/tac/","guideTitle":"Guía No. 1 — Investigación segura en Internet","status":"published","classroom":"2.º Básico — TAC / Computación\n\nTrabajo de hoy:\nCierra la guía: redacta el miniinforme de 120 a 180 palabras, responde la comprensión en el cuaderno, completa autoevaluación, reflexión y comprobante.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/2do-basico/tac/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"8:20–9:00","grade":"4.º Bachillerato — Computación","course":"Computación Aplicada","work":"Finaliza el análisis: completa cálculos y gráfica, registra los tres resultados principales, toma una decisión respaldada por datos y escribe la conclusión en el cuaderno.","guideKey":"ca_comp","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/computacion-aplicada/","guideTitle":"Guía No. 1 — Análisis de incidencias técnicas del laboratorio","status":"published","classroom":"4.º Bachillerato — Computación — Computación Aplicada\n\nTrabajo de hoy:\nFinaliza el análisis: completa cálculos y gráfica, registra los tres resultados principales, toma una decisión respaldada por datos y escribe la conclusión en el cuaderno.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/computacion-aplicada/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"9:00–9:40","grade":"4.º Bachillerato — Diseño","course":"Computación Aplicada","work":"Finaliza la comparación de propuestas: completa los resultados y la gráfica, recomienda una propuesta utilizando los datos y redacta la reflexión profesional.","guideKey":"ca_dis","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/computacion-aplicada/","guideTitle":"Guía No. 1 — Análisis de evaluación de propuestas gráficas","status":"published","classroom":"4.º Bachillerato — Diseño — Computación Aplicada\n\nTrabajo de hoy:\nFinaliza la comparación de propuestas: completa los resultados y la gráfica, recomienda una propuesta utilizando los datos y redacta la reflexión profesional.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/diseno/computacion-aplicada/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"9:00–9:40","grade":"4.º Bachillerato — Biológicas","course":"Computación Aplicada","work":"Finaliza el análisis del experimento: compara tratamientos, completa la gráfica, identifica el mejor resultado y redacta una conclusión sustentada en los datos.","guideKey":"ca_bio","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/biologicas/computacion-aplicada/","guideTitle":"Guía No. 1 — Análisis de datos de crecimiento vegetal","status":"published","classroom":"4.º Bachillerato — Biológicas — Computación Aplicada\n\nTrabajo de hoy:\nFinaliza el análisis del experimento: compara tratamientos, completa la gráfica, identifica el mejor resultado y redacta una conclusión sustentada en los datos.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/biologicas/computacion-aplicada/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"10:10–10:50","grade":"4.º Bachillerato — Computación","course":"Laboratorio I","work":"Convierte el algoritmo en Python: crea estimador_almacenamiento.py, realiza dos pruebas, completa el reto de modificación, registra la depuración y cierra la reflexión.","guideKey":"lab1","url":"https://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/laboratorio-i/","guideTitle":"Guía No. 1 — De un problema a un programa","status":"published","classroom":"4.º Bachillerato — Computación — Laboratorio I\n\nTrabajo de hoy:\nConvierte el algoritmo en Python: crea estimador_almacenamiento.py, realiza dos pruebas, completa el reto de modificación, registra la depuración y cierra la reflexión.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/4to-bachillerato/computacion/laboratorio-i/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."},{"time":"10:50–11:25","grade":"1.º Básico","course":"TAC / Computación","work":"Cierra el documento: revisa formato y ortografía, registra la procedencia de la imagen, responde comprensión, autoevaluación y reflexión y genera el comprobante.","guideKey":"1ro","url":"https://pzamoracid.github.io/2026_JRB/1ro-basico/tac/","guideTitle":"Guía No. 1 — Nuestro reglamento digital del laboratorio","status":"published","classroom":"1.º Básico — TAC / Computación\n\nTrabajo de hoy:\nCierra el documento: revisa formato y ortografía, registra la procedencia de la imagen, responde comprensión, autoevaluación y reflexión y genera el comprobante.\n\nGuía interactiva:\nhttps://pzamoracid.github.io/2026_JRB/1ro-basico/tac/\n\nIMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."}]};
+
+/* =========================================================
+   CONFIGURACIÓN CENTRAL
+   Para cambiar el dominio del sitio, edita BASE_URL una vez.
+   ========================================================= */
+const BASE_URL = "https://pzamoracid.github.io/2026_JRB/";
+const BACKUP_NOTE =
+  "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. " +
+  "En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. " +
+  "No dependas únicamente del autoguardado del navegador.";
+
+/* =========================================================
+   CATÁLOGO DE GUÍAS
+   Esta es la única zona donde deben mantenerse:
+   grado, curso, título, descripción y ruta.
+   Al pasar de Guía No. 1 a Guía No. 2, cambia aquí el título,
+   descripción y path solo si la carpeta cambia.
+   ========================================================= */
+const GUIDES = {
+  "1ro": {
+    "grade": "1.º Básico",
+    "course": "TAC / Computación",
+    "title": "Guía No. 1 — Nuestro reglamento digital del laboratorio",
+    "description": "Documento colaborativo en Google Docs, normas del laboratorio, comentarios, presentación y fuentes.",
+    "path": "1ro-basico/tac/",
+    "status": "published"
+  },
+  "2do": {
+    "grade": "2.º Básico",
+    "course": "TAC / Computación",
+    "title": "Guía No. 1 — Investigación segura en Internet",
+    "description": "Búsqueda eficiente, evaluación de fuentes, parafraseo y miniinforme.",
+    "path": "2do-basico/tac/",
+    "status": "published"
+  },
+  "3ro": {
+    "grade": "3.º Básico",
+    "course": "TAC / Computación",
+    "title": "Guía No. 1 — Un problema escolar convertido en datos",
+    "description": "Encuesta en Forms, recolección de respuestas, análisis en Sheets, gráfica y conclusión.",
+    "path": "3ro-basico/tac/guia-01-datos/",
+    "status": "published"
+  },
+  "ca_comp": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Computación Aplicada",
+    "title": "Guía No. 1 — Análisis de incidencias técnicas del laboratorio",
+    "description": "Incidencias técnicas, fórmulas, funciones, gráfica y decisión de mantenimiento.",
+    "path": "4to-bachillerato/computacion/computacion-aplicada/",
+    "status": "published"
+  },
+  "ca_dis": {
+    "grade": "4.º Bachillerato — Diseño",
+    "course": "Computación Aplicada",
+    "title": "Guía No. 1 — Análisis de evaluación de propuestas gráficas",
+    "description": "Evaluación de propuestas visuales, promedios, gráfica y recomendación basada en datos.",
+    "path": "4to-bachillerato/diseno/computacion-aplicada/",
+    "status": "published"
+  },
+  "ca_bio": {
+    "grade": "4.º Bachillerato — Biológicas",
+    "course": "Computación Aplicada",
+    "title": "Guía No. 1 — Análisis de datos de crecimiento vegetal",
+    "description": "Datos de crecimiento vegetal, promedios, comparación de tratamientos, gráfica y conclusión.",
+    "path": "4to-bachillerato/biologicas/computacion-aplicada/",
+    "status": "published"
+  },
+  "lab1": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Laboratorio I",
+    "title": "Guía No. 1 — De un problema a un programa",
+    "description": "Entrada-proceso-salida, algoritmo, pseudocódigo, Python, pruebas y depuración.",
+    "path": "4to-bachillerato/computacion/laboratorio-i/",
+    "status": "published"
+  },
+  "diseno_color": {
+    "grade": "4.º Bachillerato — Diseño",
+    "course": "Diseño Computarizado I",
+    "title": "Guía No. 1 — Codificación digital del color",
+    "description": "Exploración del color digital, construcción de una paleta en Inkscape y aplicación en una composición de Photopea.",
+    "path": "4to-bachillerato/diseno/diseno-computarizado-i/",
+    "status": "published"
+  },
+  "sis_t568": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Sistemas e Instalación de Software",
+    "title": "Guía No. 1 — T568A y T568B",
+    "description": "Elaboración de cables UTP RJ45 con T568A y T568B y comprobación mediante tester de red.",
+    "path": "4to-bachillerato/computacion/sistemas-instalacion-software/",
+    "status": "published"
+  },
+  "robotica_1ro": {
+    "grade": "1.º Básico",
+    "course": "Robótica",
+    "title": "Guía No. 1 — El sensor de ultrasonidos",
+    "description": "Sensor de ultrasonidos del mBot2, emisor y receptor, aplicaciones cotidianas y Laboratorio 14 para evitar una colisión en mBlock.",
+    "path": "1ro-basico/robotica/",
+    "status": "published"
+  },
+  "robotica_2do": {
+    "grade": "2.º Básico",
+    "course": "Robótica",
+    "title": "Guía No. 1 — El sonido y las notas musicales",
+    "description": "Sonido, notas musicales, exploración del bloque \"tocar nota\" en mBlock y programación de una melodía con mBot2/CyberPi.",
+    "path": "2do-basico/robotica/",
+    "status": "published"
+  },
+  "preprimaria_comp": {
+    "grade": "Preprimaria",
+    "course": "Computación",
+    "title": "Guía interactiva — Bingo del alfabeto",
+    "description": "Actividad interactiva para reconocer letras del alfabeto y registrar el trabajo realizado con apoyo del docente.",
+    "path": "preprimaria/computacion/",
+    "status": "published"
+  },
+  "robotica_3ro": {
+    "grade": "3.º Básico",
+    "course": "Robótica",
+    "title": "Guía No. 1 — La edición de la fotografía",
+    "description": "Edición fotográfica, fotomontaje, ajustes de color, Laboratorio 14 en Photopea y autoevaluación.",
+    "path": "3ro-basico/robotica/",
+    "status": "published"
+  }
+};
+
+/* =========================================================
+   HORARIO
+   Cada período publicado solo referencia la clave de GUIDES.
+   Ya no se repiten URL, título ni texto completo de Classroom.
+   ========================================================= */
+const SCHEDULE = {
+  "lunes": [
+    {
+      "time": "7:00–7:40",
+      "work": "Inicia la guía: responde saberes previos, define el problema escolar, diseña la encuesta de 5 preguntas en Google Forms, pruébala con un compañero y comienza la recolección de respuestas.",
+      "guide": "3ro",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "7:40–8:20",
+      "work": "Inicia la investigación: responde saberes previos, elige el tema, formula la pregunta de investigación, define palabras clave y comienza a evaluar tres fuentes.",
+      "guide": "2do",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "8:20–9:00",
+      "work": "Crea la hoja de Google Sheets, transcribe el registro de incidencias y empieza a aplicar las fórmulas y funciones solicitadas.",
+      "guide": "ca_comp",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "9:00–9:40",
+      "work": "Crea la hoja de Google Sheets, registra los datos de evaluación de propuestas gráficas y comienza el análisis de legibilidad y atractivo.",
+      "guide": "ca_dis",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "9:00–9:40",
+      "work": "Crea la hoja de Google Sheets, registra los datos del ensayo de crecimiento vegetal y comienza los cálculos de crecimiento y promedios.",
+      "guide": "ca_bio",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "10:10–10:50",
+      "work": "Trabaja problema → entrada → proceso → salida. Después escribe el algoritmo en lenguaje natural y construye el pseudocódigo del estimador de almacenamiento.",
+      "guide": "lab1",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "10:50–11:25",
+      "work": "Responde saberes previos, redacta cinco normas del laboratorio y crea en pareja el documento colaborativo de Google Docs con introducción y normas.",
+      "guide": "1ro",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    }
+  ],
+  "martes": [
+    {
+      "time": "7:00–7:40",
+      "work": "Abre la Guía No. 1, identifica tus datos y revisa la alineación curricular, los recursos y las instrucciones de las tres actividades. El trabajo práctico en Inkscape y Photopea se realizará el jueves 27 de agosto.",
+      "guide": "diseno_color",
+      "extra": "Entrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+    },
+    {
+      "time": "7:40–8:20",
+      "work": "Completa la Actividad 1 identificando el orden de colores T568A y T568B. Después inicia la Actividad 2 y comienza la elaboración del cable T568A–T568A.",
+      "guide": "sis_t568",
+      "extra": "Entrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+    },
+    {
+      "time": "8:20–9:00",
+      "work": "Período pendiente de actividad interactiva.",
+      "grade": "1.º, 2.º y 3.º Primaria",
+      "course": "Computación",
+      "status": "pending"
+    },
+    {
+      "time": "9:00–9:40",
+      "work": "Período pendiente de actividad interactiva.",
+      "grade": "4.º, 5.º y 6.º Primaria",
+      "course": "Computación",
+      "status": "pending"
+    },
+    {
+      "time": "10:10–10:50",
+      "work": "Inicia la guía: responde las 7 preguntas de la Actividad 1 y completa el registro de exploración del bloque 'tocar nota' en mBlock.",
+      "guide": "robotica_2do",
+      "extra": "La guía se trabajará martes 25 y jueves 27 de agosto de 2026.\n\nEntrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+    },
+    {
+      "time": "10:50–11:25",
+      "work": "Realiza la guía interactiva de Computación con el juego Bingo del alfabeto. Registra tus datos, desarrolla la actividad con apoyo del docente y completa el registro de la guía.",
+      "guide": "preprimaria_comp",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro."
+    }
+  ],
+  "miércoles": [
+    {
+      "time": "8:20–9:00",
+      "work": "Trabaja la Guía No. 1 sobre el sensor de ultrasonidos: responde las actividades de comprensión y desarrolla el Laboratorio 14 en mBlock para que el mBot2 detecte un obstáculo y reaccione antes de una colisión.",
+      "guide": "robotica_1ro",
+      "extra": "Entrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+    },
+    {
+      "time": "9:00–9:40",
+      "work": "Trabaja la Guía No. 1 de la V Unidad sobre edición fotográfica: responde los saberes previos, revisa fotomontaje y ajustes de color, desarrolla el Laboratorio 14 en Photopea y completa la autoevaluación.",
+      "guide": "robotica_3ro",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance."
+    },
+    {
+      "time": "10:10–10:50",
+      "work": "Continúa la guía: selecciona una idea útil de cada fuente, practica el parafraseo, registra de qué fuente procede y completa en el cuaderno la tabla Fuente / Idea principal / Confiabilidad.",
+      "guide": "2do",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "10:50–11:25",
+      "work": "Continúa el documento colaborativo: utiliza comentarios para revisar el trabajo de tu compañero, registra la observación recibida, realiza una mejora y completa el registro de convivencia digital.",
+      "guide": "1ro",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    }
+  ],
+  "jueves": [
+    {
+      "time": "7:00–7:40",
+      "work": "Realiza las tres actividades de la guía: explora la codificación digital del color en Inkscape y Photopea, construye tu paleta digital en Inkscape y crea la composición gráfica en Photopea. Deja preparados los archivos editables y la exportación final.",
+      "guide": "diseno_color",
+      "extra": "Entrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+    },
+    {
+      "time": "7:40–8:20",
+      "work": "Continúa la Actividad 2 elaborando el cable T568B–T568B y completa la Actividad 3: comprueba ambos cables con el tester de red y registra los resultados observados.",
+      "guide": "sis_t568",
+      "extra": "Entrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+    },
+    {
+      "time": "10:10–10:50",
+      "work": "Continúa la guía: elabora el proyecto funcional en mBlock y realiza la ejecución práctica de la melodía con mBot2/CyberPi.",
+      "guide": "robotica_2do",
+      "extra": "Entrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+    },
+    {
+      "time": "10:50–11:25",
+      "work": "Período pendiente de actividad interactiva.",
+      "grade": "Preprimaria",
+      "course": "Computación",
+      "status": "pending"
+    }
+  ],
+  "viernes": [
+    {
+      "time": "7:00–7:40",
+      "work": "Cierra la guía: verifica al menos 10 respuestas, analiza los datos en Google Sheets, crea la gráfica, identifica resultados relevantes y redacta la conclusión.",
+      "guide": "3ro",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "7:40–8:20",
+      "work": "Cierra la guía: redacta el miniinforme de 120 a 180 palabras, responde la comprensión en el cuaderno, completa autoevaluación, reflexión y comprobante.",
+      "guide": "2do",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "8:20–9:00",
+      "work": "Finaliza el análisis: completa cálculos y gráfica, registra los tres resultados principales, toma una decisión respaldada por datos y escribe la conclusión en el cuaderno.",
+      "guide": "ca_comp",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "9:00–9:40",
+      "work": "Finaliza la comparación de propuestas: completa los resultados y la gráfica, recomienda una propuesta utilizando los datos y redacta la reflexión profesional.",
+      "guide": "ca_dis",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "9:00–9:40",
+      "work": "Finaliza el análisis del experimento: compara tratamientos, completa la gráfica, identifica el mejor resultado y redacta una conclusión sustentada en los datos.",
+      "guide": "ca_bio",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "10:10–10:50",
+      "work": "Convierte el algoritmo en Python: crea estimador_almacenamiento.py, realiza dos pruebas, completa el reto de modificación, registra la depuración y cierra la reflexión.",
+      "guide": "lab1",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    },
+    {
+      "time": "10:50–11:25",
+      "work": "Cierra el documento: revisa formato y ortografía, registra la procedencia de la imagen, responde comprensión, autoevaluación y reflexión y genera el comprobante.",
+      "guide": "1ro",
+      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+    }
+  ]
+};
+
+/* =========================================================
+   MAPA DEL REPOSITORIO
+   Refleja las carpetas académicas actuales.
+   ========================================================= */
+const REPOSITORY = [
+  {
+    "group": "Preprimaria",
+    "items": [
+      {
+        "label": "Computación",
+        "path": "preprimaria/computacion/"
+      }
+    ]
+  },
+  {
+    "group": "Primaria",
+    "items": [
+      {
+        "label": "1.º, 2.º y 3.º — Computación",
+        "path": "primaria/1ro-2do-3ro/computacion/"
+      },
+      {
+        "label": "4.º, 5.º y 6.º — Computación",
+        "path": "primaria/4to-5to-6to/computacion/"
+      }
+    ]
+  },
+  {
+    "group": "Básicos",
+    "items": [
+      {
+        "label": "1.º Básico — TAC / Computación",
+        "path": "1ro-basico/tac/"
+      },
+      {
+        "label": "1.º Básico — Robótica",
+        "path": "1ro-basico/robotica/"
+      },
+      {
+        "label": "2.º Básico — TAC / Computación",
+        "path": "2do-basico/tac/"
+      },
+      {
+        "label": "2.º Básico — Robótica",
+        "path": "2do-basico/robotica/"
+      },
+      {
+        "label": "3.º Básico — TAC / Computación",
+        "path": "3ro-basico/tac/"
+      },
+      {
+        "label": "3.º Básico — Robótica",
+        "path": "3ro-basico/robotica/"
+      }
+    ]
+  },
+  {
+    "group": "4.º Bachillerato — Computación",
+    "items": [
+      {
+        "label": "Computación Aplicada",
+        "path": "4to-bachillerato/computacion/computacion-aplicada/"
+      },
+      {
+        "label": "Laboratorio I",
+        "path": "4to-bachillerato/computacion/laboratorio-i/"
+      },
+      {
+        "label": "Sistemas e Instalación de Software",
+        "path": "4to-bachillerato/computacion/sistemas-instalacion-software/"
+      },
+      {
+        "label": "Robótica",
+        "path": "4to-bachillerato/computacion/robotica/"
+      }
+    ]
+  },
+  {
+    "group": "4.º Bachillerato — Diseño",
+    "items": [
+      {
+        "label": "Computación Aplicada",
+        "path": "4to-bachillerato/diseno/computacion-aplicada/"
+      },
+      {
+        "label": "Diseño Computarizado I",
+        "path": "4to-bachillerato/diseno/diseno-computarizado-i/"
+      },
+      {
+        "label": "Robótica",
+        "path": "4to-bachillerato/diseno/robotica/"
+      }
+    ]
+  },
+  {
+    "group": "4.º Bachillerato — Biológicas",
+    "items": [
+      {
+        "label": "Computación Aplicada",
+        "path": "4to-bachillerato/biologicas/computacion-aplicada/"
+      },
+      {
+        "label": "Robótica",
+        "path": "4to-bachillerato/biologicas/robotica/"
+      }
+    ]
+  }
+];
+
 const dayNames = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 const dayPretty = {"lunes":"Lunes","martes":"Martes","miércoles":"Miércoles","jueves":"Jueves","viernes":"Viernes"};
-const $=id=>document.getElementById(id);
-let selectedDay="";
-let toastTimer=null;
+const $ = id => document.getElementById(id);
+let toastTimer = null;
+
+function fullUrl(path){
+  return BASE_URL + String(path || "").replace(/^\/+/, "");
+}
+
+function esc(s){
+  return String(s ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
 
 function dateText(d){
   return new Intl.DateTimeFormat("es-GT",{weekday:"long",day:"2-digit",month:"long",year:"numeric"}).format(d);
 }
 
 function initialDay(){
-  const now=new Date(),name=dayNames[now.getDay()];
-  if(scheduleData[name]) return {day:name,mode:"today",date:now};
-  // Weekend: automatically display next Monday.
-  const next=new Date(now);
-  const delta=(8-now.getDay())%7 || 7;
-  next.setDate(now.getDate()+delta);
+  const now = new Date();
+  const name = dayNames[now.getDay()];
+  if(SCHEDULE[name]) return {day:name,mode:"today",date:now};
+  const next = new Date(now);
+  const delta = (8 - now.getDay()) % 7 || 7;
+  next.setDate(now.getDate() + delta);
   return {day:"lunes",mode:"next",date:next};
 }
 
 function showToast(msg){
-  const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove("show"),1500);
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 1500);
 }
 
 async function copyText(text){
   try{
-    if(navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
-    else {
-      const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.left="-9999px";
-      document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
     }
     showToast("Copiado al portapapeles");
-  }catch(e){showToast("No se pudo copiar automáticamente")}
+  }catch(e){
+    showToast("No se pudo copiar automáticamente");
+  }
 }
 
-function esc(s){
- return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function classroomText(item, guide){
+  const grade = guide ? guide.grade : item.grade;
+  const course = guide ? guide.course : item.course;
+  let text = grade + " — " + course + "\n\nTrabajo de hoy:\n" + item.work;
+  if(guide){
+    text += "\n\nGuía interactiva:\n" + fullUrl(guide.path);
+    if(item.extra) text += "\n\n" + item.extra;
+    text += "\n\n" + BACKUP_NOTE;
+  }
+  return text;
 }
 
 function renderDay(day, contextDate=null, mode="manual"){
-  selectedDay=day;
-  document.querySelectorAll("#dayTabs button").forEach(b=>b.classList.toggle("active",b.dataset.day===day));
-  const items=scheduleData[day]||[];
-  $("panelTitle").textContent="Clases de "+dayPretty[day];
+  document.querySelectorAll("#dayTabs button").forEach(b => b.classList.toggle("active", b.dataset.day === day));
+  const items = SCHEDULE[day] || [];
+  $("panelTitle").textContent = "Clases de " + dayPretty[day];
+
   if(contextDate){
-    $("panelDate").textContent=dateText(contextDate);
-    $("detectedLabel").textContent=mode==="next"?"Próximo día de clases":"Detectado automáticamente";
+    $("panelDate").textContent = dateText(contextDate);
+    $("detectedLabel").textContent = mode === "next" ? "Próximo día de clases" : "Detectado automáticamente";
   } else {
-    $("panelDate").textContent="Vista manual del horario semanal";
-    $("detectedLabel").textContent="Vista seleccionada";
+    $("panelDate").textContent = "Vista manual del horario semanal";
+    $("detectedLabel").textContent = "Vista seleccionada";
   }
-  if(!items.length){$("schedule").innerHTML='<div class="empty">No hay períodos de Computación/TAC programados.</div>';return}
-  $("schedule").innerHTML=items.map((x,i)=>{
-    const published=x.status==="published";
-    const status=published?'<span class="status-published">Guía publicada</span>':'<span class="status-pending">Guía pendiente</span>';
-    const open=published?'<a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">Abrir guía</a>':'';
-    const copyLink=published?'<button type="button" class="secondary copy-link" data-index="'+i+'">Copiar enlace</button>':'';
-    const commentButton='<button type="button" class="comment-toggle" data-index="'+i+'">Comentario Classroom</button>';
-    return '<article class="class-card"><div class="time">'+esc(x.time)+'</div><div class="class-main">'+status+
-      '<h3>'+esc(x.grade)+'</h3><div class="course">'+esc(x.course)+'</div>'+
-      (published?'<div><strong>'+esc(x.guideTitle)+'</strong></div>':'')+
-      '<p class="work"><strong>Trabajo de hoy:</strong> '+esc(x.work)+'</p>'+
-      '<div class="actions">'+open+copyLink+commentButton+'</div>'+
-      '<div class="comment" id="comment_'+i+'"><textarea readonly>'+esc(x.classroom)+'</textarea><div class="actions"><button type="button" class="copy-comment" data-index="'+i+'">Copiar comentario</button></div></div>'+
-      '</div></article>';
+
+  $("statToday").textContent = items.length;
+  $("statPending").textContent = items.filter(x => !x.guide).length;
+
+  if(!items.length){
+    $("schedule").innerHTML = '<div class="empty">No hay períodos programados.</div>';
+    return;
+  }
+
+  $("schedule").innerHTML = items.map((item, i) => {
+    const guide = item.guide ? GUIDES[item.guide] : null;
+    const published = Boolean(guide);
+    const grade = guide ? guide.grade : item.grade;
+    const course = guide ? guide.course : item.course;
+    const title = guide ? '<div><strong>' + esc(guide.title) + '</strong></div>' : '';
+    const status = published
+      ? '<span class="status published">Guía publicada</span>'
+      : '<span class="status pending">Actividad pendiente</span>';
+    const open = published
+      ? '<a class="button" href="' + esc(fullUrl(guide.path)) + '" target="_blank" rel="noopener noreferrer">Abrir guía</a>'
+      : '';
+    const copy = published
+      ? '<button type="button" class="secondary copy-link" data-index="' + i + '">Copiar enlace</button>'
+      : '';
+
+    return '<article class="class-card">' +
+      '<div class="time">' + esc(item.time) + '</div>' +
+      '<div class="class-main">' +
+        status +
+        '<h3>' + esc(grade) + '</h3>' +
+        '<div class="course">' + esc(course) + '</div>' +
+        title +
+        '<p class="work"><strong>Trabajo de hoy:</strong> ' + esc(item.work) + '</p>' +
+        '<div class="actions">' +
+          open + copy +
+          '<button type="button" class="ghost comment-toggle" data-index="' + i + '">Comentario Classroom</button>' +
+        '</div>' +
+        '<div class="comment" id="comment_' + i + '">' +
+          '<textarea readonly>' + esc(classroomText(item, guide)) + '</textarea>' +
+          '<div class="actions"><button type="button" class="copy-comment" data-index="' + i + '">Copiar comentario</button></div>' +
+        '</div>' +
+      '</div>' +
+    '</article>';
   }).join("");
 
-  document.querySelectorAll(".copy-link").forEach(b=>b.addEventListener("click",()=>copyText(items[Number(b.dataset.index)].url)));
-  document.querySelectorAll(".comment-toggle").forEach(b=>b.addEventListener("click",()=>{
-    const box=$("comment_"+b.dataset.index);box.classList.toggle("open");
+  document.querySelectorAll(".copy-link").forEach(b => b.addEventListener("click", () => {
+    const item = items[Number(b.dataset.index)];
+    const guide = GUIDES[item.guide];
+    copyText(fullUrl(guide.path));
   }));
-  document.querySelectorAll(".copy-comment").forEach(b=>b.addEventListener("click",()=>copyText(items[Number(b.dataset.index)].classroom)));
+
+  document.querySelectorAll(".comment-toggle").forEach(b => b.addEventListener("click", () => {
+    const box = $("comment_" + b.dataset.index);
+    box.classList.toggle("open");
+  }));
+
+  document.querySelectorAll(".copy-comment").forEach(b => b.addEventListener("click", () => {
+    const item = items[Number(b.dataset.index)];
+    const guide = item.guide ? GUIDES[item.guide] : null;
+    copyText(classroomText(item, guide));
+  }));
 }
 
-const init=initialDay();
-$("todayLabel").textContent="Hoy: "+dateText(new Date());
-renderDay(init.day,init.date,init.mode);
+function levelOf(guide){
+  if(guide.grade.includes("Preprimaria")) return "Preprimaria";
+  if(guide.grade.includes("Básico")) return "Básico";
+  if(guide.grade.includes("Bachillerato")) return "Bachillerato";
+  return "Otro";
+}
 
-document.querySelectorAll("#dayTabs button").forEach(b=>b.addEventListener("click",()=>renderDay(b.dataset.day,null,"manual")));
-
-document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{
-  const el=$(b.dataset.copy);if(el)copyText(el.value||el.textContent||"");
-}));
-
-const search=$("guideSearch");
-search.addEventListener("input",()=>{
-  const q=search.value.trim().toLowerCase();let visible=0;
-  document.querySelectorAll(".library-card").forEach(card=>{
-    const ok=!q||card.dataset.search.includes(q);card.hidden=!ok;if(ok)visible++;
+function renderLibrary(){
+  const q = $("guideSearch").value.trim().toLowerCase();
+  const level = $("levelFilter").value;
+  const entries = Object.entries(GUIDES).filter(([key,g]) => {
+    const hay = [g.grade,g.course,g.title,g.description,g.path].join(" ").toLowerCase();
+    return (!q || hay.includes(q)) && (!level || levelOf(g) === level);
   });
-  $("libEmpty").hidden=visible!==0;
-});
+
+  $("library").innerHTML = entries.map(([key,g]) => {
+    const url = fullUrl(g.path);
+    return '<article class="guide-card">' +
+      '<div class="guide-top"><span class="tag">Publicada</span><span class="course-label">' + esc(g.course) + '</span></div>' +
+      '<h3>' + esc(g.grade) + '</h3>' +
+      '<h4>' + esc(g.title) + '</h4>' +
+      '<p>' + esc(g.description) + '</p>' +
+      '<label>Ruta en 2026_JRB</label>' +
+      '<div class="path-box"><code>' + esc(g.path) + '</code><button type="button" class="ghost copy-path" data-key="' + esc(key) + '">Copiar ruta</button></div>' +
+      '<div class="actions" style="margin-top:9px">' +
+        '<a class="button" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">Abrir guía</a>' +
+        '<button type="button" class="secondary copy-guide" data-key="' + esc(key) + '">Copiar enlace</button>' +
+      '</div>' +
+    '</article>';
+  }).join("");
+
+  $("libEmpty").hidden = entries.length !== 0;
+
+  document.querySelectorAll(".copy-path").forEach(b => b.addEventListener("click", () => copyText(GUIDES[b.dataset.key].path)));
+  document.querySelectorAll(".copy-guide").forEach(b => b.addEventListener("click", () => copyText(fullUrl(GUIDES[b.dataset.key].path))));
+}
+
+function renderRepository(){
+  $("repoGrid").innerHTML = REPOSITORY.map(group => {
+    const items = group.items.map(item =>
+      '<div class="repo-item">' +
+        '<div class="repo-name">' + esc(item.label) + '</div>' +
+        '<div class="repo-path">' + esc(item.path) + '</div>' +
+        '<div class="actions">' +
+          '<button type="button" class="ghost repo-copy" data-path="' + esc(item.path) + '">Copiar ruta</button>' +
+        '</div>' +
+      '</div>'
+    ).join("");
+    return '<article class="repo-group"><h3>' + esc(group.group) + '</h3>' + items + '</article>';
+  }).join("");
+
+  document.querySelectorAll(".repo-copy").forEach(b => b.addEventListener("click", () => copyText(b.dataset.path)));
+}
+
+$("statGuides").textContent = Object.keys(GUIDES).length;
+$("todayLabel").textContent = "Hoy: " + dateText(new Date());
+
+const init = initialDay();
+renderDay(init.day, init.date, init.mode);
+renderLibrary();
+renderRepository();
+
+document.querySelectorAll("#dayTabs button").forEach(b => b.addEventListener("click", () => renderDay(b.dataset.day)));
+$("guideSearch").addEventListener("input", renderLibrary);
+$("levelFilter").addEventListener("change", renderLibrary);
+
 })();
 </script>
 </body>
