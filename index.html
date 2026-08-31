@@ -55,6 +55,10 @@ button.ghost,.button.ghost{background:#eef3f6;color:var(--azul);border:1px solid
 .status.pending{background:#fff0d6;color:#875d0d}
 .work{margin:7px 0 10px}
 .actions{display:flex;gap:7px;flex-wrap:wrap}
+.guide-switch{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:2px 0}
+.guide-switch label{margin:0;font-weight:700;color:var(--muted);font-size:13px}
+.guide-switch .guide-select{width:auto;min-width:min(100%,340px);max-width:100%;padding:8px 10px;border:1px solid #b8c7d3;border-radius:9px;background:#fff;color:var(--texto);font:inherit}
+.small-note{font-size:13px;color:var(--muted)}
 .comment{display:none;margin-top:10px}
 .comment.open{display:block}
 textarea{width:100%;min-height:190px;resize:vertical;border:1px solid #b8c7d3;border-radius:9px;padding:10px;background:#fff;color:var(--texto)}
@@ -739,6 +743,27 @@ async function copyText(text){
 }
 
 function classroomText(item, guide){
+function guideChoices(guideKey){
+  if(!guideKey || !GUIDES[guideKey]) return guideKey ? [guideKey] : [];
+  const out = [];
+  const seen = new Set();
+  const add = key => {
+    if(key && GUIDES[key] && !seen.has(key)){
+      seen.add(key);
+      out.push(key);
+    }
+  };
+  if(/_g\d+$/.test(guideKey)){
+    const base = guideKey.replace(/_g\d+$/,'');
+    add(base);
+    add(guideKey);
+  }else{
+    add(guideKey);
+    add(guideKey + "_g2");
+  }
+  return out;
+}
+
   const grade = guide ? guide.grade : item.grade;
   const course = guide ? guide.course : item.course;
   let text = grade + " — " + course + "\n\nTrabajo de hoy:\n" + item.work;
@@ -774,14 +799,24 @@ function renderDay(day, contextDate=null, mode="manual"){
   $("schedule").innerHTML = items.map((item, i) => {
     const guide = item.guide ? GUIDES[item.guide] : null;
     const published = Boolean(guide);
-    const grade = guide ? guide.grade : item.grade;
-    const course = guide ? guide.course : item.course;
-    const title = guide ? '<div><strong>' + esc(guide.title) + '</strong></div>' : '';
+    const optionKeys = published ? guideChoices(item.guide) : [];
+    const selectedGuide = guide;
+    const grade = selectedGuide ? selectedGuide.grade : item.grade;
+    const course = selectedGuide ? selectedGuide.course : item.course;
+    const title = selectedGuide ? '<div class="guide-title" id="guideTitle_' + i + '"><strong>' + esc(selectedGuide.title) + '</strong></div>' : '';
+    const desc = selectedGuide && optionKeys.length > 1
+      ? '<div class="small-note" id="guideDesc_' + i + '">' + esc(selectedGuide.description || "") + '</div>'
+      : '';
     const status = published
       ? '<span class="status published">Guía publicada</span>'
       : '<span class="status pending">Actividad pendiente</span>';
+    const selector = optionKeys.length > 1
+      ? '<div class="guide-switch"><label for="guideSel_' + i + '">Elegir guía</label><select class="guide-select" id="guideSel_' + i + '" data-index="' + i + '">' +
+          optionKeys.map(key => '<option value="' + esc(key) + '"' + (key === item.guide ? ' selected' : '') + '>' + esc(GUIDES[key].title) + '</option>').join("") +
+        '</select></div>'
+      : '';
     const open = published
-      ? '<a class="button" href="' + esc(fullUrl(guide.path)) + '" target="_blank" rel="noopener noreferrer">Abrir guía</a>'
+      ? '<a class="button open-guide" id="openGuide_' + i + '" href="' + esc(fullUrl(selectedGuide.path)) + '" target="_blank" rel="noopener noreferrer">Abrir guía</a>'
       : '';
     const copy = published
       ? '<button type="button" class="secondary copy-link" data-index="' + i + '">Copiar enlace</button>'
@@ -791,26 +826,45 @@ function renderDay(day, contextDate=null, mode="manual"){
       '<div class="time">' + esc(item.time) + '</div>' +
       '<div class="class-main">' +
         status +
-        '<h3>' + esc(grade) + '</h3>' +
-        '<div class="course">' + esc(course) + '</div>' +
+        '<h3 id="grade_' + i + '">' + esc(grade) + '</h3>' +
+        '<div class="course" id="course_' + i + '">' + esc(course) + '</div>' +
         title +
+        desc +
+        selector +
         '<p class="work"><strong>Trabajo de hoy:</strong> ' + esc(item.work) + '</p>' +
         '<div class="actions">' +
           open + copy +
           '<button type="button" class="ghost comment-toggle" data-index="' + i + '">Comentario Classroom</button>' +
         '</div>' +
         '<div class="comment" id="comment_' + i + '">' +
-          '<textarea readonly>' + esc(classroomText(item, guide)) + '</textarea>' +
+          '<textarea readonly id="commentText_' + i + '">' + esc(classroomText(item, selectedGuide)) + '</textarea>' +
           '<div class="actions"><button type="button" class="copy-comment" data-index="' + i + '">Copiar comentario</button></div>' +
         '</div>' +
       '</div>' +
     '</article>';
   }).join("");
 
+  document.querySelectorAll(".guide-select").forEach(sel => sel.addEventListener("change", () => {
+    const i = Number(sel.dataset.index);
+    const guide = GUIDES[sel.value];
+    if(!guide) return;
+    $("grade_" + i).textContent = guide.grade;
+    $("course_" + i).textContent = guide.course;
+    const title = $("guideTitle_" + i);
+    if(title) title.innerHTML = "<strong>" + esc(guide.title) + "</strong>";
+    const desc = $("guideDesc_" + i);
+    if(desc) desc.textContent = guide.description || "";
+    const open = $("openGuide_" + i);
+    if(open) open.href = fullUrl(guide.path);
+    const comment = $("commentText_" + i);
+    if(comment) comment.value = classroomText(items[i], guide);
+  }));
+
   document.querySelectorAll(".copy-link").forEach(b => b.addEventListener("click", () => {
-    const item = items[Number(b.dataset.index)];
-    const guide = GUIDES[item.guide];
-    copyText(fullUrl(guide.path));
+    const i = Number(b.dataset.index);
+    const key = $("guideSel_" + i) ? $("guideSel_" + i).value : items[i].guide;
+    const guide = GUIDES[key];
+    if(guide) copyText(fullUrl(guide.path));
   }));
 
   document.querySelectorAll(".comment-toggle").forEach(b => b.addEventListener("click", () => {
@@ -819,9 +873,10 @@ function renderDay(day, contextDate=null, mode="manual"){
   }));
 
   document.querySelectorAll(".copy-comment").forEach(b => b.addEventListener("click", () => {
-    const item = items[Number(b.dataset.index)];
-    const guide = item.guide ? GUIDES[item.guide] : null;
-    copyText(classroomText(item, guide));
+    const i = Number(b.dataset.index);
+    const key = $("guideSel_" + i) ? $("guideSel_" + i).value : items[i].guide;
+    const guide = key ? GUIDES[key] : null;
+    copyText(classroomText(items[i], guide));
   }));
 }
 
