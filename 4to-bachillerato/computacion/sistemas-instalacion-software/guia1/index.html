@@ -454,6 +454,14 @@ th{
 }
 
 #printArea{display:none}
+#printArea .pdf-answer{
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+#printArea .pdf-photo{
+  break-inside:avoid;
+  page-break-inside:avoid;
+}
 
 footer{
   max-width:1100px;
@@ -506,9 +514,20 @@ footer{
     object-fit:contain;
   }
 
+  @page{
+    size:A4;
+    margin:12mm;
+  }
+
   .pdf-section{
-    page-break-inside:avoid;
+    page-break-inside:auto;
+    break-inside:auto;
     margin-top:20px;
+  }
+
+  #printArea p{
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
   }
 }
 </style>
@@ -1473,7 +1492,7 @@ footer{
       type="button"
       class="success"
       disabled>
-      Generar / Descargar PDF
+      Generar PDF completo
     </button>
 
     <button
@@ -1513,8 +1532,11 @@ footer{
 
 
 <!--
-  Biblioteca opcional para descarga directa del PDF.
-  Si no carga, la guía conserva la alternativa de impresión.
+  Biblioteca html2pdf conservada por compatibilidad histórica.
+  La versión corregida ya NO depende de ella para generar el informe,
+  porque #printArea permanece oculto durante la vista normal.
+  El PDF se genera mediante la impresión del navegador después de
+  construir y verificar el informe completo.
 -->
 <script
 src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
@@ -3473,31 +3495,27 @@ function appendText(
   const el =
     document.createElement(tag);
 
-
   const strong =
-    document.createElement(
-      "strong"
-    );
-
+    document.createElement("strong");
 
   strong.textContent =
     label;
 
+  const answer =
+    document.createElement("span");
 
-  el.appendChild(
-    strong
-  );
+  answer.className =
+    "pdf-answer";
 
+  answer.textContent =
+    value == null
+      ? ""
+      : String(value);
 
-  el.appendChild(
-    document.createTextNode(
-      value || ""
-    )
-  );
-
+  el.appendChild(strong);
+  el.appendChild(answer);
 
   parent.appendChild(el);
-
 }
 
 
@@ -3966,6 +3984,84 @@ async function buildPrintArea(){
 }
 
 
+function waitForPrintImages(root){
+
+  const images =
+    Array.from(
+      root.querySelectorAll("img")
+    );
+
+  return Promise.all(
+    images.map(img=>{
+
+      if(img.complete){
+        return Promise.resolve();
+      }
+
+      return new Promise(resolve=>{
+
+        img.addEventListener(
+          "load",
+          resolve,
+          {once:true}
+        );
+
+        img.addEventListener(
+          "error",
+          resolve,
+          {once:true}
+        );
+
+      });
+
+    })
+  );
+
+}
+
+
+function nextPaint(){
+
+  return new Promise(resolve=>{
+
+    requestAnimationFrame(()=>{
+
+      requestAnimationFrame(
+        resolve
+      );
+
+    });
+
+  });
+
+}
+
+
+async function prepareCompletePrintReport(){
+
+  /*
+    IMPORTANTE:
+    Primero guardamos lo que está actualmente escrito en pantalla.
+    Después construimos el informe desde esos mismos campos.
+    Esto evita imprimir un estado anterior del borrador.
+  */
+
+  await saveDraft();
+
+  const area =
+    await buildPrintArea();
+
+  await waitForPrintImages(
+    area
+  );
+
+  await nextPaint();
+
+  return area;
+
+}
+
+
 async function generatePdf(){
 
   if(!guideIsComplete()){
@@ -3980,85 +4076,14 @@ async function generatePdf(){
 
   }
 
+  await prepareCompletePrintReport();
 
-  await saveDraft();
-
-
-  const area =
-    await buildPrintArea();
-
-
-  if(
-    typeof window.html2pdf ===
-    "function"
-  ){
-
-    const filename =
-      "Guia01_Sistemas_Instalacion_" +
-      normalizeKey(
-        $("studentSection").value
-      ) +
-      "_" +
-      normalizeKey(
-        $("studentKey").value
-      ) +
-      ".pdf";
-
-
-    try{
-
-      await window
-        .html2pdf()
-        .set({
-
-          margin:10,
-
-          filename:filename,
-
-          image:{
-            type:"jpeg",
-            quality:.94
-          },
-
-          html2canvas:{
-            scale:1.6,
-            useCORS:true
-          },
-
-          jsPDF:{
-            unit:"mm",
-            format:"a4",
-            orientation:"portrait"
-          },
-
-          pagebreak:{
-            mode:[
-              "css",
-              "legacy"
-            ]
-          }
-
-        })
-        .from(area)
-        .save();
-
-
-      return;
-
-    }catch(error){
-
-      console.error(error);
-
-    }
-
-  }
-
-
-  alert(
-    "No fue posible utilizar el generador automático. " +
-    "Se abrirá Imprimir / Guardar como PDF."
-  );
-
+  /*
+    Se usa la impresión del navegador en vez de capturar con html2pdf
+    un elemento oculto mediante display:none.
+    En la ventana de impresión selecciona:
+    Guardar como PDF / Microsoft Print to PDF.
+  */
 
   window.print();
 
@@ -4079,10 +4104,7 @@ async function printPdf(){
 
   }
 
-
-  await saveDraft();
-
-  await buildPrintArea();
+  await prepareCompletePrintReport();
 
   window.print();
 
