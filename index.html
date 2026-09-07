@@ -177,6 +177,15 @@ footer{text-align:center;color:var(--muted);font-size:.87rem;padding:0 18px 28px
 
   <section id="estructura">
     <h2 class="section-title">Estructura de carpetas 2026_JRB</h2>
+    <div class="panel" style="margin-bottom:13px">
+      <div class="panel-head">
+        <div>
+          <strong>Sincronización con el repositorio</strong>
+          <div class="small-note" id="repoSyncStatus">Preparando revisión de GitHub…</div>
+        </div>
+        <button type="button" id="syncRepoBtn" class="secondary">Actualizar desde GitHub</button>
+      </div>
+    </div>
     <div class="repo-grid" id="repoGrid"></div>
   </section>
 </main>
@@ -211,32 +220,60 @@ const GUIDES = {
     "course": "TAC / Computación",
     "title": "Guía No. 1 — Nuestro reglamento digital del laboratorio",
     "description": "Documento colaborativo en Google Docs, normas del laboratorio, comentarios, presentación y fuentes.",
-    "path": "1ro-basico/tac/",
-    "status": "published"
+    "path": "1ro-basico/tac/guia1/",
+    "status": "published",
+    "series": "tac_1ro",
+    "order": 1
   },
   "1ro_g2": {
     "grade": "1.º Básico",
     "course": "TAC / Computación",
-    "title": "Guía No. 2 — Del reglamento a la práctica: decisiones responsables en el laboratorio digital",
-    "description": "Aplicación de las normas del laboratorio a situaciones reales relacionadas con el equipo, Internet, archivos y cuentas digitales.",
-    "path": "1ro-basico/tac/guia-02-decisiones-responsables/",
-    "status": "published"
+    "title": "Guía No. 2 — Decisiones responsables",
+    "description": "Aplicación de las normas del laboratorio a situaciones reales relacionadas con equipo, Internet, archivos y cuentas digitales.",
+    "path": "1ro-basico/tac/guia2/",
+    "status": "published",
+    "series": "tac_1ro",
+    "order": 2
+  },
+  "1ro_g3": {
+    "grade": "1.º Básico",
+    "course": "TAC / Computación",
+    "title": "Guía No. 3 — Mis datos personales: qué comparto y qué protejo",
+    "description": "Protección de datos personales y toma de decisiones responsables antes de compartir información en entornos digitales.",
+    "path": "1ro-basico/tac/guia3/",
+    "status": "published",
+    "series": "tac_1ro",
+    "order": 3
   },
   "2do": {
     "grade": "2.º Básico",
     "course": "TAC / Computación",
     "title": "Guía No. 1 — Investigación segura en Internet",
     "description": "Búsqueda eficiente, evaluación de fuentes, parafraseo y miniinforme.",
-    "path": "2do-basico/tac/",
-    "status": "published"
+    "path": "2do-basico/tac/guia1/",
+    "status": "published",
+    "series": "tac_2do",
+    "order": 1
   },
   "2do_g2": {
     "grade": "2.º Básico",
     "course": "TAC / Computación",
-    "title": "Guía No. 2 — Organizar, resumir y comunicar información investigada",
-    "description": "Organización de información confiable, elaboración de un resumen con palabras propias y creación de un producto digital sencillo.",
-    "path": "2do-basico/tac/guia-02-organizar-informacion/",
-    "status": "published"
+    "title": "Guía No. 2 — Organizar información",
+    "description": "Organización de información confiable, resumen con palabras propias y producto digital sencillo.",
+    "path": "2do-basico/tac/guia2/",
+    "status": "published",
+    "series": "tac_2do",
+    "order": 2
+  },
+  "2do_g3": {
+    "grade": "2.º Básico",
+    "course": "TAC / Computación",
+    "title": "Guía No. 3 — Comunicar información de forma clara y ordenada",
+    "description": "Transformación de información organizada en una ficha informativa o miniinfografía clara, resumida y con fuente.",
+    "path": "2do-basico/tac/guia3/",
+    "status": "published",
+    "series": "tac_2do",
+    "order": 3
   },
   "3ro": {
     "grade": "3.º Básico",
@@ -244,145 +281,329 @@ const GUIDES = {
     "title": "Guía No. 1 — Un problema escolar convertido en datos",
     "description": "Encuesta en Forms, recolección de respuestas, análisis en Sheets, gráfica y conclusión.",
     "path": "3ro-basico/tac/guia-01-datos/",
-    "status": "published"
+    "status": "published",
+    "series": "tac_3ro",
+    "order": 1
   },
   "3ro_g2": {
     "grade": "3.º Básico",
     "course": "TAC / Computación",
-    "title": "Guía No. 2 — De los datos a la información: organización y representación de datos",
-    "description": "Organización de datos recopilados, representación mediante tabla o gráfico e interpretación de la información obtenida.",
+    "title": "Guía No. 2 — Organizar datos en tabla o gráfico",
+    "description": "Organización y representación de los datos recopilados mediante tabla o gráfico.",
     "path": "3ro-basico/tac/guia-02-organizacion-datos/",
-    "status": "published"
+    "status": "published",
+    "series": "tac_3ro",
+    "order": 2
+  },
+  "3ro_g3": {
+    "grade": "3.º Básico",
+    "course": "TAC / Computación",
+    "title": "Guía No. 3 — Interpretar datos y obtener conclusiones",
+    "description": "Comparación de valores, identificación de patrones y conclusiones sustentadas en datos numéricos.",
+    "path": "3ro-basico/tac/guia-03/",
+    "status": "published",
+    "series": "tac_3ro",
+    "order": 3
   },
   "ca_comp": {
     "grade": "4.º Bachillerato — Computación",
     "course": "Computación Aplicada",
     "title": "Guía No. 1 — Análisis de incidencias técnicas del laboratorio",
     "description": "Incidencias técnicas, fórmulas, funciones, gráfica y decisión de mantenimiento.",
-    "path": "4to-bachillerato/computacion/computacion-aplicada/",
-    "status": "published"
+    "path": "4to-bachillerato/computacion/computacion-aplicada/guia1/",
+    "status": "published",
+    "series": "ca_comp",
+    "order": 1
   },
   "ca_comp_g2": {
     "grade": "4.º Bachillerato — Computación",
     "course": "Computación Aplicada",
     "title": "Guía No. 2 — Diagnóstico técnico: de la incidencia a la causa probable y propuesta de solución",
-    "description": "Análisis de síntomas, formulación de causas probables, procedimiento de diagnóstico, registro de resultados y propuesta de solución.",
-    "path": "4to-bachillerato/computacion/computacion-aplicada/guia-02-diagnostico-tecnico/",
-    "status": "published"
+    "description": "Síntomas, causas probables, procedimiento de diagnóstico, resultados y propuesta de solución.",
+    "path": "4to-bachillerato/computacion/computacion-aplicada/guia2/",
+    "status": "published",
+    "series": "ca_comp",
+    "order": 2
+  },
+  "ca_comp_g3": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Computación Aplicada",
+    "title": "Guía No. 3 — Documentación y seguimiento de una solución técnica",
+    "description": "Registro de intervención, comprobación de resultados, estado final y recomendaciones preventivas.",
+    "path": "4to-bachillerato/computacion/computacion-aplicada/guia3/",
+    "status": "published",
+    "series": "ca_comp",
+    "order": 3
   },
   "ca_dis": {
     "grade": "4.º Bachillerato — Diseño",
     "course": "Computación Aplicada",
     "title": "Guía No. 1 — Análisis de evaluación de propuestas gráficas",
     "description": "Evaluación de propuestas visuales, promedios, gráfica y recomendación basada en datos.",
-    "path": "4to-bachillerato/diseno/computacion-aplicada/",
-    "status": "published"
+    "path": "4to-bachillerato/diseno/computacion-aplicada/guia1/",
+    "status": "published",
+    "series": "ca_dis",
+    "order": 1
   },
   "ca_dis_g2": {
     "grade": "4.º Bachillerato — Diseño",
     "course": "Computación Aplicada",
-    "title": "Guía No. 2 — Mejora y rediseño de una propuesta gráfica a partir de criterios de evaluación",
-    "description": "Revisión de una propuesta evaluada, definición de criterios de mejora y elaboración de una versión gráfica mejorada.",
-    "path": "4to-bachillerato/diseno/computacion-aplicada/guia-02-rediseno-propuesta/",
-    "status": "published"
+    "title": "Guía No. 2 — Mejora y rediseño de una propuesta gráfica",
+    "description": "Revisión de una propuesta evaluada, criterios de mejora y elaboración de una versión gráfica mejorada.",
+    "path": "4to-bachillerato/diseno/computacion-aplicada/guia2/",
+    "status": "published",
+    "series": "ca_dis",
+    "order": 2
+  },
+  "ca_dis_g3": {
+    "grade": "4.º Bachillerato — Diseño",
+    "course": "Computación Aplicada",
+    "title": "Guía No. 3 — Presentación y justificación de una propuesta gráfica mejorada",
+    "description": "Comparación antes/después, presentación del rediseño y justificación de decisiones visuales.",
+    "path": "4to-bachillerato/diseno/computacion-aplicada/guia3/",
+    "status": "published",
+    "series": "ca_dis",
+    "order": 3
   },
   "ca_bio": {
-    "grade": "4.º Bachillerato — Biológicas",
+    "grade": "4.º Bachillerato — Biología",
     "course": "Computación Aplicada",
     "title": "Guía No. 1 — Análisis de datos de crecimiento vegetal",
     "description": "Datos de crecimiento vegetal, promedios, comparación de tratamientos, gráfica y conclusión.",
-    "path": "4to-bachillerato/biologicas/computacion-aplicada/",
-    "status": "published"
+    "path": "4to-bachillerato/biologicas/computacion-aplicada/guia1/",
+    "status": "published",
+    "series": "ca_bio",
+    "order": 1
   },
   "ca_bio_g2": {
     "grade": "4.º Bachillerato — Biología",
-    "course": "TIC / Computación Aplicada",
-    "title": "Guía No. 2 — Rediseño de una propuesta gráfica para comunicar información biológica",
-    "description": "Revisión del contenido biológico y rediseño de una propuesta para comunicar información de forma clara, ordenada y comprensible.",
-    "path": "4to-bachillerato/biologicas/computacion-aplicada/guia-02-comunicacion-biologica/",
-    "status": "published"
+    "course": "Computación Aplicada",
+    "title": "Guía No. 2 — Rediseño de una propuesta para comunicar información biológica",
+    "description": "Revisión de contenido biológico y rediseño para comunicar información de forma clara, ordenada y comprensible.",
+    "path": "4to-bachillerato/biologicas/computacion-aplicada/guia2/",
+    "status": "published",
+    "series": "ca_bio",
+    "order": 2
+  },
+  "ca_bio_g3": {
+    "grade": "4.º Bachillerato — Biología",
+    "course": "Computación Aplicada",
+    "title": "Guía No. 3 — Presentación visual de resultados e información biológica",
+    "description": "Comunicación de resultados con datos, evidencias, fuente y conclusión mediante un producto visual.",
+    "path": "4to-bachillerato/biologicas/computacion-aplicada/guia3/",
+    "status": "published",
+    "series": "ca_bio",
+    "order": 3
   },
   "lab1": {
     "grade": "4.º Bachillerato — Computación",
     "course": "Laboratorio I",
     "title": "Guía No. 1 — De un problema a un programa",
     "description": "Entrada-proceso-salida, algoritmo, pseudocódigo, Python, pruebas y depuración.",
-    "path": "4to-bachillerato/computacion/laboratorio-i/",
-    "status": "published"
+    "path": "4to-bachillerato/computacion/laboratorio-i/guia1/",
+    "status": "published",
+    "series": "lab1",
+    "order": 1
   },
   "lab1_g2": {
     "grade": "4.º Bachillerato — Computación",
     "course": "Laboratorio I",
     "title": "Guía No. 2 — Del algoritmo al código: construir, probar y corregir un programa",
-    "description": "Conversión del algoritmo en código, ejecución de pruebas, identificación de errores y registro de correcciones hasta obtener un resultado funcional.",
-    "path": "4to-bachillerato/computacion/laboratorio-i/guia-02-algoritmo-codigo/",
-    "status": "published"
+    "description": "Conversión del algoritmo en código, pruebas, identificación de errores y correcciones.",
+    "path": "4to-bachillerato/computacion/laboratorio-i/guia2/",
+    "status": "published",
+    "series": "lab1",
+    "order": 2
+  },
+  "lab1_g3": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Laboratorio I",
+    "title": "Guía No. 3 — Variables, entrada de datos y operaciones en Python",
+    "description": "Variables, tipos básicos, input(), print(), operadores, promedio y pruebas de funcionamiento.",
+    "path": "4to-bachillerato/computacion/laboratorio-i/guia3/",
+    "status": "published",
+    "series": "lab1",
+    "order": 3
   },
   "diseno_color": {
     "grade": "4.º Bachillerato — Diseño",
     "course": "Diseño Computarizado I",
     "title": "Guía No. 1 — Codificación digital del color",
-    "description": "Exploración del color digital, construcción de una paleta en Inkscape y aplicación en una composición de Photopea.",
+    "description": "Exploración del color digital, paleta en Inkscape y aplicación en Photopea.",
     "path": "4to-bachillerato/diseno/diseno-computarizado-i/guia1/",
-    "status": "published"
+    "status": "published",
+    "series": "diseno_color",
+    "order": 1
   },
-
   "diseno_color_g2": {
     "grade": "4.º Bachillerato — Diseño",
     "course": "Diseño Computarizado I",
-    "title": "Guía No. 2 — Del boceto al diseño digital: construcción y edición mediante herramientas del programa",
-    "description": "Planificación mediante boceto, construcción de una pieza gráfica digital, uso de herramientas y comandos del programa, edición y presentación del diseño final.",
+    "title": "Guía No. 2 — Del boceto al diseño digital",
+    "description": "Boceto, construcción de una pieza gráfica, herramientas, comandos, edición y diseño final.",
     "path": "4to-bachillerato/diseno/diseno-computarizado-i/guia2/",
-    "status": "published"
+    "status": "published",
+    "series": "diseno_color",
+    "order": 2
   },
   "sis_t568": {
     "grade": "4.º Bachillerato — Computación",
     "course": "Sistemas e Instalación de Software",
     "title": "Guía No. 1 — T568A y T568B",
-    "description": "Elaboración de cables UTP RJ45 con T568A y T568B y comprobación mediante tester de red.",
+    "description": "Elaboración de cables UTP RJ45 con T568A y T568B y comprobación con tester.",
     "path": "4to-bachillerato/computacion/sistemas-instalacion-software/guia1/",
-    "status": "published"
+    "status": "published",
+    "series": "sistemas",
+    "order": 1
   },
-
   "sis_t568_g2": {
     "grade": "4.º Bachillerato — Computación",
     "course": "Sistemas e Instalación de Software",
     "title": "Guía No. 2 — Del cable a la red: conexión y verificación básica de una LAN",
-    "description": "Conexión física mediante cable UTP, identificación de NIC y dispositivos de red, consulta de configuración IP y verificación básica de comunicación en una LAN.",
+    "description": "Conexión física, NIC, dispositivos de red, consulta de IP y verificación básica de comunicación.",
     "path": "4to-bachillerato/computacion/sistemas-instalacion-software/guia2/",
-    "status": "published"
+    "status": "published",
+    "series": "sistemas",
+    "order": 2
+  },
+  "sis_t568_g3": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Sistemas e Instalación de Software",
+    "title": "Guía No. 3 — Configuración IPv4 y diagnóstico básico de conectividad",
+    "description": "IPv4, máscara, gateway, ipconfig, ping y diagnóstico ordenado de una LAN.",
+    "path": "4to-bachillerato/computacion/sistemas-instalacion-software/guia3/",
+    "status": "published",
+    "series": "sistemas",
+    "order": 3
   },
   "robotica_1ro": {
     "grade": "1.º Básico",
     "course": "Robótica",
     "title": "Guía No. 1 — El sensor de ultrasonidos",
-    "description": "Sensor de ultrasonidos del mBot2, emisor y receptor, aplicaciones cotidianas y Laboratorio 14 para evitar una colisión en mBlock.",
+    "description": "Sensor de ultrasonidos del mBot2, emisor/receptor y Laboratorio 14 para evitar colisiones.",
     "path": "1ro-basico/robotica/",
-    "status": "published"
+    "status": "published",
+    "series": "robotica_1ro",
+    "order": 1
+  },
+  "robotica_1ro_g3": {
+    "grade": "1.º Básico",
+    "course": "Robótica",
+    "title": "Guía No. 3 — La gama de color RGB",
+    "description": "Modelo RGB, combinaciones de color y control de LED en mBlock/CyberPi/mBot2.",
+    "path": "1ro-basico/robotica/guia3/",
+    "status": "published",
+    "series": "robotica_1ro",
+    "order": 3
   },
   "robotica_2do": {
     "grade": "2.º Básico",
     "course": "Robótica",
     "title": "Guía No. 1 — El sonido y las notas musicales",
-    "description": "Sonido, notas musicales, exploración del bloque \"tocar nota\" en mBlock y programación de una melodía con mBot2/CyberPi.",
-    "path": "2do-basico/robotica/",
-    "status": "published"
+    "description": "Sonido, notas musicales, bloque tocar nota y programación de una melodía.",
+    "path": "2do-basico/robotica/guia1/",
+    "status": "published",
+    "series": "robotica_2do",
+    "order": 1
+  },
+  "robotica_2do_g3": {
+    "grade": "2.º Básico",
+    "course": "Robótica",
+    "title": "Guía No. 3 — Ciclos repetitivos",
+    "description": "For, while, do while y Laboratorio 16 para diseñar figuras con mBot2.",
+    "path": "2do-basico/robotica/guia3/",
+    "status": "published",
+    "series": "robotica_2do",
+    "order": 3
   },
   "preprimaria_comp": {
     "grade": "Preprimaria",
     "course": "Computación",
     "title": "Guía interactiva — Bingo del alfabeto",
-    "description": "Actividad interactiva para reconocer letras del alfabeto y registrar el trabajo realizado con apoyo del docente.",
+    "description": "Reconocimiento de letras y registro del trabajo realizado con apoyo del docente.",
     "path": "preprimaria/computacion/",
-    "status": "published"
+    "status": "published",
+    "series": "preprimaria_comp",
+    "order": 1
   },
   "robotica_3ro": {
     "grade": "3.º Básico",
     "course": "Robótica",
     "title": "Guía No. 1 — La edición de la fotografía",
-    "description": "Edición fotográfica, fotomontaje, ajustes de color, Laboratorio 14 en Photopea y autoevaluación.",
-    "path": "3ro-basico/robotica/",
-    "status": "published"
+    "description": "Edición fotográfica, fotomontaje, ajustes de color y Laboratorio 14 en Photopea.",
+    "path": "3ro-basico/robotica/guia1/",
+    "status": "published",
+    "series": "robotica_3ro",
+    "order": 1
+  },
+  "robotica_3ro_g3": {
+    "grade": "3.º Básico",
+    "course": "Robótica",
+    "title": "Guía No. 3 — Resolución y formato de imagen",
+    "description": "Resolución, PPI/DPI, formatos de imagen y Laboratorio 16 de retoque fotográfico en Photopea.",
+    "path": "3ro-basico/robotica/guia3/",
+    "status": "published",
+    "series": "robotica_3ro",
+    "order": 3
+  },
+  "robotica_4to_comp": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Robótica",
+    "title": "Guía No. 1 — Edición de la fotografía y fotomontaje del mBot2",
+    "description": "Edición fotográfica y fotomontaje publicitario del mBot2 en Photopea.",
+    "path": "4to-bachillerato/computacion/robotica/guia1/",
+    "status": "published",
+    "series": "robotica_4to_comp",
+    "order": 1
+  },
+  "robotica_4to_comp_g3": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Robótica",
+    "title": "Guía No. 3 — Resolución, formato y retoque de imagen",
+    "description": "Resolución, formatos de imagen y retoque fotográfico en Photopea.",
+    "path": "4to-bachillerato/computacion/robotica/guia3/",
+    "status": "published",
+    "series": "robotica_4to_comp",
+    "order": 3
+  },
+  "robotica_4to_dis": {
+    "grade": "4.º Bachillerato — Diseño",
+    "course": "Robótica",
+    "title": "Guía No. 1 — Edición de la fotografía y fotomontaje del mBot2",
+    "description": "Edición fotográfica y fotomontaje publicitario del mBot2 en Photopea.",
+    "path": "4to-bachillerato/diseno/robotica/guia1/",
+    "status": "published",
+    "series": "robotica_4to_dis",
+    "order": 1
+  },
+  "robotica_4to_dis_g3": {
+    "grade": "4.º Bachillerato — Diseño",
+    "course": "Robótica",
+    "title": "Guía No. 3 — Resolución, formato y retoque de imagen",
+    "description": "Resolución, formatos de imagen y retoque fotográfico en Photopea.",
+    "path": "4to-bachillerato/diseno/robotica/guia3/",
+    "status": "published",
+    "series": "robotica_4to_dis",
+    "order": 3
+  },
+  "robotica_4to_bio": {
+    "grade": "4.º Bachillerato — Biología",
+    "course": "Robótica",
+    "title": "Guía No. 1 — Edición de la fotografía y fotomontaje del mBot2",
+    "description": "Edición fotográfica y fotomontaje publicitario del mBot2 en Photopea.",
+    "path": "4to-bachillerato/biologicas/robotica/guia1/",
+    "status": "published",
+    "series": "robotica_4to_bio",
+    "order": 1
+  },
+  "robotica_4to_bio_g3": {
+    "grade": "4.º Bachillerato — Biología",
+    "course": "Robótica",
+    "title": "Guía No. 3 — Resolución, formato y retoque de imagen",
+    "description": "Resolución, formatos de imagen y retoque fotográfico en Photopea.",
+    "path": "4to-bachillerato/biologicas/robotica/guia3/",
+    "status": "published",
+    "series": "robotica_4to_bio",
+    "order": 3
   }
 };
 
@@ -395,50 +616,50 @@ const SCHEDULE = {
   "lunes": [
     {
       "time": "7:00–7:40",
-      "work": "Inicia la Guía No. 2: recupera el problema trabajado anteriormente, organiza los datos recopilados y comienza a representarlos en una tabla o gráfico.",
-      "guide": "3ro_g2"
+      "work": "Inicia la Guía No. 3: analiza la tabla o gráfica trabajada anteriormente, compara valores, identifica patrones y redacta conclusiones sustentadas en datos.",
+      "guide": "3ro_g3"
     },
     {
       "time": "7:40–8:20",
-      "work": "Inicia la Guía No. 2: recupera tu investigación, selecciona información confiable y comienza a organizar las ideas que utilizarás en el resumen y producto digital.",
-      "guide": "2do_g2"
+      "work": "Inicia la Guía No. 3: transforma la información organizada en una ficha informativa o miniinfografía clara, resumida y con fuente.",
+      "guide": "2do_g3"
     },
     {
       "time": "8:20–9:00",
-      "work": "Inicia la Guía No. 2: selecciona una incidencia técnica, registra sus síntomas y formula varias causas probables antes de diseñar el procedimiento de diagnóstico.",
-      "guide": "ca_comp_g2"
+      "work": "Inicia la Guía No. 3: recupera el diagnóstico técnico anterior, documenta las acciones realizadas y comienza el seguimiento de la solución.",
+      "guide": "ca_comp_g3"
     },
     {
       "time": "9:00–9:40",
-      "work": "Inicia la Guía No. 2: recupera la propuesta gráfica evaluada, identifica fortalezas y aspectos por mejorar y define los criterios que guiarán el rediseño.",
-      "guide": "ca_dis_g2"
+      "work": "Inicia la Guía No. 3: compara la propuesta inicial con el rediseño y prepara la justificación de los cambios realizados.",
+      "guide": "ca_dis_g3"
     },
     {
       "time": "9:00–9:40",
-      "work": "Inicia la Guía No. 2: recupera la propuesta orientada a Biología, identifica la información que debe conservarse y planifica cómo mejorar su comunicación visual.",
-      "guide": "ca_bio_g2"
+      "work": "Inicia la Guía No. 3: organiza los resultados o información biológica y comienza la ficha científica visual con datos, fuente y conclusión.",
+      "guide": "ca_bio_g3"
     },
     {
       "time": "10:10–10:50",
-      "work": "Inicia la Guía No. 2: recupera el problema y el algoritmo de la guía anterior, revisa la secuencia de pasos y comienza a convertir la solución en código.",
-      "guide": "lab1_g2"
+      "work": "Inicia la Guía No. 3: trabaja variables, tipos de datos, input(), print() y operadores para construir un programa de promedio en Python.",
+      "guide": "lab1_g3"
     },
     {
       "time": "10:50–11:25",
-      "work": "Inicia la Guía No. 2: recupera las normas del reglamento digital y analiza situaciones del laboratorio para decidir qué acción responsable corresponde en cada caso.",
-      "guide": "1ro_g2"
+      "work": "Inicia la Guía No. 3: reconoce qué datos personales debe proteger y analiza situaciones antes de compartir información digital.",
+      "guide": "1ro_g3"
     }
   ],
   "martes": [
     {
       "time": "7:00–7:40",
-      "work": "Inicia la Guía No. 2: define la finalidad, el público y el mensaje de la pieza gráfica; luego planifica el boceto y organiza los elementos que utilizarás en el diseño digital.",
+      "work": "Continúa la Guía No. 2 de Diseño Computarizado I: desarrolla y mejora la pieza gráfica digital a partir del boceto y las herramientas del programa.",
       "guide": "diseno_color_g2"
     },
     {
       "time": "7:40–8:20",
-      "work": "Inicia la Guía No. 2: recupera la práctica de cables, identifica los componentes de la conexión física y documenta cómo se conecta el equipo a la red local.",
-      "guide": "sis_t568_g2"
+      "work": "Inicia la Guía No. 3: identifica IPv4, máscara y gateway; consulta la configuración y registra pruebas básicas con ipconfig y ping.",
+      "guide": "sis_t568_g3"
     },
     {
       "time": "8:20–9:00",
@@ -456,250 +677,181 @@ const SCHEDULE = {
     },
     {
       "time": "10:10–10:50",
-      "work": "Inicia la guía: responde las 7 preguntas de la Actividad 1 y completa el registro de exploración del bloque 'tocar nota' en mBlock.",
-      "guide": "robotica_2do",
-      "extra": "La guía se trabajará martes 25 y jueves 27 de agosto de 2026.\n\nEntrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+      "work": "Inicia la Guía No. 3 de Robótica: estudia ciclos repetitivos y construye en mBlock los movimientos del Laboratorio 16 para diseñar figuras con mBot2.",
+      "guide": "robotica_2do_g3"
     },
     {
       "time": "10:50–11:25",
-      "work": "Realiza la guía interactiva de Computación con el juego Bingo del alfabeto. Registra tus datos, desarrolla la actividad con apoyo del docente y completa el registro de la guía.",
-      "guide": "preprimaria_comp",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro."
+      "work": "Realiza la actividad interactiva de Computación de Preprimaria y conserva el respaldo JSON al finalizar.",
+      "guide": "preprimaria_comp"
     }
   ],
   "miércoles": [
     {
+      "time": "7:00–7:40",
+      "work": "Trabaja la Guía No. 3 de Robótica sobre resolución, formatos de imagen y retoque fotográfico en Photopea.",
+      "guide": "robotica_4to_dis_g3"
+    },
+    {
+      "time": "7:00–7:40",
+      "work": "Trabaja la Guía No. 3 de Robótica sobre resolución, formatos de imagen y retoque fotográfico en Photopea.",
+      "guide": "robotica_4to_bio_g3"
+    },
+    {
+      "time": "7:40–8:20",
+      "work": "Trabaja la Guía No. 3 de Robótica sobre resolución, formatos de imagen y retoque fotográfico en Photopea.",
+      "guide": "robotica_4to_comp_g3"
+    },
+    {
       "time": "8:20–9:00",
-      "work": "Trabaja la Guía No. 1 sobre el sensor de ultrasonidos: responde las actividades de comprensión y desarrolla el Laboratorio 14 en mBlock para que el mBot2 detecte un obstáculo y reaccione antes de una colisión.",
-      "guide": "robotica_1ro",
-      "extra": "Entrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+      "work": "Trabaja la Guía No. 3 de Robótica: comprende el modelo RGB y programa los LED de CyberPi/mBot2 en mBlock.",
+      "guide": "robotica_1ro_g3"
     },
     {
       "time": "9:00–9:40",
-      "work": "Trabaja la Guía No. 1 de la V Unidad sobre edición fotográfica: responde los saberes previos, revisa fotomontaje y ajustes de color, desarrolla el Laboratorio 14 en Photopea y completa la autoevaluación.",
-      "guide": "robotica_3ro",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance."
+      "work": "Trabaja la Guía No. 3 de Robótica: analiza resolución y formatos de imagen y realiza el retoque fotográfico indicado en Photopea.",
+      "guide": "robotica_3ro_g3"
     },
     {
       "time": "10:10–10:50",
-      "work": "Continúa la guía: selecciona una idea útil de cada fuente, practica el parafraseo, registra de qué fuente procede y completa en el cuaderno la tabla Fuente / Idea principal / Confiabilidad.",
-      "guide": "2do",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+      "work": "Continúa la Guía No. 3: organiza la comunicación del producto, revisa claridad, fuente y presentación final.",
+      "guide": "2do_g3"
     },
     {
       "time": "10:50–11:25",
-      "work": "Continúa el documento colaborativo: utiliza comentarios para revisar el trabajo de tu compañero, registra la observación recibida, realiza una mejora y completa el registro de convivencia digital.",
-      "guide": "1ro",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+      "work": "Continúa la Guía No. 3: completa el análisis de situaciones digitales y redacta tus reglas para proteger datos personales.",
+      "guide": "1ro_g3"
     }
   ],
   "jueves": [
     {
       "time": "7:00–7:40",
-      "work": "Continúa la Guía No. 2: construye el diseño en el programa, documenta las herramientas y comandos utilizados, realiza al menos una mejora durante la edición y agrega la evidencia del diseño final.",
+      "work": "Continúa la Guía No. 2 de Diseño Computarizado I: documenta herramientas, comandos y mejoras realizadas en la pieza gráfica.",
       "guide": "diseno_color_g2"
     },
     {
       "time": "7:40–8:20",
-      "work": "Continúa la Guía No. 2: consulta la configuración básica de red del equipo, realiza las pruebas autorizadas de comunicación y registra un procedimiento sencillo para revisar fallas de conexión.",
-      "guide": "sis_t568_g2"
+      "work": "Continúa la Guía No. 3 de Sistemas: completa las pruebas de conectividad y resuelve los casos de diagnóstico básico de una LAN.",
+      "guide": "sis_t568_g3"
+    },
+    {
+      "time": "8:20–9:00",
+      "work": "Período pendiente de actividad interactiva.",
+      "grade": "1.º, 2.º y 3.º Primaria",
+      "course": "Robótica",
+      "status": "pending"
+    },
+    {
+      "time": "9:00–9:40",
+      "work": "Período pendiente de actividad interactiva.",
+      "grade": "4.º, 5.º y 6.º Primaria",
+      "course": "Robótica",
+      "status": "pending"
     },
     {
       "time": "10:10–10:50",
-      "work": "Continúa la guía: elabora el proyecto funcional en mBlock y realiza la ejecución práctica de la melodía con mBot2/CyberPi.",
-      "guide": "robotica_2do",
-      "extra": "Entrega:\nViernes 28 de agosto de 2026, hasta las 18:00 horas."
+      "work": "Continúa la Guía No. 3 de Robótica: prueba los ciclos y completa los retos de figuras con mBot2.",
+      "guide": "robotica_2do_g3"
     },
     {
       "time": "10:50–11:25",
-      "work": "Período pendiente de actividad interactiva.",
-      "grade": "Preprimaria",
-      "course": "Computación",
-      "status": "pending"
+      "work": "Continúa la actividad interactiva de Computación de Preprimaria.",
+      "guide": "preprimaria_comp"
     }
   ],
   "viernes": [
     {
       "time": "7:00–7:40",
-      "work": "Cierra la guía: verifica al menos 10 respuestas, analiza los datos en Google Sheets, crea la gráfica, identifica resultados relevantes y redacta la conclusión.",
-      "guide": "3ro",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+      "work": "Cierra la Guía No. 3: utiliza datos concretos para redactar hallazgos, conclusión y una decisión sustentada en la tabla o gráfica.",
+      "guide": "3ro_g3"
     },
     {
       "time": "7:40–8:20",
-      "work": "Cierra la guía: redacta el miniinforme de 120 a 180 palabras, responde la comprensión en el cuaderno, completa autoevaluación, reflexión y comprobante.",
-      "guide": "2do",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+      "work": "Cierra la Guía No. 3: revisa la ficha o miniinfografía, confirma la fuente y completa autoevaluación, reflexión y PDF final.",
+      "guide": "2do_g3"
     },
     {
       "time": "8:20–9:00",
-      "work": "Finaliza el análisis: completa cálculos y gráfica, registra los tres resultados principales, toma una decisión respaldada por datos y escribe la conclusión en el cuaderno.",
-      "guide": "ca_comp",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+      "work": "Cierra la Guía No. 3: completa el seguimiento técnico, determina el estado final del caso y formula recomendaciones preventivas.",
+      "guide": "ca_comp_g3"
     },
     {
       "time": "9:00–9:40",
-      "work": "Finaliza la comparación de propuestas: completa los resultados y la gráfica, recomienda una propuesta utilizando los datos y redacta la reflexión profesional.",
-      "guide": "ca_dis",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+      "work": "Cierra la Guía No. 3: presenta la comparación antes/después y justifica las decisiones del rediseño.",
+      "guide": "ca_dis_g3"
     },
     {
       "time": "9:00–9:40",
-      "work": "Finaliza el análisis del experimento: compara tratamientos, completa la gráfica, identifica el mejor resultado y redacta una conclusión sustentada en los datos.",
-      "guide": "ca_bio",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+      "work": "Cierra la Guía No. 3: presenta el resultado biológico, la evidencia que lo respalda y una conclusión adecuada.",
+      "guide": "ca_bio_g3"
     },
     {
       "time": "10:10–10:50",
-      "work": "Convierte el algoritmo en Python: crea estimador_almacenamiento.py, realiza dos pruebas, completa el reto de modificación, registra la depuración y cierra la reflexión.",
-      "guide": "lab1",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+      "work": "Cierra la Guía No. 3: ejecuta el programa con tres pruebas, registra correcciones y genera el PDF final con evidencias.",
+      "guide": "lab1_g3"
     },
     {
       "time": "10:50–11:25",
-      "work": "Cierra el documento: revisa formato y ortografía, registra la procedencia de la imagen, responde comprensión, autoevaluación y reflexión y genera el comprobante.",
-      "guide": "1ro",
-      "extra": "IMPORTANTE: Antes de cerrar la guía, descarga el archivo de respaldo JSON y guárdalo en un lugar seguro. En la siguiente clase abre la misma guía y utiliza “Cargar respaldo JSON” para recuperar tu avance. No dependas únicamente del autoguardado del navegador."
+      "work": "Cierra la Guía No. 3: revisa tus decisiones sobre datos personales, completa autoevaluación, reflexión y PDF final.",
+      "guide": "1ro_g3"
     }
   ]
 };
 
 /* =========================================================
-   MAPA DEL REPOSITORIO
-   Refleja las carpetas académicas actuales.
+   SINCRONIZACIÓN DEL REPOSITORIO GITHUB
+   Detecta carpetas nuevas con index.html y registra guías nuevas.
    ========================================================= */
-const REPOSITORY = [
-  {
-    "group": "Preprimaria",
-    "items": [
-      {
-        "label": "Computación",
-        "path": "preprimaria/computacion/"
-      }
-    ]
-  },
-  {
-    "group": "Primaria",
-    "items": [
-      {
-        "label": "1.º, 2.º y 3.º — Computación",
-        "path": "primaria/1ro-2do-3ro/computacion/"
-      },
-      {
-        "label": "4.º, 5.º y 6.º — Computación",
-        "path": "primaria/4to-5to-6to/computacion/"
-      }
-    ]
-  },
-  {
-    "group": "Básicos",
-    "items": [
-      {
-        "label": "1.º Básico — TAC / Computación",
-        "path": "1ro-basico/tac/"
-      },
-      {
-        "label": "1.º Básico — Robótica",
-        "path": "1ro-basico/robotica/"
-      },
-      {
-        "label": "2.º Básico — TAC / Computación",
-        "path": "2do-basico/tac/"
-      },
-      {
-        "label": "2.º Básico — Robótica",
-        "path": "2do-basico/robotica/"
-      },
-      {
-        "label": "3.º Básico — TAC / Computación",
-        "path": "3ro-basico/tac/"
-      },
-      {
-        "label": "3.º Básico — Robótica",
-        "path": "3ro-basico/robotica/"
-      },
-      {
-        "label": "1.º Básico — TAC — Guía No. 2",
-        "path": "1ro-basico/tac/guia-02-decisiones-responsables/"
-      },
-      {
-        "label": "2.º Básico — TAC — Guía No. 2",
-        "path": "2do-basico/tac/guia-02-organizar-informacion/"
-      },
-      {
-        "label": "3.º Básico — TAC — Guía No. 2",
-        "path": "3ro-basico/tac/guia-02-organizacion-datos/"
-      }
-    ]
-  },
-  {
-    "group": "4.º Bachillerato — Computación",
-    "items": [
-      {
-        "label": "Computación Aplicada",
-        "path": "4to-bachillerato/computacion/computacion-aplicada/"
-      },
-      {
-        "label": "Laboratorio I",
-        "path": "4to-bachillerato/computacion/laboratorio-i/"
-      },
-      {
-        "label": "Sistemas e Instalación de Software",
-        "path": "4to-bachillerato/computacion/sistemas-instalacion-software/"
-      },
-      {
-        "label": "Robótica",
-        "path": "4to-bachillerato/computacion/robotica/"
-      },
-      {
-        "label": "Computación Aplicada — Guía No. 2",
-        "path": "4to-bachillerato/computacion/computacion-aplicada/guia-02-diagnostico-tecnico/"
-      },
-      {
-        "label": "Laboratorio I — Guía No. 2",
-        "path": "4to-bachillerato/computacion/laboratorio-i/guia-02-algoritmo-codigo/"
-      }
-    ]
-  },
-  {
-    "group": "4.º Bachillerato — Diseño",
-    "items": [
-      {
-        "label": "Computación Aplicada",
-        "path": "4to-bachillerato/diseno/computacion-aplicada/"
-      },
-      {
-        "label": "Diseño Computarizado I",
-        "path": "4to-bachillerato/diseno/diseno-computarizado-i/"
-      },
-      {
-        "label": "Robótica",
-        "path": "4to-bachillerato/diseno/robotica/"
-      },
-      {
-        "label": "Computación Aplicada — Guía No. 2",
-        "path": "4to-bachillerato/diseno/computacion-aplicada/guia-02-rediseno-propuesta/"
-      }
-    ]
-  },
-  {
-    "group": "4.º Bachillerato — Biológicas",
-    "items": [
-      {
-        "label": "Computación Aplicada",
-        "path": "4to-bachillerato/biologicas/computacion-aplicada/"
-      },
-      {
-        "label": "Robótica",
-        "path": "4to-bachillerato/biologicas/robotica/"
-      },
-      {
-        "label": "Computación Aplicada / TIC — Guía No. 2",
-        "path": "4to-bachillerato/biologicas/computacion-aplicada/guia-02-comunicacion-biologica/"
-      }
-    ]
+const GITHUB_TREE_API = "https://api.github.com/repos/pzamoracid/2026_JRB/git/trees/main?recursive=1";
+const REPO_CACHE_KEY = "JRB_REPO_TREE_V2";
+const REPO_CACHE_MS = 10 * 60 * 1000;
+let detectedRepositoryPaths = [];
+
+function configuredRepositoryPaths(){
+  return [...new Set(Object.values(GUIDES).map(g => g.path).filter(Boolean))].sort();
+}
+function cleanRepoPath(path){ return String(path || "").replace(/^\/+|\/+$/g,""); }
+function courseRoot(path){
+  const parts = cleanRepoPath(path).split("/");
+  if(parts.length && /^guia(?:-|_)?\d+/i.test(parts[parts.length - 1])) parts.pop();
+  return parts.join("/");
+}
+function guideNumberFromPath(path){
+  const last = cleanRepoPath(path).split("/").pop() || "";
+  const m = last.match(/^guia(?:-|_)?0*(\d+)(?:-|$)/i) || last.match(/^guia0*(\d+)$/i);
+  return m ? Number(m[1]) : null;
+}
+function contextFromPath(path){
+  const p = cleanRepoPath(path).split("/");
+  let grade = "Ruta detectada";
+  if(p[0] === "1ro-basico") grade = "1.º Básico";
+  if(p[0] === "2do-basico") grade = "2.º Básico";
+  if(p[0] === "3ro-basico") grade = "3.º Básico";
+  if(p[0] === "4to-bachillerato"){
+    const orient = p[1] === "computacion" ? "Computación" : p[1] === "diseno" ? "Diseño" : p[1] === "biologicas" ? "Biología" : p[1];
+    grade = "4.º Bachillerato — " + orient;
   }
-];
+  const map = {"tac":"TAC / Computación","robotica":"Robótica","computacion-aplicada":"Computación Aplicada","laboratorio-i":"Laboratorio I","sistemas-instalacion-software":"Sistemas e Instalación de Software","diseno-computarizado-i":"Diseño Computarizado I","computacion":"Computación"};
+  const root = courseRoot(path).split("/");
+  const course = map[root[root.length - 1]] || (root[root.length - 1] || "Guía").replace(/-/g," ");
+  return {grade,course};
+}
+function registerDetectedGuides(paths){
+  let added = 0;
+  paths.forEach(path => {
+    const n = guideNumberFromPath(path);
+    if(!n) return;
+    const root = courseRoot(path);
+    const existingSame = Object.entries(GUIDES).find(([k,g]) => courseRoot(g.path) === root && Number(g.order) === n);
+    if(existingSame) return;
+    const sameSeries = Object.values(GUIDES).find(g => courseRoot(g.path) === root);
+    const ctx = contextFromPath(path);
+    const key = "auto_" + root.replace(/[^a-z0-9]+/gi,"_").replace(/^_+|_+$/g,"").toLowerCase() + "_g" + n;
+    GUIDES[key] = {grade:ctx.grade,course:ctx.course,title:"Guía No. " + n + " — Detectada automáticamente en GitHub",description:"Carpeta nueva detectada en el repositorio. El título descriptivo puede completarse después en el catálogo.",path:cleanRepoPath(path)+"/",status:"detected",series:sameSeries ? sameSeries.series : "auto_"+root,order:n};
+    added++;
+  });
+  return added;
+}
 
 const dayNames = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 const dayPretty = {"lunes":"Lunes","martes":"Martes","miércoles":"Miércoles","jueves":"Jueves","viernes":"Viernes"};
@@ -770,26 +922,11 @@ function classroomText(item, guide){
 
 function guideChoices(guideKey){
   if(!guideKey || !GUIDES[guideKey]) return guideKey ? [guideKey] : [];
-  const out = [];
-  const seen = new Set();
-
-  const add = key => {
-    if(key && GUIDES[key] && !seen.has(key)){
-      seen.add(key);
-      out.push(key);
-    }
-  };
-
-  if(/_g\d+$/.test(guideKey)){
-    const base = guideKey.replace(/_g\d+$/,'');
-    add(base);
-    add(guideKey);
-  } else {
-    add(guideKey);
-    add(guideKey + "_g2");
-  }
-
-  return out;
+  const current = GUIDES[guideKey];
+  const series = current.series || guideKey.replace(/_g\d+$/,"");
+  return Object.keys(GUIDES)
+    .filter(key => (GUIDES[key].series || key.replace(/_g\d+$/,"")) === series)
+    .sort((a,b) => (Number(GUIDES[a].order) || 999) - (Number(GUIDES[b].order) || 999));
 }
 
 
@@ -916,7 +1053,7 @@ function renderLibrary(){
   $("library").innerHTML = entries.map(([key,g]) => {
     const url = fullUrl(g.path);
     return '<article class="guide-card">' +
-      '<div class="guide-top"><span class="tag">Publicada</span><span class="course-label">' + esc(g.course) + '</span></div>' +
+      '<div class="guide-top"><span class="tag">' + (g.status === "detected" ? "Detectada" : "Publicada") + '</span><span class="course-label">' + esc(g.course) + '</span></div>' +
       '<h3>' + esc(g.grade) + '</h3>' +
       '<h4>' + esc(g.title) + '</h4>' +
       '<p>' + esc(g.description) + '</p>' +
@@ -935,34 +1072,104 @@ function renderLibrary(){
   document.querySelectorAll(".copy-guide").forEach(b => b.addEventListener("click", () => copyText(fullUrl(GUIDES[b.dataset.key].path))));
 }
 
-function renderRepository(){
-  $("repoGrid").innerHTML = REPOSITORY.map(group => {
-    const items = group.items.map(item =>
+function repositoryGroup(path){
+  const p = cleanRepoPath(path).split("/");
+  if(p[0] === "preprimaria") return "Preprimaria";
+  if(p[0] === "primaria") return "Primaria";
+  if(/basico$/.test(p[0] || "")) return "Básicos";
+  if(p[0] === "4to-bachillerato"){
+    if(p[1] === "computacion") return "4.º Bachillerato — Computación";
+    if(p[1] === "diseno") return "4.º Bachillerato — Diseño";
+    if(p[1] === "biologicas") return "4.º Bachillerato — Biología";
+  }
+  return "Otras rutas";
+}
+function repositoryLabel(path){
+  const ctx = contextFromPath(path);
+  const n = guideNumberFromPath(path);
+  return n ? ctx.course + " — Guía No. " + n : ctx.course;
+}
+function renderRepository(paths = detectedRepositoryPaths.length ? detectedRepositoryPaths : configuredRepositoryPaths()){
+  const groups = {};
+  [...new Set(paths)].sort().forEach(path => {
+    const group = repositoryGroup(path);
+    (groups[group] ||= []).push(path);
+  });
+  $("repoGrid").innerHTML = Object.entries(groups).map(([group, paths]) => {
+    const items = paths.map(path =>
       '<div class="repo-item">' +
-        '<div class="repo-name">' + esc(item.label) + '</div>' +
-        '<div class="repo-path">' + esc(item.path) + '</div>' +
+        '<div class="repo-name">' + esc(repositoryLabel(path)) + '</div>' +
+        '<div class="repo-path">' + esc(path) + '</div>' +
         '<div class="actions">' +
-          '<button type="button" class="ghost repo-copy" data-path="' + esc(item.path) + '">Copiar ruta</button>' +
+          '<a class="button ghost" href="' + esc(fullUrl(path)) + '" target="_blank" rel="noopener noreferrer">Abrir</a>' +
+          '<button type="button" class="ghost repo-copy" data-path="' + esc(path) + '">Copiar ruta</button>' +
         '</div>' +
       '</div>'
     ).join("");
-    return '<article class="repo-group"><h3>' + esc(group.group) + '</h3>' + items + '</article>';
+    return '<article class="repo-group"><h3>' + esc(group) + '</h3>' + items + '</article>';
   }).join("");
-
   document.querySelectorAll(".repo-copy").forEach(b => b.addEventListener("click", () => copyText(b.dataset.path)));
+}
+function cacheRepository(paths){ try{ localStorage.setItem(REPO_CACHE_KEY, JSON.stringify({at:Date.now(),paths})); }catch(e){} }
+function readRepositoryCache(){
+  try{
+    const data = JSON.parse(localStorage.getItem(REPO_CACHE_KEY) || "null");
+    if(data && Array.isArray(data.paths) && Date.now() - Number(data.at || 0) < REPO_CACHE_MS) return data.paths;
+  }catch(e){}
+  return null;
+}
+async function syncRepository(force=false){
+  const btn = $("syncRepoBtn"), status = $("repoSyncStatus");
+  if(btn) btn.disabled = true;
+  if(status) status.textContent = "Revisando GitHub…";
+  if(!force){
+    const cached = readRepositoryCache();
+    if(cached && cached.length){
+      detectedRepositoryPaths = cached;
+      registerDetectedGuides(cached);
+      renderRepository(cached); renderLibrary();
+      $("statGuides").textContent = Object.keys(GUIDES).length;
+      if(status) status.textContent = "Estructura cargada desde caché · " + cached.length + " rutas con index.html";
+      if(btn) btn.disabled = false;
+      return;
+    }
+  }
+  try{
+    const response = await fetch(GITHUB_TREE_API, {headers:{"Accept":"application/vnd.github+json"}});
+    if(!response.ok) throw new Error("HTTP " + response.status);
+    const data = await response.json();
+    const paths = (data.tree || []).filter(item => item.type === "blob" && item.path.endsWith("/index.html")).map(item => item.path.replace(/\/index\.html$/,"") + "/").sort();
+    detectedRepositoryPaths = [...new Set(paths)];
+    const added = registerDetectedGuides(detectedRepositoryPaths);
+    cacheRepository(detectedRepositoryPaths);
+    renderRepository(detectedRepositoryPaths); renderLibrary();
+    $("statGuides").textContent = Object.keys(GUIDES).length;
+    if(window.__currentView) renderDay(window.__currentView.day, window.__currentView.date, window.__currentView.mode);
+    if(status) status.textContent = "Sincronizado con GitHub · " + detectedRepositoryPaths.length + " rutas · " + added + " guía(s) nueva(s) detectada(s)";
+  }catch(e){
+    detectedRepositoryPaths = configuredRepositoryPaths();
+    renderRepository(detectedRepositoryPaths);
+    if(status) status.textContent = "No se pudo consultar GitHub. Se muestra el catálogo local.";
+  }finally{ if(btn) btn.disabled = false; }
 }
 
 $("statGuides").textContent = Object.keys(GUIDES).length;
 $("todayLabel").textContent = "Hoy: " + dateText(new Date());
 
 const init = initialDay();
+window.__currentView = init;
 renderDay(init.day, init.date, init.mode);
 renderLibrary();
 renderRepository();
 
-document.querySelectorAll("#dayTabs button").forEach(b => b.addEventListener("click", () => renderDay(b.dataset.day)));
+document.querySelectorAll("#dayTabs button").forEach(b => b.addEventListener("click", () => {
+  window.__currentView = {day:b.dataset.day,date:null,mode:"manual"};
+  renderDay(b.dataset.day);
+}));
 $("guideSearch").addEventListener("input", renderLibrary);
 $("levelFilter").addEventListener("change", renderLibrary);
+$("syncRepoBtn").addEventListener("click", () => syncRepository(true));
+syncRepository(false);
 
 })();
 </script>
