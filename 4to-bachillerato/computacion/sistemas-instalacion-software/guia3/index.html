@@ -73,26 +73,18 @@ table{width:100%;border-collapse:collapse;font-size:14px}th,td{border:1px solid 
 <section class="card"><span class="pts">1 pt</span><h2>Actividad 4 — Autoevaluación</h2><table class="eval"><thead><tr><th>Criterio</th><th>Sí</th><th>En proceso</th></tr></thead><tbody><tr><td>Reconozco IPv4, máscara y gateway.</td><td><input type="radio" name="ev1" value="Sí" data-radio-label="Reconozco IPv4, máscara y gateway."></td><td><input type="radio" name="ev1" value="En proceso" data-radio-label="Reconozco IPv4, máscara y gateway."></td></tr><tr><td>Puedo consultar la configuración con ipconfig.</td><td><input type="radio" name="ev2" value="Sí" data-radio-label="Puedo consultar la configuración con ipconfig."></td><td><input type="radio" name="ev2" value="En proceso" data-radio-label="Puedo consultar la configuración con ipconfig."></td></tr><tr><td>Puedo utilizar ping como prueba básica.</td><td><input type="radio" name="ev3" value="Sí" data-radio-label="Puedo utilizar ping como prueba básica."></td><td><input type="radio" name="ev3" value="En proceso" data-radio-label="Puedo utilizar ping como prueba básica."></td></tr><tr><td>Puedo proponer pasos ordenados para revisar conectividad.</td><td><input type="radio" name="ev4" value="Sí" data-radio-label="Puedo proponer pasos ordenados para revisar conectividad."></td><td><input type="radio" name="ev4" value="En proceso" data-radio-label="Puedo proponer pasos ordenados para revisar conectividad."></td></tr></tbody></table></section>
 <section class="card"><span class="pts">1 pt</span><h2>Actividad 5 — Reflexión final</h2><div class="q"><label>¿Por qué conviene revisar primero la conexión física y después la configuración IP cuando una red no funciona?</label><textarea data-f="reflection" data-label="¿Por qué conviene revisar primero la conexión física y después la configuración IP cuando una red no funciona?" placeholder=""></textarea></div></section>
 
-<section class="card"><h2>Evidencias fotográficas opcionales</h2><p>Las fotografías se guardan dentro del avance, se incluyen en el respaldo JSON y se incorporan al PDF final.</p>
+<section class="card"><h2>Evidencias digitales opcionales</h2><p>Agrega únicamente capturas de la configuración y de las pruebas realizadas en el equipo autorizado. Estas evidencias se guardan dentro del avance, se incluyen en el respaldo JSON y se incorporan al PDF final.</p>
         <div class="photo-section">
-          <h3>Fotografías del cuaderno</h3>
-          <p class="small">Esquema, parámetros de red o respuestas. Máximo: 4 imágenes.</p>
-          <label class="file-label secondary">Agregar fotografías
-            <input id="photo_notebook" type="file" accept="image/*" multiple hidden>
-          </label>
-          <div id="photos_notebook" class="photos"></div>
-        </div>
-        <div class="photo-section">
-          <h3>Capturas de configuración</h3>
-          <p class="small">Capturas de ipconfig o configuración IPv4. Máximo: 4 imágenes.</p>
+          <h3>Capturas de configuración IPv4</h3>
+          <p class="small">Capturas de la configuración IPv4 o de la información relevante obtenida con ipconfig. Máximo: 4 imágenes.</p>
           <label class="file-label secondary">Agregar fotografías
             <input id="photo_config" type="file" accept="image/*" multiple hidden>
           </label>
           <div id="photos_config" class="photos"></div>
         </div>
         <div class="photo-section">
-          <h3>Capturas de pruebas</h3>
-          <p class="small">Evidencia de comandos ping y resultados. Máximo: 4 imágenes.</p>
+          <h3>Capturas de pruebas de conectividad</h3>
+          <p class="small">Evidencia de los comandos ping utilizados y de sus resultados. Máximo: 4 imágenes.</p>
           <label class="file-label secondary">Agregar fotografías
             <input id="photo_tests" type="file" accept="image/*" multiple hidden>
           </label>
@@ -111,7 +103,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}th,td{border:1px solid 
 (()=>{'use strict';
 const DB="JRB_SISTEMAS_G03_IPV4_2026",STORE='guide',KEY='state';
 const REQUIRED=[{"label": "Actividad 1 completa", "type": "fields", "keys": ["q1", "q2", "q3", "q4"]}, {"label": "Actividad 2 — configuración registrada", "type": "fields", "keys": ["ipv4", "mask", "ipconfig", "ping"]}, {"label": "Actividad 2 — práctica confirmada", "type": "checks", "keys": ["practiceDone"]}, {"label": "Actividad 3 completa", "type": "fields", "keys": ["case1", "case2", "case3"]}, {"label": "Actividad 4 — autoevaluación", "type": "radios", "keys": ["ev1", "ev2", "ev3", "ev4"]}, {"label": "Actividad 5 — reflexión", "type": "fields", "keys": ["reflection"]}];
-const LIMITS={"notebook": 4, "config": 4, "tests": 4},PHOTO_TITLES={"notebook": "Fotografías del cuaderno", "config": "Capturas de configuración", "tests": "Capturas de pruebas"};
+const LIMITS={"config": 4, "tests": 4},PHOTO_TITLES={"config": "Capturas de configuración IPv4", "tests": "Capturas de pruebas de conectividad"};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 let state={student:{name:'',code:'',orientation:"Computación"},fields:{},radios:{},photos:{},updatedAt:null};
 Object.keys(LIMITS).forEach(k=>state.photos[k]=[]);
