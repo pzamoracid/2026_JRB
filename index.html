@@ -166,6 +166,7 @@ footer{text-align:center;color:var(--muted);font-size:.87rem;padding:0 18px 28px
         <select id="levelFilter">
           <option value="">Todos</option>
           <option value="Preprimaria">Preprimaria</option>
+          <option value="Primaria">Primaria</option>
           <option value="Básico">Básicos</option>
           <option value="Bachillerato">4.º Bachillerato</option>
         </select>
@@ -245,6 +246,17 @@ const GUIDES = {
     "series": "tac_1ro",
     "order": 3
   },
+  "1ro_g4": {
+    "grade": "1.º Básico",
+    "course": "TAC / Computación",
+    "title": "Guía No. 4 — Contraseñas seguras y cuidado de mis cuentas",
+    "description": "Protección de cuentas, prácticas seguras con contraseñas y plan personal de seguridad sin utilizar contraseñas reales.",
+    "work": "Trabaja la Guía No. 4: analiza cómo proteger tus cuentas, identifica riesgos relacionados con contraseñas y elabora un plan personal de seguridad sin escribir contraseñas reales.",
+    "path": "1ro-basico/tac/guia4/",
+    "status": "published",
+    "series": "tac_1ro",
+    "order": 4
+  },
   "2do": {
     "grade": "2.º Básico",
     "course": "TAC / Computación",
@@ -274,6 +286,17 @@ const GUIDES = {
     "status": "published",
     "series": "tac_2do",
     "order": 3
+  },
+  "2do_g4": {
+    "grade": "2.º Básico",
+    "course": "TAC / Computación",
+    "title": "Guía No. 4 — Diseño de una presentación digital clara",
+    "description": "Planificación y elaboración de una presentación breve, legible, con recursos visuales pertinentes y fuentes identificadas.",
+    "work": "Trabaja la Guía No. 4: planifica y crea una presentación digital breve, legible, con recursos visuales relacionados con el tema y fuentes identificadas.",
+    "path": "2do-basico/tac/guia4/",
+    "status": "published",
+    "series": "tac_2do",
+    "order": 4
   },
   "3ro": {
     "grade": "3.º Básico",
@@ -305,6 +328,17 @@ const GUIDES = {
     "series": "tac_3ro",
     "order": 3
   },
+  "3ro_g4": {
+    "grade": "3.º Básico",
+    "course": "TAC / Computación",
+    "title": "Guía No. 4 — De los datos a una decisión informada",
+    "description": "Uso de datos y conclusiones para comparar opciones, justificar una decisión y reconocer limitaciones de la información.",
+    "work": "Trabaja la Guía No. 4: utiliza las conclusiones y los datos de la guía anterior para comparar opciones y redactar una recomendación sustentada en evidencia.",
+    "path": "3ro-basico/tac/guia-04/",
+    "status": "published",
+    "series": "tac_3ro",
+    "order": 4
+  },
   "ca_comp": {
     "grade": "4.º Bachillerato — Computación",
     "course": "Computación Aplicada",
@@ -334,6 +368,17 @@ const GUIDES = {
     "status": "published",
     "series": "ca_comp",
     "order": 3
+  },
+  "ca_comp_g4": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Computación Aplicada",
+    "title": "Guía No. 4 — De los registros a un plan preventivo",
+    "description": "Análisis de registros técnicos para identificar incidencias recurrentes y organizar acciones preventivas con frecuencia e indicadores.",
+    "work": "Trabaja la Guía No. 4: analiza registros técnicos, identifica incidencias recurrentes y organiza un plan preventivo con acciones, frecuencia, responsable e indicadores.",
+    "path": "4to-bachillerato/computacion/computacion-aplicada/guia4/",
+    "status": "published",
+    "series": "ca_comp",
+    "order": 4
   },
   "ca_dis": {
     "grade": "4.º Bachillerato — Diseño",
@@ -365,6 +410,17 @@ const GUIDES = {
     "series": "ca_dis",
     "order": 3
   },
+  "ca_dis_g4": {
+    "grade": "4.º Bachillerato — Diseño",
+    "course": "Computación Aplicada",
+    "title": "Guía No. 4 — Organización y entrega digital de un proyecto gráfico",
+    "description": "Organización del archivo editable, recursos, versiones y exportación final para preparar un paquete digital de entrega.",
+    "work": "Trabaja la Guía No. 4: organiza los archivos del proyecto gráfico, diferencia el archivo editable de la exportación final y prepara un paquete digital de entrega.",
+    "path": "4to-bachillerato/diseno/computacion-aplicada/guia4/",
+    "status": "published",
+    "series": "ca_dis",
+    "order": 4
+  },
   "ca_bio": {
     "grade": "4.º Bachillerato — Biología",
     "course": "Computación Aplicada",
@@ -394,6 +450,17 @@ const GUIDES = {
     "status": "published",
     "series": "ca_bio",
     "order": 3
+  },
+  "ca_bio_g4": {
+    "grade": "4.º Bachillerato — Biología",
+    "course": "Computación Aplicada",
+    "title": "Guía No. 4 — Organización de evidencia para un informe biológico digital",
+    "description": "Organización de datos, observaciones, recursos visuales y fuentes para elaborar un miniinforme biológico digital.",
+    "work": "Trabaja la Guía No. 4: organiza datos, observaciones, un recurso visual y las fuentes para elaborar un miniinforme biológico digital.",
+    "path": "4to-bachillerato/biologicas/computacion-aplicada/guia4/",
+    "status": "published",
+    "series": "ca_bio",
+    "order": 4
   },
   "lab1": {
     "grade": "4.º Bachillerato — Computación",
@@ -425,6 +492,17 @@ const GUIDES = {
     "series": "lab1",
     "order": 3
   },
+  "lab1_g4": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Laboratorio I",
+    "title": "Guía No. 4 — Tomar decisiones con if / else en Python",
+    "description": "Condiciones, operadores de comparación, estructura if / else y pruebas de los distintos caminos de un programa.",
+    "work": "Trabaja la Guía No. 4: utiliza condiciones if / else y operadores de comparación para construir y probar un programa que toma decisiones según el dato ingresado.",
+    "path": "4to-bachillerato/computacion/laboratorio-i/guia4/",
+    "status": "published",
+    "series": "lab1",
+    "order": 4
+  },
   "diseno_color": {
     "grade": "4.º Bachillerato — Diseño",
     "course": "Diseño Computarizado I",
@@ -444,6 +522,28 @@ const GUIDES = {
     "status": "published",
     "series": "diseno_color",
     "order": 2
+  },
+  "diseno_color_g3": {
+    "grade": "4.º Bachillerato — Diseño",
+    "course": "Diseño Computarizado I",
+    "title": "Guía No. 3 — Composición visual y jerarquía",
+    "description": "Jerarquía visual, alineación, contraste, uso intencional del color y organización de una pieza gráfica.",
+    "work": "Trabaja la Guía No. 3: organiza una pieza gráfica mediante jerarquía visual, alineación, contraste y uso coherente del color.",
+    "path": "4to-bachillerato/diseno/diseno-computarizado-i/guia3/",
+    "status": "published",
+    "series": "diseno_color",
+    "order": 3
+  },
+  "diseno_color_g4": {
+    "grade": "4.º Bachillerato — Diseño",
+    "course": "Diseño Computarizado I",
+    "title": "Guía No. 4 — Adaptación de una composición a diferentes formatos",
+    "description": "Adaptación de una misma pieza a formato cuadrado y vertical conservando mensaje, identidad, jerarquía y legibilidad.",
+    "work": "Trabaja la Guía No. 4: adapta una misma pieza gráfica a un formato cuadrado y otro vertical, reorganizando los elementos sin perder jerarquía ni legibilidad.",
+    "path": "4to-bachillerato/diseno/diseno-computarizado-i/guia4/",
+    "status": "published",
+    "series": "diseno_color",
+    "order": 4
   },
   "sis_t568": {
     "grade": "4.º Bachillerato — Computación",
@@ -474,6 +574,39 @@ const GUIDES = {
     "status": "published",
     "series": "sistemas",
     "order": 3
+  },
+  "sis_t568_g4": {
+    "grade": "4.º Bachillerato — Computación",
+    "course": "Sistemas de Instalación de Software",
+    "title": "Guía No. 4 — DHCP, configuración IP y resolución de nombres",
+    "description": "Configuración automática y manual, DHCP, gateway, DNS, ipconfig /all y consultas seguras con nslookup.",
+    "work": "Trabaja la Guía No. 4: consulta la configuración del equipo con ipconfig /all, identifica DHCP y DNS y realiza una consulta con nslookup sin modificar parámetros de red.",
+    "path": "4to-bachillerato/computacion/sistemas-instalacion-software/guia4/",
+    "status": "published",
+    "series": "sistemas",
+    "order": 4
+  },
+  "primaria_1a3_comp_g1": {
+    "grade": "1.º, 2.º y 3.º Primaria",
+    "course": "Computación",
+    "title": "Guía No. 1 — Creo, guardo y vuelvo a encontrar mi trabajo",
+    "description": "Uso básico del mouse y teclado para crear, guardar y volver a abrir un archivo sencillo, con reto diferenciado por grado.",
+    "work": "Trabaja la Guía No. 1: crea un archivo sencillo según tu grado, guárdalo con un nombre claro y comprueba que puedes volver a localizarlo.",
+    "path": "primaria/1ro-2do-3ro/computacion/guia1/",
+    "status": "published",
+    "series": "primaria_1a3_comp",
+    "order": 1
+  },
+  "primaria_4a6_comp_g1": {
+    "grade": "4.º, 5.º y 6.º Primaria",
+    "course": "Computación",
+    "title": "Guía No. 1 — Organizo mis archivos y carpetas",
+    "description": "Creación de carpetas, nombres claros de archivos y organización digital con reto diferenciado por grado.",
+    "work": "Trabaja la Guía No. 1: crea una estructura de carpetas y archivos según tu grado, utiliza nombres claros y comprueba que puedes localizar nuevamente tus trabajos.",
+    "path": "primaria/4to-5to-6to/computacion/guia1/",
+    "status": "published",
+    "series": "primaria_4a6_comp",
+    "order": 1
   },
   "robotica_1ro": {
     "grade": "1.º Básico",
@@ -524,6 +657,17 @@ const GUIDES = {
     "status": "published",
     "series": "preprimaria_comp",
     "order": 1
+  },
+  "preprimaria_comp_g2": {
+    "grade": "Preprimaria — Kínder y Párvulos",
+    "course": "Computación",
+    "title": "Guía interactiva No. 2 — Letras y números en el teclado",
+    "description": "Reconocimiento y localización de letras y números en el teclado mediante una práctica breve y acompañada.",
+    "work": "Trabaja la Guía interactiva No. 2: localiza letras de tu nombre y algunos números en el teclado y realiza una práctica sencilla de escritura con acompañamiento.",
+    "path": "preprimaria/computacion/guia2/",
+    "status": "published",
+    "series": "preprimaria_comp",
+    "order": 2
   },
   "robotica_3ro": {
     "grade": "3.º Básico",
@@ -616,74 +760,70 @@ const SCHEDULE = {
   "lunes": [
     {
       "time": "7:00–7:40",
-      "work": "Inicia la Guía No. 3: analiza la tabla o gráfica trabajada anteriormente, compara valores, identifica patrones y redacta conclusiones sustentadas en datos.",
-      "guide": "3ro_g3"
+      "work": "Inicia la Guía No. 4: utiliza las conclusiones y los datos de la guía anterior para comparar opciones y redactar una recomendación sustentada en evidencia.",
+      "guide": "3ro_g4"
     },
     {
       "time": "7:40–8:20",
-      "work": "Inicia la Guía No. 3: transforma la información organizada en una ficha informativa o miniinfografía clara, resumida y con fuente.",
-      "guide": "2do_g3"
+      "work": "Inicia la Guía No. 4: planifica y crea una presentación digital breve, legible, con recursos visuales relacionados con el tema y fuentes identificadas.",
+      "guide": "2do_g4"
     },
     {
       "time": "8:20–9:00",
-      "work": "Inicia la Guía No. 3: recupera el diagnóstico técnico anterior, documenta las acciones realizadas y comienza el seguimiento de la solución.",
-      "guide": "ca_comp_g3"
+      "work": "Inicia la Guía No. 4: analiza los registros técnicos para identificar incidencias recurrentes y comienza un plan preventivo con acciones, frecuencia e indicadores.",
+      "guide": "ca_comp_g4"
     },
     {
       "time": "9:00–9:40",
-      "work": "Inicia la Guía No. 3: compara la propuesta inicial con el rediseño y prepara la justificación de los cambios realizados.",
-      "guide": "ca_dis_g3"
+      "work": "Inicia la Guía No. 4: organiza los archivos del proyecto gráfico, diferencia el editable de la exportación final y prepara el paquete digital de entrega.",
+      "guide": "ca_dis_g4"
     },
     {
       "time": "9:00–9:40",
-      "work": "Inicia la Guía No. 3: organiza los resultados o información biológica y comienza la ficha científica visual con datos, fuente y conclusión.",
-      "guide": "ca_bio_g3"
+      "work": "Inicia la Guía No. 4: organiza datos, observaciones, recurso visual y fuentes para comenzar un miniinforme biológico digital.",
+      "guide": "ca_bio_g4"
     },
     {
       "time": "10:10–10:50",
-      "work": "Inicia la Guía No. 3: trabaja variables, tipos de datos, input(), print() y operadores para construir un programa de promedio en Python.",
-      "guide": "lab1_g3"
+      "work": "Inicia la Guía No. 4: trabaja condiciones if / else y operadores de comparación para construir un programa que toma decisiones según la nota ingresada.",
+      "guide": "lab1_g4"
     },
     {
       "time": "10:50–11:25",
-      "work": "Inicia la Guía No. 3: reconoce qué datos personales debe proteger y analiza situaciones antes de compartir información digital.",
-      "guide": "1ro_g3"
+      "work": "Inicia la Guía No. 4: analiza cómo proteger tus cuentas, identifica riesgos relacionados con contraseñas y elabora un plan personal de seguridad sin escribir contraseñas reales.",
+      "guide": "1ro_g4"
     }
   ],
   "martes": [
     {
       "time": "7:00–7:40",
-      "work": "Continúa la Guía No. 2 de Diseño Computarizado I: desarrolla y mejora la pieza gráfica digital a partir del boceto y las herramientas del programa.",
-      "guide": "diseno_color_g2"
+      "work": "Inicia la Guía No. 4: toma la pieza trabajada anteriormente y adáptala a un formato cuadrado y otro vertical, conservando mensaje, identidad, jerarquía y legibilidad.",
+      "guide": "diseno_color_g4"
     },
     {
       "time": "7:40–8:20",
-      "work": "Inicia la Guía No. 3: identifica IPv4, máscara y gateway; consulta la configuración y registra pruebas básicas con ipconfig y ping.",
-      "guide": "sis_t568_g3"
+      "work": "Inicia la Guía No. 4: consulta ipconfig /all, identifica DHCP, gateway y DNS, y registra una consulta con nslookup sin modificar la configuración de red.",
+      "guide": "sis_t568_g4"
     },
     {
       "time": "8:20–9:00",
-      "work": "Período pendiente de actividad interactiva.",
-      "grade": "1.º, 2.º y 3.º Primaria",
-      "course": "Computación",
-      "status": "pending"
+      "work": "Inicia la Guía No. 1: crea un trabajo sencillo según tu grado, guárdalo con un nombre claro y comprueba que puedes volver a encontrarlo.",
+      "guide": "primaria_1a3_comp_g1"
     },
     {
       "time": "9:00–9:40",
-      "work": "Período pendiente de actividad interactiva.",
-      "grade": "4.º, 5.º y 6.º Primaria",
-      "course": "Computación",
-      "status": "pending"
+      "work": "Inicia la Guía No. 1: organiza carpetas y archivos según el reto de tu grado, utiliza nombres claros y comprueba que puedes localizar nuevamente tus trabajos.",
+      "guide": "primaria_4a6_comp_g1"
     },
     {
       "time": "10:10–10:50",
-      "work": "Inicia la Guía No. 3 de Robótica: estudia ciclos repetitivos y construye en mBlock los movimientos del Laboratorio 16 para diseñar figuras con mBot2.",
+      "work": "Continúa la Guía No. 3 de Robótica: estudia los ciclos repetitivos y desarrolla los movimientos del Laboratorio 16 para diseñar figuras con mBot2.",
       "guide": "robotica_2do_g3"
     },
     {
       "time": "10:50–11:25",
-      "work": "Realiza la actividad interactiva de Computación de Preprimaria y conserva el respaldo JSON al finalizar.",
-      "guide": "preprimaria_comp"
+      "work": "Inicia la Guía interactiva No. 2: localiza letras de tu nombre y algunos números en el teclado y realiza una práctica sencilla de escritura con acompañamiento.",
+      "guide": "preprimaria_comp_g2"
     }
   ],
   "miércoles": [
@@ -714,25 +854,25 @@ const SCHEDULE = {
     },
     {
       "time": "10:10–10:50",
-      "work": "Continúa la Guía No. 3: organiza la comunicación del producto, revisa claridad, fuente y presentación final.",
-      "guide": "2do_g3"
+      "work": "Continúa la Guía No. 4: revisa las diapositivas, reduce texto innecesario, mejora los recursos visuales y verifica las fuentes.",
+      "guide": "2do_g4"
     },
     {
       "time": "10:50–11:25",
-      "work": "Continúa la Guía No. 3: completa el análisis de situaciones digitales y redacta tus reglas para proteger datos personales.",
-      "guide": "1ro_g3"
+      "work": "Continúa la Guía No. 4: completa tu plan de protección de cuentas y revisa cómo actuar ante situaciones que puedan comprometer una contraseña.",
+      "guide": "1ro_g4"
     }
   ],
   "jueves": [
     {
       "time": "7:00–7:40",
-      "work": "Continúa la Guía No. 2 de Diseño Computarizado I: documenta herramientas, comandos y mejoras realizadas en la pieza gráfica.",
-      "guide": "diseno_color_g2"
+      "work": "Continúa la Guía No. 4: compara las dos versiones de la pieza, corrige distribución, jerarquía y legibilidad y documenta las decisiones de adaptación.",
+      "guide": "diseno_color_g4"
     },
     {
       "time": "7:40–8:20",
-      "work": "Continúa la Guía No. 3 de Sistemas: completa las pruebas de conectividad y resuelve los casos de diagnóstico básico de una LAN.",
-      "guide": "sis_t568_g3"
+      "work": "Continúa la Guía No. 4: interpreta los datos de DHCP y DNS, resuelve los casos de diagnóstico y completa autoevaluación, reflexión y PDF final.",
+      "guide": "sis_t568_g4"
     },
     {
       "time": "8:20–9:00",
@@ -755,45 +895,45 @@ const SCHEDULE = {
     },
     {
       "time": "10:50–11:25",
-      "work": "Continúa la actividad interactiva de Computación de Preprimaria.",
-      "guide": "preprimaria_comp"
+      "work": "Continúa la Guía interactiva No. 2: refuerza la localización de letras y números en el teclado y completa el registro guiado de la práctica.",
+      "guide": "preprimaria_comp_g2"
     }
   ],
   "viernes": [
     {
       "time": "7:00–7:40",
-      "work": "Cierra la Guía No. 3: utiliza datos concretos para redactar hallazgos, conclusión y una decisión sustentada en la tabla o gráfica.",
-      "guide": "3ro_g3"
+      "work": "Cierra la Guía No. 4: revisa la evidencia utilizada, termina la recomendación sustentada en datos y completa autoevaluación, reflexión y PDF final.",
+      "guide": "3ro_g4"
     },
     {
       "time": "7:40–8:20",
-      "work": "Cierra la Guía No. 3: revisa la ficha o miniinfografía, confirma la fuente y completa autoevaluación, reflexión y PDF final.",
-      "guide": "2do_g3"
+      "work": "Cierra la Guía No. 4: revisa la presentación, confirma claridad, recursos visuales y fuentes, y genera el PDF final.",
+      "guide": "2do_g4"
     },
     {
       "time": "8:20–9:00",
-      "work": "Cierra la Guía No. 3: completa el seguimiento técnico, determina el estado final del caso y formula recomendaciones preventivas.",
-      "guide": "ca_comp_g3"
+      "work": "Cierra la Guía No. 4: completa el plan preventivo, define los indicadores de seguimiento y genera el PDF final.",
+      "guide": "ca_comp_g4"
     },
     {
       "time": "9:00–9:40",
-      "work": "Cierra la Guía No. 3: presenta la comparación antes/después y justifica las decisiones del rediseño.",
-      "guide": "ca_dis_g3"
+      "work": "Cierra la Guía No. 4: revisa la estructura de archivos, versiones y exportación final del proyecto gráfico y genera el PDF.",
+      "guide": "ca_dis_g4"
     },
     {
       "time": "9:00–9:40",
-      "work": "Cierra la Guía No. 3: presenta el resultado biológico, la evidencia que lo respalda y una conclusión adecuada.",
-      "guide": "ca_bio_g3"
+      "work": "Cierra la Guía No. 4: completa el miniinforme biológico, revisa evidencia, conclusión y fuente, y genera el PDF final.",
+      "guide": "ca_bio_g4"
     },
     {
       "time": "10:10–10:50",
-      "work": "Cierra la Guía No. 3: ejecuta el programa con tres pruebas, registra correcciones y genera el PDF final con evidencias.",
-      "guide": "lab1_g3"
+      "work": "Cierra la Guía No. 4: prueba ambos caminos del if / else, utiliza el valor límite, registra correcciones y genera el PDF final.",
+      "guide": "lab1_g4"
     },
     {
       "time": "10:50–11:25",
-      "work": "Cierra la Guía No. 3: revisa tus decisiones sobre datos personales, completa autoevaluación, reflexión y PDF final.",
-      "guide": "1ro_g3"
+      "work": "Cierra la Guía No. 4: revisa tu plan de protección de cuentas, completa autoevaluación, reflexión y PDF final.",
+      "guide": "1ro_g4"
     }
   ]
 };
@@ -803,7 +943,7 @@ const SCHEDULE = {
    Detecta carpetas nuevas con index.html y registra guías nuevas.
    ========================================================= */
 const GITHUB_TREE_API = "https://api.github.com/repos/pzamoracid/2026_JRB/git/trees/main?recursive=1";
-const REPO_CACHE_KEY = "JRB_REPO_TREE_V2";
+const REPO_CACHE_KEY = "JRB_REPO_TREE_V4";
 const REPO_CACHE_MS = 10 * 60 * 1000;
 let detectedRepositoryPaths = [];
 
@@ -824,6 +964,9 @@ function guideNumberFromPath(path){
 function contextFromPath(path){
   const p = cleanRepoPath(path).split("/");
   let grade = "Ruta detectada";
+  if(p[0] === "preprimaria") grade = "Preprimaria — Kínder y Párvulos";
+  if(p[0] === "primaria" && p[1] === "1ro-2do-3ro") grade = "1.º, 2.º y 3.º Primaria";
+  if(p[0] === "primaria" && p[1] === "4to-5to-6to") grade = "4.º, 5.º y 6.º Primaria";
   if(p[0] === "1ro-basico") grade = "1.º Básico";
   if(p[0] === "2do-basico") grade = "2.º Básico";
   if(p[0] === "3ro-basico") grade = "3.º Básico";
@@ -908,10 +1051,37 @@ async function copyText(text){
   }
 }
 
+function guideWork(item, guide){
+  if(!guide) return item.work || "";
+
+  // Si es la guía programada para ese período, conserva el texto
+  // específico del día (Inicia / Continúa / Cierra).
+  if(item.guide && GUIDES[item.guide] === guide && item.work){
+    return item.work;
+  }
+
+  // Si el docente cambia el selector a otra guía, usa el trabajo
+  // propio de esa guía y nunca el texto de la guía programada.
+  if(guide.work) return guide.work;
+
+  // Respaldo para guías antiguas que aún no tengan "work".
+  return "Trabaja " + guide.title +
+    (guide.description ? ": " + guide.description : ".");
+}
+
 function classroomText(item, guide){
   const grade = guide ? guide.grade : item.grade;
   const course = guide ? guide.course : item.course;
-  let text = grade + " — " + course + "\n\nTrabajo de hoy:\n" + item.work;
+  const work = guideWork(item, guide);
+
+  let text = grade + " — " + course;
+
+  if(guide){
+    text += "\n\n" + guide.title;
+  }
+
+  text += "\n\nTrabajo de hoy:\n" + work;
+
   if(guide){
     text += "\n\nGuía interactiva:\n" + fullUrl(guide.path);
     if(item.extra) text += "\n\n" + item.extra;
@@ -986,7 +1156,7 @@ function renderDay(day, contextDate=null, mode="manual"){
         title +
         desc +
         selector +
-        '<p class="work"><strong>Trabajo de hoy:</strong> ' + esc(item.work) + '</p>' +
+        '<p class="work" id="work_' + i + '"><strong>Trabajo de hoy:</strong> ' + esc(guideWork(item, selectedGuide)) + '</p>' +
         '<div class="actions">' +
           open + copy +
           '<button type="button" class="ghost comment-toggle" data-index="' + i + '">Comentario Classroom</button>' +
@@ -1009,6 +1179,8 @@ function renderDay(day, contextDate=null, mode="manual"){
     if(title) title.innerHTML = "<strong>" + esc(guide.title) + "</strong>";
     const desc = $("guideDesc_" + i);
     if(desc) desc.textContent = guide.description || "";
+    const work = $("work_" + i);
+    if(work) work.innerHTML = "<strong>Trabajo de hoy:</strong> " + esc(guideWork(items[i], guide));
     const open = $("openGuide_" + i);
     if(open) open.href = fullUrl(guide.path);
     const comment = $("commentText_" + i);
@@ -1037,6 +1209,7 @@ function renderDay(day, contextDate=null, mode="manual"){
 
 function levelOf(guide){
   if(guide.grade.includes("Preprimaria")) return "Preprimaria";
+  if(guide.grade.includes("Primaria")) return "Primaria";
   if(guide.grade.includes("Básico")) return "Básico";
   if(guide.grade.includes("Bachillerato")) return "Bachillerato";
   return "Otro";
