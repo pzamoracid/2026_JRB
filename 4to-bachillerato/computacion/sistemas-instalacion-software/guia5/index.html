@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sistemas e Instalación de Software - Guía No. 5</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#eef3f7;color:#1f2937;line-height:1.5}
+header{background:#284f6c;color:#fff;padding:24px}
+main{max-width:1000px;margin:20px auto;background:#fff;padding:24px;border-radius:14px}
+.g{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+.c{border:1px solid #cbd5e1;border-radius:10px;padding:16px;margin:16px 0}
+h2{color:#284f6c} h3{margin-bottom:5px}
+label{font-weight:bold;display:block;margin-top:10px}
+input[type=text],textarea,select{width:100%;box-sizing:border-box;padding:9px;border:1px solid #cbd5e1;border-radius:7px}
+textarea{min-height:88px}
+.info{background:#edf6ff;border-left:5px solid #4380a8;padding:12px}
+.warn{background:#fff7df;border-left:5px solid #d19b28;padding:12px}
+.cmd{font-family:Consolas,monospace;background:#111827;color:#f9fafb;padding:10px;border-radius:7px;margin:7px 0}
+.ev{display:flex;flex-wrap:wrap;gap:10px}.pic{width:230px;border:1px solid #ddd;padding:8px;border-radius:7px}
+.pic img{width:100%;max-height:240px;object-fit:contain}
+.bar{max-width:1000px;margin:0 auto 25px;display:flex;gap:8px;flex-wrap:wrap}
+button,.btn{padding:10px 13px;border:0;border-radius:7px;background:#284f6c;color:#fff;font-weight:bold;cursor:pointer}
+.alt{background:#64748b}.bad{background:#a33}.small{font-size:13px;color:#64748b}
+.check label{font-weight:normal}
+@media(max-width:700px){.g{grid-template-columns:1fr}main{margin:0;border-radius:0}}
+@media print{.bar,.upload,.del{display:none}body{background:#fff}main{margin:0}}
+</style>
+</head>
+<body>
+<header>
+<h1>Guía de trabajo No. 5</h1>
+<div>Sistemas e Instalación de Software · 4.º Bachillerato en Ciencias y Letras con Orientación en Computación</div>
+<b>Tema: Diagnóstico de conectividad: comprobar IP, puerta de enlace, DNS y acceso a la red</b>
+</header>
+<main>
+<div class="g">
+<div><label>Nombre completo</label><input id="nombre" data-s></div>
+<div><label>Clave/Carné</label><input id="carne" data-s></div>
+<div><label>Sección</label><input id="seccion" data-s></div>
+</div>
+
+<p class="info"><b>Continuidad:</b> en la Guía No. 4, <i>DHCP, configuración IP y resolución de nombres</i>, trabajaste la obtención de una dirección IP y la función de DNS. Ahora utilizarás esos conocimientos para localizar de forma ordenada dónde puede encontrarse una falla de conectividad.</p>
+
+<section class="c">
+<h2>Recurso consultado</h2>
+<p>El CNB de la subárea incluye el indicador 4.3: configurar el servicio de Internet y resolver problemas de acceso a la red. Entre sus contenidos aparecen la resolución de problemas de acceso a Internet en usuarios finales y la configuración de nodos IP y servicios DNS/DHCP.</p>
+<p><a href="https://cnbguatemala.org/wiki/Plantilla%3ABachillerato/%C3%81rea_de_Tecnolog%C3%ADa/Sub%C3%A1rea_de_Sistemas_e_Instalaci%C3%B3n_de_Software_-_Cuarto_Grado/Malla_curricular" target="_blank" rel="noopener">Abrir malla curricular del CNB</a></p>
+<label>¿Qué relación encuentras entre la Guía No. 4 y la resolución de problemas de acceso a Internet?</label>
+<textarea id="recurso" data-s></textarea>
+</section>
+
+<section class="c">
+<h2>Actividad 1. Planteo el caso técnico</h2>
+<p class="warn"><b>Caso:</b> una computadora indica que está conectada a la red, pero el usuario informa que no puede acceder correctamente a Internet. Antes de cambiar configuraciones, debes reunir información y comprobar cada punto de la conexión.</p>
+<label>¿Qué datos revisarías antes de afirmar que “no hay Internet”?</label>
+<textarea id="datos_previos" data-s></textarea>
+<label>Escribe una posible causa relacionada con IP, puerta de enlace o DNS.</label>
+<textarea id="hipotesis" data-s></textarea>
+</section>
+
+<section class="c">
+<h2>Actividad 2. Reviso la configuración IP</h2>
+<p>En Windows abre Símbolo del sistema y ejecuta:</p>
+<div class="cmd">ipconfig /all</div>
+<p>No cambies ninguna configuración. Solo observa y registra los datos necesarios.</p>
+<label>Dirección IPv4 observada</label><input id="ipv4" data-s>
+<label>Máscara de subred</label><input id="mascara" data-s>
+<label>Puerta de enlace predeterminada</label><input id="gateway" data-s>
+<label>Servidor(es) DNS</label><input id="dns" data-s>
+<label>¿DHCP aparece habilitado? ¿Qué significa en este equipo?</label><textarea id="dhcp" data-s></textarea>
+<div data-e="ip"><label>Captura de la información utilizada</label><div class="upload"><input class="file" type="file" accept="image/*" multiple><p class="small">Agrega una captura donde puedan verificarse los datos utilizados. Evita incluir información personal que no sea necesaria.</p></div><div class="ev"></div></div>
+</section>
+
+<section class="c">
+<h2>Actividad 3. Compruebo la ruta de conexión</h2>
+<p>Realiza las comprobaciones en orden. Si el docente indica otros valores para la red del laboratorio, utiliza esos valores.</p>
+<h3>A. Prueba local</h3><div class="cmd">ping 127.0.0.1</div>
+<label>Resultado y qué permite comprobar</label><textarea id="ping_local" data-s></textarea>
+<h3>B. Puerta de enlace</h3><div class="cmd">ping [dirección de la puerta de enlace]</div>
+<label>Resultado y qué interpretación haces</label><textarea id="ping_gateway" data-s></textarea>
+<h3>C. Acceso por dirección IP</h3><div class="cmd">ping 8.8.8.8</div>
+<label>Resultado observado</label><textarea id="ping_ip" data-s></textarea>
+<p class="small">Un equipo o servicio puede estar configurado para no responder a ping. Por eso un resultado negativo no demuestra por sí solo cuál es la falla; debe interpretarse junto con las demás pruebas.</p>
+<div data-e="ping"><label>Capturas de las pruebas</label><div class="upload"><input class="file" type="file" accept="image/*" multiple><p class="small">Comenta debajo de cada captura qué prueba realizaste y cuál fue el resultado.</p></div><div class="ev"></div></div>
+</section>
+
+<section class="c">
+<h2>Actividad 4. Compruebo la resolución de nombres</h2>
+<p>Ejecuta una consulta DNS:</p>
+<div class="cmd">nslookup www.google.com</div>
+<label>¿Qué servidor DNS respondió?</label><textarea id="dns_server" data-s></textarea>
+<label>¿El nombre fue resuelto a una dirección IP? Registra el resultado.</label><textarea id="nslookup" data-s></textarea>
+<label>Si puedes comunicarte mediante una dirección IP pero no puedes resolver nombres, ¿qué componente revisarías primero? Explica.</label><textarea id="diagnostico_dns" data-s></textarea>
+<div data-e="dns"><label>Captura de la consulta DNS</label><div class="upload"><input class="file" type="file" accept="image/*" multiple><p class="small">Incluye el comando y el resultado que utilizaste para tu conclusión.</p></div><div class="ev"></div></div>
+</section>
+
+<section class="c">
+<h2>Actividad 5. Elaboro un diagnóstico</h2>
+<label>Según tus pruebas, ¿en qué punto funciona correctamente la conexión?</label><textarea id="funciona" data-s></textarea>
+<label>¿En qué punto encontraste una falla o un resultado que necesita revisión?</label><textarea id="falla" data-s></textarea>
+<label>Escribe tu diagnóstico probable. No basta con escribir “no hay Internet”.</label><textarea id="diagnostico" data-s></textarea>
+<label>¿Cuál sería el siguiente paso seguro de verificación antes de modificar la configuración?</label><textarea id="siguiente" data-s></textarea>
+</section>
+
+<section class="c">
+<h2>Actividad 6. Registro técnico</h2>
+<p>Resume el procedimiento como si debieras entregarlo a otro técnico.</p>
+<label>Problema reportado</label><textarea id="reporte" data-s></textarea>
+<label>Pruebas realizadas y resultados principales</label><textarea id="pruebas" data-s></textarea>
+<label>Causa probable</label><textarea id="causa" data-s></textarea>
+<label>Recomendación</label><textarea id="recomendacion" data-s></textarea>
+<div class="check">
+<label><input type="checkbox" id="c1" data-s> Revisé la configuración IP antes de proponer cambios.</label>
+<label><input type="checkbox" id="c2" data-s> Comprobé la puerta de enlace.</label>
+<label><input type="checkbox" id="c3" data-s> Diferencié conectividad por IP de resolución de nombres.</label>
+<label><input type="checkbox" id="c4" data-s> Mi conclusión utiliza resultados de las pruebas.</label>
+</div>
+</section>
+</main>
+
+<div class="bar">
+<button onclick="save()">Guardar</button>
+<button onclick="downloadHTML()">Descargar HTML con mi trabajo</button>
+<button class="alt" onclick="jsonOut()">Respaldo JSON</button>
+<label class="btn alt">Importar JSON<input id="jin" type="file" accept=".json" hidden></label>
+<button class="alt" onclick="print()">PDF/Imprimir</button>
+<button class="bad" onclick="clearAll()">Borrar</button>
+</div>
+
+<script id="state" type="application/json">{}</script>
+<script>
+const K='SISTEMAS_4COMP_G5_2026';
+let imgs={ip:[],ping:[],dns:[]};
+const fields=()=>[...document.querySelectorAll('[data-s]')];
+function get(){let f={};fields().forEach(x=>f[x.id]=x.type==='checkbox'?x.checked:x.value);return{f,imgs}}
+function put(s){if(!s)return;Object.entries(s.f||{}).forEach(([k,v])=>{let x=document.getElementById(k);if(x)x.type==='checkbox'?x.checked=!!v:x.value=v||''});imgs=s.imgs||imgs;render()}
+function save(){localStorage.setItem(K,JSON.stringify(get()))}
+fields().forEach(x=>{x.oninput=save;x.onchange=save});
+function rd(f){return new Promise(r=>{let q=new FileReader;q.onload=()=>r(q.result);q.readAsDataURL(f)})}
+document.querySelectorAll('.file').forEach(i=>i.onchange=async()=>{
+ let k=i.closest('[data-e]').dataset.e;
+ for(const f of i.files) imgs[k].push({src:await rd(f),comment:''});
+ i.value='';render();save()
+});
+function render(){
+ document.querySelectorAll('[data-e]').forEach(s=>{
+  let k=s.dataset.e,e=s.querySelector('.ev');e.innerHTML='';
+  imgs[k].forEach((o,n)=>{
+   let d=document.createElement('div');d.className='pic';
+   d.innerHTML='<img><textarea placeholder="Comentario de la evidencia"></textarea><button class="bad del">Eliminar</button>';
+   d.querySelector('img').src=o.src;
+   let t=d.querySelector('textarea');t.value=o.comment;
+   t.oninput=()=>{imgs[k][n].comment=t.value;save()};
+   d.querySelector('button').onclick=()=>{imgs[k].splice(n,1);render();save()};
+   e.append(d)
+  })
+ })
+}
+function name(){return(document.getElementById('nombre').value||'Estudiante').replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ0-9_-]+/g,'_')}
+function jsonOut(){
+ save();let b=new Blob([JSON.stringify(get(),null,2)],{type:'application/json'});
+ let a=document.createElement('a');a.href=URL.createObjectURL(b);
+ a.download='Sistemas_4to_Guia5_'+name()+'_respaldo.json';a.click()
+}
+jin.onchange=async()=>{
+ try{let s=JSON.parse(await jin.files[0].text());put(s);save();alert('Respaldo importado.')}
+ catch(e){alert('Archivo JSON no válido.')}
+ jin.value=''
+}
+function downloadHTML(){
+ save();let s=get(),c=document.documentElement.cloneNode(true);
+ fields().forEach(x=>{
+  let y=c.querySelector('#'+CSS.escape(x.id));
+  if(x.type==='checkbox'){x.checked?y.setAttribute('checked','checked'):y.removeAttribute('checked')}
+  else if(x.tagName==='TEXTAREA')y.textContent=x.value;
+  else y.setAttribute('value',x.value)
+ });
+ c.querySelector('#state').textContent=JSON.stringify(s).replace(/</g,'\\u003c');
+ let b=new Blob(['<!doctype html>'+c.outerHTML],{type:'text/html;charset=utf-8'});
+ let a=document.createElement('a');a.href=URL.createObjectURL(b);
+ a.download='Sistemas_4to_Guia5_'+name()+'.html';a.click()
+}
+function clearAll(){if(confirm('¿Borrar respuestas y capturas?')){localStorage.removeItem(K);location.reload()}}
+try{
+ let embedded=JSON.parse(document.getElementById('state').textContent||'{}');
+ if(embedded.f)put(embedded);else put(JSON.parse(localStorage.getItem(K)||'null'))
+}catch(e){}
+</script>
+</body></html>
