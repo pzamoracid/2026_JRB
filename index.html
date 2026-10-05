@@ -1100,6 +1100,17 @@ const SCHEDULE = {
   ]
 };
 
+/* Normalización Guía No. 6 — JRB 2026
+   Mantiene cada período enlazado con su curso correcto y usa el texto
+   actual del catálogo GUIDES para evitar cruces entre cursos. */
+Object.values(SCHEDULE).forEach(periodos => {
+  periodos.forEach(item => {
+    if(item.guide && /_g6$/.test(item.guide) && GUIDES[item.guide]){
+      item.work = GUIDES[item.guide].work;
+    }
+  });
+});
+
 /* =========================================================
    SINCRONIZACIÓN DEL REPOSITORIO GITHUB
    Detecta carpetas nuevas con index.html y registra guías nuevas.
