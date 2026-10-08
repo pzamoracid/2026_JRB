@@ -1,0 +1,107 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Evaluación — Diseño Computarizado I — 4.º Diseño — JRB</title><style>
+:root{--navy:#1b4267;--line:#d6e0eb;--text:#243041;--bg:#f2f5f9;--accent:#396a91}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}header{background:linear-gradient(120deg,#193552,#416585);color:white;padding:25px 18px}.wrap{max-width:1020px;margin:auto}h1{font-size:clamp(22px,3vw,30px);margin:4px 0}h2{font-size:19px;color:var(--navy);margin:0}.sub{font-size:14px}main{padding:16px 12px 110px}.card{background:white;border:1px solid var(--line);border-radius:13px;padding:20px;margin:13px 0;box-shadow:0 3px 10px #152c4008}.idgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}label{display:block}input[type=text],textarea{width:100%;border:1px solid #b9cbd8;border-radius:7px;padding:10px;font:inherit;margin-top:5px}textarea{min-height:125px;resize:vertical}.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.pts{background:#ebf0f6;color:var(--navy);padding:5px 10px;border-radius:20px;white-space:nowrap;font-weight:bold;font-size:13px}.question{border:0;border-top:1px solid var(--line);padding:18px 0 8px;margin:15px 0 0}.question legend{font-size:15px;padding-top:8px}.option{display:flex;align-items:flex-start;gap:8px;margin:9px 0;padding:11px;border:1px solid var(--line);border-radius:8px;cursor:pointer}.option:hover{background:#f4f8fc}.option input{margin-top:4px}.muted{color:#536477;font-size:14px}.progress{position:sticky;top:0;background:white;border-bottom:1px solid var(--line);z-index:10;padding:8px 12px}.track{height:9px;border-radius:20px;background:#e4eaf0;overflow:hidden}.track span{display:block;height:100%;width:0;background:#397e69}.tools{position:fixed;bottom:0;left:0;right:0;background:#fffffffa;border-top:1px solid var(--line);padding:10px;z-index:20}.tools>div{max-width:1020px;margin:auto;display:flex;gap:8px;flex-wrap:wrap}button,.upload{padding:10px 12px;border:0;border-radius:8px;background:var(--navy);color:white;font-weight:bold;cursor:pointer;font-size:13px}.secondary{background:#637486}.danger{background:#934545}.info{padding:12px;background:#eff6fb;border-left:4px solid #396a91;border-radius:7px}.result{white-space:pre-line}.hide{display:none!important}@media(max-width:660px){.idgrid{grid-template-columns:1fr}.card-head{align-items:flex-start;flex-direction:column}.tools{position:static}.tools>div{justify-content:center}main{padding-bottom:12px}}@media print{header{background:white!important;color:black;padding:0}.progress,.tools,#messages,.only-screen{display:none!important}body{background:white}.card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;margin:10px 0}main{padding:0}.option{padding:3px;border:none}textarea{min-height:55px}}
+</style></head><body><header><div class="wrap"><strong>COLEGIO DE INFORMÁTICA JUSTO RUFINO BAUTISTA</strong><h1>Evaluación de Diseño Computarizado I</h1><div class="sub">4.º Bachillerato en Ciencias y Letras con Orientación en Diseño Gráfico · V Unidad · Valor: 20 puntos</div></div></header>
+<div class="progress"><div class="wrap"><div id="progressText" class="muted">Progreso: 0 de 16 respuestas</div><div class="track"><span id="progressFill"></span></div></div></div>
+<main class="wrap"><section class="card"><h2>Datos del estudiante</h2><div class="idgrid"><label>Nombre completo<input id="nombre" type="text" autocomplete="name"></label><label>Carné / clave<input id="carne" type="text"></label><label>Sección<input id="seccion" type="text"></label></div><p class="info">Instrucciones: responde las 12 preguntas de selección y los cuatro casos escritos. Las preguntas de selección suman 12 puntos; los casos escritos suman 8 puntos y los revisa el docente. No se muestra una calificación definitiva al estudiante.</p></section>
+<section class="card" id="actividad1"><div class="card-head"><h2>Actividad 1. Adaptación de composiciones a distintos formatos</h2><span class="pts">4 puntos</span></div><p class="muted">Selecciona una respuesta por pregunta. Cada respuesta correcta vale 1 punto.</p>
+<fieldset class="question"><legend><b>1.</b> Al convertir una composición cuadrada en una vertical, ¿qué es lo más adecuado?</legend>
+<label class="option"><input type="radio" name="q1" value="0"> <span>Estirar todo el diseño</span></label>
+<label class="option"><input type="radio" name="q1" value="1"> <span>Reorganizar los elementos y conservar la jerarquía</span></label>
+<label class="option"><input type="radio" name="q1" value="2"> <span>Quitar siempre el título</span></label>
+<label class="option"><input type="radio" name="q1" value="3"> <span>Cambiar todos los colores</span></label>
+</fieldset>
+<fieldset class="question"><legend><b>2.</b> ¿Qué debe conservarse entre dos versiones del mismo diseño?</legend>
+<label class="option"><input type="radio" name="q2" value="0"> <span>El tamaño exacto de cada imagen</span></label>
+<label class="option"><input type="radio" name="q2" value="1"> <span>La posición fija de todo el texto</span></label>
+<label class="option"><input type="radio" name="q2" value="2"> <span>El mensaje y la identidad visual</span></label>
+<label class="option"><input type="radio" name="q2" value="3"> <span>La misma proporción del lienzo</span></label>
+</fieldset>
+<fieldset class="question"><legend><b>3.</b> ¿Qué permite que un texto se distinga claramente del fondo?</legend>
+<label class="option"><input type="radio" name="q3" value="0"> <span>El contraste suficiente</span></label>
+<label class="option"><input type="radio" name="q3" value="1"> <span>El uso de muchas fuentes</span></label>
+<label class="option"><input type="radio" name="q3" value="2"> <span>Los efectos de movimiento</span></label>
+<label class="option"><input type="radio" name="q3" value="3"> <span>Colocarlo siempre abajo</span></label>
+</fieldset>
+<fieldset class="question"><legend><b>4.</b> Si un título queda cortado al adaptar una pieza, ¿qué acción corresponde?</legend>
+<label class="option"><input type="radio" name="q4" value="0"> <span>Ignorarlo si el color es atractivo</span></label>
+<label class="option"><input type="radio" name="q4" value="1"> <span>Reducir la calidad de la imagen</span></label>
+<label class="option"><input type="radio" name="q4" value="2"> <span>Ajustar tamaño, posición o distribución del título</span></label>
+<label class="option"><input type="radio" name="q4" value="3"> <span>Eliminar todo el contenido secundario</span></label>
+</fieldset>
+</section>
+<section class="card" id="actividad2"><div class="card-head"><h2>Actividad 2. Creación de un sistema gráfico coherente</h2><span class="pts">4 puntos</span></div><p class="muted">Selecciona una respuesta por pregunta. Cada respuesta correcta vale 1 punto.</p>
+<fieldset class="question"><legend><b>5.</b> ¿Cuál de estos conjuntos muestra un sistema gráfico coherente?</legend>
+<label class="option"><input type="radio" name="q5" value="0"> <span>Piezas sin relación de colores ni tipografías</span></label>
+<label class="option"><input type="radio" name="q5" value="1"> <span>Piezas con una misma paleta, tipografía y elemento identificador</span></label>
+<label class="option"><input type="radio" name="q5" value="2"> <span>Piezas idénticas estiradas a distintos tamaños</span></label>
+<label class="option"><input type="radio" name="q5" value="3"> <span>Piezas cuyos títulos no se pueden leer</span></label>
+</fieldset>
+<fieldset class="question"><legend><b>6.</b> ¿Para qué se define una paleta de colores común?</legend>
+<label class="option"><input type="radio" name="q6" value="0"> <span>Para mantener relación visual entre piezas</span></label>
+<label class="option"><input type="radio" name="q6" value="1"> <span>Para evitar agregar contenido</span></label>
+<label class="option"><input type="radio" name="q6" value="2"> <span>Para que todas tengan el mismo tamaño</span></label>
+<label class="option"><input type="radio" name="q6" value="3"> <span>Para sustituir las fuentes</span></label>
+</fieldset>
+<fieldset class="question"><legend><b>7.</b> ¿Cuál es un buen ejemplo de elemento común en una serie?</legend>
+<label class="option"><input type="radio" name="q7" value="0"> <span>Un logotipo utilizado de forma consistente</span></label>
+<label class="option"><input type="radio" name="q7" value="1"> <span>Un fondo diferente y sin relación en cada pieza</span></label>
+<label class="option"><input type="radio" name="q7" value="2"> <span>Una imagen que tapa el mensaje</span></label>
+<label class="option"><input type="radio" name="q7" value="3"> <span>Una tipografía ilegible</span></label>
+</fieldset>
+<fieldset class="question"><legend><b>8.</b> ¿Qué significa jerarquía visual?</legend>
+<label class="option"><input type="radio" name="q8" value="0"> <span>Usar siempre letras mayúsculas</span></label>
+<label class="option"><input type="radio" name="q8" value="1"> <span>Organizar los elementos según su importancia para orientar la lectura</span></label>
+<label class="option"><input type="radio" name="q8" value="2"> <span>Aumentar al máximo el número de elementos</span></label>
+<label class="option"><input type="radio" name="q8" value="3"> <span>Colocar todas las figuras al centro</span></label>
+</fieldset>
+</section>
+<section class="card" id="actividad3"><div class="card-head"><h2>Actividad 3. Aplicación y revisión de una serie visual</h2><span class="pts">4 puntos</span></div><p class="muted">Selecciona una respuesta por pregunta. Cada respuesta correcta vale 1 punto.</p>
+<fieldset class="question"><legend><b>9.</b> Al diseñar una serie de tres piezas para el mismo proyecto, lo apropiado es…</legend>
+<label class="option"><input type="radio" name="q9" value="0"> <span>Mantener reglas visuales y adaptar cada distribución</span></label>
+<label class="option"><input type="radio" name="q9" value="1"> <span>Crear tres mensajes sin relación</span></label>
+<label class="option"><input type="radio" name="q9" value="2"> <span>Recortar las tres imágenes al mismo tamaño</span></label>
+<label class="option"><input type="radio" name="q9" value="3"> <span>Eliminar el elemento común</span></label>
+</fieldset>
+<fieldset class="question"><legend><b>10.</b> Antes de entregar una serie, ¿qué conviene revisar?</legend>
+<label class="option"><input type="radio" name="q10" value="0"> <span>Únicamente si los archivos tienen nombre</span></label>
+<label class="option"><input type="radio" name="q10" value="1"> <span>Coherencia, legibilidad, jerarquía y alineación</span></label>
+<label class="option"><input type="radio" name="q10" value="2"> <span>Solo la cantidad de colores</span></label>
+<label class="option"><input type="radio" name="q10" value="3"> <span>Si todos los textos están en la misma posición</span></label>
+</fieldset>
+<fieldset class="question"><legend><b>11.</b> ¿Por qué conviene comparar juntas las tres versiones?</legend>
+<label class="option"><input type="radio" name="q11" value="0"> <span>Para ver si se reconocen como parte de un mismo proyecto</span></label>
+<label class="option"><input type="radio" name="q11" value="1"> <span>Para comprobar que pesan igual</span></label>
+<label class="option"><input type="radio" name="q11" value="2"> <span>Para borrar las versiones anteriores</span></label>
+<label class="option"><input type="radio" name="q11" value="3"> <span>Para evitar revisar los textos</span></label>
+</fieldset>
+<fieldset class="question"><legend><b>12.</b> En el formato vertical, una fotografía ocupa todo el espacio y oculta la información. ¿Qué se debe hacer?</legend>
+<label class="option"><input type="radio" name="q12" value="0"> <span>Mantenerla sin cambios</span></label>
+<label class="option"><input type="radio" name="q12" value="1"> <span>Ajustar la fotografía y reorganizar el contenido para dar prioridad al mensaje</span></label>
+<label class="option"><input type="radio" name="q12" value="2"> <span>Quitar toda la tipografía</span></label>
+<label class="option"><input type="radio" name="q12" value="3"> <span>Cambiar el mensaje principal</span></label>
+</fieldset>
+</section>
+<section class="card"><div class="card-head"><h2>Actividad 4. Analizo y propongo mejoras</h2><span class="pts">8 puntos</span></div><p class="muted">Responde con tus propias palabras. Cada caso vale 2 puntos y será revisado por el docente.</p>
+<div class="question"><label for="r1"><b>Caso 1. Adaptación de formatos</b> — 2 puntos</label><p>Un afiche cuadrado contiene el nombre del evento, fecha, imagen y logotipo. Debes adaptarlo a formato vertical. Explica qué elementos conservarías y cómo reorganizarías al menos tres elementos para mantener el mensaje legible.</p><textarea id="r1" placeholder="Escribe tu respuesta..."></textarea></div>
+<div class="question"><label for="r2"><b>Caso 2. Reglas de un sistema gráfico</b> — 2 puntos</label><p>Una campaña escolar necesita una publicación cuadrada, una historia vertical y un cartel. Define dos reglas visuales comunes (por ejemplo, colores, tipografía o elemento gráfico) y explica por qué ayudarían a reconocer la campaña.</p><textarea id="r2" placeholder="Escribe tu respuesta..."></textarea></div>
+<div class="question"><label for="r3"><b>Caso 3. Corrección de una pieza</b> — 2 puntos</label><p>En una de las tres piezas, el título es pequeño, el texto se confunde con el fondo y el logotipo aparece desalineado. Propón dos correcciones concretas y explica cómo mejorarían la composición.</p><textarea id="r3" placeholder="Escribe tu respuesta..."></textarea></div>
+<div class="question"><label for="r4"><b>Caso 4. Revisión de una serie</b> — 2 puntos</label><p>Describe cómo comprobarías que tres diseños de un mismo proyecto conservan su identidad visual y que cada formato se entiende. Incluye al menos dos criterios de revisión y una mejora posible.</p><textarea id="r4" placeholder="Escribe tu respuesta..."></textarea></div>
+</section>
+<section id="messages" class="card"><h2>Estado de entrega</h2><p id="status">Completa las preguntas y guarda tu trabajo.</p><p class="muted">El avance se conserva en este navegador. Descarga también el respaldo JSON si vas a utilizar otra computadora.</p></section></main>
+<div class="tools"><div><button id="saveBtn">Guardar avance</button><button id="htmlBtn">Descargar HTML respondido</button><button class="secondary" id="jsonBtn">Descargar JSON</button><label class="upload secondary">Cargar JSON<input class="hide" type="file" accept=".json,application/json" id="jsonFile"></label><button class="secondary" id="pdfBtn">PDF / Imprimir</button><button class="danger" id="clearBtn">Borrar avance</button></div></div>
+<script id="embedded" type="application/json">{}</script><script>
+(()=>{'use strict';const KEY='JRB_EVAL_4D_DISENO_COMPUTARIZADO_I_V_2026',ANSWERS=[1, 2, 0, 2, 1, 0, 0, 1, 0, 1, 0, 1];const $=x=>document.getElementById(x);let saveTimer;const ids=['nombre','carne','seccion','r1','r2','r3','r4'];
+function collect(){let fields={};ids.forEach(i=>fields[i]=$(i).value);let choices={};for(let i=1;i<=12;i++){let r=document.querySelector('input[name=q'+i+']:checked');choices['q'+i]=r?r.value:''}return {version:1,assessment:KEY,fields,choices,updatedAt:new Date().toISOString()}}
+function apply(s){if(!s||s.assessment!==KEY||!s.fields||!s.choices)throw Error('Respaldo de otra evaluación o formato no válido');ids.forEach(i=>$(i).value=String(s.fields[i]??''));for(let i=1;i<=12;i++){document.querySelectorAll('input[name=q'+i+']').forEach(r=>r.checked=r.value===String(s.choices['q'+i]??''))}update()}
+function count(){let n=0;for(let i=1;i<=12;i++)if(document.querySelector('input[name=q'+i+']:checked'))n++;for(let i=1;i<=4;i++)if($('r'+i).value.trim())n++;return n}
+function update(){let n=count();$('progressText').textContent='Progreso: '+n+' de 16 respuestas ('+Math.round(n/16*100)+'%)';$('progressFill').style.width=n/16*100+'%';$('status').textContent=n===16?'Las 16 respuestas están registradas. Descarga tu trabajo y el respaldo JSON.':'Faltan '+(16-n)+' respuestas. Puedes guardar un avance incompleto.'}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(collect()));return true}catch(e){$('status').textContent='No se pudo guardar en este navegador. Descarga el JSON para conservar tu trabajo.';return false}}
+function auto(){update();clearTimeout(saveTimer);saveTimer=setTimeout(save,300)}
+function download(name,blob){let u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),5000)}
+function safe(){return ($('nombre').value||'Estudiante').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_')}
+function exportJSON(){save();download('JRB_Evaluacion_Diseno_I_'+safe()+'_respaldo.json',new Blob([JSON.stringify(collect(),null,2)],{type:'application/json'}))}
+function exportHTML(){save();let clone=document.documentElement.cloneNode(true),s=collect();ids.forEach(i=>{let el=clone.querySelector('#'+i),v=s.fields[i];if(el.tagName==='TEXTAREA')el.textContent=v;else el.setAttribute('value',v)});for(let i=1;i<=12;i++)clone.querySelectorAll('input[name=q'+i+']').forEach(el=>{if(el.value===s.choices['q'+i])el.setAttribute('checked','checked');else el.removeAttribute('checked')});clone.querySelector('#embedded').textContent=JSON.stringify(s).replace(/</g,'\\u003c');download('JRB_Evaluacion_Diseno_I_'+safe()+'.html',new Blob(['<!doctype html>'+clone.outerHTML],{type:'text/html;charset=utf-8'}))}
+ids.forEach(i=>$(i).addEventListener('input',auto));document.querySelectorAll('input[type=radio]').forEach(x=>x.addEventListener('change',auto));$('saveBtn').onclick=()=>{save();alert('Avance guardado en este navegador.')};$('jsonBtn').onclick=exportJSON;$('htmlBtn').onclick=exportHTML;$('pdfBtn').onclick=()=>{save();window.print()};$('clearBtn').onclick=()=>{if(confirm('¿Borrar las respuestas guardadas de esta evaluación?')){localStorage.removeItem(KEY);location.reload()}};$('jsonFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{apply(JSON.parse(await f.text()));save();alert('Respaldo cargado correctamente.')}catch(err){alert('No se pudo cargar: '+err.message)}e.target.value=''};
+try{let embedded=JSON.parse($('embedded').textContent||'{}');if(embedded.assessment===KEY)apply(embedded);else{let saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved)apply(saved)}}catch(e){console.warn('No se pudo recuperar el avance',e)}update();
+})();
+</script></body></html>
